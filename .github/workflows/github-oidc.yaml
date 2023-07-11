@@ -1,6 +1,6 @@
 name: github flow
 
-on: [pull]
+on: [push]
 
 jobs:
   check-file-format:
