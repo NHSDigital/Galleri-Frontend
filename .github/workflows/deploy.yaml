@@ -3,7 +3,7 @@ on:
     workflow_call:
 env:
   BUCKET_NAME : "arn:aws:s3:::nhs-gps-client"
-  AWS_REGION : "eu-north-1" 
+  AWS_REGION : "eu-north-1"
 permissions:
       id-token: write
       contents: read
