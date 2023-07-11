@@ -19,7 +19,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: './galleri-client/package-lock.json'
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --package-lock-only
       - name: Build
         run: npm run build
       - name: Configure AWS Credentials
