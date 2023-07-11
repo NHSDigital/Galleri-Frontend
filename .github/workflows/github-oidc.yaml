@@ -1,9 +1,0 @@
-name: github flow
-
-on: [push]
-
-jobs:
-  check-file-format:
-    runs-on: macos-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
