@@ -2,7 +2,7 @@ name: AWS example workflow
 on:
   workflow_call:
 env:
-  BUCKET_NAME : "arn:aws:s3:::nhs-gps-client"
+  BUCKET_NAME : "arn:aws:s3:::gps-client"
   AWS_REGION : "eu-north-1"
 # permission can be added at job level or workflow level
 permissions:
