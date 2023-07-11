@@ -30,13 +30,9 @@
 #         run: |
 #           aws s3 sync ./out s3://arn:aws:s3:::nhs-gps-client/
 #       - run: echo: Done.
-
 name: Upload Website
-
 on:
-  push:
-    branches:
-    - develop
+    workflow_call:
 env:
   BUCKET_NAME : "arn:aws:s3:::nhs-gps-client"
   AWS_REGION : "eu-north-1" 
@@ -49,13 +45,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
           role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
           role-session-name: githubRoleSession
           aws-region: ${{ env.AWS_REGION }}
-
     - name: Deploy static site to S3 bucket
       run: aws s3 sync ./public/ s3://arn:aws:s3:::nhs-gps-client --delete
