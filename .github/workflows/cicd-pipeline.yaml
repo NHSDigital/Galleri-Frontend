@@ -27,6 +27,8 @@ jobs:
           echo "nodejs_version=$(grep nodejs .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
           echo "python_version=$(grep python .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
           echo "terraform_version=$(grep terraform .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
+  upload-to-s3:
+    uses: ./.github/workflows/deploy-to-s3.yaml
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
