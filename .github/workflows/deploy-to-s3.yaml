@@ -1,3 +1,27 @@
+name: Upload Website
+on:
+    workflow_call:
+env:
+  BUCKET_NAME : "arn:aws:s3:::nhs-gps-client"
+  AWS_REGION : "eu-north-1" 
+permissions:
+      id-token: write
+      contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
+          role-session-name: githubRoleSession
+          aws-region: ${{ env.AWS_REGION }}
+    - name: Deploy static site to S3 bucket
+      run: aws s3 sync uploaded.html s3://arn:aws:s3:::nhs-gps-client --delete
+
 # name: deploy to s3
 # on: push
 #   branches: develop
@@ -30,26 +54,3 @@
 #         run: |
 #           aws s3 sync ./out s3://arn:aws:s3:::nhs-gps-client/
 #       - run: echo: Done.
-name: Upload Website
-on:
-    workflow_call:
-env:
-  BUCKET_NAME : "arn:aws:s3:::nhs-gps-client"
-  AWS_REGION : "eu-north-1" 
-permissions:
-      id-token: write
-      contents: read
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-          role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
-          role-session-name: githubRoleSession
-          aws-region: ${{ env.AWS_REGION }}
-    - name: Deploy static site to S3 bucket
-      run: aws s3 sync uploaded.html s3://arn:aws:s3:::nhs-gps-client --delete
