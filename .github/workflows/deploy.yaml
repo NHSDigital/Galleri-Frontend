@@ -1,7 +1,7 @@
 name: Upload Website
 
 on:
-  workflow_call:
+  push: develop
 
 env:
   BUCKET_NAME : "arn:aws:s3:::nhs-gps-client"
