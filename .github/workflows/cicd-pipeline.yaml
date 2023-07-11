@@ -39,7 +39,7 @@ jobs:
     uses: ./.github/workflows/cloc-repository.yaml
   scan-dependencies:
     uses: ./.github/workflows/scan-dependencies.yaml
-  scan-dependencies:
+  deploy-to-aws:
     uses: ./.github/workflows/deploy-to-aws.yaml
   cicd-pipeline-test:
     runs-on: ubuntu-latest
