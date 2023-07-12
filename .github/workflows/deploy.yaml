@@ -1,13 +1,12 @@
 name: Deploy app to AWS
 on:
-  workflow_call:
+  [push]
 env:
   BUCKET_NAME : "arn:aws:s3:::gps-client"
   AWS_REGION : "eu-north-1"
-# permission can be added at job level or workflow level
 permissions:
-      id-token: write   # This is required for requesting the JWT
-      contents: read    # This is required for actions/checkout
+      id-token: write
+      contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,9 +16,8 @@ jobs:
         with:
           node-version: "18.x"
           cache: "npm"
-          cache-dependency-path: './galleri-client/package-lock.json'
       - name: Install dependencies
-        run: npm ci --package-lock-only
+        run: npm ci
       - name: Build
         run: npm run build
       - name: Configure AWS Credentials
@@ -28,7 +26,6 @@ jobs:
           role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
           role-session-name: githubRoleSession
           aws-region: ${{ env.AWS_REGION }}
-      # Upload a file to AWS s3
       - name: Copy files to S3 with the AWS CLI
         run: |
           aws s3 sync ./out s3://${{ env.BUCKET_NAME }}/
