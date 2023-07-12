@@ -28,4 +28,4 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Copy files to S3 with the AWS CLI
         run: |
-          aws s3 sync ./out s3://arn:aws:s3:::gps-client/index.html
+          aws s3 sync ./out s3://gps-client/
