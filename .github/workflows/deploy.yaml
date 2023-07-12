@@ -1,6 +1,6 @@
 name: Deploy app to AWS
 on:
-  [push]
+  workflow_call:
 env:
   BUCKET_NAME : "arn:aws:s3:::gps-client"
   AWS_REGION : "eu-north-1"
