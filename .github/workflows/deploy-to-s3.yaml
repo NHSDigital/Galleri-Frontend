@@ -6,6 +6,7 @@ permissions:
       contents: read
 jobs:
   build:
+    environment: frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
