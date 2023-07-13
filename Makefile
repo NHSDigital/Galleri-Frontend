@@ -6,6 +6,8 @@ include ./scripts/init.mk
 
 
 
+# asdf-install \
+
 config: # Configure development environment
 	# TODO: Use only `make` targets that are specific to this project, e.g. you may not need to install Node.js
 	make \
