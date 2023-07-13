@@ -6,7 +6,7 @@ permissions:
       contents: read
 jobs:
   build:
-    environment: frontend
+    environment: galleri-client
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -14,8 +14,6 @@ jobs:
         with:
           node-version: "18.x"
           cache: "npm"
-      - name: shout secret!
-        run: echo ${{ secrets.ASSUME_ROLE_ARN }} | sed 's/./& /g'
       - name: Install dependencies
         run: npm ci
       - name: Build
@@ -23,7 +21,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
+          role-to-assume: ${{ secrets.ASSUME_ROLE_ARN }}
           role-session-name: galleri-frontend-github-to-deploy
           aws-region: eu-north-1
       - name: Copy files to S3 with the AWS CLI
