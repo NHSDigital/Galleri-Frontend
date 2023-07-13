@@ -4,6 +4,8 @@ include ./scripts/init.mk
 # as automated steps to be executed on a workstation and in the CI/CD pipeline.
 # asdf-install \
 
+# asdf-install \
+
 config: # Configure development environment
 	# TODO: Use only `make` targets that are specific to this project, e.g. you may not need to install Node.js
 	make \
