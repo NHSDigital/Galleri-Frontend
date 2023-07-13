@@ -2,7 +2,7 @@ name: Deploy app to s3
 on:
   workflow_call:
 env:
-  BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+  BUCKET_NAME: gps-client
   ASSUME_ROLE: ${{ secrets.ASSUME_ROLE_ARN }}
   AWS_REGION : "eu-north-1"
 permissions:
