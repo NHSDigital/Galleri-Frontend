@@ -20,9 +20,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
-          role-session-name: githubRoleSession
-          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.ASSUME_ROLE_ARN }}
+          role-session-name: galleri-frontend-github-to-s3
+          aws-region: eu-north-1
       - name: Copy files to S3 with the AWS CLI
         run: |
-          aws s3 sync ./out s3://${{ env.BUCKET_NAME }}/
+          aws s3 sync ./out s3://${{ secrets.BUCKET_NAME }}/
