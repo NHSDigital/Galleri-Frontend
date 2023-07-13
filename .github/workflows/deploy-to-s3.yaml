@@ -1,10 +1,6 @@
 name: Deploy app to s3
 on:
   workflow_call:
-env:
-  BUCKET_NAME: "gps-client"
-  ASSUME_ROLE: "arn:aws:iam::136293001324:role/github-oidc-role"
-  AWS_REGION : "eu-north-1"
 permissions:
       id-token: write
       contents: read
@@ -24,9 +20,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ env.ASSUME_ROLE_ARN }}
+          role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
           role-session-name: galleri-frontend-github-to-deploy
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: eu-north-1
       - name: Copy files to S3 with the AWS CLI
         run: |
-          aws s3 sync ./out s3://${{ env.BUCKET_NAME }}/
+          aws s3 sync ./out s3://gps-client/
