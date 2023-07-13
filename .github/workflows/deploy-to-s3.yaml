@@ -14,7 +14,7 @@ jobs:
           node-version: "18.x"
           cache: "npm"
       - name: shout secret!
-        run: echo ${{ secrets.ASSUME_ROLE_ARN }}
+        run: 'echo ${{ secrets.ASSUME_ROLE_ARN }}'
       - name: Install dependencies
         run: npm ci
       - name: Build
