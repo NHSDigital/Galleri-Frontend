@@ -1,9 +1,6 @@
 name: Deploy app to s3
 on:
   workflow_call:
-env:
-  BUCKET_NAME : "gps-client"
-  AWS_REGION : "eu-north-1"
 permissions:
       id-token: write
       contents: read
@@ -16,9 +13,6 @@ jobs:
         with:
           node-version: "18.x"
           cache: "npm"
-      - name: shout
-        run: echo: ${{ env.BUCKET_NAME }}
-        run: echo: ${{ env.AWS_REGION }}
       - name: Install dependencies
         run: npm ci
       - name: Build
@@ -31,4 +25,4 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Copy files to S3 with the AWS CLI
         run: |
-          aws s3 sync ./out s3://${{ BUCKET_NAME }}/
+          aws s3 sync ./out s3://${{ env.BUCKET_NAME }}/
