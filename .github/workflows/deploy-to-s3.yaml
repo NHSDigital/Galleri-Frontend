@@ -19,6 +19,7 @@ jobs:
         run: npm run build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
+        run: echo ${{ secrets.ASSUME_ROLE_ARN }}
         with:
           role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
           role-session-name: galleri-frontend-github-to-deploy
