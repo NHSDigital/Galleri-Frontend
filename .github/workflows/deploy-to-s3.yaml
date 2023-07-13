@@ -2,8 +2,8 @@ name: Deploy app to s3
 on:
   workflow_call:
 env:
-  BUCKET_NAME : ${VAR:process.env.BUCKET_NAME}
-  AWS_REGION : ${VAR:process.env.AWS_REGION}
+  BUCKET_NAME : ${{ process.env.BUCKET_NAME }}
+  AWS_REGION : ${{ process.env.AWS_REGION }}
 permissions:
       id-token: write
       contents: read
@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: "18.x"
           cache: "npm"
+      - name: shout
+        run: echo: ${{ BUCKET_NAME }}
       - name: Install dependencies
         run: npm ci
       - name: Build
