@@ -1,9 +1,9 @@
-name: Deploy app to AWS
+name: Deploy app to s3
 on:
   workflow_call:
 env:
-  BUCKET_NAME : "arn:aws:s3:::gps-client"
-  AWS_REGION : "eu-north-1"
+  BUCKET_NAME : ${VAR:process.env.BUCKET_NAME}
+  AWS_REGION : ${VAR:process.env.AWS_REGION}
 permissions:
       id-token: write
       contents: read
@@ -28,4 +28,4 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Copy files to S3 with the AWS CLI
         run: |
-          aws s3 sync ./out s3://gps-client/
+          aws s3 sync ./out s3://${{ BUCKET_NAME }}/
