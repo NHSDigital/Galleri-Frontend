@@ -1,6 +1,7 @@
 import '../styles/css/sass.css'
 import NavMenu from './NavMenu'
 
+// Header container
 export default function Header() {
   return (
     <header class="nhsuk-header nhsuk-header--transactional" role="banner">
