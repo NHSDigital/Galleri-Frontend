@@ -22,8 +22,8 @@ sbom-spdx*.json
 # misc
 .DS_Store
 *.pem
-.gpush.sh
-.gfeature.sh
+/gpush.sh
+/gfeature.sh
 
 # debug
 npm-debug.log*
