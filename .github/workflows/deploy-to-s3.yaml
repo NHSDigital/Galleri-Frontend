@@ -22,7 +22,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
       - name: shout
-        uses: echo "this is arn -> $ASSUME_ROLE_ARN"
+        run: echo "this is arn -> $ASSUME_ROLE_ARN"
         with:
           role-to-assume: arn:aws:iam::$ASSUME_ROLE_ARN:role/github-oidc-role
           role-session-name: galleri-frontend-github-to-deploy
