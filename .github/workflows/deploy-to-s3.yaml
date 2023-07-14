@@ -4,14 +4,10 @@ on:
 permissions:
       id-token: write
       contents: read
-env:
-      ASSUME_ROLE_ARN: ${{ vars.ASSUME_ROLE_ARN }}
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: show arn!
-        run: echo "$ASSUME_ROLE_ARN"
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
@@ -24,7 +20,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ vars.ASSUME_ROLE_ARN }}
+          role-to-assume: ${{ secrets.ASSUME_ROLE_ARN }}
           role-session-name: galleri-frontend-github-to-deploy
           aws-region: eu-north-1
       - name: Copy files to S3 with the AWS CLI
