@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: SHOW ARN
+      - name: show arn value
         run: echo "$ASSUME_ROLE_ARN"
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -24,7 +24,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::$ASSUME_ROLE_ARN:role/github-oidc-role
+          role-to-assume: arn:aws:iam::136293001324:role/github-oidc-role
           role-session-name: galleri-frontend-github-to-deploy
           aws-region: eu-north-1
       - name: Copy files to S3 with the AWS CLI
