@@ -22,7 +22,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::$ASSUME_ROLE_ARN:role/github-oidc-role
+          role-to-assume: "arn:aws:iam::$ASSUME_ROLE_ARN:role/github-oidc-role"
           role-session-name: galleri-frontend-github-to-deploy
           aws-region: eu-north-1
       - name: Copy files to S3 with the AWS CLI
