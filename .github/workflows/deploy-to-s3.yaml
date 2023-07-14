@@ -21,8 +21,10 @@ jobs:
         run: npm run build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
+      - name: shout
+        uses: echo "this is arn -> $ASSUME_ROLE_ARN"
         with:
-          role-to-assume: "arn:aws:iam::$ASSUME_ROLE_ARN:role/github-oidc-role"
+          role-to-assume: arn:aws:iam::$ASSUME_ROLE_ARN:role/github-oidc-role
           role-session-name: galleri-frontend-github-to-deploy
           aws-region: eu-north-1
       - name: Copy files to S3 with the AWS CLI
