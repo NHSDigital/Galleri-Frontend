@@ -20,9 +20,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.ASSUME_ROLE_ARN }}
-          role-session-name: galleri-frontend-github-to-deploy
-          aws-region: eu-north-1
+          role-to-assume: ${{ vars.ASSUME_ROLE_ARN }}
+          role-session-name: galleri-frontend-github-deploy-to-cloudfront
+          aws-region: ${{ vars.AWS_REGION }}
       - name: Copy files to S3 with the AWS CLI
         run: |
-          aws s3 sync ./out s3://gps-client/
+          aws s3 sync ./out s3://${{ vars.BUCKET_NAME }}/
