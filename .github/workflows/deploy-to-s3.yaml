@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: show arn value
+      - name: show arn
         run: echo "$ASSUME_ROLE_ARN"
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
