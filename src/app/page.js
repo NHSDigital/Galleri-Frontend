@@ -6,7 +6,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          Get started by editing&nbsp;
+            <h1>NHS Digital Galleri Home Page</h1>&nbsp;
           <code className={styles.code}>src/app/page.js</code>
         </p>
         <div>
