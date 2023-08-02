@@ -1,7 +1,14 @@
-import Home from './pages';
+import Header from './components/Header';
+import Content from './components/content';
+import Footer from './components/Footer';
+import NavMenu from './components/NavMenu';
 
 export default function Root() {
   return (
-    <Home />
+    <div>
+      <Header />
+      <Content />
+      <Footer />
+    </div>
   )
 }

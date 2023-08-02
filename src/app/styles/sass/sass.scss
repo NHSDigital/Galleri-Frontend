@@ -1,0 +1,17 @@
+@import 'node_modules/nhsuk-frontend/packages/nhsuk';
+
+$color-primary : blue;
+$color-secondary : red;
+$color-tertiary : green;
+
+.title{
+  color: $color-primary;
+}
+
+.subtitle{
+  color: $color-tertiary;
+}
+
+.container{
+  background-color: $color-secondary;
+}
