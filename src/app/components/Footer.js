@@ -1,5 +1,6 @@
 import '../styles/css/sass.css'
 
+// Footer container
 export default function Footer() {
   return (
     <footer role="contentinfo">

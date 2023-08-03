@@ -1,5 +1,6 @@
 import '../styles/css/sass.css'
 
+// Content container
 export default function Content() {
   return (
     <div class="nhsuk-width-container ">
