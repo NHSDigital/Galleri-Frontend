@@ -39,8 +39,15 @@ jobs:
     uses: ./.github/workflows/cloc-repository.yaml
   scan-dependencies:
     uses: ./.github/workflows/scan-dependencies.yaml
+<<<<<<< HEAD
   deploy-app:
     uses: ./.github/workflows/deploy-to-s3.yaml
+=======
+  # sonarcloud-scan:
+  #     uses: ./.github/workflows/sonarcloud-scan.yaml
+  deploy-app:
+    uses: ./.github/workflows/deploy.yaml
+>>>>>>> 40e83a6 (sonarcloud addition)
   cicd-pipeline-test:
     runs-on: ubuntu-latest
     needs:
