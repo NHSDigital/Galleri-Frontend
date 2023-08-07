@@ -39,8 +39,10 @@ jobs:
     uses: ./.github/workflows/cloc-repository.yaml
   scan-dependencies:
     uses: ./.github/workflows/scan-dependencies.yaml
+  # deploy-app:
+  #   uses: ./.github/workflows/deploy-to-s3.yaml
   # sonarcloud-scan:
-  #     uses: ./.github/workflows/sonarcloud-scan.yaml
+  #   uses: ./.github/workflows/sonarcloud-scan.yaml
   cicd-pipeline-test:
     runs-on: ubuntu-latest
     needs:
@@ -51,6 +53,7 @@ jobs:
         check-markdown-format,
         check-terraform-format,
         cloc-repository,
+        # deploy-app,
         scan-dependencies,
       ]
     timeout-minutes: 10
