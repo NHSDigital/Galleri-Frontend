@@ -53,7 +53,7 @@ jobs:
         check-markdown-format,
         check-terraform-format,
         cloc-repository,
-        deploy-app,
+        # deploy-app,
         scan-dependencies,
       ]
     timeout-minutes: 10
