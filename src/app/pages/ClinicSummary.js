@@ -1,15 +1,20 @@
 import '../styles/css/sass.css'
+import { useState } from "react";
 
 // Clinic Summary container
 export default function ClinicSummary() {
 
-  const icbList = [
+  const [displayClinicsNoApp, setDisplayClinicsNoApp] = useState(false);
+  const [clinicList, setClinicList] = useState([]);
+
+  // Mock icb list
+  setClinicList([
     // can be disabled, selected
     'NHS.UK frontend option 1',
     'NHS.UK frontend option 2',
     'NHS.UK frontend option 3',
     'NHS.UK frontend option 4',
-  ]
+  ])
 
   return (
     <div class="nhsuk-width-container ">
@@ -26,7 +31,7 @@ export default function ClinicSummary() {
               </label>
               <select class="nhsuk-select" id="select-1" name="select-1">
                 {
-                  icbList.map((icb, key) => {
+                  clinicList.map((icb, key) => {
                     return <option value={key}>{icb}</option>
                   })
                 }
