@@ -26,9 +26,13 @@ export default class ClinicSummaryPage extends Component {
                   })}
                 </select>
               </div>
-                <br/>
+              <br />
             </div>
-            {displayClinicsNoApp ? <ClinicSummaryTable clinicData={clinicData} /> : null}
+            <div class="nhsuk-grid-column-full">
+              {displayClinicsNoApp ? (
+                <ClinicSummaryTable clinicData={clinicData} />
+              ) : null}
+            </div>
           </div>
         </main>
       </div>

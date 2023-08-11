@@ -5,41 +5,55 @@
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360
+    "numberOfAppointmentsAvailable" : 360,
+    "icbId" : 1
   },
   {
     "clinicName" : "Phlebotomy Clinic 6",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360
+    "numberOfAppointmentsAvailable" : 360,
+    "icbId" : 1
   },
   {
     "clinicName" : "Phlebotomy Clinic 7",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360
+    "numberOfAppointmentsAvailable" : 360,
+    "icbId" : 1
   },
   {
     "clinicName" : "Phlebotomy Clinic 8",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360
+    "numberOfAppointmentsAvailable" : 360,
+    "icbId" : 2
   },
   {
     "clinicName" : "Phlebotomy Clinic 9",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360
+    "numberOfAppointmentsAvailable" : 360,
+    "icbId" : 3
   },
   {
     "clinicName" : "Phlebotomy Clinic 10",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360
+    "numberOfAppointmentsAvailable" : 360,
+    "icbId" : 4
+  },
+  {
+    "clinicName" : "Phlebotomy Clinic 10",
+    "dateOfPreviousInvitations" : "Teusday 4 July 2024",
+    "daysSincePreviousInvitations" : 15,
+    "numberOfInvitationsSent" : 500,
+    "numberOfAppointmentsAvailable" : 360,
+    "icbId" : 4
   }]
 }
