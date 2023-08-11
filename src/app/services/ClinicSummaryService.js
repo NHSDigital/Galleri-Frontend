@@ -1,3 +1,4 @@
+'use server'
 import { Clinic } from "../models/Clinic";
 import { ClinicList } from "../models/ClinicList";
 /*
@@ -14,7 +15,7 @@ function getParticipatingClinics(data) {
     participatingClinicList.clinicList.push(
       new Clinic(
         /*
-        icb.clinicName...
+        clinic.clinicName...
         ...
         */
       )
