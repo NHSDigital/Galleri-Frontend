@@ -1,9 +1,11 @@
-export function filterClinicsByIcb(clinicList, icb){
-  if (clinicList !== undefined) {
-    if(icb !== ''){
-      return clinicList.filter((e) => {
-        return e.icbId === icb;
-      });
-    }
+export function filterClinicsByIcb(clinicList, icb) {
+  let filteredList = [];
+  if (clinicList !== undefined && icb !== '') {
+    clinicList.forEach((e) => {
+      if (e.icbId === icb) {
+        filteredList.push(e)
+      }
+    });
   }
+  return filteredList;
 }

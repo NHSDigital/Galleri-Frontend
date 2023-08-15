@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 export default function ClinicSummaryTable(props) {
-  console.log(props.clinicList);
   return (
     <table role="table" class="nhsuk-table-responsive">
       <caption class="nhsuk-table__caption">
@@ -54,7 +53,7 @@ export default function ClinicSummaryTable(props) {
         </tr>
       </thead>
       <tbody class="nhsuk-table__body">
-        {/* {props.clinicList?.map((e, key) => {
+        {props.clinicList?.map((e, key) => {
           return (
             <tr role="row" class="nhsuk-table__row">
               <td role="cell" class="nhsuk-table__cell">
@@ -74,7 +73,7 @@ export default function ClinicSummaryTable(props) {
               </td>
             </tr>
           );
-        })} */}
+        })}
       </tbody>
     </table>
   );

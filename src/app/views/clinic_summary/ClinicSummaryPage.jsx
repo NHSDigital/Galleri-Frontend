@@ -11,8 +11,6 @@ export default function ClinicSummaryPage(props) {
     clinicList,
     displayClinicsNoApp,
   } = props;
-  console.log('selected ' + selectedIcb);
-  console.log('cl ' + clinicList);
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">

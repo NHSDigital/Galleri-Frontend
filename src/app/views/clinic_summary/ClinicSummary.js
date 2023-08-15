@@ -1,40 +1,57 @@
-import { useState, useEffect } from "react";
+import { Component } from "react";
 import ClinicSummaryPage from './ClinicSummaryPage';
 import { getIcbData, getClinicData } from '../../services/ClinicSummaryService'
 import { filterClinicsByIcb } from './helper'
 
 // Clinic Summary container
-export default function ClinicSummary() {
+class ClinicSummary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      "icbData":[],
+      "icbSelected":[],
+      "lastUpdated":'',
+      "clinicList":[],
+      "displayClinicsNoApp":true
+    };
+  }
 
-  const [icbData, setIcbData] = useState([]);
-  const [selectedIcb, setSelectedIcb] = useState(0);
-  const [lastUpdated, setLastUpdated] = useState(0);
-  const [clinicList, setClinicList] = useState([]);
-  const [displayClinicsNoApp, setDisplayClinicsNoApps] = useState(true);
-
-  useEffect(() => {
+  componentDidMount() {
+    // API call
     const { lastUpdated, clinicList } = getClinicData()
-    setIcbData(() => getIcbData())
-    setLastUpdated(() => lastUpdated)
-    setClinicList(() => clinicList)
-  }, [])
+    this.setState({
+      icbData: getIcbData(),
+      lastUpdated: lastUpdated,
+      clinicList: clinicList
+    })
+  }
 
-  useEffect(() => {
-    () => filterClinicsByIcb(clinicList, selectedIcb).forEach(element => {
-      console.log('--> ' + element.clinicName);
-    });
-    // setClinicList(() => filterClinicsByIcb(clinicList, selectedIcb))
-  }, [selectedIcb])
+  render() {
+    const {
+      icbData,
+      selectedIcb,
+      setSelectedIcb,
+      clinicList,
+      lastUpdated,
+      displayClinicsNoApp
+    } = this.state;
 
-  return (
-    <div>
-      <ClinicSummaryPage
-        icbData={icbData}
-        selectedIcb={selectedIcb}
-        setSelectedIcb={setSelectedIcb}
-        clinicList={clinicList}
-        lastUpdated={lastUpdated}
-        displayClinicsNoApp={displayClinicsNoApp} />
-    </div>
-  )
+    const filteredClinicList = filterClinicsByIcb(
+      clinicList, 'Participating ICB 1')
+
+    return (
+      <div>
+        {console.log('root clinic list ' + clinicList)}
+        <ClinicSummaryPage
+          icbData={icbData}
+          selectedIcb={selectedIcb}
+          setSelectedIcb={setSelectedIcb}
+          clinicList={filteredClinicList}
+          lastUpdated={lastUpdated}
+          displayClinicsNoApp={displayClinicsNoApp} />
+      </div>
+    )
+  }
 }
+
+export default ClinicSummary;
