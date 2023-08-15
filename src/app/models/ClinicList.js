@@ -1,9 +1,9 @@
 export class ClinicList {
   constructor(
     lastUpdated,
-    ClinicList,
+    clinicList,
   ) {
     this.lastUpdated = lastUpdated,
-      this.ClinicList = ClinicList
+      this.clinicList = clinicList
   }
 }

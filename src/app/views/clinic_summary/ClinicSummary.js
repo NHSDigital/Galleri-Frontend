@@ -1,29 +1,39 @@
 import { useState, useEffect } from "react";
 import ClinicSummaryPage from './ClinicSummaryPage';
+import { getIcbData, getClinicData } from '../../services/ClinicSummaryService'
+import { filterClinicsByIcb } from './helper'
 
 // Clinic Summary container
 export default function ClinicSummary() {
 
-  const [icbList, setIcbList] = useState([]);
-  const [clinicData, setClinicData] = useState([]);
+  const [icbData, setIcbData] = useState([]);
+  const [selectedIcb, setSelectedIcb] = useState(0);
+  const [lastUpdated, setLastUpdated] = useState(0);
+  const [clinicList, setClinicList] = useState([]);
   const [displayClinicsNoApp, setDisplayClinicsNoApps] = useState(true);
 
   useEffect(() => {
-    // Mock clinic list
-    setIcbList([
-      // can be disabled, selected
-      'icb NHS.UK frontend option 1',
-      'icb NHS.UK frontend option 2',
-      'icb NHS.UK frontend option 3',
-      'icb NHS.UK frontend option 4',
-    ], [])
-  })
+    const { lastUpdated, clinicList } = getClinicData()
+    setIcbData(() => getIcbData())
+    setLastUpdated(() => lastUpdated)
+    setClinicList(() => clinicList)
+  }, [])
+
+  useEffect(() => {
+    () => filterClinicsByIcb(clinicList, selectedIcb).forEach(element => {
+      console.log('--> ' + element.clinicName);
+    });
+    // setClinicList(() => filterClinicsByIcb(clinicList, selectedIcb))
+  }, [selectedIcb])
 
   return (
     <div>
       <ClinicSummaryPage
-        icbList={icbList}
-        clinicData={clinicData}
+        icbData={icbData}
+        selectedIcb={selectedIcb}
+        setSelectedIcb={setSelectedIcb}
+        clinicList={clinicList}
+        lastUpdated={lastUpdated}
         displayClinicsNoApp={displayClinicsNoApp} />
     </div>
   )

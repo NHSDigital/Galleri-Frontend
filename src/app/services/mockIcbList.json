@@ -1,18 +1,24 @@
 {
-  "icbList" : [{
-    "icbId" : "1",
-    "icbName" : "Participating ICB 1"
-  },
-  {
-    "icbId" : "2",
-    "icbName" : "Participating ICB 2"
-  },
-  {
-    "icbId" : "3",
-    "icbName" : "Participating ICB 3"
-  },
-  {
-    "icbId" : "4",
-    "icbName" : "Participating ICB 4"
-  }]
+  "icbList": [
+    {
+      "icbId": "0",
+      "icbName": ""
+    },
+    {
+      "icbId": "1",
+      "icbName": "Participating ICB 1"
+    },
+    {
+      "icbId": "2",
+      "icbName": "Participating ICB 2"
+    },
+    {
+      "icbId": "3",
+      "icbName": "Participating ICB 3"
+    },
+    {
+      "icbId": "4",
+      "icbName": "Participating ICB 4"
+    }
+  ]
 }

@@ -5,55 +5,55 @@
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360,
-    "icbId" : 1
+    "numberOfAppointmentsAvailable" : 250,
+    "icbId" : "Participating ICB 1"
   },
   {
     "clinicName" : "Phlebotomy Clinic 6",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360,
-    "icbId" : 1
+    "numberOfAppointmentsAvailable" : 0,
+    "icbId" : "Participating ICB 1"
   },
   {
     "clinicName" : "Phlebotomy Clinic 7",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360,
-    "icbId" : 1
+    "numberOfAppointmentsAvailable" : 320,
+    "icbId" : "Participating ICB 1"
   },
   {
     "clinicName" : "Phlebotomy Clinic 8",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360,
-    "icbId" : 2
+    "numberOfAppointmentsAvailable" : 0,
+    "icbId" : "Participating ICB 2"
   },
   {
     "clinicName" : "Phlebotomy Clinic 9",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360,
-    "icbId" : 3
+    "numberOfAppointmentsAvailable" : 190,
+    "icbId" : "Participating ICB 3"
   },
   {
     "clinicName" : "Phlebotomy Clinic 10",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360,
-    "icbId" : 4
+    "numberOfAppointmentsAvailable" : 50,
+    "icbId" : "Participating ICB 4"
   },
   {
-    "clinicName" : "Phlebotomy Clinic 10",
+    "clinicName" : "Phlebotomy Clinic 11",
     "dateOfPreviousInvitations" : "Teusday 4 July 2024",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 360,
-    "icbId" : 4
+    "numberOfAppointmentsAvailable" : 260,
+    "icbId" : "Participating ICB 4"
   }]
 }
