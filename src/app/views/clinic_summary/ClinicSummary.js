@@ -8,12 +8,28 @@ class ClinicSummary extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "icbData":[],
-      "icbSelected":[],
-      "lastUpdated":'',
-      "clinicList":[],
-      "displayClinicsNoApp":true
+      "icbData": [],
+      "icbSelected": '',
+      "lastUpdated": '',
+      "clinicList": [],
+      "displayClinicsNoApp": false
     };
+
+    // Handlers
+    this.onIcbChangeHandler = this.onIcbChangeHandler.bind(this);
+    this.onCheckHandler = this.onCheckHandler.bind(this);
+  }
+
+  onIcbChangeHandler(e) {
+    this.setState({
+      icbSelected: e.target.value
+    });
+  }
+
+  onCheckHandler(e) {
+    this.setState({
+      displayClinicsNoApp: e.target.checked
+    })
   }
 
   componentDidMount() {
@@ -29,26 +45,26 @@ class ClinicSummary extends Component {
   render() {
     const {
       icbData,
-      selectedIcb,
-      setSelectedIcb,
+      icbSelected,
       clinicList,
       lastUpdated,
       displayClinicsNoApp
     } = this.state;
 
     const filteredClinicList = filterClinicsByIcb(
-      clinicList, 'Participating ICB 1')
-
+      clinicList, icbSelected);
+    console.log('apps? ' + displayClinicsNoApp);
     return (
       <div>
-        {console.log('root clinic list ' + clinicList)}
         <ClinicSummaryPage
           icbData={icbData}
-          selectedIcb={selectedIcb}
-          setSelectedIcb={setSelectedIcb}
+          icbSelected={icbSelected}
+          onIcbChangeHandler={this.onIcbChangeHandler}
           clinicList={filteredClinicList}
           lastUpdated={lastUpdated}
-          displayClinicsNoApp={displayClinicsNoApp} />
+          displayClinicsNoApp={displayClinicsNoApp}
+          onCheckHandler={this.onCheckHandler}
+        />
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 export default function ClinicSummaryTable(props) {
+  const { onCheckHandler } = props;
   return (
     <table role="table" class="nhsuk-table-responsive">
       <caption class="nhsuk-table__caption">
@@ -15,6 +16,7 @@ export default function ClinicSummaryTable(props) {
             name="DisplayClinicsWithNoAppointmentsAvailable"
             type="checkbox"
             value=""
+            onChange={(e) => onCheckHandler(e)}
           />
           <label
             class="nhsuk-label nhsuk-checkboxes__label"

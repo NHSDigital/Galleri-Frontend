@@ -5,11 +5,12 @@ import ClinicSummaryTable from "./ClinicSummaryTable";
 export default function ClinicSummaryPage(props) {
   const {
     icbData,
-    selectedIcb,
-    setSelectedIcb,
+    icbSelected,
+    onIcbChangeHandler,
     lastUpdated,
     clinicList,
     displayClinicsNoApp,
+    onCheckHandler,
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -28,11 +29,9 @@ export default function ClinicSummaryPage(props) {
               </label>
               <select
                 class="nhsuk-select"
-                id='select-icb'
-                name='select-icb'
-                onChange={(e) =>
-                  setSelectedIcb(e.target.value)
-                }
+                id="select-icb"
+                name="select-icb"
+                onChange={(e) => onIcbChangeHandler(e)}
               >
                 {icbData.map((icb, key) => {
                   return <option key={key}>{icb.icbName}</option>;
@@ -42,9 +41,11 @@ export default function ClinicSummaryPage(props) {
             <br />
           </div>
           <div class="nhsuk-grid-column-full">
-            {displayClinicsNoApp ? (
-              <ClinicSummaryTable lastUpdated={lastUpdated} clinicList={clinicList} />
-            ) : null}
+            <ClinicSummaryTable
+              lastUpdated={lastUpdated}
+              clinicList={clinicList}
+              onCheckHandler={onCheckHandler}
+            />
           </div>
         </div>
       </main>
