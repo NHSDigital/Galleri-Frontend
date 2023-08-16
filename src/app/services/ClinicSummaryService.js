@@ -10,7 +10,7 @@ import mockIcbList from '../services/mockIcbList.json'
 */
 export function getClinicData() {
   return new ClinicList(
-    mockClinicData.lastUpdated,
+    Date(mockClinicData.lastUpdated).toString(),
     mockClinicData.clinicList.map(e => {
       return new Clinic(
         e.clinicName,

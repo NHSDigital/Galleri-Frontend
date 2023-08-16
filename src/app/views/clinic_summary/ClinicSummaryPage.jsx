@@ -40,13 +40,15 @@ export default function ClinicSummaryPage(props) {
             </div>
             <br />
           </div>
-          <div class="nhsuk-grid-column-full">
-            <ClinicSummaryTable
-              lastUpdated={lastUpdated}
-              clinicList={clinicList}
-              onCheckHandler={onCheckHandler}
-            />
-          </div>
+          {icbSelected === "" ? null : (
+            <div class="nhsuk-grid-column-full">
+              <ClinicSummaryTable
+                lastUpdated={lastUpdated}
+                clinicList={clinicList}
+                onCheckHandler={onCheckHandler}
+              />
+            </div>
+          )}
         </div>
       </main>
     </div>

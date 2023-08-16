@@ -1,8 +1,8 @@
 {
-  "lastUpdated" : "14 July 2024, 1.00am",
+  "lastUpdated" : "2018-12-17T03:24:00",
   "clinicList" : [{
     "clinicName" : "Phlebotomy Clinic 5",
-    "dateOfPreviousInvitations" : "Teusday 4 July 2024",
+    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
     "numberOfAppointmentsAvailable" : 250,
@@ -10,7 +10,7 @@
   },
   {
     "clinicName" : "Phlebotomy Clinic 6",
-    "dateOfPreviousInvitations" : "Teusday 4 July 2024",
+    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
     "numberOfAppointmentsAvailable" : 0,
@@ -18,7 +18,7 @@
   },
   {
     "clinicName" : "Phlebotomy Clinic 7",
-    "dateOfPreviousInvitations" : "Teusday 4 July 2024",
+    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
     "numberOfAppointmentsAvailable" : 320,
@@ -26,7 +26,7 @@
   },
   {
     "clinicName" : "Phlebotomy Clinic 8",
-    "dateOfPreviousInvitations" : "Teusday 4 July 2024",
+    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
     "numberOfAppointmentsAvailable" : 0,
@@ -34,7 +34,7 @@
   },
   {
     "clinicName" : "Phlebotomy Clinic 9",
-    "dateOfPreviousInvitations" : "Teusday 4 July 2024",
+    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
     "numberOfAppointmentsAvailable" : 190,
@@ -42,7 +42,7 @@
   },
   {
     "clinicName" : "Phlebotomy Clinic 10",
-    "dateOfPreviousInvitations" : "Teusday 4 July 2024",
+    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
     "numberOfAppointmentsAvailable" : 50,
@@ -50,7 +50,7 @@
   },
   {
     "clinicName" : "Phlebotomy Clinic 11",
-    "dateOfPreviousInvitations" : "Teusday 4 July 2024",
+    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
     "daysSincePreviousInvitations" : 15,
     "numberOfInvitationsSent" : 500,
     "numberOfAppointmentsAvailable" : 260,

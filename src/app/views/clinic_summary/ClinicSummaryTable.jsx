@@ -62,7 +62,7 @@ export default function ClinicSummaryTable(props) {
                 {e.clinicName}
               </td>
               <td role="cell" class="nhsuk-table__cell">
-                {e.dateOfPreviousInvitations}
+                {new Date(e.dateOfPreviousInvitations).toString()}
               </td>
               <td role="cell" class="nhsuk-table__cell">
                 {e.daysSincePreviousInvitations}

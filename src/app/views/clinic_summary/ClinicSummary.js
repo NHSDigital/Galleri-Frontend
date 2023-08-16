@@ -35,6 +35,7 @@ class ClinicSummary extends Component {
   componentDidMount() {
     // API call
     const { lastUpdated, clinicList } = getClinicData()
+    console.log('mounted ' +  lastUpdated);
     this.setState({
       icbData: getIcbData(),
       lastUpdated: lastUpdated,
@@ -53,7 +54,7 @@ class ClinicSummary extends Component {
 
     const filteredClinicList = filterClinicsByIcb(
       clinicList, icbSelected);
-    console.log('apps? ' + displayClinicsNoApp);
+    // console.log(new Date('2018-12-17T03:24:00'));
     return (
       <div>
         <ClinicSummaryPage
