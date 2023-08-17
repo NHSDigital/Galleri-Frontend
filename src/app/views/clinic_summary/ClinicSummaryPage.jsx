@@ -1,16 +1,18 @@
 import "../../styles/css/sass.css";
 import React, { Component } from "react";
 import ClinicSummaryTable from "./ClinicSummaryTable";
+import pagination from "@/app/components/pagination";
 
 export default function ClinicSummaryPage(props) {
   const {
     icbData,
     icbSelected,
-    onIcbChangeHandler,
     lastUpdated,
     clinicList,
-    displayClinicsNoApp,
+    onIcbChangeHandler,
     onCheckHandler,
+    onPrevHandler,
+    onNextHandler,
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -46,6 +48,8 @@ export default function ClinicSummaryPage(props) {
                 lastUpdated={lastUpdated}
                 clinicList={clinicList}
                 onCheckHandler={onCheckHandler}
+                onPrevHandler={onPrevHandler}
+                onNextHandler={onNextHandler}
               />
             </div>
           )}
