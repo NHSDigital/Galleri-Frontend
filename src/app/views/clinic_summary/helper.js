@@ -9,3 +9,20 @@ export function filterClinicsByIcb(clinicList, icb) {
   }
   return filteredList;
 }
+
+export function filterClinicsNoAppointments(clinicList, displayClinicsNoApp) {
+  let filteredList = [];
+  if (clinicList !== undefined) {
+    clinicList.forEach((e) => {
+      if(displayClinicsNoApp === false) {
+        if (e.numberOfAppointmentsAvailable > 0) {
+          filteredList.push(e)
+        }
+      } else {
+        filteredList.push(e)
+      }
+    });
+  }
+  return filteredList;
+}
+

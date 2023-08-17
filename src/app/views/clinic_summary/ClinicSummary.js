@@ -1,7 +1,7 @@
 import { Component } from "react";
 import ClinicSummaryPage from './ClinicSummaryPage';
 import { getIcbData, getClinicData } from '../../services/ClinicSummaryService'
-import { filterClinicsByIcb } from './helper'
+import { filterClinicsByIcb, filterClinicsNoAppointments } from './helper'
 
 // Clinic Summary container
 class ClinicSummary extends Component {
@@ -35,7 +35,7 @@ class ClinicSummary extends Component {
   componentDidMount() {
     // API call
     const { lastUpdated, clinicList } = getClinicData()
-    console.log('mounted ' +  lastUpdated);
+
     this.setState({
       icbData: getIcbData(),
       lastUpdated: lastUpdated,
@@ -52,16 +52,17 @@ class ClinicSummary extends Component {
       displayClinicsNoApp
     } = this.state;
 
-    const filteredClinicList = filterClinicsByIcb(
-      clinicList, icbSelected);
-    // console.log(new Date('2018-12-17T03:24:00'));
+    let filteredClinicList = filterClinicsByIcb(
+      clinicList, icbSelected, displayClinicsNoApp);
+
+    let filterClinicListApps = filterClinicsNoAppointments(filteredClinicList, displayClinicsNoApp)
     return (
       <div>
         <ClinicSummaryPage
           icbData={icbData}
           icbSelected={icbSelected}
           onIcbChangeHandler={this.onIcbChangeHandler}
-          clinicList={filteredClinicList}
+          clinicList={filterClinicListApps}
           lastUpdated={lastUpdated}
           displayClinicsNoApp={displayClinicsNoApp}
           onCheckHandler={this.onCheckHandler}
