@@ -1,96 +1,104 @@
 import { Component } from "react"
 
-export default class pagination extends Component {
+export default class Pagination extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      onPrevHandler: [],
-      onNextHandler: [],
+      "list": [{}, {}, {}, {}, {}, {}, {}],
+      "partitionSize": 5, // Default 10
+      "partitions": 0,
+      "indices": [],
+      "currentPage": 1,
+    }
+
+    this.onPrevHandler = this.onPrevHandler.bind();
+    this.onNextHandler = this.onNextHandler.bind();
+  }
+
+  componentDidMount() {
+    const { list, partitionSize } = this.state;
+    const newPartitions = getPartitions(list, partitionSize);
+    const newIndices = this.getIndices(newPartitions);
+    this.setState({
+      partitions: newPartitions,
+      indices: newIndices
+    })
+  }
+
+  getPartitions(list, partitionSize) {
+    if (list.length < partitionSize) {
+      return 1;
+    } else {
+      if (list.length % partitionSize === 0) {
+        return list.length / partitionSize;
+      } else {
+        return Math.ceil(list.length / partitionSize);
+      }
     }
   }
 
-  componentDidMount(){
+  getIndices(partitions) {
 
   }
 
+  onPrevHandler(e) {
+    console.log('prev');
+  }
+
+  onNextHandler(e) {
+    console.log('next');
+  }
+
   render() {
-    const { onPrevHandler, onNextHandler } = this.state;
+    const { list, partitionSize, partitions, indices, currentPage } = this.state;
     return (
-      <nav class="govuk-pagination" role="navigation" aria-label="results">
-        <div class="govuk-pagination__prev">
-          <a class="govuk-link govuk-pagination__link" href="#" rel="prev">
-            <svg
-              class="govuk-pagination__icon govuk-pagination__icon--prev"
-              xmlns="http://www.w3.org/2000/svg"
-              height="13"
-              width="15"
-              aria-hidden="true"
-              focusable="false"
-              viewBox="0 0 15 13"
-            >
-              <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-            </svg>
-            <span
-              class="govuk-pagination__link-title"
-              onClick={(e) => onPrevHandler(e)}
-            >
-              Previous
-            </span>
-          </a>
-        </div>
-        <ul class="govuk-pagination__list">
-          <li class="govuk-pagination__item">
+      <div class="nhsuk-width-container">
+        <h2 class="nhsuk-u-visually-hidden">Support links</h2>
+        <ul class="nhsuk-footer__list">
+          <li class="nhsuk-footer__list-item" id="prevButton">
             <a
-              class="govuk-link govuk-pagination__link"
-              href="#"
-              aria-label="Page 1"
+              aria-label="Previous page"
+              class="style_link__ToZGL style_current__K8c2u"
+              onClick={(e) => this.onPrevHandler(e)}
+            >
+              « Previous
+            </a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a
+              aria-label="Goto Page 1"
+              class="style_link__ToZGL style_current__K8c2u"
+              href="/future-standards?orderBy=name&amp;order=asc&amp;page=1"
+              aria-current="page"
             >
               1
             </a>
           </li>
-          <li class="govuk-pagination__item govuk-pagination__item--current">
+          <li class="nhsuk-footer__list-item">
             <a
-              class="govuk-link govuk-pagination__link"
-              href="#"
-              aria-label="Page 2"
-              aria-current="page"
+              aria-label="Goto Page 2"
+              class="style_link__ToZGL"
+              href="/future-standards?orderBy=name&amp;order=asc&amp;page=2"
             >
               2
             </a>
           </li>
-          <li class="govuk-pagination__item">
+          <li class="nhsuk-footer__list-item" id="nextButton">
             <a
-              class="govuk-link govuk-pagination__link"
-              href="#"
-              aria-label="Page 3"
+              aria-label="Next page"
+              class="style_link__ToZGL"
+              onClick={(e) => this.onNextHandler(e)}
             >
-              3
+              Next »
             </a>
           </li>
         </ul>
-        <div class="govuk-pagination__next">
-          <a class="govuk-link govuk-pagination__link" href="#" rel="next">
-            {" "}
-            <span
-              class="govuk-pagination__link-title"
-              onClick={(e) => onNextHandler(e)}
-            >
-              Next
-            </span>{" "}
-            <svg
-              class="govuk-pagination__icon govuk-pagination__icon--next"
-              xmlns="http://www.w3.org/2000/svg"
-              height="13"
-              width="15"
-              aria-hidden="true"
-              focusable="false"
-              viewBox="0 0 15 13"
-            >
-              <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-            </svg>
-          </a>
+        <div class="nhsuk-footer__copyright">
+          <span index="0" node="[object Object]">
+            {`Showing ${currentPage} - ${partitions} of ${list.length} results`}
+          </span>
         </div>
-      </nav>
+      </div>
     )
   }
 }

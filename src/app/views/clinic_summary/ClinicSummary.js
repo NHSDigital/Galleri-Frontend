@@ -4,7 +4,7 @@ import { getIcbData, getClinicData } from '../../services/ClinicSummaryService'
 import { filterClinicsByIcb, filterClinicsNoAppointments } from './helper'
 
 // Clinic Summary container
-class ClinicSummary extends Component {
+export default class ClinicSummary extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,28 +18,12 @@ class ClinicSummary extends Component {
     // Handlers
     this.onIcbChangeHandler = this.onIcbChangeHandler.bind(this);
     this.onCheckHandler = this.onCheckHandler.bind(this);
-    this.onPrevHandler = this.onPrevHandler.bind(this);
-    this.onNextHandler = this.onNextHandler.bind(this);
   }
 
   onIcbChangeHandler(e) {
     this.setState({
       icbSelected: e.target.value
     });
-  }
-
-  onPrevHandler(e) {
-    console.log('prev');
-    // this.setState({
-    //   displayClinicsNoApp: e.target.checked
-    // })
-  }
-
-  onNextHandler(e) {
-    console.log('next');
-    // this.setState({
-    //   displayClinicsNoApp: e.target.checked
-    // })
   }
 
   onCheckHandler(e) {
@@ -82,12 +66,8 @@ class ClinicSummary extends Component {
           displayClinicsNoApp={displayClinicsNoApp}
           onIcbChangeHandler={this.onIcbChangeHandler}
           onCheckHandler={this.onCheckHandler}
-          onPrevHandler={this.onPrevHandler}
-          onNextHandler={this.onNextHandler}
         />
       </div>
     )
   }
 }
-
-export default ClinicSummary;
