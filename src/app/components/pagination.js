@@ -17,7 +17,7 @@ export default class Pagination extends Component {
 
   componentDidMount() {
     const { list, partitionSize } = this.state;
-    const newPartitions = getPartitions(list, partitionSize);
+    const newPartitions = this.getPartitions(list, partitionSize);
     const newIndices = this.getIndices(newPartitions);
     this.setState({
       partitions: newPartitions,
