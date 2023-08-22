@@ -25,8 +25,3 @@ export function filterClinicsNoAppointments(clinicList, displayClinicsNoApp) {
   }
   return filteredList;
 }
-
-export function sortDataOfPreviousInvitation(mostRecent){
-  return console.log('sorted');
-}
-
