@@ -15,7 +15,7 @@ export default function ClinicSummaryPage(props) {
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
         <div class="nhsuk-grid-row">
-          <h1>Clinic Summary</h1>
+          <h1 label="header">Clinic Summary</h1>
           <div class="nhsuk-u-reading-width">
             <p>
               Summarises how many appointments are available over the next 6
