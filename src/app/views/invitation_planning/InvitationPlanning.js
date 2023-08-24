@@ -1,68 +1,69 @@
 import { Component } from "react";
-import ClinicSummaryPage from './InvitationPlanningPage';
-import { getIcbData, getClinicData } from '../../services/ClinicSummaryService'
-import { filterClinicsByIcb } from './helper'
+import { getInvitationPlanningData } from '../../services/invitation_planning/InvitationPlanningService'
+// import { filterClinicsByIcb } from './helper'
+import InvitationPlanningPage from "./InvitationPlanningPage";
 
 // Invitation Planning container
 class InvitationPlanning extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      "quintileValues" : {
+      },
+      // "enableFillEdit": false,
+      // "enableForecastEdit": false
     };
 
     // Handlers
     // this.onIcbChangeHandler = this.onIcbChangeHandler.bind(this);
-    // this.onCheckHandler = this.onCheckHandler.bind(this);
+    this.onAmmendFillHandler = this.onAmmendFillHandler.bind(this);
   }
 
-  onIcbChangeHandler(e) {
+  // onIcbChangeHandler(e) {
+  //   this.setState({
+  //     icbSelected: e.target.value
+  //   });
+  // }
+
+  onAmmendFillHandler() {
+    // console.log('event = ', e)
     this.setState({
-      icbSelected: e.target.value
-    });
+      enableEdit: true
+    })
   }
 
-  onCheckHandler(e) {
+  onSaveFillHandler(e) {
+    console.log('event = ', e)
     this.setState({
-      displayClinicsNoApp: e.target.checked
+      saveFill: e.target
     })
   }
 
   componentDidMount() {
     // API call
-    const { lastUpdated, clinicList } = getClinicData()
     this.setState({
-      icbData: getIcbData(),
-      lastUpdated: lastUpdated,
-      clinicList: clinicList
+      quintileValues: getInvitationPlanningData()
     })
   }
 
   render() {
     const {
-      icbData,
-      icbSelected,
-      clinicList,
-      lastUpdated,
-      displayClinicsNoApp
+      quintileValues,
+      // enableFillEdit,
+      // enableForecastEdit
     } = this.state;
 
-    const filteredClinicList = filterClinicsByIcb(
-      clinicList, icbSelected);
-    console.log('apps? ' + displayClinicsNoApp);
     return (
       <div>
-        <ClinicSummaryPage
-          icbData={icbData}
-          icbSelected={icbSelected}
-          onIcbChangeHandler={this.onIcbChangeHandler}
-          clinicList={filteredClinicList}
-          lastUpdated={lastUpdated}
-          displayClinicsNoApp={displayClinicsNoApp}
-          onCheckHandler={this.onCheckHandler}
+        <InvitationPlanningPage
+          quintileValues={quintileValues}
+          // onAmmendFillHandler={this.onAmmendFillHandler}
+          // enableFillEdit={enableFillEdit}
+          // enableForecastEdit={enableForecastEdit}
         />
       </div>
     )
   }
 }
 
-export default ClinicSummary;
+export default InvitationPlanning;

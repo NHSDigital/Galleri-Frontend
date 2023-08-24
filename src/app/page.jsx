@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Content from './components/content';
 import Footer from './components/Footer';
 import ClinicSummary from './views/clinic_summary/ClinicSummary';
+import InvitationPlanning from './views/invitation_planning/InvitationPlanning';
 
 // The root page of Galleri
 export default function Root() {
@@ -11,7 +12,8 @@ export default function Root() {
       <body className='js-enabled'>
         <Header />
         {/* <Content /> */}
-        <ClinicSummary />
+        {/* <ClinicSummary /> */}
+        <InvitationPlanning />
         <Footer />
       </body>
     </div>

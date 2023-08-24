@@ -1,54 +1,49 @@
 import "../../styles/css/sass.css";
 import React, { Component } from "react";
-import ClinicSummaryTable from "./ClinicSummaryTable";
+import NationalForecastUptakeTable from "./NationalForecastUptakeTable";
+import QuintileTargetTable from "./QuintileTargetTable";
 
-export default function ClinicSummaryPage(props) {
+
+export default function InvitationPlanningPage(props) {
   const {
-    icbData,
-    icbSelected,
-    onIcbChangeHandler,
-    lastUpdated,
-    clinicList,
-    displayClinicsNoApp,
-    onCheckHandler,
+    // destructure props here
+    quintileValues,
+    // onAmmendFillHandler,
+    // enableFillEdit,
+    // enableForecastEdit
   } = props;
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
         <div class="nhsuk-grid-row">
-          <div class="nhsuk-grid-column-two-thirds">
-            <h1>Clinic Summary</h1>
-            <h5>
-              Summarises how many appointments are available over the next 6
-              weeks, how many invitations have been sent and when these were
-              most recently sent.
-            </h5>
-            <div class="nhsuk-form-group">
-              <label class="nhsuk-label" for="select-1">
-                Select the participating integrated care board (ICB)
-              </label>
-              <select
-                class="nhsuk-select"
-                id="select-icb"
-                name="select-icb"
-                onChange={(e) => onIcbChangeHandler(e)}
-              >
-                {icbData.map((icb, key) => {
-                  return <option key={key}>{icb.icbName}</option>;
-                })}
-              </select>
-            </div>
-            <br />
-          </div>
           <div class="nhsuk-grid-column-full">
-            <ClinicSummaryTable
-              lastUpdated={lastUpdated}
-              clinicList={clinicList}
-              onCheckHandler={onCheckHandler}
-            />
+            <h1>Invitation Variables</h1>
+            <h5>
+              The forecasted national uptake and quintile fill targets can be amended if necessary.
+            </h5>
+            <div class="nhsuk-grid-column-one-half">
+              <div class="nhsuk-card">
+                <NationalForecastUptakeTable/>
+                <br/>
+                <button class="nhsuk-button">
+                  Amend forecast uptake
+                </button>
+              </div>
+              <div class="nhsuk-card">
+                <QuintileTargetTable
+                  quintileValues={quintileValues}
+                  // enableFillEdit={enableFillEdit}
+                />
+                <br/>
+                <button class="nhsuk-button">
+                  Amend fill target
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </main>
     </div>
   );
 }
+// onClick={onAmmendFillHandler()}
