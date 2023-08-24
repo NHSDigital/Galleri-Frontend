@@ -10,7 +10,7 @@ config: # Configure development environment
 		githooks-install \
 		nodejs-install \
 		python-install \
-		terraform-install
+		terraform-install \
 
 .SILENT: \
-	config
+		config
