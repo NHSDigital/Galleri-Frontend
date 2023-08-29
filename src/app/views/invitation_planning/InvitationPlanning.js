@@ -10,13 +10,16 @@ class InvitationPlanning extends Component {
       "quintileValues" : {
       },
       "enableFillEdit": false,
-      "text": "Amend fill target"
+      "lastUpdatedQuintile": '',
+      "userName": '',
+      "isCorrectTotal": true
       // "enableForecastEdit": false
     };
 
     // Handlers
     this.onQuintileChangeHandler = this.onQuintileChangeHandler.bind(this);
     this.onAmendFillHandler = this.onAmendFillHandler.bind(this);
+    this.onCancelSaveHandler = this.onCancelSaveHandler.bind(this);
   }
 
 
@@ -28,43 +31,74 @@ class InvitationPlanning extends Component {
     })
   }
 
-  onAmendFillHandler() {
-    this.setState({
-      enableFillEdit: !this.state.enableFillEdit
-    })
-    changeText(enableFillEdit)
-  }
+  onAmendFillHandler(e) {
+    if (this.state.enableFillEdit) {
+      if (this.sumQuintiles(this.state.quintileValues) === 100) {
+        this.setState({
+          enableFillEdit: !this.state.enableFillEdit,
+          isCorrectTotal: true
+        })
+      } else {
+        this.setState({
+          isCorrectTotal: false
+        })
+      }
 
-  changeText(enableFillEdit) {
-    if (enableFillEdit) {
-      this.setState({
-        text: "Save changes"
-      })
     }
+    // if in edit mode
+    // check to see if the total adds to 100
+    // only set state if does otherwise send flag downstream
+    // else switch state
     else {
       this.setState({
-        text: "Amend fill target"
+        enableFillEdit: !this.state.enableFillEdit
       })
     }
   }
 
-  onSaveFillHandler(e) {
+  sumQuintiles(quintileValues) {
+    return Object.values(quintileValues).reduce((acc, cur) =>
+        acc + Number(cur)
+    , 0)
+  }
+
+  onCancelSaveHandler() {
+    const {
+      quintile,
+      lastUpdatedQuintile,
+      userName
+    } = getInvitationPlanningData()
+
     this.setState({
-      saveFill: e.target
+      quintileValues: quintile,
+      lastUpdatedQuintile: lastUpdatedQuintile,
+      userName: userName,
+      enableFillEdit: !this.state.enableFillEdit
     })
   }
 
   componentDidMount() {
     // API call
+    const {
+      quintile,
+      lastUpdatedQuintile,
+      userName
+    } = getInvitationPlanningData()
+
     this.setState({
-      quintileValues: getInvitationPlanningData()
+      quintileValues: quintile,
+      lastUpdatedQuintile: lastUpdatedQuintile,
+      userName: userName
     })
   }
 
   render() {
     const {
       quintileValues,
-      enableFillEdit
+      enableFillEdit,
+      lastUpdatedQuintile,
+      userName,
+      isCorrectTotal
       // enableForecastEdit
     } = this.state;
 
@@ -75,6 +109,10 @@ class InvitationPlanning extends Component {
           onQuintileChangeHandler={this.onQuintileChangeHandler}
           onAmendFillHandler={this.onAmendFillHandler}
           enableFillEdit={enableFillEdit}
+          onCancelSaveHandler={this.onCancelSaveHandler}
+          lastUpdatedQuintile={lastUpdatedQuintile}
+          userName={userName}
+          isCorrectTotal={isCorrectTotal}
           // enableForecastEdit={enableForecastEdit}
         />
       </div>

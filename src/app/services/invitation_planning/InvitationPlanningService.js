@@ -3,7 +3,9 @@ import mockInvitationPlanningParam from './../invitation_planning/mockInvitation
 
 export function getInvitationPlanningData() {
   const parameters = new QuintileTarget(
-    mockInvitationPlanningParam
+    mockInvitationPlanningParam.quintileValues,
+    mockInvitationPlanningParam.lastUpdated,
+    mockInvitationPlanningParam.userName
   )
-  return parameters.quintile
+  return parameters
 }
