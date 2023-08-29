@@ -13,8 +13,13 @@ export default function InvitationPlanningPage(props) {
     onCancelSaveHandler,
     lastUpdatedQuintile,
     userName,
-    isCorrectTotal
-    // enableForecastEdit
+    isCorrectTotal,
+    nationalUptakePercentage,
+    enableUptakeEdit,
+    onAmendForecastHandler,
+    onUptakeChangeHandler,
+    isCorrectUptakeTotal,
+    onCancelSaveForecastHandler
   } = props;
 
   const changeText = (enableFillEdit) => {
@@ -26,56 +31,85 @@ export default function InvitationPlanningPage(props) {
       }
   }
 
-  const sumQuintiles = (quintileValues) => {
-    return Object.values(quintileValues).reduce((acc, cur) =>
-        acc + Number(cur)
-    , 0)
+  const changeTextForecast = (enableUptakeEdit) => {
+    if (enableUptakeEdit) {
+      return "Save changes"
+    }
+    else {
+      return "Amend forecast uptake"
+      }
   }
+
 
   return (
     <div class="nhsuk-width-container ">
-      <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
+      <main class="nhsuk-main-wrapper " id="invitationsParameters" role="main">
         <div class="nhsuk-grid-row">
           <div class="nhsuk-grid-column-full">
             <h1>Invitation Variables</h1>
             <h5>
               The forecasted national uptake and quintile fill targets can be amended if necessary.
             </h5>
-            <div class="nhsuk-grid-column-one-half">
-              <div class="nhsuk-card">
-                <NationalForecastUptakeTable/>
-                <br/>
-                <button class="nhsuk-button">
-                  Amend forecast uptake
-                </button>
-              </div>
-              <div class="nhsuk-card">
-                <QuintileTargetTable
-                  quintileValues={quintileValues}
-                  onQuintileChangeHandler={onQuintileChangeHandler}
-                  enableFillEdit={enableFillEdit}
-                />
-                <br/>
-                <div class="nhsuk-hint" id="last-updated-hint">
-                  Last Updated: {lastUpdatedQuintile}
-                </div>
-                <div class="nhsuk-hint" id="last-updated-hint">
-                  {userName}
-                </div>
-                { !isCorrectTotal &&
-                  <div class="nhsuk-error-summary">
-                    The fill targets must add up to 100%
+            <div class="nhsuk-grid-column-one-half" style={{"padding":"0px"}}>
+              <div class="nhsuk-card" id="forecastTableContainer">
+                <div style={{"padding-top":"24px", "padding-left":"40px", "padding-right":"40px"}}>
+                  <NationalForecastUptakeTable
+                    nationalUptakePercentage={nationalUptakePercentage}
+                    onUptakeChangeHandler={onUptakeChangeHandler}
+                    enableUptakeEdit={enableUptakeEdit}
+                  />
+                  <br/>
+                  <div class="nhsuk-hint" id="last-updated-hint" style={{"textAlign":"right", "margin-bottom":"2px"}}>
+                    Last Updated: {lastUpdatedQuintile}
                   </div>
-                }
-                <button class="nhsuk-button" onClick={(e) => onAmendFillHandler(e)}>
-                  {changeText(enableFillEdit)}
-                </button>
-                <br/>
-                { enableFillEdit &&
-                  <button class="nhsuk-button:link" onClick={onCancelSaveHandler}>
-                    Cancel without saving
+                  <div class="nhsuk-hint" id="last-updated-hint" style={{"textAlign":"right"}}>
+                    {userName}
+                  </div>
+                  { !isCorrectUptakeTotal &&
+                    <div class="nhsuk-error-summary">
+                      The uptake percentage must not exceed 100%
+                    </div>
+                  }
+                  <button class="nhsuk-button" onClick={(e) => onAmendForecastHandler(e)}>
+                    {changeTextForecast(enableUptakeEdit)}
                   </button>
-                }
+                  <br/>
+                  { enableUptakeEdit &&
+                    <button class="nhsuk-button:link" onClick={() => onCancelSaveForecastHandler()}>
+                      Cancel without saving
+                    </button>
+                  }
+                </div>
+              </div>
+              <div class="nhsuk-card" id="quintileTableContainer">
+              <div style={{"padding-top":"24px", "padding-left":"40px", "padding-right":"40px"}}>
+                  <QuintileTargetTable
+                    quintileValues={quintileValues}
+                    onQuintileChangeHandler={onQuintileChangeHandler}
+                    enableFillEdit={enableFillEdit}
+                  />
+                  <br/>
+                  <div class="nhsuk-hint" id="last-updated-hint" style={{"textAlign":"right", "margin-bottom":"2px"}}>
+                    Last Updated: {lastUpdatedQuintile}
+                  </div>
+                  <div class="nhsuk-hint" id="last-updated-hint" style={{"textAlign":"right"}}>
+                    {userName}
+                  </div>
+                  { !isCorrectTotal &&
+                    <div class="nhsuk-error-summary">
+                      The fill targets must add up to 100%
+                    </div>
+                  }
+                  <button class="nhsuk-button" onClick={(e) => onAmendFillHandler(e)}>
+                    {changeText(enableFillEdit)}
+                  </button>
+                  <br/>
+                  { enableFillEdit &&
+                    <button class="nhsuk-button:link" onClick={onCancelSaveHandler}>
+                      Cancel without saving
+                    </button>
+                  }
+              </div>
               </div>
             </div>
           </div>

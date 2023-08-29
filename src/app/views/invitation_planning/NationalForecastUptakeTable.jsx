@@ -1,37 +1,36 @@
-import React, { Component } from "react";
+import React from "react";
 
 export default function NationalForecastUptakeTable(props) {
-  const { // destructure
+  const {
+    nationalUptakePercentage,
+    enableUptakeEdit,
+    onUptakeChangeHandler
   } = props;
   return (
     <table role="table" class="nhsuk-table-responsive">
-      <caption class="nhsuk-table__caption">
-          National Forecast Uptake
+      <caption class="nhsuk-table__caption" style={{"padding-bottom":"16px"}}>
+          National forecast uptake
         <br />
       </caption>
-      <thead role="rowgroup" class="nhsuk-table__head">
-        <tr role="row">
-          <th role="columnheader" class="" scope="col">
-            empty
-          </th>
-          <th role="columnheader" class="" scope="col">
-            empty
-          </th>
-        </tr>
-      </thead>
       <tbody class="nhsuk-table__body">
-        {props.clinicList?.map((e, key) => {
-          return (
             <tr role="row" class="nhsuk-table__row">
               <td role="cell" class="nhsuk-table__cell">
-                placeholder
+                <b>Current Percentage</b>
               </td>
-              <td role="cell" class="nhsuk-table__cell">
-                left placeholder
+              <td role="cell" class="nhsuk-table__cell" style={{"padding-right":"2px","width":"100px"}}>
+                <input class="nhsuk-input" style={{border:0,"textAlign":"right", "padding-right":"0px","color":"black"}}
+                    type="number"
+                    min="0"
+                    step="1"
+                    disabled = {(enableUptakeEdit)? "" : "disabled"}
+                    value={nationalUptakePercentage.currentPercentage}
+                    onChange={(e) => onUptakeChangeHandler(e)}
+                  />
+              </td>
+              <td role="cell" class="nhsuk-table__cell" style={{"vertical-align":"middle"}}>
+                %
               </td>
             </tr>
-          );
-        })}
       </tbody>
     </table>
 

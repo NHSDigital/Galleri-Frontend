@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { getInvitationPlanningData } from '../../services/invitation_planning/InvitationPlanningService'
+import { getInvitationPlanningData, getNationalForecastData } from '../../services/invitation_planning/InvitationPlanningService'
 import InvitationPlanningPage from "./InvitationPlanningPage";
 
 // Invitation Planning container
@@ -9,17 +9,23 @@ class InvitationPlanning extends Component {
     this.state = {
       "quintileValues" : {
       },
+      "nationalUptakePercentage": '',
       "enableFillEdit": false,
       "lastUpdatedQuintile": '',
       "userName": '',
-      "isCorrectTotal": true
-      // "enableForecastEdit": false
+      "isCorrectTotal": true,
+      "enableUptakeEdit": false,
+      "isCorrectUptakeTotal": true
     };
 
     // Handlers
     this.onQuintileChangeHandler = this.onQuintileChangeHandler.bind(this);
     this.onAmendFillHandler = this.onAmendFillHandler.bind(this);
     this.onCancelSaveHandler = this.onCancelSaveHandler.bind(this);
+
+    this.onAmendForecastHandler = this.onAmendForecastHandler.bind(this);
+    this.onUptakeChangeHandler = this.onUptakeChangeHandler.bind(this)
+    this.onCancelSaveForecastHandler = this.onCancelSaveForecastHandler.bind(this)
   }
 
 
@@ -43,15 +49,30 @@ class InvitationPlanning extends Component {
           isCorrectTotal: false
         })
       }
-
     }
-    // if in edit mode
-    // check to see if the total adds to 100
-    // only set state if does otherwise send flag downstream
-    // else switch state
     else {
       this.setState({
         enableFillEdit: !this.state.enableFillEdit
+      })
+    }
+  }
+
+  onAmendForecastHandler(e) {
+    if (this.state.enableUptakeEdit) {
+      if (this.state.nationalUptakePercentage <= 100) {
+        this.setState({
+          enableUptakeEdit: !this.state.enableUptakeEdit,
+          isCorrectUptakeTotal: true
+        })
+      } else {
+        this.setState({
+          isCorrectUptakeTotal: false
+        })
+      }
+    }
+    else {
+      this.setState({
+        enableUptakeEdit: !this.state.enableUptakeEdit,
       })
     }
   }
@@ -63,6 +84,7 @@ class InvitationPlanning extends Component {
   }
 
   onCancelSaveHandler() {
+    // do api call to retrieve previous value
     const {
       quintile,
       lastUpdatedQuintile,
@@ -73,7 +95,25 @@ class InvitationPlanning extends Component {
       quintileValues: quintile,
       lastUpdatedQuintile: lastUpdatedQuintile,
       userName: userName,
-      enableFillEdit: !this.state.enableFillEdit
+      enableFillEdit: !this.state.enableFillEdit,
+      isCorrectTotal: true
+    })
+  }
+
+  onCancelSaveForecastHandler() {
+    // do api call to retrieve previous value
+    const uptakeCall = getNationalForecastData()
+
+    this.setState({
+      nationalUptakePercentage: uptakeCall.currentPercentage,
+      enableUptakeEdit: !this.state.enableUptakeEdit,
+      isCorrectUptakeTotal: true
+    })
+  }
+
+  onUptakeChangeHandler(e) {
+    this.setState({
+      nationalUptakePercentage: Number(e.target.value)
     })
   }
 
@@ -85,10 +125,13 @@ class InvitationPlanning extends Component {
       userName
     } = getInvitationPlanningData()
 
+    const nationalUptakePercentageCall = getNationalForecastData()
+
     this.setState({
       quintileValues: quintile,
       lastUpdatedQuintile: lastUpdatedQuintile,
-      userName: userName
+      userName: userName,
+      nationalUptakePercentage: nationalUptakePercentageCall
     })
   }
 
@@ -98,8 +141,10 @@ class InvitationPlanning extends Component {
       enableFillEdit,
       lastUpdatedQuintile,
       userName,
-      isCorrectTotal
-      // enableForecastEdit
+      isCorrectTotal,
+      nationalUptakePercentage,
+      enableUptakeEdit,
+      isCorrectUptakeTotal
     } = this.state;
 
     return (
@@ -113,7 +158,12 @@ class InvitationPlanning extends Component {
           lastUpdatedQuintile={lastUpdatedQuintile}
           userName={userName}
           isCorrectTotal={isCorrectTotal}
-          // enableForecastEdit={enableForecastEdit}
+          nationalUptakePercentage={nationalUptakePercentage}
+          enableUptakeEdit={enableUptakeEdit}
+          onAmendForecastHandler={this.onAmendForecastHandler}
+          onUptakeChangeHandler={this.onUptakeChangeHandler}
+          isCorrectUptakeTotal={isCorrectUptakeTotal}
+          onCancelSaveForecastHandler={this.onCancelSaveForecastHandler}
         />
       </div>
     )
