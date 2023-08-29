@@ -7,11 +7,6 @@ export default function QuintileTargetTable(props) {
     enableFillEdit
   } = props;
 
-
-  const handleChange = (e, quintile) => {
-    quintileValues[`${quintile}`]
-  }
-
   const sumQuintiles = (quintileValues) => {
     return Object.values(quintileValues).reduce((acc, cur) =>
         acc + Number(cur)
@@ -20,7 +15,7 @@ export default function QuintileTargetTable(props) {
 
   return (
     <table role="table" class="nhsuk-table-responsive">
-      <caption class="nhsuk-table__caption">
+      <caption class="nhsuk-table__caption" style={{"padding-bottom":"16px"}}>
           Quintile fill target
         <br />
       </caption>
@@ -31,8 +26,8 @@ export default function QuintileTargetTable(props) {
               <td role="cell" class="nhsuk-table__cell">
                 {`${quintile}`}
               </td>
-              <td role="cell" class="nhsuk-table__cell">
-                <input class="nhsuk-search__input"
+              <td role="cell" class="nhsuk-table__cell" style={{"padding-right":"2px","width":"100px"}}>
+                <input class="nhsuk-input" style={{border:0,"textAlign":"right","color":"black"}}
                   type="number"
                   min="0"
                   step="1"
@@ -40,7 +35,9 @@ export default function QuintileTargetTable(props) {
                   placeholder={quintileValues[`${quintile}`]}
                   onChange={(e) => onQuintileChangeHandler(e, quintile)}
                   />
-                  %
+              </td>
+              <td role="cell" class="nhsuk-table__cell" style={{"vertical-align":"middle"}}>
+                <b>%</b>
               </td>
             </tr>
           );
@@ -52,9 +49,12 @@ export default function QuintileTargetTable(props) {
                 Total percentage
               </b>
           </td>
-          <td role="cell" class="nhsuk-table__cell">
-                {sumQuintiles(quintileValues)} %
+          <td role="cell" class="nhsuk-table__cell" style={{"textAlign":"right", "padding-right":"2px"}}>
+                {sumQuintiles(quintileValues)}
           </td>
+          <td role="cell" class="nhsuk-table__cell" style={{"vertical-align":"middle"}}>
+                <b>%</b>
+              </td>
         </tr>
       </tbody>
     </table>
