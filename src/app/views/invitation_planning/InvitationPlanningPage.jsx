@@ -6,11 +6,14 @@ import QuintileTargetTable from "./QuintileTargetTable";
 
 export default function InvitationPlanningPage(props) {
   const {
-    // destructure props here
     quintileValues,
     onQuintileChangeHandler,
     onAmendFillHandler,
-    enableFillEdit
+    enableFillEdit,
+    onCancelSaveHandler,
+    lastUpdatedQuintile,
+    userName,
+    isCorrectTotal
     // enableForecastEdit
   } = props;
 
@@ -21,6 +24,12 @@ export default function InvitationPlanningPage(props) {
     else {
       return "Amend fill target"
       }
+  }
+
+  const sumQuintiles = (quintileValues) => {
+    return Object.values(quintileValues).reduce((acc, cur) =>
+        acc + Number(cur)
+    , 0)
   }
 
   return (
@@ -47,9 +56,26 @@ export default function InvitationPlanningPage(props) {
                   enableFillEdit={enableFillEdit}
                 />
                 <br/>
-                <button class="nhsuk-button" onClick={onAmendFillHandler}>
+                <div class="nhsuk-hint" id="last-updated-hint">
+                  Last Updated: {lastUpdatedQuintile}
+                </div>
+                <div class="nhsuk-hint" id="last-updated-hint">
+                  {userName}
+                </div>
+                { !isCorrectTotal &&
+                  <div class="nhsuk-error-summary">
+                    The fill targets must add up to 100%
+                  </div>
+                }
+                <button class="nhsuk-button" onClick={(e) => onAmendFillHandler(e)}>
                   {changeText(enableFillEdit)}
                 </button>
+                <br/>
+                { enableFillEdit &&
+                  <button class="nhsuk-button:link" onClick={onCancelSaveHandler}>
+                    Cancel without saving
+                  </button>
+                }
               </div>
             </div>
           </div>

@@ -7,15 +7,12 @@ export default function QuintileTargetTable(props) {
     enableFillEdit
   } = props;
 
-  console.log('enableFillEdit = ', enableFillEdit)
 
   const handleChange = (e, quintile) => {
-    console.log('before', quintileValues)
     quintileValues[`${quintile}`]
   }
 
   const sumQuintiles = (quintileValues) => {
-    console.log(Object.values(quintileValues))
     return Object.values(quintileValues).reduce((acc, cur) =>
         acc + Number(cur)
     , 0)
@@ -51,7 +48,9 @@ export default function QuintileTargetTable(props) {
         )}
         <tr role="cell" class="nhsuk-table__cell">
           <td role="cell" class="nhsuk-table__cell">
-              Total percentage
+              <b>
+                Total percentage
+              </b>
           </td>
           <td role="cell" class="nhsuk-table__cell">
                 {sumQuintiles(quintileValues)} %
