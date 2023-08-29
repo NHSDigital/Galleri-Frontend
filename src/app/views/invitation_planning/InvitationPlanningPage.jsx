@@ -46,8 +46,8 @@ export default function InvitationPlanningPage(props) {
       <main class="nhsuk-main-wrapper " id="invitationsParameters" role="main">
         <div class="nhsuk-grid-row">
           <div class="nhsuk-grid-column-full">
-            <h1>Invitation Variables</h1>
-            <h5>
+            <h1>Invitation variables</h1>
+            <h5 style={{"font-weight": "normal"}}>
               The forecasted national uptake and quintile fill targets can be amended if necessary.
             </h5>
             <div class="nhsuk-grid-column-one-half" style={{"padding":"0px"}}>
