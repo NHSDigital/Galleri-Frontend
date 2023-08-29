@@ -1,6 +1,5 @@
 import { Component } from "react";
 import { getInvitationPlanningData } from '../../services/invitation_planning/InvitationPlanningService'
-// import { filterClinicsByIcb } from './helper'
 import InvitationPlanningPage from "./InvitationPlanningPage";
 
 // Invitation Planning container
@@ -10,30 +9,46 @@ class InvitationPlanning extends Component {
     this.state = {
       "quintileValues" : {
       },
-      // "enableFillEdit": false,
+      "enableFillEdit": false,
+      "text": "Amend fill target"
       // "enableForecastEdit": false
     };
 
     // Handlers
-    // this.onIcbChangeHandler = this.onIcbChangeHandler.bind(this);
-    this.onAmmendFillHandler = this.onAmmendFillHandler.bind(this);
+    this.onQuintileChangeHandler = this.onQuintileChangeHandler.bind(this);
+    this.onAmendFillHandler = this.onAmendFillHandler.bind(this);
   }
 
-  // onIcbChangeHandler(e) {
-  //   this.setState({
-  //     icbSelected: e.target.value
-  //   });
-  // }
 
-  onAmmendFillHandler() {
-    // console.log('event = ', e)
+  onQuintileChangeHandler(e, quintile) {
+    let localQuintile = this.state.quintileValues
+    localQuintile[`${quintile}`] = e.target.value
     this.setState({
-      enableEdit: true
+      quintileValues: localQuintile
     })
   }
 
+  onAmendFillHandler() {
+    this.setState({
+      enableFillEdit: !this.state.enableFillEdit
+    })
+    changeText(enableFillEdit)
+  }
+
+  changeText(enableFillEdit) {
+    if (enableFillEdit) {
+      this.setState({
+        text: "Save changes"
+      })
+    }
+    else {
+      this.setState({
+        text: "Amend fill target"
+      })
+    }
+  }
+
   onSaveFillHandler(e) {
-    console.log('event = ', e)
     this.setState({
       saveFill: e.target
     })
@@ -49,7 +64,7 @@ class InvitationPlanning extends Component {
   render() {
     const {
       quintileValues,
-      // enableFillEdit,
+      enableFillEdit
       // enableForecastEdit
     } = this.state;
 
@@ -57,8 +72,9 @@ class InvitationPlanning extends Component {
       <div>
         <InvitationPlanningPage
           quintileValues={quintileValues}
-          // onAmmendFillHandler={this.onAmmendFillHandler}
-          // enableFillEdit={enableFillEdit}
+          onQuintileChangeHandler={this.onQuintileChangeHandler}
+          onAmendFillHandler={this.onAmendFillHandler}
+          enableFillEdit={enableFillEdit}
           // enableForecastEdit={enableForecastEdit}
         />
       </div>

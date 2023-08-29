@@ -8,10 +8,21 @@ export default function InvitationPlanningPage(props) {
   const {
     // destructure props here
     quintileValues,
-    // onAmmendFillHandler,
-    // enableFillEdit,
+    onQuintileChangeHandler,
+    onAmendFillHandler,
+    enableFillEdit
     // enableForecastEdit
   } = props;
+
+  const changeText = (enableFillEdit) => {
+    if (enableFillEdit) {
+      return "Save changes"
+    }
+    else {
+      return "Amend fill target"
+      }
+  }
+
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -32,11 +43,12 @@ export default function InvitationPlanningPage(props) {
               <div class="nhsuk-card">
                 <QuintileTargetTable
                   quintileValues={quintileValues}
-                  // enableFillEdit={enableFillEdit}
+                  onQuintileChangeHandler={onQuintileChangeHandler}
+                  enableFillEdit={enableFillEdit}
                 />
                 <br/>
-                <button class="nhsuk-button">
-                  Amend fill target
+                <button class="nhsuk-button" onClick={onAmendFillHandler}>
+                  {changeText(enableFillEdit)}
                 </button>
               </div>
             </div>
@@ -46,4 +58,3 @@ export default function InvitationPlanningPage(props) {
     </div>
   );
 }
-// onClick={onAmmendFillHandler()}
