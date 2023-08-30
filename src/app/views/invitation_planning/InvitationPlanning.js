@@ -8,6 +8,7 @@ class InvitationPlanning extends Component {
     super(props);
     this.state = {
       "quintileValues" : {},
+      "quintileValuesPrevious" : {},
       "nationalUptakePercentage": '',
       "nationalUptakePercentagePrevious": '',
       "enableFillEdit": false,
@@ -21,14 +22,26 @@ class InvitationPlanning extends Component {
     // Handlers
     this.onQuintileChangeHandler = this.onQuintileChangeHandler.bind(this);
     this.onAmendFillHandler = this.onAmendFillHandler.bind(this);
-    this.onCancelSaveHandler = this.onCancelSaveHandler.bind(this);
+    this.onSaveFillHandler = this.onSaveFillHandler.bind(this);
+    this.onCancelSaveFillHandler = this.onCancelSaveFillHandler.bind(this);
 
     this.onAmendForecastHandler = this.onAmendForecastHandler.bind(this);
-    this.onSaveForecastHandler = this.onSaveForecastHandler.bind(this);
     this.onUptakeChangeHandler = this.onUptakeChangeHandler.bind(this)
     this.onCancelSaveForecastHandler = this.onCancelSaveForecastHandler.bind(this)
   }
 
+  sumQuintiles(quintileValues) {
+    return Object.values(quintileValues).reduce((acc, cur) =>
+        acc + Number(cur)
+    , 0)
+  }
+
+  // toggle edit mode
+  toggleFillEdit(toggle){
+    this.setState({
+      enableFillEdit: toggle
+    })
+  }
 
   onQuintileChangeHandler(e, quintile) {
     let localQuintile = this.state.quintileValues
@@ -39,6 +52,8 @@ class InvitationPlanning extends Component {
   }
 
   onAmendFillHandler(e) {
+    this.toggleFillEdit(true)
+
     if (this.state.enableFillEdit) {
       if (this.sumQuintiles(this.state.quintileValues) === 100) {
         this.setState({
@@ -58,34 +73,14 @@ class InvitationPlanning extends Component {
     }
   }
 
-  // toggle edit mode
-  toggleUptakeEdit(toggle){
+  onSaveFillHandler(value){
+    this.toggleFillEdit(false)
     this.setState({
-      enableUptakeEdit: toggle
+      quintileValues: 10
     })
   }
 
-  onAmendForecastHandler(value) {
-    this.toggleUptakeEdit(true)
-    this.setState({
-      nationalUptakePercentagePrevious: value
-    })
-  }
-
-  onSaveForecastHandler(value){
-    this.toggleUptakeEdit(false)
-    this.setState({
-      nationalUptakePercentage: value,
-    })
-  }
-
-  sumQuintiles(quintileValues) {
-    return Object.values(quintileValues).reduce((acc, cur) =>
-        acc + Number(cur)
-    , 0)
-  }
-
-  onCancelSaveHandler() {
+  onCancelSaveFillHandler() {
     // do api call to retrieve previous value
     const {
       quintile,
@@ -102,10 +97,17 @@ class InvitationPlanning extends Component {
     })
   }
 
-  onCancelSaveForecastHandler() {
-    this.toggleUptakeEdit(false);
+  // toggle edit mode
+  toggleUptakeEdit(toggle){
     this.setState({
-      nationalUptakePercentage: this.state.nationalUptakePercentagePrevious,
+      enableUptakeEdit: toggle
+    })
+  }
+
+  onAmendForecastHandler(value) {
+    this.toggleUptakeEdit(true)
+    this.setState({
+      nationalUptakePercentagePrevious: value
     })
   }
 
@@ -114,6 +116,21 @@ class InvitationPlanning extends Component {
       nationalUptakePercentage: e.target.value
     })
   }
+
+  onSaveForecastHandler(value){
+    this.toggleUptakeEdit(false)
+    this.setState({
+      nationalUptakePercentage: value,
+    })
+  }
+
+  onCancelSaveForecastHandler() {
+    this.toggleUptakeEdit(false);
+    this.setState({
+      nationalUptakePercentage: this.state.nationalUptakePercentagePrevious,
+    })
+  }
+
 
   componentDidMount() {
     // API call
@@ -158,11 +175,12 @@ class InvitationPlanning extends Component {
           isCorrectUptakeTotal={isCorrectUptakeTotal}
           onQuintileChangeHandler={this.onQuintileChangeHandler}
           onAmendFillHandler={this.onAmendFillHandler}
-          onCancelSaveHandler={this.onCancelSaveHandler}
+          onCancelSaveFillHandler={this.onCancelSaveFillHandler}
           onAmendForecastHandler={this.onAmendForecastHandler}
           onUptakeChangeHandler={this.onUptakeChangeHandler}
           onCancelSaveForecastHandler={this.onCancelSaveForecastHandler}
           onSaveForecastHandler={this.onSaveForecastHandler}
+          onSaveFillHandler={this.onSaveFillHandler}
         />
       </div>
     )
