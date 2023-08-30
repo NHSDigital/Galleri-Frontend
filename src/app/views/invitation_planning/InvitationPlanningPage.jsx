@@ -8,8 +8,9 @@ export default function InvitationPlanningPage(props) {
     quintileValues,
     onQuintileChangeHandler,
     onAmendFillHandler,
+    onSaveFillHandler,
     enableFillEdit,
-    onCancelSaveHandler,
+    onCancelSaveFillHandler,
     lastUpdatedQuintile,
     userName,
     isCorrectTotal,
@@ -82,7 +83,7 @@ export default function InvitationPlanningPage(props) {
                           onSaveForecastHandler(nationalUptakePercentage)
                         }
                       >
-                        Save
+                        Save changes
                       </button>
                       <br />
                       <button
@@ -99,7 +100,7 @@ export default function InvitationPlanningPage(props) {
                         onAmendForecastHandler(nationalUptakePercentage)
                       }
                     >
-                      Amend
+                      Amend forecast uptake
                     </button>
                   )}
                 </div>
@@ -137,7 +138,7 @@ export default function InvitationPlanningPage(props) {
                       The fill targets must add up to 100%
                     </div>
                   )}
-                  <button
+                  {/* <button
                     class="nhsuk-button"
                     onClick={(e) => onAmendFillHandler(e)}
                   >
@@ -147,9 +148,37 @@ export default function InvitationPlanningPage(props) {
                   {enableFillEdit && (
                     <button
                       class="nhsuk-button:link"
-                      onClick={onCancelSaveHandler}
+                      onClick={onCancelSaveFillHandler}
                     >
                       Cancel without saving
+                    </button>
+                  )} */}
+                  {enableFillEdit ? (
+                    <div>
+                      <button
+                        class="nhsuk-button"
+                        onClick={() =>
+                          onSaveFillHandler(nationalUptakePercentage)
+                        }
+                      >
+                        Save changes
+                      </button>
+                      <br />
+                      <button
+                        class="nhsuk-button:link"
+                        onClick={() => onCancelSaveFillHandler()}
+                      >
+                        Cancel without saving
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      class="nhsuk-button"
+                      onClick={() =>
+                        onAmendFillHandler(nationalUptakePercentage)
+                      }
+                    >
+                      Amend fill target
                     </button>
                   )}
                 </div>
