@@ -21,9 +21,10 @@ export default function NationalForecastUptakeTable(props) {
                 <input class="nhsuk-input" style={{border:0,"textAlign":"right", "padding-right":"0px","color":"black"}}
                     type="number"
                     min="0"
+                    max="100"
                     step="1"
                     disabled = {(enableUptakeEdit)? "" : "disabled"}
-                    value={nationalUptakePercentage.currentPercentage}
+                    value={nationalUptakePercentage}
                     onChange={(e) => onUptakeChangeHandler(e)}
                   />
               </td>

@@ -7,9 +7,9 @@ class InvitationPlanning extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "quintileValues" : {
-      },
+      "quintileValues" : {},
       "nationalUptakePercentage": '',
+      "nationalUptakePercentagePrevious": '',
       "enableFillEdit": false,
       "lastUpdatedQuintile": '',
       "userName": '',
@@ -24,6 +24,7 @@ class InvitationPlanning extends Component {
     this.onCancelSaveHandler = this.onCancelSaveHandler.bind(this);
 
     this.onAmendForecastHandler = this.onAmendForecastHandler.bind(this);
+    this.onSaveForecastHandler = this.onSaveForecastHandler.bind(this);
     this.onUptakeChangeHandler = this.onUptakeChangeHandler.bind(this)
     this.onCancelSaveForecastHandler = this.onCancelSaveForecastHandler.bind(this)
   }
@@ -57,24 +58,25 @@ class InvitationPlanning extends Component {
     }
   }
 
-  onAmendForecastHandler(e) {
-    if (this.state.enableUptakeEdit) {
-      if (this.state.nationalUptakePercentage <= 100) {
-        this.setState({
-          enableUptakeEdit: !this.state.enableUptakeEdit,
-          isCorrectUptakeTotal: true
-        })
-      } else {
-        this.setState({
-          isCorrectUptakeTotal: false
-        })
-      }
-    }
-    else {
-      this.setState({
-        enableUptakeEdit: !this.state.enableUptakeEdit,
-      })
-    }
+  // toggle edit mode
+  toggleUptakeEdit(toggle){
+    this.setState({
+      enableUptakeEdit: toggle
+    })
+  }
+
+  onAmendForecastHandler(value) {
+    this.toggleUptakeEdit(true)
+    this.setState({
+      nationalUptakePercentagePrevious: value
+    })
+  }
+
+  onSaveForecastHandler(value){
+    this.toggleUptakeEdit(false)
+    this.setState({
+      nationalUptakePercentage: value,
+    })
   }
 
   sumQuintiles(quintileValues) {
@@ -101,19 +103,15 @@ class InvitationPlanning extends Component {
   }
 
   onCancelSaveForecastHandler() {
-    // do api call to retrieve previous value
-    const uptakeCall = getNationalForecastData()
-
+    this.toggleUptakeEdit(false);
     this.setState({
-      nationalUptakePercentage: uptakeCall.currentPercentage,
-      enableUptakeEdit: !this.state.enableUptakeEdit,
-      isCorrectUptakeTotal: true
+      nationalUptakePercentage: this.state.nationalUptakePercentagePrevious,
     })
   }
 
   onUptakeChangeHandler(e) {
     this.setState({
-      nationalUptakePercentage: Number(e.target.value)
+      nationalUptakePercentage: e.target.value
     })
   }
 
@@ -131,7 +129,7 @@ class InvitationPlanning extends Component {
       quintileValues: quintile,
       lastUpdatedQuintile: lastUpdatedQuintile,
       userName: userName,
-      nationalUptakePercentage: nationalUptakePercentageCall
+      nationalUptakePercentage: nationalUptakePercentageCall.currentPercentage
     })
   }
 
@@ -144,26 +142,27 @@ class InvitationPlanning extends Component {
       isCorrectTotal,
       nationalUptakePercentage,
       enableUptakeEdit,
-      isCorrectUptakeTotal
+      isCorrectUptakeTotal,
     } = this.state;
 
     return (
       <div>
         <InvitationPlanningPage
           quintileValues={quintileValues}
-          onQuintileChangeHandler={this.onQuintileChangeHandler}
-          onAmendFillHandler={this.onAmendFillHandler}
           enableFillEdit={enableFillEdit}
-          onCancelSaveHandler={this.onCancelSaveHandler}
           lastUpdatedQuintile={lastUpdatedQuintile}
           userName={userName}
           isCorrectTotal={isCorrectTotal}
           nationalUptakePercentage={nationalUptakePercentage}
           enableUptakeEdit={enableUptakeEdit}
+          isCorrectUptakeTotal={isCorrectUptakeTotal}
+          onQuintileChangeHandler={this.onQuintileChangeHandler}
+          onAmendFillHandler={this.onAmendFillHandler}
+          onCancelSaveHandler={this.onCancelSaveHandler}
           onAmendForecastHandler={this.onAmendForecastHandler}
           onUptakeChangeHandler={this.onUptakeChangeHandler}
-          isCorrectUptakeTotal={isCorrectUptakeTotal}
           onCancelSaveForecastHandler={this.onCancelSaveForecastHandler}
+          onSaveForecastHandler={this.onSaveForecastHandler}
         />
       </div>
     )
