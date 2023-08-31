@@ -23,14 +23,6 @@ export default function InvitationPlanningPage(props) {
     onSaveForecastHandler,
   } = props;
 
-  const changeText = (enableFillEdit) => {
-    if (enableFillEdit) {
-      return "Save changes";
-    } else {
-      return "Amend fill target";
-    }
-  };
-
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="invitationsParameters" role="main">
@@ -138,21 +130,6 @@ export default function InvitationPlanningPage(props) {
                       The fill targets must add up to 100%
                     </div>
                   )}
-                  {/* <button
-                    class="nhsuk-button"
-                    onClick={(e) => onAmendFillHandler(e)}
-                  >
-                    {changeText(enableFillEdit)}
-                  </button>
-                  <br />
-                  {enableFillEdit && (
-                    <button
-                      class="nhsuk-button:link"
-                      onClick={onCancelSaveFillHandler}
-                    >
-                      Cancel without saving
-                    </button>
-                  )} */}
                   {enableFillEdit ? (
                     <div>
                       <button
@@ -175,7 +152,7 @@ export default function InvitationPlanningPage(props) {
                     <button
                       class="nhsuk-button"
                       onClick={() =>
-                        onAmendFillHandler(nationalUptakePercentage)
+                        onAmendFillHandler()
                       }
                     >
                       Amend fill target
