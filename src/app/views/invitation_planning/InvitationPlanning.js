@@ -9,6 +9,7 @@ class InvitationPlanning extends Component {
     this.state = {
       "quintileValues" : {},
       "quintileValuesPrevious" : {},
+      "quintileValuesAux": {},
       "nationalUptakePercentage": '',
       "nationalUptakePercentagePrevious": '',
       "enableFillEdit": false,
@@ -43,56 +44,47 @@ class InvitationPlanning extends Component {
     })
   }
 
+  displayFillError(toggle){
+    this.setState({
+      isCorrectTotal: toggle
+    })
+  }
+
   onQuintileChangeHandler(e, quintile) {
+    console.log("qv state before = ", this.state.quintileValues)
+    console.log(quintile)
     let localQuintile = this.state.quintileValues
-    localQuintile[`${quintile}`] = e.target.value
+    localQuintile[`${quintile}`] = Number(e.target.value)
     this.setState({
-      quintileValues: localQuintile
+      quintileValuesAux: localQuintile
     })
+    console.log("qv state after = ", this.state.quintileValues)
   }
 
-  onAmendFillHandler(e) {
+  onAmendFillHandler() {
     this.toggleFillEdit(true)
-
-    if (this.state.enableFillEdit) {
-      if (this.sumQuintiles(this.state.quintileValues) === 100) {
-        this.setState({
-          enableFillEdit: !this.state.enableFillEdit,
-          isCorrectTotal: true
-        })
-      } else {
-        this.setState({
-          isCorrectTotal: false
-        })
-      }
-    }
-    else {
-      this.setState({
-        enableFillEdit: !this.state.enableFillEdit
-      })
-    }
+    const prev = this.state.quintileValues
+    this.setState({
+      quintileValuesPrevious: prev
+    })
   }
 
-  onSaveFillHandler(value){
-    this.toggleFillEdit(false)
-    this.setState({
-      quintileValues: 10
-    })
+  onSaveFillHandler(){
+    if (this.sumQuintiles(this.state.quintileValuesAux) === 100){
+      this.setState({
+        quintileValues: this.state.quintileValuesAux,
+      })
+      this.toggleFillEdit(false)
+      this.displayFillError(true)
+    } else {
+      this.displayFillError(false)
+    }
   }
 
   onCancelSaveFillHandler() {
-    // do api call to retrieve previous value
-    const {
-      quintile,
-      lastUpdatedQuintile,
-      userName
-    } = getInvitationPlanningData()
-
+    this.toggleFillEdit(false)
     this.setState({
-      quintileValues: quintile,
-      lastUpdatedQuintile: lastUpdatedQuintile,
-      userName: userName,
-      enableFillEdit: !this.state.enableFillEdit,
+      quintileValues: this.state.quintileValuesPrevious,
       isCorrectTotal: true
     })
   }
@@ -119,6 +111,7 @@ class InvitationPlanning extends Component {
 
   onSaveForecastHandler(value){
     this.toggleUptakeEdit(false)
+    console.
     this.setState({
       nationalUptakePercentage: value,
     })
@@ -139,11 +132,12 @@ class InvitationPlanning extends Component {
       lastUpdatedQuintile,
       userName
     } = getInvitationPlanningData()
-
+    // add object model
     const nationalUptakePercentageCall = getNationalForecastData()
 
     this.setState({
       quintileValues: quintile,
+      quintileValuesAux: quintile,
       lastUpdatedQuintile: lastUpdatedQuintile,
       userName: userName,
       nationalUptakePercentage: nationalUptakePercentageCall.currentPercentage
@@ -161,7 +155,9 @@ class InvitationPlanning extends Component {
       enableUptakeEdit,
       isCorrectUptakeTotal,
     } = this.state;
-
+    // console.log("rendering quintileValues = ", this.state.quintileValues)
+    // console.log("rendering quintileValuesAux = ", this.state.quintileValuesAux)
+    // console.log("rendering quintileValuesPrevious = ", this.state.quintileValuesPrevious)
     return (
       <div>
         <InvitationPlanningPage
