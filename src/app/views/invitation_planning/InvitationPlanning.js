@@ -50,15 +50,14 @@ class InvitationPlanning extends Component {
     })
   }
 
-  onQuintileChangeHandler(e, quintile) {
-    console.log("qv state before = ", this.state.quintileValues)
-    console.log(quintile)
-    let localQuintile = this.state.quintileValues
+  async onQuintileChangeHandler(e, quintile) {
+    let localQuintile = {
+      ...this.state.quintileValuesAux
+    }
     localQuintile[`${quintile}`] = Number(e.target.value)
-    this.setState({
+    await this.setState({
       quintileValuesAux: localQuintile
     })
-    console.log("qv state after = ", this.state.quintileValues)
   }
 
   onAmendFillHandler() {
@@ -69,10 +68,11 @@ class InvitationPlanning extends Component {
     })
   }
 
-  onSaveFillHandler(){
+  async onSaveFillHandler(){
     if (this.sumQuintiles(this.state.quintileValuesAux) === 100){
-      this.setState({
+      await this.setState({
         quintileValues: this.state.quintileValuesAux,
+        quintileValuesPrevious: this.state.quintileValuesAux
       })
       this.toggleFillEdit(false)
       this.displayFillError(true)
@@ -83,8 +83,11 @@ class InvitationPlanning extends Component {
 
   onCancelSaveFillHandler() {
     this.toggleFillEdit(false)
+    const prev = {
+      ...this.state.quintileValuesPrevious
+    }
     this.setState({
-      quintileValues: this.state.quintileValuesPrevious,
+      quintileValues: prev,
       isCorrectTotal: true
     })
   }
@@ -138,6 +141,7 @@ class InvitationPlanning extends Component {
     this.setState({
       quintileValues: quintile,
       quintileValuesAux: quintile,
+      quintileValuesPrevious: quintile,
       lastUpdatedQuintile: lastUpdatedQuintile,
       userName: userName,
       nationalUptakePercentage: nationalUptakePercentageCall.currentPercentage
@@ -147,6 +151,7 @@ class InvitationPlanning extends Component {
   render() {
     const {
       quintileValues,
+      quintileValuesAux,
       enableFillEdit,
       lastUpdatedQuintile,
       userName,
@@ -155,13 +160,12 @@ class InvitationPlanning extends Component {
       enableUptakeEdit,
       isCorrectUptakeTotal,
     } = this.state;
-    // console.log("rendering quintileValues = ", this.state.quintileValues)
-    // console.log("rendering quintileValuesAux = ", this.state.quintileValuesAux)
-    // console.log("rendering quintileValuesPrevious = ", this.state.quintileValuesPrevious)
+
     return (
       <div>
         <InvitationPlanningPage
           quintileValues={quintileValues}
+          quintileValuesAux={quintileValuesAux}
           enableFillEdit={enableFillEdit}
           lastUpdatedQuintile={lastUpdatedQuintile}
           userName={userName}
