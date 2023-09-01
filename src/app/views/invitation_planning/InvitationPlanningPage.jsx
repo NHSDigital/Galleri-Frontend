@@ -136,9 +136,7 @@ export default function InvitationPlanningPage(props) {
                     <div>
                       <button
                         class="nhsuk-button"
-                        onClick={() =>
-                          onSaveFillHandler(quintileValues)
-                        }
+                        onClick={() => onSaveFillHandler(quintileValues)}
                       >
                         Save changes
                       </button>
@@ -153,9 +151,7 @@ export default function InvitationPlanningPage(props) {
                   ) : (
                     <button
                       class="nhsuk-button"
-                      onClick={() =>
-                        onAmendFillHandler()
-                      }
+                      onClick={() => onAmendFillHandler()}
                     >
                       Amend fill target
                     </button>
