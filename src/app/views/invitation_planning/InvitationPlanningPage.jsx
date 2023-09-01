@@ -6,6 +6,7 @@ import QuintileTargetTable from "./QuintileTargetTable";
 export default function InvitationPlanningPage(props) {
   const {
     quintileValues,
+    quintileValuesAux,
     onQuintileChangeHandler,
     onAmendFillHandler,
     onSaveFillHandler,
@@ -107,6 +108,7 @@ export default function InvitationPlanningPage(props) {
                 >
                   <QuintileTargetTable
                     quintileValues={quintileValues}
+                    quintileValuesAux={quintileValuesAux}
                     onQuintileChangeHandler={onQuintileChangeHandler}
                     enableFillEdit={enableFillEdit}
                   />
@@ -135,7 +137,7 @@ export default function InvitationPlanningPage(props) {
                       <button
                         class="nhsuk-button"
                         onClick={() =>
-                          onSaveFillHandler(nationalUptakePercentage)
+                          onSaveFillHandler(quintileValues)
                         }
                       >
                         Save changes

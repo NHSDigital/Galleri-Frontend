@@ -3,6 +3,7 @@ import React, { Component } from "react";
 export default function QuintileTargetTable(props) {
   const {
     quintileValues,
+    quintileValuesAux,
     onQuintileChangeHandler,
     enableFillEdit
   } = props;
@@ -12,7 +13,6 @@ export default function QuintileTargetTable(props) {
         acc + Number(cur)
     , 0)
   }
-
   return (
     <table role="table" class="nhsuk-table-responsive">
       <caption class="nhsuk-table__caption" style={{"padding-bottom":"16px"}}>
@@ -26,16 +26,21 @@ export default function QuintileTargetTable(props) {
               <td role="cell" class="nhsuk-table__cell">
                 {`${quintile}`}
               </td>
-              <td role="cell" class="nhsuk-table__cell" style={{"padding-right":"2px","width":"100px"}}>
-                <input class="nhsuk-input" style={{border:0,"textAlign":"right","color":"black"}}
-                  type="number"
-                  min="0"
-                  step="1"
-                  disabled = {(enableFillEdit)? "" : "disabled"}
-                  placeholder={quintileValues[`${quintile}`]}
-                  onChange={(e) => onQuintileChangeHandler(e, quintile)}
-                  />
-              </td>
+              {enableFillEdit ? (
+                      <td role="cell" class="nhsuk-table__cell" style={{"padding-right":"2px","width":"100px"}}>
+                        <input class="nhsuk-input" style={{"textAlign":"right","color":"black"}}
+                          type="number"
+                          min="0"
+                          step="1"
+                          placeholder={quintileValues[`${quintile}`]}
+                          onChange={(e) => onQuintileChangeHandler(e, quintile)}
+                        />
+                      </td>
+                  ) : (
+                    <td role="cell" class="nhsuk-table__cell" style={{"textAlign":"right","padding-right":"2px","width":"100px"}}>
+                      {quintileValues[`${quintile}`]}
+                    </td>
+                  )}
               <td role="cell" class="nhsuk-table__cell" style={{"vertical-align":"middle"}}>
                 <b>%</b>
               </td>
@@ -50,11 +55,11 @@ export default function QuintileTargetTable(props) {
               </b>
           </td>
           <td role="cell" class="nhsuk-table__cell" style={{"textAlign":"right", "padding-right":"2px"}}>
-                {sumQuintiles(quintileValues)}
+            {sumQuintiles(quintileValuesAux)}
           </td>
           <td role="cell" class="nhsuk-table__cell" style={{"vertical-align":"middle"}}>
-                <b>%</b>
-              </td>
+            <b>%</b>
+          </td>
         </tr>
       </tbody>
     </table>
