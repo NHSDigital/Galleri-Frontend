@@ -1,5 +1,8 @@
 import { Component } from "react";
-import { getInvitationPlanningData, getNationalForecastData } from '../../services/invitation_planning/InvitationPlanningService'
+import {
+  getInvitationPlanningData,
+  getNationalForecastData,
+} from "../../services/invitation_planning/InvitationPlanningService";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 
 // Invitation Planning container
@@ -7,17 +10,17 @@ class InvitationPlanning extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "quintileValues" : {},
-      "quintileValuesPrevious" : {},
-      "quintileValuesAux": {},
-      "nationalUptakePercentage": '',
-      "nationalUptakePercentagePrevious": '',
-      "enableFillEdit": false,
-      "lastUpdatedQuintile": '',
-      "userName": '',
-      "isCorrectTotal": true,
-      "enableUptakeEdit": false,
-      "isCorrectUptakeTotal": true
+      quintileValues: {},
+      quintileValuesPrevious: {},
+      quintileValuesAux: {},
+      nationalUptakePercentage: "",
+      nationalUptakePercentagePrevious: "",
+      enableFillEdit: false,
+      lastUpdatedQuintile: "",
+      userName: "",
+      isCorrectTotal: true,
+      enableUptakeEdit: false,
+      isCorrectUptakeTotal: true,
     };
 
     // Handlers
@@ -27,116 +30,113 @@ class InvitationPlanning extends Component {
     this.onCancelSaveFillHandler = this.onCancelSaveFillHandler.bind(this);
 
     this.onAmendForecastHandler = this.onAmendForecastHandler.bind(this);
-    this.onUptakeChangeHandler = this.onUptakeChangeHandler.bind(this)
-    this.onCancelSaveForecastHandler = this.onCancelSaveForecastHandler.bind(this)
+    this.onUptakeChangeHandler = this.onUptakeChangeHandler.bind(this);
+    this.onCancelSaveForecastHandler =
+      this.onCancelSaveForecastHandler.bind(this);
   }
 
   sumQuintiles(quintileValues) {
-    return Object.values(quintileValues).reduce((acc, cur) =>
-        acc + Number(cur)
-    , 0)
+    return Object.values(quintileValues).reduce(
+      (acc, cur) => acc + Number(cur),
+      0
+    );
   }
 
   // toggle edit mode
-  toggleFillEdit(toggle){
+  toggleFillEdit(toggle) {
     this.setState({
-      enableFillEdit: toggle
-    })
+      enableFillEdit: toggle,
+    });
   }
 
-  displayFillError(toggle){
+  displayFillError(toggle) {
     this.setState({
-      isCorrectTotal: toggle
-    })
+      isCorrectTotal: toggle,
+    });
   }
 
   async onQuintileChangeHandler(e, quintile) {
     let localQuintile = {
-      ...this.state.quintileValuesAux
-    }
-    localQuintile[`${quintile}`] = Number(e.target.value)
+      ...this.state.quintileValuesAux,
+    };
+    localQuintile[`${quintile}`] = Number(e.target.value);
     await this.setState({
-      quintileValuesAux: localQuintile
-    })
+      quintileValuesAux: localQuintile,
+    });
   }
 
   onAmendFillHandler() {
-    this.toggleFillEdit(true)
-    const prev = this.state.quintileValues
+    this.toggleFillEdit(true);
+    const prev = this.state.quintileValues;
     this.setState({
-      quintileValuesPrevious: prev
-    })
+      quintileValuesPrevious: prev,
+    });
   }
 
-  async onSaveFillHandler(){
-    if (this.sumQuintiles(this.state.quintileValuesAux) === 100){
+  async onSaveFillHandler() {
+    if (this.sumQuintiles(this.state.quintileValuesAux) === 100) {
       await this.setState({
         quintileValues: this.state.quintileValuesAux,
-        quintileValuesPrevious: this.state.quintileValuesAux
-      })
-      this.toggleFillEdit(false)
-      this.displayFillError(true)
+        quintileValuesPrevious: this.state.quintileValuesAux,
+      });
+      this.toggleFillEdit(false);
+      this.displayFillError(true);
     } else {
-      this.displayFillError(false)
+      this.displayFillError(false);
     }
   }
 
   onCancelSaveFillHandler() {
-    this.toggleFillEdit(false)
+    this.toggleFillEdit(false);
     const prev = {
-      ...this.state.quintileValuesPrevious
-    }
+      ...this.state.quintileValuesPrevious,
+    };
     this.setState({
       quintileValues: prev,
-      isCorrectTotal: true
-    })
+      isCorrectTotal: true,
+    });
   }
 
   // toggle edit mode
-  toggleUptakeEdit(toggle){
+  toggleUptakeEdit(toggle) {
     this.setState({
-      enableUptakeEdit: toggle
-    })
+      enableUptakeEdit: toggle,
+    });
   }
 
   onAmendForecastHandler(value) {
-    this.toggleUptakeEdit(true)
+    this.toggleUptakeEdit(true);
     this.setState({
-      nationalUptakePercentagePrevious: value
-    })
+      nationalUptakePercentagePrevious: value,
+    });
   }
 
   onUptakeChangeHandler(e) {
     this.setState({
-      nationalUptakePercentage: e.target.value
-    })
+      nationalUptakePercentage: e.target.value,
+    });
   }
 
-  onSaveForecastHandler(value){
-    this.toggleUptakeEdit(false)
-    console.
-    this.setState({
+  onSaveForecastHandler(value) {
+    this.toggleUptakeEdit(false);
+    console.this.setState({
       nationalUptakePercentage: value,
-    })
+    });
   }
 
   onCancelSaveForecastHandler() {
     this.toggleUptakeEdit(false);
     this.setState({
       nationalUptakePercentage: this.state.nationalUptakePercentagePrevious,
-    })
+    });
   }
-
 
   componentDidMount() {
     // API call
-    const {
-      quintile,
-      lastUpdatedQuintile,
-      userName
-    } = getInvitationPlanningData()
+    const { quintile, lastUpdatedQuintile, userName } =
+      getInvitationPlanningData();
     // add object model
-    const nationalUptakePercentageCall = getNationalForecastData()
+    const nationalUptakePercentageCall = getNationalForecastData();
 
     this.setState({
       quintileValues: quintile,
@@ -144,8 +144,8 @@ class InvitationPlanning extends Component {
       quintileValuesPrevious: quintile,
       lastUpdatedQuintile: lastUpdatedQuintile,
       userName: userName,
-      nationalUptakePercentage: nationalUptakePercentageCall.currentPercentage
-    })
+      nationalUptakePercentage: nationalUptakePercentageCall.currentPercentage,
+    });
   }
 
   render() {
@@ -183,7 +183,7 @@ class InvitationPlanning extends Component {
           onSaveFillHandler={this.onSaveFillHandler}
         />
       </div>
-    )
+    );
   }
 }
 
