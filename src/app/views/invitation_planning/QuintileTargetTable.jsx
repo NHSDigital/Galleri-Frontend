@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 export default function QuintileTargetTable(props) {
   const {
@@ -6,14 +6,9 @@ export default function QuintileTargetTable(props) {
     quintileValuesAux,
     onQuintileChangeHandler,
     enableFillEdit,
+    sumQuintiles,
   } = props;
 
-  const sumQuintiles = (quintileValues) => {
-    return Object.values(quintileValues).reduce(
-      (acc, cur) => acc + Number(cur),
-      0
-    );
-  };
   return (
     <table role="table" class="nhsuk-table-responsive">
       <caption
@@ -75,13 +70,23 @@ export default function QuintileTargetTable(props) {
           <td role="cell" class="nhsuk-table__cell">
             <b>Total percentage</b>
           </td>
-          <td
-            role="cell"
-            class="nhsuk-table__cell"
-            style={{ textAlign: "right", "padding-right": "2px" }}
-          >
-            {sumQuintiles(quintileValuesAux)}
-          </td>
+          {enableFillEdit ? (
+            <td
+              role="cell"
+              class="nhsuk-table__cell"
+              style={{ textAlign: "right", "padding-right": "2px" }}
+            >
+              {sumQuintiles(quintileValuesAux)}
+            </td>
+          ) : (
+            <td
+              role="cell"
+              class="nhsuk-table__cell"
+              style={{ textAlign: "right", "padding-right": "2px" }}
+            >
+              {sumQuintiles(quintileValues)}
+            </td>
+          )}
           <td
             role="cell"
             class="nhsuk-table__cell"

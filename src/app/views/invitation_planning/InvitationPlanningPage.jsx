@@ -22,6 +22,7 @@ export default function InvitationPlanningPage(props) {
     isCorrectUptakeTotal,
     onCancelSaveForecastHandler,
     onSaveForecastHandler,
+    sumQuintiles,
   } = props;
 
   return (
@@ -80,8 +81,12 @@ export default function InvitationPlanningPage(props) {
                       </button>
                       <br />
                       <a
-                        class="nhsuk-footer__list-item-link"
+                        class="nhsuk-action-link__link:hover .nhsuk-action-link__text"
                         onClick={() => onCancelSaveForecastHandler()}
+                        style={{
+                          border: "24px",
+                          "text-decoration": "underline",
+                        }}
                       >
                         Cancel without saving
                       </a>
@@ -111,6 +116,7 @@ export default function InvitationPlanningPage(props) {
                     quintileValuesAux={quintileValuesAux}
                     onQuintileChangeHandler={onQuintileChangeHandler}
                     enableFillEdit={enableFillEdit}
+                    sumQuintiles={sumQuintiles}
                   />
                   <br />
                   <div

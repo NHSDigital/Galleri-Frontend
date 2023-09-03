@@ -34,6 +34,8 @@ class InvitationPlanning extends Component {
     this.onSaveForecastHandler = this.onSaveForecastHandler.bind(this);
     this.onCancelSaveForecastHandler =
       this.onCancelSaveForecastHandler.bind(this);
+
+    this.sumQuintiles = this.sumQuintiles.bind(this);
   }
 
   sumQuintiles(quintileValues) {
@@ -94,6 +96,7 @@ class InvitationPlanning extends Component {
     };
     this.setState({
       quintileValues: prev,
+      quintileValuesAux: prev,
       isCorrectTotal: true,
     });
   }
@@ -102,6 +105,12 @@ class InvitationPlanning extends Component {
   toggleUptakeEdit(toggle) {
     this.setState({
       enableUptakeEdit: toggle,
+    });
+  }
+
+  displayUptakeError(toggle) {
+    this.setState({
+      isCorrectUptakeTotal: toggle,
     });
   }
 
@@ -119,10 +128,15 @@ class InvitationPlanning extends Component {
   }
 
   onSaveForecastHandler(value) {
-    this.toggleUptakeEdit(false);
-    this.setState({
-      nationalUptakePercentage: value,
-    });
+    if (value <= 100) {
+      this.setState({
+        nationalUptakePercentage: value,
+      });
+      this.toggleUptakeEdit(false);
+      this.displayUptakeError(true);
+    } else {
+      this.displayUptakeError(false);
+    }
   }
 
   onCancelSaveForecastHandler() {
@@ -182,6 +196,7 @@ class InvitationPlanning extends Component {
           onCancelSaveForecastHandler={this.onCancelSaveForecastHandler}
           onSaveForecastHandler={this.onSaveForecastHandler}
           onSaveFillHandler={this.onSaveFillHandler}
+          sumQuintiles={this.sumQuintiles}
         />
       </div>
     );
