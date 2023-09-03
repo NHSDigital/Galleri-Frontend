@@ -3,6 +3,7 @@ import {
   getInvitationPlanningData,
   getNationalForecastData,
 } from "../../services/invitation_planning/InvitationPlanningService";
+import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 
 // Invitation Planning container
@@ -35,14 +36,7 @@ class InvitationPlanning extends Component {
     this.onCancelSaveForecastHandler =
       this.onCancelSaveForecastHandler.bind(this);
 
-    this.sumQuintiles = this.sumQuintiles.bind(this);
-  }
-
-  sumQuintiles(quintileValues) {
-    return Object.values(quintileValues).reduce(
-      (acc, cur) => acc + Number(cur),
-      0
-    );
+    // this.sumQuintiles = this.sumQuintiles.bind(this);
   }
 
   // toggle edit mode
@@ -77,7 +71,7 @@ class InvitationPlanning extends Component {
   }
 
   async onSaveFillHandler() {
-    if (this.sumQuintiles(this.state.quintileValuesAux) === 100) {
+    if (sumQuintiles(this.state.quintileValuesAux) === 100) {
       await this.setState({
         quintileValues: this.state.quintileValuesAux,
         quintileValuesPrevious: this.state.quintileValuesAux,
@@ -196,7 +190,7 @@ class InvitationPlanning extends Component {
           onCancelSaveForecastHandler={this.onCancelSaveForecastHandler}
           onSaveForecastHandler={this.onSaveForecastHandler}
           onSaveFillHandler={this.onSaveFillHandler}
-          sumQuintiles={this.sumQuintiles}
+          sumQuintiles={sumQuintiles}
         />
       </div>
     );
