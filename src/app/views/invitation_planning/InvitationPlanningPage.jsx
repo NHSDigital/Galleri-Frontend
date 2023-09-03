@@ -1,5 +1,5 @@
 import "../../styles/css/sass.css";
-import React, { Component } from "react";
+import React from "react";
 import NationalForecastUptakeTable from "./NationalForecastUptakeTable";
 import QuintileTargetTable from "./QuintileTargetTable";
 

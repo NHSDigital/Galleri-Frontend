@@ -35,8 +35,6 @@ class InvitationPlanning extends Component {
     this.onSaveForecastHandler = this.onSaveForecastHandler.bind(this);
     this.onCancelSaveForecastHandler =
       this.onCancelSaveForecastHandler.bind(this);
-
-    // this.sumQuintiles = this.sumQuintiles.bind(this);
   }
 
   // toggle edit mode
@@ -144,7 +142,6 @@ class InvitationPlanning extends Component {
     // API call
     const { quintile, lastUpdatedQuintile, userName } =
       getInvitationPlanningData();
-    // add object model
     const nationalUptakePercentageCall = getNationalForecastData();
 
     this.setState({
