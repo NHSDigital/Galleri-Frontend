@@ -86,6 +86,7 @@ export default function InvitationPlanningPage(props) {
                         style={{
                           border: "24px",
                           "text-decoration": "underline",
+                          cursor: "pointer",
                         }}
                       >
                         Cancel without saving
@@ -147,12 +148,17 @@ export default function InvitationPlanningPage(props) {
                         Save changes
                       </button>
                       <br />
-                      <button
-                        class="nhsuk-button:link"
+                      <a
+                        class="nhsuk-action-link__link:hover .nhsuk-action-link__text"
                         onClick={() => onCancelSaveFillHandler()}
+                        style={{
+                          border: "24px",
+                          "text-decoration": "underline",
+                          cursor: "pointer",
+                        }}
                       >
                         Cancel without saving
-                      </button>
+                      </a>
                     </div>
                   ) : (
                     <button
