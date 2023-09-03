@@ -17,28 +17,39 @@ export default function NationalForecastUptakeTable(props) {
           <td role="cell" class="nhsuk-table__cell">
             <b>Current Percentage</b>
           </td>
-          <td
-            role="cell"
-            class="nhsuk-table__cell"
-            style={{ "padding-right": "2px", width: "100px" }}
-          >
-            <input
-              class="nhsuk-input"
+          {enableUptakeEdit ? (
+            <td
+              role="cell"
+              class="nhsuk-table__cell"
+              style={{ "padding-right": "2px", width: "100px" }}
+            >
+              <input
+                class="nhsuk-input"
+                style={{
+                  textAlign: "right",
+                  color: "black",
+                }}
+                type="number"
+                min="0"
+                max="100"
+                step="1"
+                placeholder={nationalUptakePercentage}
+                onChange={(e) => onUptakeChangeHandler(e)}
+              />
+            </td>
+          ) : (
+            <td
+              role="cell"
+              class="nhsuk-table__cell"
               style={{
-                border: 0,
                 textAlign: "right",
-                "padding-right": "0px",
-                color: "black",
+                "padding-right": "2px",
+                width: "100px",
               }}
-              type="number"
-              min="0"
-              max="100"
-              step="1"
-              disabled={enableUptakeEdit ? "" : "disabled"}
-              value={nationalUptakePercentage}
-              onChange={(e) => onUptakeChangeHandler(e)}
-            />
-          </td>
+            >
+              {nationalUptakePercentage}
+            </td>
+          )}
           <td
             role="cell"
             class="nhsuk-table__cell"

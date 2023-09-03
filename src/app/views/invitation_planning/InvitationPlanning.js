@@ -31,6 +31,7 @@ class InvitationPlanning extends Component {
 
     this.onAmendForecastHandler = this.onAmendForecastHandler.bind(this);
     this.onUptakeChangeHandler = this.onUptakeChangeHandler.bind(this);
+    this.onSaveForecastHandler = this.onSaveForecastHandler.bind(this);
     this.onCancelSaveForecastHandler =
       this.onCancelSaveForecastHandler.bind(this);
   }
@@ -118,8 +119,9 @@ class InvitationPlanning extends Component {
   }
 
   onSaveForecastHandler(value) {
+    console.log("value = ", value);
     this.toggleUptakeEdit(false);
-    console.this.setState({
+    this.setState({
       nationalUptakePercentage: value,
     });
   }

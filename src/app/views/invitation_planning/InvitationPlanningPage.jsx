@@ -79,12 +79,12 @@ export default function InvitationPlanningPage(props) {
                         Save changes
                       </button>
                       <br />
-                      <button
-                        class="nhsuk-button:link"
+                      <a
+                        class="nhsuk-footer__list-item-link"
                         onClick={() => onCancelSaveForecastHandler()}
                       >
                         Cancel without saving
-                      </button>
+                      </a>
                     </div>
                   ) : (
                     <button
