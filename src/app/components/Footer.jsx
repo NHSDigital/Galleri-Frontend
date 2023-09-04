@@ -4,7 +4,7 @@ import '../styles/css/sass.css'
 export default function Footer() {
   return (
     <footer role="contentinfo">
-      <div class="nhsuk-footer" id="nhsuk-footer">
+      <div class="nhsuk-footer" id="nhsuk-footer" height="20px">
         <div class="nhsuk-width-container">
           <h2 class="nhsuk-u-visually-hidden">Support links</h2>
           <ul class="nhsuk-footer__list">
