@@ -91,6 +91,8 @@ export default function InvitationPlanningPage(props) {
                       >
                         Cancel without saving
                       </a>
+                      <br />
+                      <br />
                     </div>
                   ) : (
                     <button
@@ -159,6 +161,8 @@ export default function InvitationPlanningPage(props) {
                       >
                         Cancel without saving
                       </a>
+                      <br />
+                      <br />
                     </div>
                   ) : (
                     <button
