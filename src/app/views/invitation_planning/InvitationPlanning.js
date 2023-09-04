@@ -133,6 +133,7 @@ class InvitationPlanning extends Component {
 
   onCancelSaveForecastHandler() {
     this.toggleUptakeEdit(false);
+    this.displayUptakeError(true);
     this.setState({
       nationalUptakePercentage: this.state.nationalUptakePercentagePrevious,
     });
