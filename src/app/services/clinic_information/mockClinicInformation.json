@@ -1,4 +1,4 @@
-{
+[{
   "clinicId":"0001",
   "clinicName":"Phlebotomy clinic 5",
   "address1":"West hospital",
@@ -12,4 +12,19 @@
     {"11 August 2024": 120},
     {"18 August 2024": 120}
   ]
-}
+},
+{
+  "clinicId":"0002",
+  "clinicName":"Phlebotomy clinic 6",
+  "address1":"East hospital",
+  "address2":"Small town",
+  "postcode":"GT14 5EH",
+  "weeklyCapacity": [
+    {"14 July 2024": 20},
+    {"21 July 2024": 20},
+    {"28 July 2024": 0},
+    {"04 August 2024": 0},
+    {"11 August 2024": 80},
+    {"18 August 2024": 120}
+  ]
+}]

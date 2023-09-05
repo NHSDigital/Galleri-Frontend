@@ -1,9 +1,21 @@
 import "../../styles/css/sass.css";
 import React, { Component } from "react";
-import ClinicDetailsTable from './ClinicDetailsTable'
+import ClinicDetailsTable from "./ClinicDetailsTable";
+import { handleClientScriptLoad } from "next/script";
+import WeeklyCapacityTable from "./WeeklyCapacityTable";
 
 export default function ClinicInformationPage(props) {
-  const {} = props;
+  const {
+    clinicList,
+    clinicName,
+    address1,
+    address2,
+    postcode,
+    weeklyCapacity,
+    displayClinicSelector,
+    cancelChangeText,
+    onClickChangeClinicHandler,
+  } = props;
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -32,11 +44,31 @@ export default function ClinicInformationPage(props) {
           <div class="nhsuk-grid-column-two-thirds">
             <h2 label="header">Clinic Information</h2>
             <ClinicDetailsTable
-            clinicName={"Phlebotomy clinic 5"}
-            address1={"West hospital"}
-            address2={"Big town"}
-            postcode={"RG14 4RH"}
+              clinicName={clinicName}
+              address1={address1}
+              address2={address2}
+              postcode={postcode}
+              cancelChangeText={cancelChangeText}
+              onClickChangeClinicHandler={onClickChangeClinicHandler}
             />
+            <br/>
+            {displayClinicSelector ? (
+              <div class="nhsuk-form-group">
+                <label class="nhsuk-label">
+                  Select another clinic from the same ICB
+                </label>
+                <select class="nhsuk-select" id="select-1" name="select-1"
+                onChange={() => {onClinicSelectedH}}>
+                  {clinicList.map(clinic => {
+                    return <option value={clinic.clinicId}>{clinic.clinicName}</option>
+                  })}
+                </select>
+              </div>
+            ) : null}
+            <br/>
+            <br/>
+            <WeeklyCapacityTable weeklyCapacity={weeklyCapacity} />
+
             {/* <div class="nhsuk-form-group">
               <label class="nhsuk-label" for="select-1">
                 Select the participating integrated care board (ICB)

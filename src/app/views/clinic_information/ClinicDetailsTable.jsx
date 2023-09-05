@@ -2,7 +2,14 @@ import "../../styles/css/sass.css";
 import React from "react";
 
 export default function ClinicDetailsTable(props) {
-  const { clinicName, address1, address2, postcode } = props;
+  const {
+    clinicName,
+    address1,
+    address2,
+    postcode,
+    cancelChangeText,
+    onClickChangeClinicHandler,
+  } = props;
   return (
     <table role="table" class="nhsuk-table-responsive">
       <thead role="rowgroup" class="nhsuk-table__head">
@@ -14,8 +21,13 @@ export default function ClinicDetailsTable(props) {
             {clinicName}
           </td>
           <td role="columnheader" class="" scope="col">
-            <a href="#">
-              <p>Change clinic</p>
+            <a
+              style={{ textDecorationLine: "underline" }}
+              onClick={() => {
+                onClickChangeClinicHandler();
+              }}
+            >
+              {cancelChangeText}
             </a>
           </td>
         </tr>
