@@ -12,6 +12,7 @@ export default function ClinicInformationPage(props) {
     address2,
     postcode,
     weeklyCapacity,
+    lastUpdated,
     displayClinicSelector,
     cancelChangeText,
     onClickChangeClinicHandler,
@@ -51,24 +52,32 @@ export default function ClinicInformationPage(props) {
               cancelChangeText={cancelChangeText}
               onClickChangeClinicHandler={onClickChangeClinicHandler}
             />
-            <br/>
+            <br />
             {displayClinicSelector ? (
               <div class="nhsuk-form-group">
                 <label class="nhsuk-label">
                   Select another clinic from the same ICB
                 </label>
-                <select class="nhsuk-select" id="select-1" name="select-1"
-                onChange={() => {onClinicSelectedH}}>
-                  {clinicList.map(clinic => {
-                    return <option value={clinic.clinicId}>{clinic.clinicName}</option>
+                <select
+                  class="nhsuk-select"
+                  id="select-1"
+                  name="select-1"
+                  onChange={() => {
+                    onClinicSelectedH;
+                  }}
+                >
+                  {clinicList.map((clinic) => {
+                    return (
+                      <option value={clinic.clinicId}>
+                        {clinic.clinicName}
+                      </option>
+                    );
                   })}
                 </select>
               </div>
             ) : null}
-            <br/>
-            <br/>
-            <WeeklyCapacityTable weeklyCapacity={weeklyCapacity} />
-
+            <br />
+            <br />
             {/* <div class="nhsuk-form-group">
               <label class="nhsuk-label" for="select-1">
                 Select the participating integrated care board (ICB)
@@ -85,6 +94,9 @@ export default function ClinicInformationPage(props) {
               </select>
             </div> */}
             <br />
+          </div>
+          <div class="nhsuk-grid-column-full">
+            <WeeklyCapacityTable weeklyCapacity={weeklyCapacity} lastUpdated={lastUpdated} />
           </div>
         </div>
       </main>

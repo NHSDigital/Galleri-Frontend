@@ -3,6 +3,7 @@ import Pagination from "../../components/pagination";
 
 export default function WeeklyCapacityTable(props) {
   const { weeklyCapacity, lastUpdated } = props;
+  console.log(weeklyCapacity);
   return (
     <div>
       <table role="table" class="nhsuk-table-responsive">
@@ -19,21 +20,15 @@ export default function WeeklyCapacityTable(props) {
               <br />
               commencing
             </th>
-            <td role="columnheader" class="" scope="col">
-              14 July
-              <br />
-              2024
-            </td>
-            <td role="columnheader" class="" scope="col">
-              21 July
-              <br />
-              2024
-            </td>
-            <td role="columnheader" class="" scope="col">
-              28 July
-              <br />
-              2024
-            </td>
+            {weeklyCapacity.map((date) => {
+              return (
+                <td role="columnheader" class="" scope="col">
+                  {date.date.substring(0, date.date.indexOf(' 20'))}
+                  <br/>
+                  {date.date.substring(date.date.length, date.date.indexOf(' 20'))}
+                </td>
+              );
+            })}
           </tr>
         </thead>
         <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
@@ -42,12 +37,13 @@ export default function WeeklyCapacityTable(props) {
             <br />
             remaining
           </th>
-          <td role="columnheader" class="" scope="col">
-            0
-          </td>
-          <td role="columnheader" class="" scope="col">
-            0
-          </td>
+          {weeklyCapacity.map((date) => {
+            return (
+              <td role="columnheader" class="" scope="col">
+                {date.value}
+              </td>
+            );
+          })}
         </tbody>
       </table>
     </div>

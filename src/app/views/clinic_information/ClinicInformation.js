@@ -8,24 +8,23 @@ import ClinicDetail from '../../models/clinic_information/ClinicDetail';
 class ClinicInformation extends Component {
   constructor() {
     super();
-
     this.state = {
-      "clinicList":[],
+      "clinicList": [],
       "clinicId": "",
       "clinicName": "",
       "address1": "",
       "address2": "",
       "postcode": "",
       "weeklyCapacity": [],
+      "lastUpdated": "",
       "cancelChangeText": "Change clinic",
       "displayClinicSelector": false
     }
-
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
   }
 
   onClickChangeClinicHandler() {
-    const {displayClinicSelector} = this.state;
+    const { displayClinicSelector } = this.state;
     switch (displayClinicSelector) {
       case false:
         this.setState({
@@ -43,42 +42,36 @@ class ClinicInformation extends Component {
   }
 
   componentDidMount() {
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios
+      .get(
+        "https://rin08iwrtl.execute-api.eu-west-2.amazonaws.com/non-prod-tf/clinic-information"
+      )
+      .then((response) => {
 
-    // axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
-    // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-    // axios
-    //   .get(
-    //     "https://rin08iwrtl.execute-api.eu-west-2.amazonaws.com/non-prod-tf/clinic-information"
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data.body);
-    //     this.setState({
-    //       clinicId: clinic.clinicId,
-    //       clinicName: clinic.clinicName,
-    //       address1: clinic.address1,
-    //       address2: clinic.address1,
-    //       postcode: clinic.postcode,
-    //       weeklyCapacity: clinic.weeklyCapacity
-    //     })
+        const weeklyCapacityData = response.data.body.WeekCommencingDate.M;
+        const weeklyCapacityKeys = Object.keys(response.data.body.WeekCommencingDate.M);
+        let weeklyCapacityList = [];
+        weeklyCapacityKeys.forEach(key => {
+          weeklyCapacityList.push({"date":key, "value":weeklyCapacityData[key].S});
+        })
 
-    //   });
+        this.setState({
+          clinicId: response.data.body.ClinicId.S,
+          clinicName: response.data.body.ClinicName.S,
+          address1: "clinic.address1",
+          address2: "clinic.address1",
+          postcode: response.data.body.PostCode.S,
+          weeklyCapacity: weeklyCapacityList,
+          lastUpdated: ""
+        })
 
-    const clinicOne = data[0];
-    const clinicTwo = data[1];
+      });
 
-    this.setState({
-      clinicList: data,
-      clinicId: clinicOne.clinicId,
-      clinicName: clinicOne.clinicName,
-      address1: clinicOne.address1,
-      address2: clinicOne.address1,
-      postcode: clinicOne.postcode,
-      weeklyCapacity: clinicOne.weeklyCapacity
-    })
   }
 
   render() {
-    console.log(this.state);
     const {
       clinicList,
       clinicName,
@@ -86,18 +79,21 @@ class ClinicInformation extends Component {
       address2,
       postcode,
       weeklyCapacity,
+      lastUpdated,
       cancelChangeText,
       displayClinicSelector
     } = this.state
+    console.log(this.state);
     return (
       <div>
         <ClinicSummaryPage
-        clinicList={clinicList}
+          clinicList={clinicList}
           clinicName={clinicName}
           address1={address1}
           address2={address2}
           postcode={postcode}
           weeklyCapacity={weeklyCapacity}
+          lastUpdated={lastUpdated}
           displayClinicSelector={displayClinicSelector}
           cancelChangeText={cancelChangeText}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
