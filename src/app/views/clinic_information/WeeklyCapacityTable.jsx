@@ -1,5 +1,4 @@
 import React from "react";
-import Pagination from "../../components/pagination";
 
 export default function WeeklyCapacityTable(props) {
   const { weeklyCapacity, lastUpdated } = props;

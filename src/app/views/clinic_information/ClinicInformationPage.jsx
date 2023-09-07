@@ -1,8 +1,8 @@
 import "../../styles/css/sass.css";
-import React, { Component } from "react";
+import React from "react";
 import ClinicDetailsTable from "./ClinicDetailsTable";
-import { handleClientScriptLoad } from "next/script";
 import WeeklyCapacityTable from "./WeeklyCapacityTable";
+import RecentInvitationHistory from "./RecentInvitationHistory";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -15,6 +15,7 @@ export default function ClinicInformationPage(props) {
     lastUpdated,
     displayClinicSelector,
     cancelChangeText,
+    recentInvitationHistory,
     onClickChangeClinicHandler,
     onChangeSelectedClinicHandler,
   } = props;
@@ -77,22 +78,6 @@ export default function ClinicInformationPage(props) {
               </div>
             ) : null}
             <br />
-            {/* <div class="nhsuk-form-group">
-              <label class="nhsuk-label" for="select-1">
-                Select the participating integrated care board (ICB)
-              </label>
-              <select
-                class="nhsuk-select"
-                id="select-icb"
-                name="select-icb"
-                onChange={(e) => onIcbChangeHandler(e)}
-              >
-                {icbData.map((icb, key) => {
-                  return <option key={key}>{icb.icbName}</option>;
-                })}
-              </select>
-            </div> */}
-            <br />
           </div>
           <div class="nhsuk-grid-column-full">
             <WeeklyCapacityTable
@@ -100,6 +85,8 @@ export default function ClinicInformationPage(props) {
               lastUpdated={lastUpdated}
             />
           </div>
+          <br/>
+          <RecentInvitationHistory props={recentInvitationHistory} />
         </div>
       </main>
     </div>

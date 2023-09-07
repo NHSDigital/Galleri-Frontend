@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ClinicSummaryPage from './ClinicInformationPage';
-import { getClinicInformation } from '../../services/clinic_information/ClinicInformationService';
+import { getClinicDetails, getClinicsByIcb } from '../../services/clinic_information/ClinicInformationService';
 import axios from 'axios';
 import ClinicDetail from '../../models/clinic_information/ClinicDetail';
 
@@ -15,11 +15,17 @@ class ClinicInformation extends Component {
       "address2": "",
       "postcode": "",
       "weeklyCapacity": [],
-      "lastUpdated": "",
+      "lastUpdated": "14 July 2024, 1.00am",
       "cancelChangeText": "Change clinic",
       "currentlySelectedClinicId": "",
       "currentlySelectedClinic": "",
-      "displayClinicSelector": false
+      "displayClinicSelector": false,
+      "recentInvitationHistory": {
+        "dateOfPrevInv": "Not available",
+        "daysSincePrevInv": "Not available",
+        "invSent": 0,
+        "appsRemaining": 240
+      }
     }
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
@@ -69,7 +75,6 @@ class ClinicInformation extends Component {
           `https://rin08iwrtl.execute-api.eu-west-2.amazonaws.com/trail/test-parameters?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
-
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
           const weeklyCapacityKeys = Object.keys(response.data.WeekCommencingDate.M);
           let weeklyCapacityList = [];
@@ -84,9 +89,10 @@ class ClinicInformation extends Component {
             address2: "",
             postcode: response.data.PostCode.S,
             weeklyCapacity: weeklyCapacityList,
-            currentlySelectedClinic: e.target.value
+            currentlySelectedClinic: e.target.value,
+            cancelChangeText: "Change clinic",
+            displayClinicSelector: false
           })
-          // console.log(response.data);
         });
     }
   }
@@ -103,7 +109,7 @@ class ClinicInformation extends Component {
         this.setState({
           clinicList: [this.state.clinicList, ...response.data.map(clinic => {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }
-          })],
+          })]
         })
       });
   }
@@ -119,7 +125,7 @@ class ClinicInformation extends Component {
       lastUpdated,
       cancelChangeText,
       displayClinicSelector,
-      currentlySelectedClinic
+      recentInvitationHistory
     } = this.state
 
     return (
@@ -134,6 +140,7 @@ class ClinicInformation extends Component {
           lastUpdated={lastUpdated}
           displayClinicSelector={displayClinicSelector}
           cancelChangeText={cancelChangeText}
+          recentInvitationHistory={recentInvitationHistory}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
         />
