@@ -17,6 +17,7 @@ class ClinicInformation extends Component {
       "weeklyCapacity": [],
       "lastUpdated": "",
       "cancelChangeText": "Change clinic",
+      "currentlySelectedClinicId": "",
       "currentlySelectedClinic": "",
       "displayClinicSelector": false
     }
@@ -43,35 +44,51 @@ class ClinicInformation extends Component {
   }
 
   onChangeSelectedClinicHandler(e) {
-    // const { currentlySelectedClinic } = this.state;
-    // if (e.target.value !== currentlySelectedClinic) {
-    //   const {  currentlySelectedClinicId, currentlySelectedClinic } = this.state;
-    //   axios
-    //   .get(
-    //     `https://rin08iwrtl.execute-api.eu-west-2.amazonaws.com/trail/test-parameters?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
-    //   )
-    //   .then((response) => {
+    let currentlySelectedClinicId = "";
+    let currentlySelectedClinic = "";
 
-    //     const weeklyCapacityData = response.data.body.WeekCommencingDate.M;
-    //     const weeklyCapacityKeys = Object.keys(response.data.body.WeekCommencingDate.M);
-    //     let weeklyCapacityList = [];
-    //     weeklyCapacityKeys.forEach(key => {
-    //       weeklyCapacityList.push({ "date": key, "value": weeklyCapacityData[key].S });
-    //     })
+    const { clinicList } = this.state;
 
-    //     this.setState({
-    //       clinicId: response.data.body.ClinicId.S,
-    //       clinicName: response.data.body.ClinicName.S,
-    //       address1: response.data.body.Address.S,
-    //       address2: "",
-    //       postcode: response.data.body.PostCode.S,
-    //       weeklyCapacity: weeklyCapacityList,
-    //       currentlySelectedClinic: e.target.value
-    //     })
+    if (e.target.value !== "") {
+      clinicList.forEach(clinic => {
+        if (clinic.clinicName === e.target.value) {
+          currentlySelectedClinicId = clinic.clinicId;
+          currentlySelectedClinic = clinic.clinicName;
+        }
+      })
+    } else {
+      currentlySelectedClinicId = "";
+      currentlySelectedClinic = "";
+    }
 
-    //     console.log(response);
-    //   });
-    // }
+    if (currentlySelectedClinic !== "") {
+      axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      axios
+        .get(
+          `https://rin08iwrtl.execute-api.eu-west-2.amazonaws.com/trail/test-parameters?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+        )
+        .then((response) => {
+
+          const weeklyCapacityData = response.data.WeekCommencingDate.M;
+          const weeklyCapacityKeys = Object.keys(response.data.WeekCommencingDate.M);
+          let weeklyCapacityList = [];
+          weeklyCapacityKeys.forEach(key => {
+            weeklyCapacityList.push({ "date": key, "value": weeklyCapacityData[key].S });
+          })
+
+          this.setState({
+            clinicId: response.data.ClinicId.S,
+            clinicName: response.data.ClinicName.S,
+            address1: response.data.Address.S,
+            address2: "",
+            postcode: response.data.PostCode.S,
+            weeklyCapacity: weeklyCapacityList,
+            currentlySelectedClinic: e.target.value
+          })
+          // console.log(response.data);
+        });
+    }
   }
 
   componentDidMount() {
@@ -86,7 +103,7 @@ class ClinicInformation extends Component {
         this.setState({
           clinicList: [this.state.clinicList, ...response.data.map(clinic => {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }
-          })]
+          })],
         })
       });
   }
