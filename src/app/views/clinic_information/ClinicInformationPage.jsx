@@ -16,6 +16,7 @@ export default function ClinicInformationPage(props) {
     displayClinicSelector,
     cancelChangeText,
     onClickChangeClinicHandler,
+    onChangeSelectedClinicHandler,
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -60,15 +61,14 @@ export default function ClinicInformationPage(props) {
                 </label>
                 <select
                   class="nhsuk-select"
-                  id="select-1"
-                  name="select-1"
-                  onChange={() => {
-                    onClinicSelectedH;
+                  id="clinic-selector"
+                  onChange={(e) => {
+                    onChangeSelectedClinicHandler(e);
                   }}
                 >
                   {clinicList.map((clinic) => {
                     return (
-                      <option value={clinic.clinicId}>
+                      <option value={clinic.clinicName}>
                         {clinic.clinicName}
                       </option>
                     );
@@ -76,7 +76,6 @@ export default function ClinicInformationPage(props) {
                 </select>
               </div>
             ) : null}
-            <br />
             <br />
             {/* <div class="nhsuk-form-group">
               <label class="nhsuk-label" for="select-1">
@@ -96,7 +95,10 @@ export default function ClinicInformationPage(props) {
             <br />
           </div>
           <div class="nhsuk-grid-column-full">
-            <WeeklyCapacityTable weeklyCapacity={weeklyCapacity} lastUpdated={lastUpdated} />
+            <WeeklyCapacityTable
+              weeklyCapacity={weeklyCapacity}
+              lastUpdated={lastUpdated}
+            />
           </div>
         </div>
       </main>

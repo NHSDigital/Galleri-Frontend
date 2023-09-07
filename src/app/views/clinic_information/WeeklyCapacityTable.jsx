@@ -3,7 +3,6 @@ import Pagination from "../../components/pagination";
 
 export default function WeeklyCapacityTable(props) {
   const { weeklyCapacity, lastUpdated } = props;
-  console.log(weeklyCapacity);
   return (
     <div>
       <table role="table" class="nhsuk-table-responsive">
@@ -23,9 +22,12 @@ export default function WeeklyCapacityTable(props) {
             {weeklyCapacity.map((date) => {
               return (
                 <td role="columnheader" class="" scope="col">
-                  {date.date.substring(0, date.date.indexOf(' 20'))}
-                  <br/>
-                  {date.date.substring(date.date.length, date.date.indexOf(' 20'))}
+                  {date.date.substring(0, date.date.indexOf(" 20"))}
+                  <br />
+                  {date.date.substring(
+                    date.date.length,
+                    date.date.indexOf(" 20")
+                  )}
                 </td>
               );
             })}
