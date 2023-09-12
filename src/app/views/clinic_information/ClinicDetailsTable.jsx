@@ -22,7 +22,7 @@ export default function ClinicDetailsTable(props) {
           </td>
           <td role="columnheader" class="" scope="col">
             <a
-              testId='changeCancelButton'
+              id="changeCancelButtonId"
               style={{ textDecorationLine: "underline" }}
               onClick={() => {
                 onClickChangeClinicHandler();
