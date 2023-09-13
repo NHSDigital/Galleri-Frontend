@@ -97,8 +97,8 @@ describe('Clinic Summary render', () => {
 
   test('Page summary renders', () => {
     render(clinicSummary)
-    let summary = screen.getByText(/Summarises how many appointments are available over the next 6 weeks, how many invitations have been sent and when these were most recently sent./);
-    expect(summary.innerHTML).toBe('Summarises how many appointments are available over the next 6 weeks, how many invitations have been sent and when these were most recently sent.');
+    let summary = screen.getByText(/Summarises how many appointments remain available over the next 6 weeks, how many invitations have been generated and when./);
+    expect(summary.innerHTML).toBe('Summarises how many appointments remain available over the next 6 weeks, how many invitations have been generated and when.');
   })
 
   test('Dropdown label renders', () => {
