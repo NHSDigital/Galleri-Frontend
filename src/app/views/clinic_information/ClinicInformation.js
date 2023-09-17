@@ -120,7 +120,7 @@ class ClinicInformation extends Component {
             clinicId: response.data.ClinicId.S,
             clinicName: response.data.ClinicName.S,
             address1: response.data.Address.S,
-            address2: "",
+            address2: response.data.Address2.S,
             postcode: response.data.PostCode.S,
             weeklyCapacity: weeklyCapacityList,
             currentlySelectedClinic: e.target.value,
