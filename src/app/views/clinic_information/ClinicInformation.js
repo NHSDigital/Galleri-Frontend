@@ -31,6 +31,15 @@ class ClinicInformation extends Component {
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
   }
 
+  calculateDaysSince(date) {
+    const unixTime = Date.parse(date);
+    const now = Date.now()
+
+    const diff = now - unixTime
+
+    return Math.floor(diff/86400000)
+  }
+
   onClickChangeClinicHandler() {
     const { displayClinicSelector } = this.state;
     switch (displayClinicSelector) {
@@ -72,15 +81,29 @@ class ClinicInformation extends Component {
       axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
       axios
         .get(
-          `https://rin08iwrtl.execute-api.eu-west-2.amazonaws.com/trail/test-parameters?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://zd0fbo8qia.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
           const weeklyCapacityKeys = Object.keys(response.data.WeekCommencingDate.M);
+          let weeklyCapacityValue = 0
           let weeklyCapacityList = [];
-          weeklyCapacityKeys.forEach(key => {
-            weeklyCapacityList.push({ "date": key, "value": weeklyCapacityData[key].S });
-          })
+          weeklyCapacityKeys.forEach((key) => {
+            weeklyCapacityList.push({
+              date: key,
+              value: weeklyCapacityData[key].S,
+            });
+            weeklyCapacityValue += Number(weeklyCapacityData[key].S)
+          });
+
+          const clinicInvitationHistory = {
+            dateOfPrevInv: response.data.prevInviteDate.S,
+            daysSincePrevInv: this.calculateDaysSince(
+              response.data.prevInviteDate.S
+            ),
+            invSent: response.data.invitesSent.N,
+            appsRemaining: weeklyCapacityValue,
+          };
 
           this.setState({
             clinicId: response.data.ClinicId.S,
@@ -91,6 +114,7 @@ class ClinicInformation extends Component {
             weeklyCapacity: weeklyCapacityList,
             currentlySelectedClinic: e.target.value,
             cancelChangeText: "Change clinic",
+            recentInvitationHistory: clinicInvitationHistory,
             displayClinicSelector: false
           })
         });
@@ -98,12 +122,12 @@ class ClinicInformation extends Component {
   }
 
   componentDidMount() {
-    const icbId = "Participating ICB 1"
+    const icbId = "Participating ICB 2"
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     axios
       .get(
-        `https://rin08iwrtl.execute-api.eu-west-2.amazonaws.com/trail/clinic-icb-list?participatingIcb=${icbId}`
+        `https://zd0fbo8qia.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
@@ -127,7 +151,6 @@ class ClinicInformation extends Component {
       displayClinicSelector,
       recentInvitationHistory
     } = this.state
-
     return (
       <div>
         <ClinicSummaryPage
