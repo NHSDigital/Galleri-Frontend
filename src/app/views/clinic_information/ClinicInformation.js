@@ -92,17 +92,13 @@ class ClinicInformation extends Component {
       axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
       axios
         .get(
-          `https://qozwuginni.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://zd0fbo8qia.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
-          // let weeklyCapacityKeys = Object.keys(response.data.WeekCommencingDate.M);
+          const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
           let weeklyCapacityValue = 0
           let weeklyCapacityList = [];
-          // console.log("before = ", weeklyCapacityKeys)
-          // this.sortDate(weeklyCapacityKeys)
-          const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
-          console.log("after = ", weeklyCapacityKeys)
           weeklyCapacityKeys.forEach((key) => {
             weeklyCapacityList.push({
               date: key,
@@ -142,7 +138,7 @@ class ClinicInformation extends Component {
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     axios
       .get(
-        `https://qozwuginni.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://zd0fbo8qia.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
