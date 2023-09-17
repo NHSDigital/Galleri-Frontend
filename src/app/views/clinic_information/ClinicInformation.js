@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import ClinicSummaryPage from './ClinicInformationPage';
-import { getClinicDetails, getClinicsByIcb } from '../../services/clinic_information/ClinicInformationService';
 import axios from 'axios';
-import ClinicDetail from '../../models/clinic_information/ClinicDetail';
 
 class ClinicInformation extends Component {
   constructor() {
