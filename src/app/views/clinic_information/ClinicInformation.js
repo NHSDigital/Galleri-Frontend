@@ -88,10 +88,10 @@ class ClinicInformation extends Component {
     if (currentlySelectedClinic !== "") {
       axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
       axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up 
+      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://d20mwz3leg.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://q8rpjf6rtg.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -138,7 +138,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://d20mwz3leg.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://q8rpjf6rtg.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
