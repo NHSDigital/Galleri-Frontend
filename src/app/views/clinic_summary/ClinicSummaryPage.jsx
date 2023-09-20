@@ -18,9 +18,7 @@ export default function ClinicSummaryPage(props) {
           <h1 label="header">Clinic Summary</h1>
           <div class="nhsuk-u-reading-width">
             <p>
-              Summarises how many appointments are available over the next 6
-              weeks, how many invitations have been sent and when these were
-              most recently sent.
+            Summarises how many appointments remain available over the next 6 weeks, how many invitations have been generated and when.
             </p>
             <div class="nhsuk-form-group">
               <label class="nhsuk-label" for="select-1">

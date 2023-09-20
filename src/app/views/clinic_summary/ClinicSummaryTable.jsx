@@ -42,7 +42,7 @@ export default function ClinicSummaryTable(props) {
             <th role="columnheader" class="" scope="col">
               Days since previous
               <br />
-              invitations
+              invitations generated
             </th>
             <th role="columnheader" class="" scope="col">
               Number of invitations
