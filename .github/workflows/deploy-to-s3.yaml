@@ -13,9 +13,6 @@ jobs:
         with:
           node-version: "18.x"
           cache: "npm"
-      - name: shout
-        run: |
-          echo ${{ vars.BUCKET_NAME }}
       - name: Install dependencies
         run: npm ci
       - name: Build
