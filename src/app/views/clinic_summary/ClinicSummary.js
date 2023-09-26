@@ -2,13 +2,14 @@ import { Component } from "react";
 import ClinicSummaryPage from './ClinicSummaryPage';
 import { getIcbData, getClinicData } from '../../services/ClinicSummaryService'
 import { filterClinicsByIcb, filterClinicsNoAppointments } from './helper'
+import axios from 'axios';
 
 // Clinic Summary container
 export default class ClinicSummary extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "icbData": [],
+      "icbData": [" "],
       "icbSelected": '',
       "lastUpdated": '',
       "clinicList": [],
@@ -20,10 +21,32 @@ export default class ClinicSummary extends Component {
     this.onCheckHandler = this.onCheckHandler.bind(this);
   }
 
-  onIcbChangeHandler(e) {
-    this.setState({
+  getClinicsFromIcbCode() {
+    console.log(`original state is = ${this.state.icbSelected}`)
+    const selectedIcbCode = this.state.icbSelected.replace('Participating ICB ', '')
+    console.log(`state after replace = ${this.state.icbSelected}`)
+    console.log(`selectedIcbCode is = ${selectedIcbCode}`)
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    axios
+      .get(
+        `https://d1y8vcgcs1.execute-api.eu-west-2.amazonaws.com/dev2/clinic-summary-list?participatingIcb=${selectedIcbCode}`
+      )
+      .then((response) => {
+        console.log(response.data)
+        this.setState({
+          clinicList: response.data
+        })
+      });
+  }
+
+  async onIcbChangeHandler(e) {
+    await this.setState({
       icbSelected: e.target.value
     });
+    console.log('icbSelected in state is = ', e.target.value)
+    this.getClinicsFromIcbCode()
   }
 
   onCheckHandler(e) {
@@ -33,14 +56,23 @@ export default class ClinicSummary extends Component {
   }
 
   componentDidMount() {
-    // API call
+    // API call https://d1y8vcgcs1.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list
     const { lastUpdated, clinicList } = getClinicData()
 
-    this.setState({
-      icbData: getIcbData(),
-      lastUpdated: lastUpdated,
-      clinicList: clinicList
-    })
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    axios
+      .get(
+        `https://d1y8vcgcs1.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`
+      )
+      .then((response) => {
+        this.setState({
+          icbData: [...this.state.icbData, ...response.data],
+          lastUpdated: lastUpdated,
+          clinicList: clinicList
+        })
+      });
   }
 
   render() {
@@ -51,7 +83,6 @@ export default class ClinicSummary extends Component {
       lastUpdated,
       displayClinicsNoApp
     } = this.state;
-
     let filteredClinicList = filterClinicsByIcb(
       clinicList, icbSelected, displayClinicsNoApp);
 
