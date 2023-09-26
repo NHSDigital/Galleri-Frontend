@@ -22,16 +22,12 @@ export default class ClinicSummary extends Component {
   }
 
   getClinicsFromIcbCode() {
-    console.log(`original state is = ${this.state.icbSelected}`)
-    const selectedIcbCode = this.state.icbSelected.replace('Participating ICB ', '')
-    console.log(`state after replace = ${this.state.icbSelected}`)
-    console.log(`selectedIcbCode is = ${selectedIcbCode}`)
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://d1y8vcgcs1.execute-api.eu-west-2.amazonaws.com/dev2/clinic-summary-list?participatingIcb=${selectedIcbCode}`
+        `https://d1y8vcgcs1.execute-api.eu-west-2.amazonaws.com/dev2/clinic-summary-list?participatingIcb=${this.state.icbSelected}`
       )
       .then((response) => {
         console.log(response.data)
@@ -43,7 +39,7 @@ export default class ClinicSummary extends Component {
 
   async onIcbChangeHandler(e) {
     await this.setState({
-      icbSelected: e.target.value
+      icbSelected: e.target.value.replace('Participating ICB ', '')
     });
     console.log('icbSelected in state is = ', e.target.value)
     this.getClinicsFromIcbCode()
