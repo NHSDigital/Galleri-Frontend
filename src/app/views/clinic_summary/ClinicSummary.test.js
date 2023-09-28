@@ -12,7 +12,6 @@ describe("Clinic Summary helper tests", () => {
   test("daysSinceLastInvite() return correct clinics list", () => {
     // Monday 12 September 2023
     jest.spyOn(global.Date, "now").mockImplementationOnce(() => 1694457000000);
-    
     let clinicList = [
       {
         PrevInviteDate: { S: "Friday 09 September 2023" },
