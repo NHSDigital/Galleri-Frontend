@@ -22,7 +22,6 @@ export function filterClinicsByIcb(clinicList, icb) {
   let filteredList = [];
   if (clinicList !== undefined && icb !== "") {
     clinicList.forEach((e) => {
-      console.log(e);
       if (String(e.ICBCode?.S) === icb) {
         filteredList.push(e);
       }
@@ -37,7 +36,6 @@ export function filterClinicsNoAppointments(clinicList, displayClinicsNoApp) {
     clinicList.forEach((e) => {
       if (displayClinicsNoApp === false) {
         if (e.Availability?.N > 0) {
-          console.log(e);
           filteredList.push(e);
         }
       } else {

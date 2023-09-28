@@ -44,7 +44,6 @@ export default class ClinicSummary extends Component {
     await this.setState({
       icbSelected: e.target.value.replace('Participating ICB ', '')
     });
-    console.log('icbSelected in state is = ', e.target.value);
     this.getClinicsFromIcbCode();
   }
 
