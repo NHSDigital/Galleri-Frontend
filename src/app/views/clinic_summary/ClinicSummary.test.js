@@ -47,30 +47,30 @@ describe("Clinic Summary helper tests", () => {
     let clinicList = [
       {
         clinicName: "Phlebotomy Clinic 5",
-        Availability: { "N": 0 },
+        Availability: { N: 0 },
       },
       {
         clinicName: "Phlebotomy Clinic 6",
-        Availability: { "N": 5 },
+        Availability: { N: 5 },
       },
       {
         clinicName: "Phlebotomy Clinic 7",
-        Availability: { "N": 0 },
+        Availability: { N: 0 },
       },
       {
         clinicName: "Phlebotomy Clinic 8",
-        Availability: { "N": 10 },
+        Availability: { N: 10 },
       },
     ];
 
     let expectedFalse = [
       {
         clinicName: "Phlebotomy Clinic 6",
-        Availability: { "N": 5 },
+        Availability: { N: 5 },
       },
       {
         clinicName: "Phlebotomy Clinic 8",
-        Availability: { "N": 10 },
+        Availability: { N: 10 },
       },
     ];
     // When false filter clinics list to have clinic with appointments only
@@ -84,33 +84,42 @@ describe("Clinic Summary helper tests", () => {
   });
 });
 
-describe('Clinic Summary render', () => {
+describe("Clinic Summary render", () => {
+  const clinicSummary = (
+    <ClinicSummaryPage
+      icbData={[]}
+      icbSelected={"icbSelected"}
+      clinicList={[]}
+      lastUpdated={"lastUpdated"}
+      displayClinicsNoApp={false}
+      onIcbChangeHandler={() => {}}
+      onCheckHandler={() => {}}
+    />
+  );
 
-  const clinicSummary = <ClinicSummaryPage
-    icbData={[{}, {}]}
-    icbSelected={'icbSelected'}
-    clinicList={[{}, {}]}
-    lastUpdated={'lastUpdated'}
-    displayClinicsNoApp={false}
-    onIcbChangeHandler={() => { }}
-    onCheckHandler={() => { }} />
-
-  test('Page header renders', () => {
-    render(clinicSummary)
+  test("Page header renders", () => {
+    render(clinicSummary);
     let header = screen.getByText(/Clinic Summary/);
-    expect(header.innerHTML).toBe('Clinic Summary');
-  })
+    expect(header.innerHTML).toBe("Clinic Summary");
+  });
 
-  test('Page summary renders', () => {
-    render(clinicSummary)
-    let summary = screen.getByText(/Summarises how many appointments remain available over the next 6 weeks, how many invitations have been generated and when./);
-    expect(summary.innerHTML).toBe('Summarises how many appointments remain available over the next 6 weeks, how many invitations have been generated and when.');
-  })
+  test("Page summary renders", () => {
+    render(clinicSummary);
+    let summary = screen.getByText(
+      /Summarises how many appointments remain available over the next 6 weeks, how many invitations have been generated and when./
+    );
+    expect(summary.innerHTML).toBe(
+      "Summarises how many appointments remain available over the next 6 weeks, how many invitations have been generated and when."
+    );
+  });
 
-  test('Dropdown label renders', () => {
-    render(clinicSummary)
-    let label = screen.getByText('Select the participating integrated care board (ICB)');
-    expect(label.innerHTML).toBe('Select the participating integrated care board (ICB)');
-  })
-
+  test("Dropdown label renders", () => {
+    render(clinicSummary);
+    let label = screen.getByText(
+      "Select the participating integrated care board (ICB)"
+    );
+    expect(label.innerHTML).toBe(
+      "Select the participating integrated care board (ICB)"
+    );
+  });
 });

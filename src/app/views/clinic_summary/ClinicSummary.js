@@ -1,7 +1,6 @@
 import { Component } from "react";
 import ClinicSummaryPage from './ClinicSummaryPage';
-import { getIcbData, getClinicData } from '../../services/ClinicSummaryService'
-import { filterClinicsByIcb, filterClinicsNoAppointments } from './helper'
+import { getClinicData } from '../../services/ClinicSummaryService';
 import {
   filterClinicsByIcb,
   filterClinicsNoAppointments,
@@ -86,10 +85,8 @@ export default class ClinicSummary extends Component {
 
     let addDaysSinceLastInvite = daysSinceLastInvite(clinicList);
 
-    console.log(`filtered ${JSON.stringify(addDaysSinceLastInvite, null, 2)}`);
-
     let filteredClinicList = filterClinicsByIcb(
-      clinicList,
+      addDaysSinceLastInvite,
       icbSelected,
       displayClinicsNoApp
     );
