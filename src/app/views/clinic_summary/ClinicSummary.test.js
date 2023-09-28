@@ -1,10 +1,41 @@
 import React from "react";
 import { queryByTestId, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { filterClinicsByIcb, filterClinicsNoAppointments } from "./helper";
+import {
+  filterClinicsByIcb,
+  filterClinicsNoAppointments,
+  daysSinceLastInvite,
+} from "./helper";
 import ClinicSummaryPage from "./ClinicSummaryPage";
 
 describe("Clinic Summary helper tests", () => {
+  test("daysSinceLastInvite() return correct clinics list", () => {
+    // Monday 12 September 2023
+    jest.spyOn(global.Date, "now").mockImplementationOnce(() => 1694457000000);
+    
+    let clinicList = [
+      {
+        PrevInviteDate: { S: "Friday 09 September 2023" },
+      },
+      {
+        PrevInviteDate: { S: "Saturday 10 September 2023" },
+      },
+    ];
+
+    let expected = [
+      {
+        PrevInviteDate: { S: "Friday 09 September 2023" },
+        DaySincePrevInvite: { N: "2" },
+      },
+      {
+        PrevInviteDate: { S: "Saturday 10 September 2023" },
+        DaySincePrevInvite: { N: "1" },
+      },
+    ];
+    // Filter clinics list by provided icb
+    expect(daysSinceLastInvite(clinicList)).toStrictEqual(expected);
+  });
+
   test("filterClinicsByIcb() return correct clinics list", () => {
     let icb = "Participating ICB 1";
 
@@ -42,8 +73,6 @@ describe("Clinic Summary helper tests", () => {
   });
 
   test("filterClinicsNoAppointments() return clinics list including no appointments", () => {
-    let icb = "Participating ICB 1";
-
     let clinicList = [
       {
         clinicName: "Phlebotomy Clinic 5",
