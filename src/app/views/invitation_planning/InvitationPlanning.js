@@ -5,6 +5,7 @@ import {
   getNationalForecastData,
 } from "../../services/invitation_planning/InvitationPlanningService";
 import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
+import { NationalForecastUptake } from "@/app/models/invitation_planning/NationalForecastUptake";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 import axios from "axios";
@@ -39,18 +40,47 @@ class InvitationPlanning extends Component {
     this.onCancelSaveForecastHandler =
       this.onCancelSaveForecastHandler.bind(this);
 
-      // db write handlers
-      this.putForecastUptakeAWSDynamo = this.putForecastUptakeAWSDynamo.bind();
-      this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
+    // db write handlers
+    this.putForecastUptakeAWSDynamo = this.putForecastUptakeAWSDynamo.bind();
+    this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
   }
 
   // DB actions
-  putForecastUptakeAWSDynamo(value){
+  putForecastUptakeAWSDynamo(value) {
     console.log('write uptake to db -->' + value);
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    axios
+      .put(
+        'https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake',
+        { NATIONAL_FORCAST_UPTAKE: value }
+      )
+      .then((response) => {
+        console.log('response -> ' + response.data);
+      });
   }
 
-  putQuintilesAWSDynamo(values){
+  putQuintilesAWSDynamo(values) {
+    console.log('they are -> ' + JSON.stringify(values));
     console.log('write quintiles to db');
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    axios
+      .put(
+        'https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post',
+        {
+          QUINTILE_1: values['0'],
+          QUINTILE_2: values['1'],
+          QUINTILE_3: quintiles['2'],
+          QUINTILE_4: quintiles['3'],
+          QUINTILE_5: quintiles['4'],
+        }
+      )
+      .then((response) => {
+        console.log('response -> ' + response.data);
+      });
   }
 
   // toggle edit mode
@@ -85,15 +115,17 @@ class InvitationPlanning extends Component {
   }
 
   async onSaveFillHandler() {
-    if (sumQuintiles(this.state.quintileValuesAux) === 100) {
+    const quintileValues = this.state.quintileValuesAux;
+    if (sumQuintiles(quintileValues) === 100) {
       await this.setState({
-        quintileValues: this.state.quintileValuesAux,
-        quintileValuesPrevious: this.state.quintileValuesAux,
+        quintileValues: quintileValues,
+        quintileValuesPrevious: quintileValues,
       });
       this.toggleFillEdit(false);
       this.displayFillError(true);
     } else {
       this.displayFillError(false);
+      this.putQuintilesAWSDynamo(quintileValues);
     }
   }
 
@@ -140,11 +172,11 @@ class InvitationPlanning extends Component {
       this.setState({
         nationalUptakePercentage: value,
       });
-      this.putForecastUptakeAWSDynamo(value);
       this.toggleUptakeEdit(false);
       this.displayUptakeError(true);
     } else {
       this.displayUptakeError(false);
+      this.putForecastUptakeAWSDynamo(value);
     }
   }
 
