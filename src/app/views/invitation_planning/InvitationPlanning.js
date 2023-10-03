@@ -1,5 +1,9 @@
 import { Component } from "react";
-import axios from "axios";
+import axios from 'axios';
+import {
+  getInvitationPlanningData,
+  getNationalForecastData,
+} from "../../services/invitation_planning/InvitationPlanningService";
 import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
@@ -35,35 +39,19 @@ class InvitationPlanning extends Component {
     this.onCancelSaveForecastHandler =
       this.onCancelSaveForecastHandler.bind(this);
 
-    // db write handlers
-    this.putForecastUptakeAWSDynamo = this.putForecastUptakeAWSDynamo.bind();
-    this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
+      // db write handlers
+      this.putForecastUptakeAWSDynamo = this.putForecastUptakeAWSDynamo.bind();
+      this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
   }
 
 
   // DB actions
-  async putForecastUptakeAWSDynamo(value) {
-    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-    await axios
-      .put(
-        "https://n7y2gwsfie.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
-        { forecastUptake: Number(value) }
-      )
-      .then((response) => {
-        console.log("response -> " + response.status);
-      });
+  putForecastUptakeAWSDynamo(value){
+    console.log('write uptake to db -->' + value);
   }
 
-  async putQuintilesAWSDynamo(updatedQuintile) {
-    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-    await axios
-      .put(
-        "https://n7y2gwsfie.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
-        { quintiles: updatedQuintile }
-      )
-      .then((response) => {
-        console.log("response -> " + response.status);
-      });
+  putQuintilesAWSDynamo(values){
+    console.log('write quintiles to db');
   }
 
   // toggle edit mode
@@ -155,6 +143,7 @@ class InvitationPlanning extends Component {
       this.setState({
         nationalUptakePercentage: value,
       });
+      this.putForecastUptakeAWSDynamo(value);
       this.toggleUptakeEdit(false);
       this.displayUptakeError(true);
       await this.putForecastUptakeAWSDynamo(value);
@@ -172,38 +161,39 @@ class InvitationPlanning extends Component {
   }
 
   componentDidMount() {
+    // API call
+    // const { quintile, lastUpdatedQuintile, userName } =
+    //   getInvitationPlanningData();
+    // const nationalUptakePercentageCall = getNationalForecastData();
+
     // Get quintiles and forecast uptake data
-    axios.defaults.headers.post["Content-Type"] =
-      "application/json;charset=utf-8";
-    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://n7y2gwsfie.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
-        console.log("response -> " + response.status);
+        console.log('response -> ' + response.data.NATIONAL_FORCAST_UPTAKE.N);
         const quintiles = [
           response.data.QUINTILE_1.N,
           response.data.QUINTILE_2.N,
           response.data.QUINTILE_3.N,
           response.data.QUINTILE_4.N,
           response.data.QUINTILE_5.N,
-        ];
-        const quintileData = new QuintileTarget(
-          quintiles,
-          Date("03/10/2023"),
-          "Username"
-        );
+        ]
+        const quintileData = new QuintileTarget(quintiles, Date('03/10/2023'), 'Username')
         this.setState({
           quintileValues: quintileData.quintile,
           quintileValuesAux: quintileData.quintile,
           quintileValuesPrevious: quintileData.quintile,
           lastUpdatedQuintile: quintileData.lastUpdatedQuintile,
           userName: quintileData.userName,
-          nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
+          nationalUptakePercentage: response.data.NATIONAL_FORCAST_UPTAKE.N,
         });
       });
+
   }
 
   render() {
