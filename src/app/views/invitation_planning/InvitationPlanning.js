@@ -48,12 +48,12 @@ class InvitationPlanning extends Component {
   // DB actions
   putForecastUptakeAWSDynamo(value) {
     console.log('write uptake to db -->' + value);
-    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.put['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .put(
-        'https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake',
+        'https://chbsj41h79.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake',
         { NATIONAL_FORCAST_UPTAKE: value }
       )
       .then((response) => {
@@ -64,8 +64,8 @@ class InvitationPlanning extends Component {
   putQuintilesAWSDynamo(values) {
     console.log('they are -> ' + JSON.stringify(values));
     console.log('write quintiles to db');
-    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.put['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .put(
@@ -123,9 +123,9 @@ class InvitationPlanning extends Component {
       });
       this.toggleFillEdit(false);
       this.displayFillError(true);
+      this.putQuintilesAWSDynamo(quintileValues);
     } else {
       this.displayFillError(false);
-      this.putQuintilesAWSDynamo(quintileValues);
     }
   }
 
@@ -174,9 +174,9 @@ class InvitationPlanning extends Component {
       });
       this.toggleUptakeEdit(false);
       this.displayUptakeError(true);
+      this.putForecastUptakeAWSDynamo(value);
     } else {
       this.displayUptakeError(false);
-      this.putForecastUptakeAWSDynamo(value);
     }
   }
 
@@ -200,7 +200,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://chbsj41h79.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
         console.log('response -> ' + response.data.NATIONAL_FORCAST_UPTAKE.N);
