@@ -1,5 +1,5 @@
 import { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
 import {
   getInvitationPlanningData,
   getNationalForecastData,
@@ -46,48 +46,61 @@ class InvitationPlanning extends Component {
 
   // DB actions
   async putForecastUptakeAWSDynamo(value) {
-    console.log('write uptake to db -->' + value);
-    axios.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.put['Access-Control-Allow-Origin'] = '*';
+    console.log("write uptake to db -->" + value);
+    // axios.defaults.headers.put["Content-Type"] =
+    //   "application/json;charset=utf-8";
+    // axios.defaults.headers.put["Access-Control-Allow-Origin"] = "*";
+    // axios.defaults.headers.put["Access-Control-Allow-Methods"] = "OPTIONS,PUT";
+    // axios.defaults.headers.put["Access-Control-Allow-Headers"] =
+    //   "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-    // axios
+    await axios
+      .put(
+        "https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake",
+        { forecastUptake: 33 }
+      )
+      .then((response) => {
+        console.log("response -> " + JSON.stringify(response));
+      });
+    //   axios({
+    //     method: 'put',
+    //     url: 'https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake',
+    //     data: {
+    //         forecastUptake: 8989,
+    //         status: 'success!'
+    //     }
+    // });
+    // await axios
     //   .put(
-    //     'https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake',
-    //     { forecastUptake: 989898989 }
+    //     "https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake/",
+    //     null,
+    //     { forecastUptake: 323 }
     //   )
     //   .then((response) => {
-    //     console.log('response -> ' + response.data);
+    //     console.log(response);
     //   });
-  //   axios({
-  //     method: 'put',
-  //     url: 'https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake',
-  //     data: {
-  //         forecastUptake: 8989,
-  //         status: 'success!'
-  //     }
-  // });
-     const res = await axios.put('https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake', { forecastUptake: 9090 });
   }
 
   putQuintilesAWSDynamo(values) {
-    console.log('they are -> ' + JSON.stringify(values));
-    console.log('write quintiles to db');
-    axios.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.put['Access-Control-Allow-Origin'] = '*';
+    console.log("they are -> " + JSON.stringify(values));
+    console.log("write quintiles to db");
+    axios.defaults.headers.put["Content-Type"] =
+      "application/json;charset=utf-8";
+    axios.defaults.headers.put["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .put(
-        'https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post',
+        "https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post",
         {
-          QUINTILE_1: values['0'],
-          QUINTILE_2: values['1'],
-          QUINTILE_3: quintiles['2'],
-          QUINTILE_4: quintiles['3'],
-          QUINTILE_5: quintiles['4'],
+          QUINTILE_1: values["0"],
+          QUINTILE_2: values["1"],
+          QUINTILE_3: quintiles["2"],
+          QUINTILE_4: quintiles["3"],
+          QUINTILE_5: quintiles["4"],
         }
       )
       .then((response) => {
-        console.log('response -> ' + response.data);
+        console.log("response -> " + response.data);
       });
   }
 
@@ -175,14 +188,14 @@ class InvitationPlanning extends Component {
     });
   }
 
-  onSaveForecastHandler(value) {
+  async onSaveForecastHandler(value) {
     if (value <= 100) {
       this.setState({
         nationalUptakePercentage: value,
       });
       this.toggleUptakeEdit(false);
       this.displayUptakeError(true);
-      this.putForecastUptakeAWSDynamo(value);
+      await this.putForecastUptakeAWSDynamo(value);
     } else {
       this.displayUptakeError(false);
     }
@@ -203,23 +216,28 @@ class InvitationPlanning extends Component {
     // const nationalUptakePercentageCall = getNationalForecastData();
 
     // Get quintiles and forecast uptake data
-    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.defaults.headers.post["Content-Type"] =
+      "application/json;charset=utf-8";
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
         "https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
-        console.log('response -> ' + response.data.NATIONAL_FORCAST_UPTAKE.N);
+        console.log("response -> " + response.data.NATIONAL_FORCAST_UPTAKE.N);
         const quintiles = [
           response.data.QUINTILE_1.N,
           response.data.QUINTILE_2.N,
           response.data.QUINTILE_3.N,
           response.data.QUINTILE_4.N,
           response.data.QUINTILE_5.N,
-        ]
-        const quintileData = new QuintileTarget(quintiles, Date('03/10/2023'), 'Username')
+        ];
+        const quintileData = new QuintileTarget(
+          quintiles,
+          Date("03/10/2023"),
+          "Username"
+        );
         this.setState({
           quintileValues: quintileData.quintile,
           quintileValuesAux: quintileData.quintile,
@@ -229,7 +247,6 @@ class InvitationPlanning extends Component {
           nationalUptakePercentage: response.data.NATIONAL_FORCAST_UPTAKE.N,
         });
       });
-
   }
 
   render() {
