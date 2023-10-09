@@ -1,11 +1,6 @@
 import { Component } from "react";
 import axios from "axios";
-import {
-  getInvitationPlanningData,
-  getNationalForecastData,
-} from "../../services/invitation_planning/InvitationPlanningService";
 import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
-import { NationalForecastUptake } from "@/app/models/invitation_planning/NationalForecastUptake";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 import axios from "axios";
@@ -50,7 +45,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://nnssxb7ipl.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake",
+        "https://fvfh5l05nb.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake",
         { forecastUptake: Number(value) }
       )
       .then((response) => {
@@ -62,7 +57,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://nnssxb7ipl.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-quintiles",
+        "https://fvfh5l05nb.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-quintiles",
         { quintiles: updatedQuintile }
       )
       .then((response) => {
@@ -176,7 +171,6 @@ class InvitationPlanning extends Component {
   }
 
   componentDidMount() {
-
     // Get quintiles and forecast uptake data
     axios.defaults.headers.post["Content-Type"] =
       "application/json;charset=utf-8";
@@ -184,10 +178,10 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://nnssxb7ipl.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://fvfh5l05nb.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
-        console.log("response -> " + response.data.NATIONAL_FORCAST_UPTAKE.N);
+        console.log("response -> " + response.status);
         const quintiles = [
           response.data.QUINTILE_1.N,
           response.data.QUINTILE_2.N,
@@ -206,7 +200,7 @@ class InvitationPlanning extends Component {
           quintileValuesPrevious: quintileData.quintile,
           lastUpdatedQuintile: quintileData.lastUpdatedQuintile,
           userName: quintileData.userName,
-          nationalUptakePercentage: response.data.NATIONAL_FORCAST_UPTAKE.N,
+          nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
         });
       });
   }
