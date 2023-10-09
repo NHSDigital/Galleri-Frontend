@@ -45,7 +45,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://fvfh5l05nb.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake",
+        "https://fvfh5l05nb.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
         { forecastUptake: Number(value) }
       )
       .then((response) => {
@@ -57,7 +57,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://fvfh5l05nb.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-quintiles",
+        "https://fvfh5l05nb.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
         { quintiles: updatedQuintile }
       )
       .then((response) => {
