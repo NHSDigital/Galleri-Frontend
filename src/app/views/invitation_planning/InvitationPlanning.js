@@ -46,61 +46,26 @@ class InvitationPlanning extends Component {
 
   // DB actions
   async putForecastUptakeAWSDynamo(value) {
-    console.log("write uptake to db -->" + value);
-    // axios.defaults.headers.put["Content-Type"] =
-    //   "application/json;charset=utf-8";
-    // axios.defaults.headers.put["Access-Control-Allow-Origin"] = "*";
-    // axios.defaults.headers.put["Access-Control-Allow-Methods"] = "OPTIONS,PUT";
-    // axios.defaults.headers.put["Access-Control-Allow-Headers"] =
-    //   "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake",
-        { forecastUptake: 33 }
+        "https://nnssxb7ipl.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake",
+        { forecastUptake: Number(value) }
       )
       .then((response) => {
-        console.log("response -> " + JSON.stringify(response));
+        console.log("response -> " + response.status);
       });
-    //   axios({
-    //     method: 'put',
-    //     url: 'https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake',
-    //     data: {
-    //         forecastUptake: 8989,
-    //         status: 'success!'
-    //     }
-    // });
-    // await axios
-    //   .put(
-    //     "https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-forecast-uptake/",
-    //     null,
-    //     { forecastUptake: 323 }
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //   });
   }
 
-  putQuintilesAWSDynamo(values) {
-    console.log("they are -> " + JSON.stringify(values));
-    console.log("write quintiles to db");
-    axios.defaults.headers.put["Content-Type"] =
-      "application/json;charset=utf-8";
-    axios.defaults.headers.put["Access-Control-Allow-Origin"] = "*";
+  async putQuintilesAWSDynamo(updatedQuintile) {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-    axios
+    await axios
       .put(
-        "https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post",
-        {
-          QUINTILE_1: values["0"],
-          QUINTILE_2: values["1"],
-          QUINTILE_3: quintiles["2"],
-          QUINTILE_4: quintiles["3"],
-          QUINTILE_5: quintiles["4"],
-        }
+        "https://nnssxb7ipl.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-post-quintiles",
+        { quintiles: updatedQuintile }
       )
       .then((response) => {
-        console.log("response -> " + response.data);
+        console.log("response -> " + response.status);
       });
   }
 
@@ -144,7 +109,7 @@ class InvitationPlanning extends Component {
       });
       this.toggleFillEdit(false);
       this.displayFillError(true);
-      this.putQuintilesAWSDynamo(quintileValues);
+      await this.putQuintilesAWSDynamo(quintileValues);
     } else {
       this.displayFillError(false);
     }
@@ -210,10 +175,6 @@ class InvitationPlanning extends Component {
   }
 
   componentDidMount() {
-    // API call
-    // const { quintile, lastUpdatedQuintile, userName } =
-    //   getInvitationPlanningData();
-    // const nationalUptakePercentageCall = getNationalForecastData();
 
     // Get quintiles and forecast uptake data
     axios.defaults.headers.post["Content-Type"] =
@@ -222,7 +183,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://wzn3cb86pf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://nnssxb7ipl.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
         console.log("response -> " + response.data.NATIONAL_FORCAST_UPTAKE.N);
