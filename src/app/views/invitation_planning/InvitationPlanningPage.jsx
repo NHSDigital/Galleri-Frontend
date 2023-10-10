@@ -66,7 +66,7 @@ export default function InvitationPlanningPage(props) {
                   </div>
                   {!isCorrectUptakeTotal && (
                     <div class="nhsuk-error-summary">
-                      The uptake percentage must not exceed 100%
+                      The uptake percentage must be greater than 0% and must not exceed 100%
                     </div>
                   )}
                   {enableUptakeEdit ? (

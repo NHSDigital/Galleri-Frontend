@@ -40,6 +40,11 @@ export default function QuintileTargetTable(props) {
                       min="0"
                       step="1"
                       placeholder={quintileValues[`${quintile}`]}
+                      onKeyPress={(event) => {
+                        if (!Number.isInteger(Number(event.key))) {
+                          event.preventDefault();
+                        }
+                      }}
                       onChange={(e) => onQuintileChangeHandler(e, quintile)}
                     />
                   </td>
