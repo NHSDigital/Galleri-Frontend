@@ -31,7 +31,7 @@ export default function ClinicSummaryPage(props) {
                 onChange={(e) => onIcbChangeHandler(e)}
               >
                 {icbData.map((icb, key) => {
-                  return <option key={key}>{icb.icbName}</option>;
+                  return <option key={key}>Participating ICB {icb}</option>;
                 })}
               </select>
             </div>

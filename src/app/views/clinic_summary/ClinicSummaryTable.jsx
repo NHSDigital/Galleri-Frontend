@@ -3,6 +3,7 @@ import Pagination from "../../components/pagination";
 
 export default function ClinicSummaryTable(props) {
   const { onCheckHandler } = props;
+  console.log("props.clinicList = ", props.clinicList);
   return (
     <div>
       <table role="table" class="nhsuk-table-responsive">
@@ -61,19 +62,19 @@ export default function ClinicSummaryTable(props) {
             return (
               <tr role="row" class="nhsuk-table__row">
                 <td role="cell" class="nhsuk-table__cell">
-                  {e.clinicName}
+                  {e.ClinicName?.S}
                 </td>
                 <td role="cell" class="nhsuk-table__cell">
-                  {new Date(e.dateOfPreviousInvitations).toString()}
+                  {e.PrevInviteDate?.S}
                 </td>
                 <td role="cell" class="nhsuk-table__cell">
-                  {e.daysSincePreviousInvitations}
+                  {e.DaySincePrevInvite?.N}
                 </td>
                 <td role="cell" class="nhsuk-table__cell">
-                  {e.numberOfInvitationsSent}
+                  {e.InvitesSent?.N}
                 </td>
                 <td role="cell" class="nhsuk-table__cell">
-                  {e.numberOfAppointmentsAvailable}
+                  {e.Availability?.N}
                 </td>
               </tr>
             );
