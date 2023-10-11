@@ -34,7 +34,7 @@ export default function InvitationCriteria(props) {
         Update
       </button>
 
-      <table role="table" class="nhsuk-table-responsive">
+      {/* <table role="table" class="nhsuk-table-responsive">
         <tbody role="rowgroup" class="nhsuk-table__head">
           <tr role="row">
             <th role="columnheader" class="" scope="col">
@@ -47,7 +47,20 @@ export default function InvitationCriteria(props) {
             <td>0</td>
           </tr>
         </tbody>
-      </table>
+      </table> */}
+
+      <dl class="nhsuk-summary-list">
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">
+          Target number of appointments to fill
+          </dt>
+          <dd class="nhsuk-summary-list__value">
+            0
+          </dd>
+        </div>
+      </dl>
+
+
     </div>
   );
 }

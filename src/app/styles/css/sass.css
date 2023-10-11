@@ -6806,6 +6806,7 @@ COMPONENTS/ #SUMMARY-LIST
 
 @media (max-width: 40.0525em) {
 	.nhsuk-summary-list__row {
+		border-top: 1px solid #d8dde0;
 		border-bottom: 1px solid #d8dde0;
 		margin-bottom: 16px;
 	}
@@ -6826,6 +6827,7 @@ COMPONENTS/ #SUMMARY-LIST
 	.nhsuk-summary-list__key,
 	.nhsuk-summary-list__value,
 	.nhsuk-summary-list__actions {
+		border-top: 1px solid #d8dde0;
 		border-bottom: 1px solid #d8dde0;
 		display: table-cell;
 		padding-bottom: 8px;
