@@ -5,6 +5,7 @@ import {
 } from "../../services/invitation_planning/InvitationPlanningService";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
+import axios from "axios";
 
 // Invitation Planning container
 class InvitationPlanning extends Component {

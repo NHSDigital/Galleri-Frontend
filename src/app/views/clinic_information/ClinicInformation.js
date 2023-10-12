@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ClinicSummaryPage from './ClinicInformationPage';
+import ClinicInformationPage from "./ClinicInformationPage";
 import axios from 'axios';
+
 
 class ClinicInformation extends Component {
   constructor() {
@@ -23,11 +25,13 @@ class ClinicInformation extends Component {
         "daysSincePrevInv": "Not available",
         "invSent": 0,
         "appsRemaining": 0
-      }
+      },
     }
+
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
   }
+
 
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
@@ -160,7 +164,7 @@ class ClinicInformation extends Component {
       lastUpdated,
       cancelChangeText,
       displayClinicSelector,
-      recentInvitationHistory
+      recentInvitationHistory,
     } = this.state
     return (
       <div>
@@ -178,7 +182,7 @@ class ClinicInformation extends Component {
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
         />
-      </div>
+      </div>,
     );
   }
 }

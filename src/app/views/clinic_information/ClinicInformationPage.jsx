@@ -3,7 +3,7 @@ import React from "react";
 import ClinicDetailsTable from "./ClinicDetailsTable";
 import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
-import InvitationCriteria from "../invitation_planning/InvitationCriteria";
+import InvitationCriteria from "./InvitationCriteria";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -19,6 +19,7 @@ export default function ClinicInformationPage(props) {
     recentInvitationHistory,
     onClickChangeClinicHandler,
     onChangeSelectedClinicHandler,
+
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -89,7 +90,7 @@ export default function ClinicInformationPage(props) {
           <br />
           <RecentInvitationHistory props={recentInvitationHistory} />
           {/* // add your invitation criteria component here */}
-          <InvitationCriteria props={recentInvitationHistory} />
+          <InvitationCriteria/>
         </div>
       </main>
     </div>

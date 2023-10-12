@@ -1,51 +1,99 @@
+import React, { useState } from 'react';
+
 export default function InvitationCriteria(props) {
-  const {} = props;
+  // const {
+  //   isInputTargetPercentageTotal,
+  //   InputTargetPercentageTotal,
+  //   onUpdateTargetPercentageHandler,
+  // } = props;
+
+  const [isInputTargetPercentageTotal, setisInputTargetPercentageTotal] =
+    useState(true);
+  const [isInputTargetPercentageExceed, setisInputTargetPercentageExceed] =
+    useState(true);
+  const [inputValue, setInputValue] = useState("");
+
+  // Create an event handler to update the input value
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  // Create an event handler to process the input value for throwing user Error
+  const handleInputError = () => {
+    let inputTargetPercentage = inputValue;
+
+    if (inputTargetPercentage === "") {
+      setisInputTargetPercentageTotal(false);
+    } else {
+      setisInputTargetPercentageTotal(true);
+    }
+
+    if (inputTargetPercentage > 100) {
+      setisInputTargetPercentageExceed(false);
+    } else {
+      setisInputTargetPercentageExceed(true);
+    }
+  };
+
   return (
     <div class="nhsuk-grid-column-two-thirds">
       <h2 label="header">Clinic Invitation Criteria</h2>
       <br />
-
       <div class="govuk-form-group">
-        <h3 class="govuk-label-wrapper">
-          <label class="govuk-label govuk-label--l" for="weight">
+        <h3>
+          <label class="govuk-label govuk-label--s" for="weight">
             Set the target percentage of appointments to fill
           </label>
         </h3>
+        {!isInputTargetPercentageTotal && (
+          <div class="nhsuk-error-message">Enter a percentage to fill</div>
+        )}
+        {!isInputTargetPercentageExceed && (
+          <div class="nhsuk-error-message">
+            Percentage of appointments to fill must not exceed 100%
+          </div>
+        )}
         <div class="govuk-input__wrapper">
           <input
-            class="govuk-input govuk-input--width-5"
+            class={
+              isInputTargetPercentageExceed && isInputTargetPercentageTotal
+                ? "govuk-input govuk-input--width-5"
+                : "govuk-input govuk-input--width-5 govuk-input--error"
+            }
             id="weight"
             name="weight"
-            type="text"
+            type="number"
             spellcheck="false"
+            onChange={handleInputChange}
           />
-          <div class="govuk-input__suffix" aria-hidden="true">
+          <div
+            class={
+              isInputTargetPercentageExceed && isInputTargetPercentageTotal
+                ? "govuk-input__suffix"
+                : "govuk-input__suffix govuk-input__suffix--error"
+            }
+            aria-hidden="true"
+          >
             %
           </div>
         </div>
       </div>
-
       <button
-        class="nhsuk-button"
-        onClick={() => onAmendForecastHandler(nationalUptakePercentage)}
+        class="nhsuk-button nhsuk-button--secondary"
+        data-module="nhsuk-button"
+        type="submit"
+        onClick={() => handleInputError()}
       >
         Update
       </button>
-
-      <table role="table" class="nhsuk-table-responsive">
-        <tbody role="rowgroup" class="nhsuk-table__head">
-          <tr role="row">
-            <th role="columnheader" class="" scope="col">
-              Target number of
-              <br />
-              appointments to
-              <br />
-              fill
-            </th>
-            <td>0</td>
-          </tr>
-        </tbody>
-      </table>
+      <dl class="nhsuk-summary-list">
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">
+            Target number of appointments to fill
+          </dt>
+          <dd class="nhsuk-summary-list__value">0</dd>
+        </div>
+      </dl>
     </div>
   );
 }

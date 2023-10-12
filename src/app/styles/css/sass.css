@@ -10513,6 +10513,7 @@ COMPONENTS / #WARNING-CALLOUT
 }
 
 .govuk-input__prefix,
+
 .govuk-input__suffix {
 	font-family: "GDS Transport", arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -10592,6 +10593,10 @@ COMPONENTS / #WARNING-CALLOUT
 	.govuk-input__suffix {
 		border-left: 0;
 	}
+}
+
+.govuk-input__suffix--error {
+	border-color: #d4351c;
 }
 
 .govuk-date-input {
