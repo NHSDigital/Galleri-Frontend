@@ -25,7 +25,7 @@ export default function QuintileTargetTable(props) {
             return (
               <tr role="row" class="nhsuk-table__row">
                 <td role="cell" class="nhsuk-table__cell">
-                  {`${quintile}`}
+                  {`${Number(quintile) + 1}`}
                 </td>
                 {enableFillEdit ? (
                   <td
