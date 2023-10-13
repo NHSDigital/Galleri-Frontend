@@ -1,4 +1,5 @@
 import React from "react";
+import { quintileHintText } from "./helper";
 
 export default function QuintileTargetTable(props) {
   const {
@@ -25,7 +26,7 @@ export default function QuintileTargetTable(props) {
             return (
               <tr role="row" class="nhsuk-table__row">
                 <td role="cell" class="nhsuk-table__cell">
-                  {`${Number(quintile) + 1}`}
+                  {quintileHintText(quintile)}
                 </td>
                 {enableFillEdit ? (
                   <td

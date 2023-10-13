@@ -21,6 +21,7 @@ class InvitationPlanning extends Component {
       isCorrectTotal: true,
       enableUptakeEdit: false,
       isCorrectUptakeTotal: true,
+      BASE_URL: "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev"
     };
 
     // Handlers
@@ -40,12 +41,13 @@ class InvitationPlanning extends Component {
     this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
   }
 
+
   // DB actions
   async putForecastUptakeAWSDynamo(value) {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://3btwk4dqi4.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
         { forecastUptake: Number(value) }
       )
       .then((response) => {
@@ -57,7 +59,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://3btwk4dqi4.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
         { quintiles: updatedQuintile }
       )
       .then((response) => {
@@ -178,7 +180,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://3btwk4dqi4.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
         console.log("response -> " + response.status);
