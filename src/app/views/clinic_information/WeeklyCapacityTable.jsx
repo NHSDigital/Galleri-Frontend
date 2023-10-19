@@ -4,23 +4,23 @@ export default function WeeklyCapacityTable(props) {
   const { weeklyCapacity, lastUpdated } = props;
   return (
     <div>
-      <table role="table" class="nhsuk-table-responsive">
+      <table class="nhsuk-table-responsive">
         <caption class="nhsuk-table__caption">
           Clinic Weekly Capacity
           <div class="nhsuk-hint" id="last-updated-hint">
             Last Updated: {lastUpdated}
           </div>
         </caption>
-        <thead role="rowgroup" class="nhsuk-table__head">
-          <tr role="row">
-            <th role="columnheader" class="" scope="col">
+        <thead class="nhsuk-table__head">
+          <tr>
+            <th class="" scope="col">
               Week
               <br />
               commencing
             </th>
             {weeklyCapacity.map((date) => {
               return (
-                <td role="columnheader" class="" scope="col">
+                <td class="" scope="col">
                   {date.date.substring(0, date.date.indexOf(" 20"))}
                   <br />
                   {date.date.substring(
@@ -33,14 +33,14 @@ export default function WeeklyCapacityTable(props) {
           </tr>
         </thead>
         <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-          <th role="columnheader" class="" scope="col">
+          <th class="" scope="col">
             Appointments
             <br />
             remaining
           </th>
           {weeklyCapacity.map((date) => {
             return (
-              <td role="columnheader" class="" scope="col">
+              <td class="" scope="col">
                 {date.value}
               </td>
             );
