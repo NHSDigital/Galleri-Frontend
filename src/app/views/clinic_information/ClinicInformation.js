@@ -276,6 +276,26 @@ class ClinicInformation extends Component {
             )
           });
       });
+
+    ///////  Amar /////////////
+
+    // axios.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
+    // axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    axios
+      .get(
+        "https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+      )
+      .then((response) => {
+        console.log(response);
+        const targetPercentageValue = response.data.targetPercentage.N;
+        console.log(targetPercentageValue);
+        this.setState({
+          inputValue: targetPercentageValue,
+        });
+      });
+
+      //////  Amar /////////////
   }
 
   render() {
