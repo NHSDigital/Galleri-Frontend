@@ -3,7 +3,6 @@ import ClinicSummaryPage from './ClinicInformationPage';
 import ClinicInformationPage from "./ClinicInformationPage";
 import axios from 'axios';
 
-
 class ClinicInformation extends Component {
   constructor() {
     super();
@@ -29,6 +28,7 @@ class ClinicInformation extends Component {
         "invSent": 0,
         "appsRemaining": 0
       },
+      "lsoaList": []
     }
 
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
@@ -36,6 +36,7 @@ class ClinicInformation extends Component {
     this.onClickUpdateHandler = this.onClickUpdateHandler.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+
 
   handleInputChange(e) {
     this.setState({
@@ -128,7 +129,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://3btwk4dqi4.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -168,6 +169,10 @@ class ClinicInformation extends Component {
     }
   }
 
+  // function to get the lsoa data 
+  // function to get the person data for that lsoa 
+  // function to combine the data
+
   componentDidMount() {
     const icbId = "Participating ICB 2"
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
@@ -175,7 +180,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://3btwk4dqi4.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
@@ -221,6 +226,7 @@ class ClinicInformation extends Component {
       isInputTargetPercentageTotal,
       isInputTargetPercentageExceed,
       inputValue,
+      lsoaList
     } = this.state
     return (
       <div>
@@ -238,6 +244,7 @@ class ClinicInformation extends Component {
           isInputTargetPercentageTotal={isInputTargetPercentageTotal}
           isInputTargetPercentageExceed={isInputTargetPercentageExceed}
           inputValue={inputValue}
+          lsoaList={lsoaList}
           handleInputChange={this.handleInputChange}
           onClickUpdateHandler={this.onClickUpdateHandler}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}

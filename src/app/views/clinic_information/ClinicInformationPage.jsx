@@ -4,6 +4,7 @@ import ClinicDetailsTable from "./ClinicDetailsTable";
 import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
 import ClinicInvitationCriteriaPage from "./clinic_invitation_criteria/ClinicInvitationCriteriaPage";
+import LsoaTable from "./LsoaTable";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -24,6 +25,7 @@ export default function ClinicInformationPage(props) {
     inputValue,
     onClickUpdateHandler,
     handleInputChange,
+    lsoaList
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -103,6 +105,13 @@ export default function ClinicInformationPage(props) {
             handleInputChange={handleInputChange}
             onClickUpdateHandler={onClickUpdateHandler}
           />
+          <div class="nhsuk-grid-column-full">
+            <LsoaTable
+              lsoaList={lsoaList}
+              // weeklyCapacity={weeklyCapacity}
+              // lastUpdated={lastUpdated}
+            />
+          </div>
         </div>
       </main>
     </div>
