@@ -250,7 +250,7 @@ class ClinicInformation extends Component {
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
         />
-      </div>,
+      </div>
     );
   }
 }
