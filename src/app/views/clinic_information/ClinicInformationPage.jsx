@@ -24,7 +24,6 @@ export default function ClinicInformationPage(props) {
     inputValue,
     onClickUpdateHandler,
     handleInputChange,
-
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -52,7 +51,9 @@ export default function ClinicInformationPage(props) {
           </p>
           <br />
           <div class="nhsuk-grid-column-two-thirds">
-            <h2 id ="maincontent" label="header">Clinic Information</h2>
+            <h2 id="maincontent" label="header">
+              Clinic Information
+            </h2>
             <ClinicDetailsTable
               clinicName={clinicName}
               address1={address1}
@@ -96,11 +97,11 @@ export default function ClinicInformationPage(props) {
           <RecentInvitationHistory props={recentInvitationHistory} />
           {/* // add your invitation criteria component here */}
           <ClinicInvitationCriteriaPage
-               isInputTargetPercentageTotal={isInputTargetPercentageTotal}
-               isInputTargetPercentageExceed={isInputTargetPercentageExceed}
-               inputValue={inputValue}
-               handleInputChange={handleInputChange}
-               onClickUpdateHandler={onClickUpdateHandler}
+            isInputTargetPercentageTotal={isInputTargetPercentageTotal}
+            isInputTargetPercentageExceed={isInputTargetPercentageExceed}
+            inputValue={inputValue}
+            handleInputChange={handleInputChange}
+            onClickUpdateHandler={onClickUpdateHandler}
           />
         </div>
       </main>
