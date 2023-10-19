@@ -3,7 +3,7 @@ import React from "react";
 import ClinicDetailsTable from "./ClinicDetailsTable";
 import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
-import InvitationCriteria from "./InvitationCriteria";
+import ClinicInvitationCriteriaPage from "./clinic_invitation_criteria/ClinicInvitationCriteriaPage";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -19,7 +19,11 @@ export default function ClinicInformationPage(props) {
     recentInvitationHistory,
     onClickChangeClinicHandler,
     onChangeSelectedClinicHandler,
-
+    isInputTargetPercentageTotal,
+    isInputTargetPercentageExceed,
+    inputValue,
+    onClickUpdateHandler,
+    handleInputChange,
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -47,7 +51,9 @@ export default function ClinicInformationPage(props) {
           </p>
           <br />
           <div class="nhsuk-grid-column-two-thirds">
-            <h2 label="header">Clinic Information</h2>
+            <h2 id="maincontent" label="header">
+              Clinic Information
+            </h2>
             <ClinicDetailsTable
               clinicName={clinicName}
               address1={address1}
@@ -90,7 +96,13 @@ export default function ClinicInformationPage(props) {
           <br />
           <RecentInvitationHistory props={recentInvitationHistory} />
           {/* // add your invitation criteria component here */}
-          <InvitationCriteria/>
+          <ClinicInvitationCriteriaPage
+            isInputTargetPercentageTotal={isInputTargetPercentageTotal}
+            isInputTargetPercentageExceed={isInputTargetPercentageExceed}
+            inputValue={inputValue}
+            handleInputChange={handleInputChange}
+            onClickUpdateHandler={onClickUpdateHandler}
+          />
         </div>
       </main>
     </div>

@@ -20,6 +20,9 @@ class ClinicInformation extends Component {
       "currentlySelectedClinicId": "",
       "currentlySelectedClinic": "",
       "displayClinicSelector": false,
+      "isInputTargetPercentageTotal" : true,
+      "isInputTargetPercentageExceed" : true,
+      "inputValue" : 0,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
@@ -30,8 +33,38 @@ class ClinicInformation extends Component {
 
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
+    this.onClickUpdateHandler = this.onClickUpdateHandler.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
+  handleInputChange(e) {
+    this.setState({
+      inputValue: e.target.value,
+    });
+  }
+
+  onClickUpdateHandler(inputValue) {
+    let value = inputValue;
+    if (value === "") {
+      this.setState({
+        isInputTargetPercentageTotal: false,
+      });
+    } else {
+      this.setState({
+        isInputTargetPercentageTotal: true,
+      });
+    }
+
+    if (value > 100) {
+      this.setState({
+        isInputTargetPercentageExceed: false,
+      });
+    } else {
+      this.setState({
+        isInputTargetPercentageExceed: true,
+      });
+    }
+  }
 
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
@@ -95,7 +128,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://3btwk4dqi4.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -142,7 +175,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://3btwk4dqi4.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
@@ -150,6 +183,20 @@ class ClinicInformation extends Component {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }
           })]
         })
+      });
+
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    axios
+      .get(
+        "https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+      )
+      .then((response) => {
+        console.log(response);
+        const targetPercentageValue = response.data.targetPercentage.N;
+        console.log(targetPercentageValue);
+        this.setState({
+          inputValue: targetPercentageValue,
+        });
       });
   }
 
@@ -165,10 +212,13 @@ class ClinicInformation extends Component {
       cancelChangeText,
       displayClinicSelector,
       recentInvitationHistory,
+      isInputTargetPercentageTotal,
+      isInputTargetPercentageExceed,
+      inputValue,
     } = this.state
     return (
       <div>
-        <ClinicSummaryPage
+        <ClinicInformationPage
           clinicList={clinicList}
           clinicName={clinicName}
           address1={address1}
@@ -179,6 +229,11 @@ class ClinicInformation extends Component {
           displayClinicSelector={displayClinicSelector}
           cancelChangeText={cancelChangeText}
           recentInvitationHistory={recentInvitationHistory}
+          isInputTargetPercentageTotal={isInputTargetPercentageTotal}
+          isInputTargetPercentageExceed={isInputTargetPercentageExceed}
+          inputValue={inputValue}
+          handleInputChange={this.handleInputChange}
+          onClickUpdateHandler={this.onClickUpdateHandler}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
         />
