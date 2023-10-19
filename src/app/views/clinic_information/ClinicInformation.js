@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ClinicInformationPage from "./ClinicInformationPage";
 import axios from 'axios';
 
-
 class ClinicInformation extends Component {
   constructor() {
     super();
@@ -28,6 +27,7 @@ class ClinicInformation extends Component {
         "invSent": 0,
         "appsRemaining": 0
       },
+      "lsoaList": []
     }
 
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
@@ -190,6 +190,10 @@ class ClinicInformation extends Component {
         });
     }
   }
+
+  // function to get the lsoa data
+  // function to get the person data for that lsoa
+  // function to combine the data
 
   componentDidMount() {
     //Mocked the data below which is supposed to be retrieved from previous page - "Clinic Summary"
