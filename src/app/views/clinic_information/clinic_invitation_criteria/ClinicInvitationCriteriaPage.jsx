@@ -26,11 +26,11 @@ export default function ClinicInvitationCriteriaPage(props) {
           </label>
         </h3>
         {!isInputTargetPercentageTotal && (
-          <div class="nhsuk-error-message">Enter a percentage to fill</div>
+          <div class="nhsuk-error-message">The target percentage must be between 1% and 100% </div>
         )}
         {!isInputTargetPercentageExceed && (
           <div class="nhsuk-error-message">
-            Percentage of appointments to fill must not exceed 100%
+            The target percentage must be between 1% and 100%
           </div>
         )}
         <div class="govuk-input__wrapper">

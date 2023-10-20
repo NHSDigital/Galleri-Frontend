@@ -27,7 +27,7 @@ class ClinicInformation extends Component {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
         "invSent": 0,
-        "appsRemaining": 100
+        "appsRemaining": 0
       },
     }
 
@@ -47,7 +47,7 @@ class ClinicInformation extends Component {
     const {recentInvitationHistory} = this.state;
 
     this.setState({
-      appsToFill : (recentInvitationHistory.appsRemaining * (inputValue/100)),
+      appsToFill : Math.floor(recentInvitationHistory.appsRemaining * (inputValue/100)),
     });
   }
 
