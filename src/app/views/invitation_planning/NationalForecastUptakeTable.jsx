@@ -34,6 +34,11 @@ export default function NationalForecastUptakeTable(props) {
                 max="100"
                 step="1"
                 placeholder={nationalUptakePercentage}
+                onKeyPress={(event) => {
+                  if (!Number.isInteger(Number(event.key))) {
+                    event.preventDefault();
+                  }
+                }}
                 onChange={(e) => onUptakeChangeHandler(e)}
               />
             </td>
