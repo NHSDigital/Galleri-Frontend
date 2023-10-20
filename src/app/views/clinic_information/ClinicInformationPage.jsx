@@ -22,6 +22,7 @@ export default function ClinicInformationPage(props) {
     isInputTargetPercentageTotal,
     isInputTargetPercentageExceed,
     inputValue,
+    appsToFill,
     onClickUpdateHandler,
     handleInputChange,
   } = props;
@@ -97,9 +98,11 @@ export default function ClinicInformationPage(props) {
           <RecentInvitationHistory props={recentInvitationHistory} />
           {/* // add your invitation criteria component here */}
           <ClinicInvitationCriteriaPage
+            props={recentInvitationHistory}
             isInputTargetPercentageTotal={isInputTargetPercentageTotal}
             isInputTargetPercentageExceed={isInputTargetPercentageExceed}
             inputValue={inputValue}
+            appsToFill={appsToFill}
             handleInputChange={handleInputChange}
             onClickUpdateHandler={onClickUpdateHandler}
           />

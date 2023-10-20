@@ -5,11 +5,15 @@ export default function ClinicInvitationCriteriaPage(props) {
     isInputTargetPercentageTotal,
     isInputTargetPercentageExceed,
     inputValue,
+    appsToFill,
     onClickUpdateHandler,
     handleInputChange,
   } = props;
 
-  console.log(props.props);
+  const { appsRemaining } =
+    props.props;
+
+  console.log(props.props)
 
   return (
     <div class="nhsuk-grid-column-two-thirds">
@@ -74,7 +78,7 @@ export default function ClinicInvitationCriteriaPage(props) {
           <dt class="nhsuk-summary-list__key">
             Target number of appointments to fill
           </dt>
-          <dd class="nhsuk-summary-list__value">0</dd>
+          <dd class="nhsuk-summary-list__value">{appsToFill}</dd>
         </div>
       </dl>
     </div>

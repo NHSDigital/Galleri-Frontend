@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ClinicSummaryPage from './ClinicInformationPage';
 import ClinicInformationPage from "./ClinicInformationPage";
 import axios from 'axios';
 
@@ -23,11 +22,12 @@ class ClinicInformation extends Component {
       "isInputTargetPercentageTotal" : true,
       "isInputTargetPercentageExceed" : true,
       "inputValue" : 0,
+      "appsToFill" : 0,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
         "invSent": 0,
-        "appsRemaining": 0
+        "appsRemaining": 100
       },
     }
 
@@ -43,9 +43,38 @@ class ClinicInformation extends Component {
     });
   }
 
-  onClickUpdateHandler(inputValue) {
-    let value = inputValue;
-    if (value === "") {
+  calculateTargetAppsToFill(inputValue) {
+    const {recentInvitationHistory} = this.state;
+
+    this.setState({
+      appsToFill : (recentInvitationHistory.appsRemaining * (inputValue/100)),
+    });
+  }
+
+  // DB actions
+  async putTargetPercentageAWSDynamo(value) {
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+
+    try {
+      axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      const response = await axios.put(
+      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+        "https://559kjatqvh.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        { targetPercentage: Number(value) }
+      );
+
+      console.log("Response status: " + response.status);
+      return response.data; // You might want to return the response data too.
+    } catch (error) {
+      console.error("Request failed: " + error.message);
+      throw error; // Re-throw the error to propagate it.
+    }
+  }
+
+  async onClickUpdateHandler(inputValue) {
+    let value = Number(inputValue);
+    if (!value) {
       this.setState({
         isInputTargetPercentageTotal: false,
       });
@@ -64,7 +93,13 @@ class ClinicInformation extends Component {
         isInputTargetPercentageExceed: true,
       });
     }
+
+    if ((value)&&(value <= 100)){
+      await this.putTargetPercentageAWSDynamo(value);
+      this.calculateTargetAppsToFill(inputValue);
+    }
   }
+
 
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
@@ -128,7 +163,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://559kjatqvh.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -175,7 +210,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://559kjatqvh.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
@@ -188,7 +223,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://559kjatqvh.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
         console.log(response);
@@ -215,6 +250,7 @@ class ClinicInformation extends Component {
       isInputTargetPercentageTotal,
       isInputTargetPercentageExceed,
       inputValue,
+      appsToFill,
     } = this.state
     return (
       <div>
@@ -232,12 +268,13 @@ class ClinicInformation extends Component {
           isInputTargetPercentageTotal={isInputTargetPercentageTotal}
           isInputTargetPercentageExceed={isInputTargetPercentageExceed}
           inputValue={inputValue}
+          appsToFill={appsToFill}
           handleInputChange={this.handleInputChange}
           onClickUpdateHandler={this.onClickUpdateHandler}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
         />
-      </div>,
+      </div>
     );
   }
 }
