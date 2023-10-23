@@ -27,6 +27,8 @@ class ClinicInformation extends Component {
         "invSent": 0,
         "appsRemaining": 0
       },
+      "lsoaInRange": [],
+      "populationInLsoa": [],
       "lsoaList": []
     }
 
@@ -300,6 +302,16 @@ class ClinicInformation extends Component {
       });
 
       //////  Amar /////////////
+
+    // trigger lambda to get LSOAs in 100 mile radius
+    // axios
+    //   .get(
+    //     `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/get-lsoas?clinicPostcode=${postcode}`
+    //   )
+    //   .then((response) => {
+    //     console.log(response);
+    //     this.getParticipantsFromLsoa(response.data);
+    //   });
   }
 
   render() {
