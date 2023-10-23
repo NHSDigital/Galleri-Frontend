@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ClinicInvitationCriteriaPage(props) {
+export default function ClinicInvitationCriteria(props) {
   const {
     isInputTargetPercentageTotal,
     isInputTargetPercentageExceed,
@@ -10,10 +10,8 @@ export default function ClinicInvitationCriteriaPage(props) {
     handleInputChange,
   } = props;
 
-  const { appsRemaining } =
-    props.props;
-
-  console.log(props.props)
+  // const { appsRemaining } =
+  //   props.props;
 
   return (
     <div class="nhsuk-grid-column-two-thirds">
@@ -40,7 +38,7 @@ export default function ClinicInvitationCriteriaPage(props) {
                 ? "govuk-input govuk-input--width-5"
                 : "govuk-input govuk-input--width-5 govuk-input--error"
             }
-            id="weight"
+            data-testid="input-target-percentage"
             name="weight"
             type="number"
             step="1"
@@ -50,7 +48,7 @@ export default function ClinicInvitationCriteriaPage(props) {
                 event.preventDefault();
               }
             }}
-            spellcheck="false"
+            spellCheck="false"
             onChange={(e) => handleInputChange(e)}
           />
           <div
@@ -78,7 +76,7 @@ export default function ClinicInvitationCriteriaPage(props) {
           <dt class="nhsuk-summary-list__key">
             Target number of appointments to fill
           </dt>
-          <dd class="nhsuk-summary-list__value">{appsToFill}</dd>
+          <dd id="target-apps-to-fill"  class="nhsuk-summary-list__value">{appsToFill}</dd>
         </div>
       </dl>
     </div>

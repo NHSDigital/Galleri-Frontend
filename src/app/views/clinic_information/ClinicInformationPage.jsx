@@ -3,7 +3,7 @@ import React from "react";
 import ClinicDetailsTable from "./ClinicDetailsTable";
 import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
-import ClinicInvitationCriteriaPage from "./clinic_invitation_criteria/ClinicInvitationCriteriaPage";
+import ClinicInvitationCriteria from "./clinic_invitation_criteria/ClinicInvitationCriteria";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -97,7 +97,7 @@ export default function ClinicInformationPage(props) {
           <br />
           <RecentInvitationHistory props={recentInvitationHistory} />
           {/* // add your invitation criteria component here */}
-          <ClinicInvitationCriteriaPage
+          <ClinicInvitationCriteria
             props={recentInvitationHistory}
             isInputTargetPercentageTotal={isInputTargetPercentageTotal}
             isInputTargetPercentageExceed={isInputTargetPercentageExceed}

@@ -5,7 +5,7 @@ import ClinicInformation from "./ClinicInformation";
 
 describe('Clinic Information render', () => {
 
-  const clinicInformation = <ClinicInformation />
+  const clinicInformation = <ClinicInformation/>;
 
   test('Page header renders', () => {
     render(clinicInformation)
@@ -47,6 +47,36 @@ describe('Clinic Information render', () => {
     fireEvent.click(button);
     const selector = container.querySelector(`select[id="clinic-selector"]`);
     expect(selector).toBeTruthy();
+  })
+
+  test('Clinic invitation criteria header renders', () => {
+    render(clinicInformation)
+    let header = screen.getByText(/Clinic Invitation Criteria/);
+    expect(header.innerHTML).toBe('Clinic Invitation Criteria');
+  })
+
+  test('Target percentage header renders', () => {
+    render(clinicInformation)
+    let header = screen.getByText(/Set the target percentage of appointments to fill/);
+    expect(header.innerHTML).toBe('Set the target percentage of appointments to fill');
+  })
+
+  test('Target percentage input renders', () => {
+    render(clinicInformation)
+    let input = screen.getByTestId("input-target-percentage");
+    expect(input).toBeInTheDocument();
+  })
+
+  test('Summary list renders', () => {
+    render(clinicInformation)
+    let header = screen.getByText(/Target number of appointments to fill/);
+    expect(header.innerHTML).toBe('Target number of appointments to fill');
+  })
+
+  test('Target percentage update button renders', () => {
+    render(clinicInformation)
+    let button = screen.getByText('Update');
+    expect(button).toBeInTheDocument();
   })
 
 });
