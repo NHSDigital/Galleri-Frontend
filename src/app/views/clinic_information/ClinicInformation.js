@@ -290,7 +290,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
         console.log(response);
@@ -304,14 +304,18 @@ class ClinicInformation extends Component {
       //////  Amar /////////////
 
     // trigger lambda to get LSOAs in 100 mile radius
-    // axios
-    //   .get(
-    //     `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/get-lsoas?clinicPostcode=${postcode}`
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //     this.getParticipantsFromLsoa(response.data);
-    //   });
+    const postcodeHolder = "hello from componentDidMount"
+    axios
+      .get(
+        `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/get-lsoas-in-range?clinicPostcode=${postcodeHolder}`
+      )
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          lsoaInRange: response.data
+        })
+        this.getParticipantsFromLsoa(response.data);
+      });
   }
 
   render() {
