@@ -2,60 +2,51 @@ import React from "react";
 
 export default function ClinicInvitationCriteria(props) {
   const {
-    isInputTargetPercentageTotal,
-    isInputTargetPercentageExceed,
-    inputValue,
+    displayUserErrorTargetPercentage,
+    targetFillToInputValue,
     appsToFill,
-    onClickUpdateHandler,
-    handleInputChange,
+    onClickTargetAppsToFillHandler,
+    onTargetFillToInputChangeHandler,
   } = props;
-
-  // const { appsRemaining } =
-  //   props.props;
 
   return (
     <div class="nhsuk-grid-column-two-thirds">
       <h2 label="header">Clinic Invitation Criteria</h2>
-      <br />
       <div class="govuk-form-group">
         <h3>
           <label class="govuk-label govuk-label--s" for="weight">
             Set the target percentage of appointments to fill
           </label>
         </h3>
-        {!isInputTargetPercentageTotal && (
-          <div class="nhsuk-error-message">The target percentage must be between 1% and 100% </div>
-        )}
-        {!isInputTargetPercentageExceed && (
+        {displayUserErrorTargetPercentage && (
           <div class="nhsuk-error-message">
-            The target percentage must be between 1% and 100%
+            The target percentage must be between 1% and 100%{" "}
           </div>
         )}
         <div class="govuk-input__wrapper">
           <input
             class={
-              isInputTargetPercentageExceed && isInputTargetPercentageTotal
-                ? "govuk-input govuk-input--width-5"
-                : "govuk-input govuk-input--width-5 govuk-input--error"
+              displayUserErrorTargetPercentage
+                ? "govuk-input govuk-input--width-5 govuk-input--error"
+                : "govuk-input govuk-input--width-5"
             }
-            data-testid="input-target-percentage"
-            name="weight"
+            id="input-target-percentage"
             type="number"
             step="1"
-            value={inputValue}
+            value={targetFillToInputValue}
             onKeyPress={(event) => {
               if (!Number.isInteger(Number(event.key))) {
                 event.preventDefault();
               }
             }}
             spellCheck="false"
-            onChange={(e) => handleInputChange(e)}
+            onChange={(e) => onTargetFillToInputChangeHandler(e)}
           />
           <div
             class={
-              isInputTargetPercentageExceed && isInputTargetPercentageTotal
-                ? "govuk-input__suffix"
-                : "govuk-input__suffix govuk-input__suffix--error"
+              displayUserErrorTargetPercentage
+                ? "govuk-input__suffix govuk-input__suffix--error"
+                : "govuk-input__suffix"
             }
             aria-hidden="true"
           >
@@ -67,7 +58,7 @@ export default function ClinicInvitationCriteria(props) {
         class="nhsuk-button nhsuk-button--secondary"
         data-module="nhsuk-button"
         type="submit"
-        onClick={() => onClickUpdateHandler(inputValue)}
+        onClick={() => onClickTargetAppsToFillHandler(targetFillToInputValue)}
       >
         Update
       </button>
@@ -76,7 +67,9 @@ export default function ClinicInvitationCriteria(props) {
           <dt class="nhsuk-summary-list__key">
             Target number of appointments to fill
           </dt>
-          <dd id="target-apps-to-fill"  class="nhsuk-summary-list__value">{appsToFill}</dd>
+          <dd id="target-apps-to-fill" class="nhsuk-summary-list__value">
+            {appsToFill}
+          </dd>
         </div>
       </dl>
     </div>

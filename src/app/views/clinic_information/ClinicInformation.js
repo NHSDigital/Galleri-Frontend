@@ -19,37 +19,34 @@ class ClinicInformation extends Component {
       "currentlySelectedClinicId": "",
       "currentlySelectedClinic": "",
       "displayClinicSelector": false,
-      "isInputTargetPercentageTotal" : true,
-      "isInputTargetPercentageExceed" : true,
-      "inputValue" : 0,
+      "displayUserErrorTargetPercentage" : false,
+      "targetFillToInputValue" : 0,
       "appsToFill" : 0,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
         "invSent": 0,
-        "appsRemaining": 0
+        "appsRemaining": 100
       },
     }
 
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
-    this.onClickUpdateHandler = this.onClickUpdateHandler.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
+    this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
   }
 
-  handleInputChange(e) {
+  onTargetFillToInputChangeHandler(e) {
     this.setState({
-      inputValue: e.target.value,
+      targetFillToInputValue: e.target.value,
     });
   }
 
 
   // Calculating the Target number of appointments to fill
-  calculateTargetAppsToFill(inputValue) {
-    const {recentInvitationHistory} = this.state;
-
+  calculateTargetAppsToFill(targetFillToInputValue) {
     this.setState({
-      appsToFill : Math.floor(recentInvitationHistory.appsRemaining * (inputValue/100)),
+      appsToFill : Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue/100)),
     });
   }
 
@@ -58,48 +55,32 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
 
     try {
-      axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
       const response = await axios.put(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://tczkh2wrb4.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        "https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
 
-      console.log("Response status: " + response.status);
-      return response.data; // You might want to return the response data too.
+      return response.data;
     } catch (error) {
       console.error("Request failed: " + error.message);
-      throw error; // Re-throw the error to propagate it.
     }
   }
 
   // Handler Function for user errors and calculating target number of appointments to fill
-  async onClickUpdateHandler(inputValue) {
-    let value = Number(inputValue);
-    if (!value) {
-      this.setState({
-        isInputTargetPercentageTotal: false,
-      });
-    } else {
-      this.setState({
-        isInputTargetPercentageTotal: true,
-      });
-    }
-
-    if (value > 100) {
-      this.setState({
-        isInputTargetPercentageExceed: false,
-      });
-    } else {
-      this.setState({
-        isInputTargetPercentageExceed: true,
-      });
-    }
+  async onClickTargetAppsToFillHandler(targetFillToInputValue) {
+    let value = Number(targetFillToInputValue);
 
     if ((value)&&(value <= 100)){
       await this.putTargetPercentageAWSDynamo(value);
-      this.calculateTargetAppsToFill(inputValue);
+      this.calculateTargetAppsToFill(targetFillToInputValue);
+      this.setState({
+        displayUserErrorTargetPercentage: false,
+      });
+    } else{
+      this.setState({
+        displayUserErrorTargetPercentage: true,
+      });
     }
   }
 
@@ -166,7 +147,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://tczkh2wrb4.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -213,7 +194,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://tczkh2wrb4.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
@@ -227,14 +208,12 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://tczkh2wrb4.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
-        console.log(response);
         const targetPercentageValue = response.data.targetPercentage.N;
-        console.log(targetPercentageValue);
         this.setState({
-          inputValue: targetPercentageValue,
+          targetFillToInputValue: targetPercentageValue,
         });
       });
   }
@@ -251,9 +230,9 @@ class ClinicInformation extends Component {
       cancelChangeText,
       displayClinicSelector,
       recentInvitationHistory,
-      isInputTargetPercentageTotal,
-      isInputTargetPercentageExceed,
-      inputValue,
+      displayUserErrorTargetPercentage,
+      hideUserErrorTargetPercentageExceed,
+      targetFillToInputValue,
       appsToFill,
     } = this.state
     return (
@@ -269,12 +248,12 @@ class ClinicInformation extends Component {
           displayClinicSelector={displayClinicSelector}
           cancelChangeText={cancelChangeText}
           recentInvitationHistory={recentInvitationHistory}
-          isInputTargetPercentageTotal={isInputTargetPercentageTotal}
-          isInputTargetPercentageExceed={isInputTargetPercentageExceed}
-          inputValue={inputValue}
+          displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+          hideUserErrorTargetPercentageExceed={hideUserErrorTargetPercentageExceed}
+          targetFillToInputValue={targetFillToInputValue}
           appsToFill={appsToFill}
-          handleInputChange={this.handleInputChange}
-          onClickUpdateHandler={this.onClickUpdateHandler}
+          onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
+          onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
         />

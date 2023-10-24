@@ -19,12 +19,12 @@ export default function ClinicInformationPage(props) {
     recentInvitationHistory,
     onClickChangeClinicHandler,
     onChangeSelectedClinicHandler,
-    isInputTargetPercentageTotal,
-    isInputTargetPercentageExceed,
-    inputValue,
+    displayUserErrorTargetPercentage,
+    hideUserErrorTargetPercentageExceed,
+    targetFillToInputValue,
     appsToFill,
-    onClickUpdateHandler,
-    handleInputChange,
+    onClickTargetAppsToFillHandler,
+    onTargetFillToInputChangeHandler,
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -96,15 +96,14 @@ export default function ClinicInformationPage(props) {
           </div>
           <br />
           <RecentInvitationHistory props={recentInvitationHistory} />
-          {/* // add your invitation criteria component here */}
           <ClinicInvitationCriteria
             props={recentInvitationHistory}
-            isInputTargetPercentageTotal={isInputTargetPercentageTotal}
-            isInputTargetPercentageExceed={isInputTargetPercentageExceed}
-            inputValue={inputValue}
+            displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+            hideUserErrorTargetPercentageExceed={hideUserErrorTargetPercentageExceed}
+            targetFillToInputValue={targetFillToInputValue}
             appsToFill={appsToFill}
-            handleInputChange={handleInputChange}
-            onClickUpdateHandler={onClickUpdateHandler}
+            onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
+            onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
           />
         </div>
       </main>
