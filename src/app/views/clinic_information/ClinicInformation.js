@@ -333,6 +333,8 @@ class ClinicInformation extends Component {
       displayUserErrorTargetPercentage,
       targetFillToInputValue,
       appsToFill,
+      lsoaInRange,
+      populationInLsoa
     } = this.state
     return (
       <div>
@@ -352,6 +354,8 @@ class ClinicInformation extends Component {
           appsToFill={appsToFill}
           onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
           onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
+          lsoaInRange={lsoaInRange}
+          populationInLsoa={populationInLsoa}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
         />
