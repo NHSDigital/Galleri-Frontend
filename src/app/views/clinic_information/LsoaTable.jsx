@@ -21,9 +21,9 @@ export default function LsoaTable(prop) {
       "AvailableToInvite": { "N": "150"}
     }
   ]
-  const {  } = prop;
+  const { lsoaInRange, populationInLsoa } = prop;
   const props = { lsoaList }
-  
+
   return (
     <div /*class="nhsuk-grid-column-two-thirds"*/>
       <div class="govuk-form-group" id="lsoaText">
@@ -35,7 +35,7 @@ export default function LsoaTable(prop) {
       </div>
       <div class="govuk-input__wrapper" id="distance">
         <select
-          class={ 
+          class={
             // "govuk-input govuk-input--width-5"
             "nhsuk-select"
             // isInputTargetPercentageExceed && isInputTargetPercentageTotal
@@ -99,7 +99,7 @@ export default function LsoaTable(prop) {
             </tr>
           </thead>
           <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-            {props.lsoaList?.map((e, key) => {
+            {lsoaInRange?.map((e, key) => {
               return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
@@ -115,25 +115,26 @@ export default function LsoaTable(prop) {
                     </div>
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.LsoaName?.S}
+                    {/* {e.LsoaName?.S} */}
+                    {e.LSOA_2011?.S}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.Distance?.N}
+                    {e.DISTANCE_TO_SITE?.N}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.ForecastUptake?.N}
+                    {e.FORECAST_UPTAKE?.N}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.ImdDecile?.N}
+                    {e.IMD_DECILE?.N}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.Eligible?.N}
+                    {e.ELIGIBLE_POPULATION?.N}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.Invited?.N}
+                    {e.INVITED_POPULATION?.N}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.AvailableToInvite?.N}
+                    {Number(e.ELIGIBLE_POPULATION?.N) - Number(e.INVITED_POPULATION?.N)}
                   </td>
                 </tr>
               );

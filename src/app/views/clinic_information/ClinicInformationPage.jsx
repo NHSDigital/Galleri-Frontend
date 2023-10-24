@@ -25,7 +25,8 @@ export default function ClinicInformationPage(props) {
     inputValue,
     onClickUpdateHandler,
     handleInputChange,
-    lsoaList
+    lsoaInRange,
+    populationInLsoa
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -107,9 +108,8 @@ export default function ClinicInformationPage(props) {
           />
           <div class="nhsuk-grid-column-full">
             <LsoaTable
-              lsoaList={lsoaList}
-              // weeklyCapacity={weeklyCapacity}
-              // lastUpdated={lastUpdated}
+              lsoaInRange={lsoaInRange}
+              populationInLsoa={populationInLsoa}
             />
           </div>
         </div>

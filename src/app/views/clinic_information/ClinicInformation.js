@@ -256,7 +256,8 @@ class ClinicInformation extends Component {
       isInputTargetPercentageTotal,
       isInputTargetPercentageExceed,
       inputValue,
-      lsoaList
+      lsoaInRange,
+      populationInLsoa
     } = this.state
     return (
       <div>
@@ -274,7 +275,8 @@ class ClinicInformation extends Component {
           isInputTargetPercentageTotal={isInputTargetPercentageTotal}
           isInputTargetPercentageExceed={isInputTargetPercentageExceed}
           inputValue={inputValue}
-          lsoaList={lsoaList}
+          lsoaInRange={lsoaInRange}
+          populationInLsoa={populationInLsoa}
           handleInputChange={this.handleInputChange}
           onClickUpdateHandler={this.onClickUpdateHandler}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
