@@ -131,7 +131,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -171,20 +171,22 @@ class ClinicInformation extends Component {
     }
   }
 
-  // getParticipantsFromLsoa(lsoaCodeArray) {
-  //   axios
-  //     .get(
-  //       `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-participants?lsoaCodes=${lsoaCodeArray}`
-  //     )
-  //     .then((response) => {
-  //       this.setState({
-  //         populationInLsoa: response.data
-  //       })
-  //     });
-  // }
+  getParticipantsFromLsoa() {
+    // const lsoaCodeArray = this.state.lsoaInRange.map(lsoa => {return lsoa.LSOA_2011}) // -> get just the
+    const lsoaCodeArray = "hello from getParticipantsFromLsoa"
+    axios
+      .get(
+        `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/get-participants-in-lsoa?lsoaList=${lsoaCodeArray}`
+      )
+      .then((response) => {
+        this.setState({
+          populationInLsoa: response.data
+        })
+      });
+  }
 
-  // function to get the lsoa data 
-  // function to get the person data for that lsoa 
+  // function to get the lsoa data
+  // function to get the person data for that lsoa
   // function to combine the data
 
   componentDidMount() {
@@ -194,7 +196,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
@@ -211,7 +213,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
         console.log(response);
@@ -224,15 +226,19 @@ class ClinicInformation extends Component {
 
       //////  Amar /////////////
 
-    // trigger lambda to get LSOAs in 100 mile radius 
-    // axios
-    //   .get(
-    //     `https://n39ydxznhf.execute-api.eu-west-2.amazonaws.com/dev/get-lsoas?clinicPostcode=${postcode}`
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //     this.getParticipantsFromLsoa(response.data);
-    //   });
+    // trigger lambda to get LSOAs in 100 mile radius
+    const postcodeHolder = "hello from componentDidMount"
+    axios
+      .get(
+        `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/get-lsoas-in-range?clinicPostcode=${postcodeHolder}`
+      )
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          lsoaInRange: response.data
+        })
+        this.getParticipantsFromLsoa(response.data);
+      });
   }
 
   render() {
