@@ -10,20 +10,22 @@ export default function ClinicInvitationCriteria(props) {
   } = props;
 
   return (
-    <div class="nhsuk-grid-column-two-thirds">
-      <h2 label="header">Clinic Invitation Criteria</h2>
-      <div class="govuk-form-group">
-        <h3>
+    <div id="clinic-invitation-criteria-section" class="nhsuk-grid-column-two-thirds">
+      <h2 id="section-heading" label="header">
+        Clinic Invitation Criteria
+      </h2>
+      <div id="section-content" class="govuk-form-group">
+        <h3 id="input-label">
           <label class="govuk-label govuk-label--s" for="weight">
             Set the target percentage of appointments to fill
           </label>
         </h3>
         {displayUserErrorTargetPercentage && (
-          <div class="nhsuk-error-message">
-            The target percentage must be between 1% and 100%{" "}
+          <div id="error-message" class="nhsuk-error-message">
+            The target percentage must be between 1% and 100%
           </div>
         )}
-        <div class="govuk-input__wrapper">
+        <div id="user-input-container" class="govuk-input__wrapper">
           <input
             class={
               displayUserErrorTargetPercentage
@@ -43,6 +45,7 @@ export default function ClinicInvitationCriteria(props) {
             onChange={(e) => onTargetFillToInputChangeHandler(e)}
           />
           <div
+            id="input-suffix-percentage"
             class={
               displayUserErrorTargetPercentage
                 ? "govuk-input__suffix govuk-input__suffix--error"
@@ -55,6 +58,7 @@ export default function ClinicInvitationCriteria(props) {
         </div>
       </div>
       <button
+        id="update-button"
         class="nhsuk-button nhsuk-button--secondary"
         data-module="nhsuk-button"
         type="submit"
@@ -62,9 +66,9 @@ export default function ClinicInvitationCriteria(props) {
       >
         Update
       </button>
-      <dl class="nhsuk-summary-list">
-        <div class="nhsuk-summary-list__row">
-          <dt class="nhsuk-summary-list__key">
+      <dl id="summary-list" class="nhsuk-summary-list">
+        <div id="summary-list-content" class="nhsuk-summary-list__row">
+          <dt id="term-label" class="nhsuk-summary-list__key">
             Target number of appointments to fill
           </dt>
           <dd id="target-apps-to-fill" class="nhsuk-summary-list__value">
