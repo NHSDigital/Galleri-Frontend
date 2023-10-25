@@ -36,47 +36,6 @@ class ClinicInformation extends Component {
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
   }
 
-  // Calculating the Target number of appointments to fill
-  calculateTargetAppsToFill(targetFillToInputValue) {
-    this.setState({
-      appsToFill : Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue/100)),
-    });
-  }
-
-  // DB actions to PUT target percentage of appointments to fill
-  async putTargetPercentageAWSDynamo(value) {
-    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-
-    try {
-      const response = await axios.put(
-      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
-        { targetPercentage: Number(value) }
-      );
-
-      return response.data;
-    } catch (error) {
-      console.error("Request failed: " + error.message);
-    }
-  }
-
-  // Handler Function for user errors and calculating target number of appointments to fill
-  async onClickTargetAppsToFillHandler(targetFillToInputValue) {
-    let value = Number(targetFillToInputValue);
-
-    if ((value)&&(value <= 100)){
-      await this.putTargetPercentageAWSDynamo(value);
-      this.calculateTargetAppsToFill(targetFillToInputValue);
-      this.setState({
-        displayUserErrorTargetPercentage: false,
-      });
-    } else{
-      this.setState({
-        displayUserErrorTargetPercentage: true,
-      });
-    }
-  }
-
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
     const now = Date.now()
@@ -111,7 +70,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.put(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        "https://8d2pxup6u6.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
 
@@ -186,7 +145,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://8d2pxup6u6.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -233,7 +192,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://8d2pxup6u6.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
@@ -247,7 +206,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://8d2pxup6u6.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
         const targetPercentageValue = response.data.targetPercentage.N;
