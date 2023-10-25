@@ -290,7 +290,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://vu2rzsgfok.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
         console.log(response);
@@ -307,7 +307,7 @@ class ClinicInformation extends Component {
     const postcodeHolder = "AAA"
     axios
       .get(
-        `https://vu2rzsgfok.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}`
+        `https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}`
       )
       .then((response) => {
         console.log(response);
