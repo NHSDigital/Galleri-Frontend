@@ -26,7 +26,7 @@ class ClinicInformation extends Component {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
         "invSent": 0,
-        "appsRemaining": 100
+        "appsRemaining": 0
       },
     }
 
@@ -35,13 +35,6 @@ class ClinicInformation extends Component {
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
   }
-
-  onTargetFillToInputChangeHandler(e) {
-    this.setState({
-      targetFillToInputValue: e.target.value,
-    });
-  }
-
 
   // Calculating the Target number of appointments to fill
   calculateTargetAppsToFill(targetFillToInputValue) {
@@ -84,7 +77,6 @@ class ClinicInformation extends Component {
     }
   }
 
-
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
     const now = Date.now()
@@ -103,6 +95,53 @@ class ClinicInformation extends Component {
       return date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
     })
     return convertSortedArrayToString
+  }
+
+  // Calculating the Target number of appointments to fill
+  calculateTargetAppsToFill(targetFillToInputValue) {
+    this.setState({
+      appsToFill : Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue/100)),
+    });
+  }
+
+  // DB actions to PUT target percentage of appointments to fill
+  async putTargetPercentageAWSDynamo(value) {
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+
+    try {
+      const response = await axios.put(
+      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+        "https://dabul70xh3.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        { targetPercentage: Number(value) }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Request failed: " + error.message);
+    }
+  }
+
+  // Handler Function for user errors and calculating target number of appointments to fill
+  async onClickTargetAppsToFillHandler(targetFillToInputValue) {
+    let value = Number(targetFillToInputValue);
+
+    if ((value)&&(value <= 100)){
+      await this.putTargetPercentageAWSDynamo(value);
+      this.calculateTargetAppsToFill(targetFillToInputValue);
+      this.setState({
+        displayUserErrorTargetPercentage: false,
+      });
+    } else{
+      this.setState({
+        displayUserErrorTargetPercentage: true,
+      });
+    }
+  }
+
+  onTargetFillToInputChangeHandler(e) {
+    this.setState({
+      targetFillToInputValue: e.target.value,
+    });
   }
 
   onClickChangeClinicHandler() {
@@ -231,7 +270,6 @@ class ClinicInformation extends Component {
       displayClinicSelector,
       recentInvitationHistory,
       displayUserErrorTargetPercentage,
-      hideUserErrorTargetPercentageExceed,
       targetFillToInputValue,
       appsToFill,
     } = this.state
@@ -249,7 +287,6 @@ class ClinicInformation extends Component {
           cancelChangeText={cancelChangeText}
           recentInvitationHistory={recentInvitationHistory}
           displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
-          hideUserErrorTargetPercentageExceed={hideUserErrorTargetPercentageExceed}
           targetFillToInputValue={targetFillToInputValue}
           appsToFill={appsToFill}
           onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}

@@ -20,7 +20,6 @@ export default function ClinicInformationPage(props) {
     onClickChangeClinicHandler,
     onChangeSelectedClinicHandler,
     displayUserErrorTargetPercentage,
-    hideUserErrorTargetPercentageExceed,
     targetFillToInputValue,
     appsToFill,
     onClickTargetAppsToFillHandler,
@@ -97,9 +96,7 @@ export default function ClinicInformationPage(props) {
           <br />
           <RecentInvitationHistory props={recentInvitationHistory} />
           <ClinicInvitationCriteria
-            props={recentInvitationHistory}
             displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
-            hideUserErrorTargetPercentageExceed={hideUserErrorTargetPercentageExceed}
             targetFillToInputValue={targetFillToInputValue}
             appsToFill={appsToFill}
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
