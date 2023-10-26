@@ -31,7 +31,7 @@ export default class ClinicSummary extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/clinic-summary-list?participatingIcb=${this.state.icbSelected}`
+        `https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/clinic-summary-list?participatingIcb=${this.state.icbSelected}`
       )
       .then((response) => {
         this.setState({
@@ -62,7 +62,7 @@ export default class ClinicSummary extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`
+        `https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`
       )
       .then((response) => {
         this.setState({

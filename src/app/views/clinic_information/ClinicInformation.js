@@ -131,7 +131,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -176,7 +176,7 @@ class ClinicInformation extends Component {
     const lsoaCodeArray = "getParticipantsFromLsoa"
     axios
       .get(
-        `https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/get-participants-in-lsoa?lsoaList=${lsoaCodeArray}`
+        `https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/get-participants-in-lsoa?lsoaList=${lsoaCodeArray}`
       )
       .then((response) => {
         this.setState({
@@ -196,7 +196,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
       )
       .then((response) => {
         this.setState({
@@ -213,7 +213,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
         console.log(response);
@@ -230,7 +230,7 @@ class ClinicInformation extends Component {
     const postcodeHolder = "AAA"
     axios
       .get(
-        `https://d9w122nsel.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}`
+        `https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}`
       )
       .then((response) => {
         console.log(response);
