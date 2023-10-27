@@ -29,7 +29,6 @@ class ClinicInformation extends Component {
       },
       "lsoaInRange": [],
       "populationInLsoa": [],
-      "lsoaList": []
     }
 
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
@@ -290,12 +289,10 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://w7ges5wg60.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
-        console.log(response);
         const targetPercentageValue = response.data.targetPercentage.N;
-        console.log(targetPercentageValue);
         this.setState({
           inputValue: targetPercentageValue,
         });
@@ -307,14 +304,24 @@ class ClinicInformation extends Component {
     const postcodeHolder = "AAA"
     axios
       .get(
-        `https://9yjwiancb3.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}`
+        `https://w7ges5wg60.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}`
       )
       .then((response) => {
-        console.log(response);
         this.setState({
-          lsoaInRange: response.data
+          lsoaInRange: response.data.sort((a,b) => a.DISTANCE_TO_SITE?.N - b.DISTANCE_TO_SITE?.N) // needs to be decile not distance
         })
-        this.getParticipantsFromLsoa(response.data);
+      });
+
+    // trigger lambda to get participants in selected LSOA
+    const lsoaCodeArray = "getParticipantsFromLsoa"
+    axios
+      .get(
+        `https://w7ges5wg60.execute-api.eu-west-2.amazonaws.com/dev/get-participants-in-lsoa?lsoaList=${lsoaCodeArray}`
+      )
+      .then((response) => {
+        this.setState({
+          populationInLsoa: response.data
+        })
       });
   }
 
