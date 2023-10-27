@@ -1,28 +1,41 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const lsoaList = [
-    {
-      "LsoaName": { "S": "LSOA A"},
-      "Distance": { "N": "10"},
-      "ForecastUptake": { "N": "16 %"},
-      "ImdDecile": { "N": "1"},
-      "Eligible": { "N": "500"},
-      "Invited": { "N": "50"},
-      "AvailableToInvite": { "N": "450"}
-    },
-    {
-      "LsoaName": { "S": "LSOA B"},
-      "Distance": { "N": "15"},
-      "ForecastUptake": { "N": "14 %"},
-      "ImdDecile": { "N": "2"},
-      "Eligible": { "N": "250"},
-      "Invited": { "N": "100"},
-      "AvailableToInvite": { "N": "150"}
-    }
-  ]
   const { lsoaInRange, populationInLsoa } = prop;
-  const props = { lsoaList }
+
+
+
+  function generateLsoaTableData(lsoaData, populationData) {
+       const tableInfo = []
+    console.log("In generateLsoaTableData")
+    console.log(`lsoaData.length = ${lsoaData.length}| populationData.length = ${populationData.length}`)
+
+    const formatedPopulationPayload = JSON.parse(JSON.stringify(populationData))
+    const lsoaTableItemArray = lsoaData.map((lsoaItem, index) => {
+      const lsoaItemCode =
+      formatedPopulationPayload.find(populationItem => {
+        return populationItem.LSOA_2011?.S === lsoaItem.LSOA_2011.S
+      })
+      if (lsoaItemCode != undefined){
+        console.log(`Found matching lsoa at index ${index}`)
+        delete lsoaItemCode.LSOA_2011
+        console.log({
+          ...lsoaItem,
+          ...lsoaItemCode
+        })
+        return tableInfo.push({
+          ...lsoaItem,
+          ...lsoaItemCode
+        })
+      }
+    })
+
+
+    return tableInfo;
+    // return lsoaTableItemArray
+  }
+
+  const tableArray = generateLsoaTableData(lsoaInRange, populationInLsoa)
 
   return (
     <div /*class="nhsuk-grid-column-two-thirds"*/>
@@ -99,7 +112,7 @@ export default function LsoaTable(prop) {
             </tr>
           </thead>
           <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-            {lsoaInRange?.map((e, key) => {
+            {tableArray?.map((e, key) => {
               return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
@@ -128,13 +141,13 @@ export default function LsoaTable(prop) {
                     {e.IMD_DECILE?.N}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.ELIGIBLE_POPULATION?.N}
+                    {e.ELIGIBLE_POPULATION?.S}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.INVITED_POPULATION?.N}
+                    {e.INVITED_POPULATION?.S}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {Number(e.ELIGIBLE_POPULATION?.N) - Number(e.INVITED_POPULATION?.N)}
+                    {Number(e.ELIGIBLE_POPULATION?.S) - Number(e.INVITED_POPULATION?.S)}
                   </td>
                 </tr>
               );
