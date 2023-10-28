@@ -4,39 +4,6 @@ export default function LsoaTable(prop) {
   const { lsoaInRange, populationInLsoa } = prop;
 
 
-
-  function generateLsoaTableData(lsoaData, populationData) {
-       const tableInfo = []
-    console.log("In generateLsoaTableData")
-    console.log(`lsoaData.length = ${lsoaData.length}| populationData.length = ${populationData.length}`)
-
-    const formatedPopulationPayload = JSON.parse(JSON.stringify(populationData))
-    const lsoaTableItemArray = lsoaData.map((lsoaItem, index) => {
-      const lsoaItemCode =
-      formatedPopulationPayload.find(populationItem => {
-        return populationItem.LSOA_2011?.S === lsoaItem.LSOA_2011.S
-      })
-      if (lsoaItemCode != undefined){
-        console.log(`Found matching lsoa at index ${index}`)
-        delete lsoaItemCode.LSOA_2011
-        console.log({
-          ...lsoaItem,
-          ...lsoaItemCode
-        })
-        return tableInfo.push({
-          ...lsoaItem,
-          ...lsoaItemCode
-        })
-      }
-    })
-
-
-    return tableInfo;
-    // return lsoaTableItemArray
-  }
-
-  const tableArray = generateLsoaTableData(lsoaInRange, populationInLsoa)
-
   return (
     <div /*class="nhsuk-grid-column-two-thirds"*/>
       <div class="govuk-form-group" id="lsoaText">
@@ -112,7 +79,7 @@ export default function LsoaTable(prop) {
             </tr>
           </thead>
           <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-            {tableArray?.map((e, key) => {
+            {lsoaInRange?.map((e, key) => {
               return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
@@ -154,6 +121,17 @@ export default function LsoaTable(prop) {
             })}
           </tbody>
         </table>
+      </div>
+      <br/>
+      <div class="nhsuk-grid-column-two-thirds">
+        <dl class="nhsuk-summary-list">
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+              Total available to invite
+            </dt>
+            <dd class="nhsuk-summary-list__value">{lsoaInRange.reduce((acc,curr) => acc + Number(curr.ELIGIBLE_POPULATION?.S),0)}</dd>
+          </div>
+        </dl>
       </div>
     </div>
   );
