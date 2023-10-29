@@ -27,7 +27,6 @@ export default function ClinicInformationPage(props) {
     onTargetFillToInputChangeHandler,
     lsoaList,
     lsoaInRange,
-    populationInLsoa,
     checkAll,
     checkAllHandler,
     handleSelection
@@ -114,7 +113,6 @@ export default function ClinicInformationPage(props) {
           <div class="nhsuk-grid-column-full">
             <LsoaTable
               lsoaInRange={lsoaInRange}
-              populationInLsoa={populationInLsoa}
               checkAll={checkAll}
               checkAllHandler={checkAllHandler}
               handleSelection={handleSelection}

@@ -29,7 +29,6 @@ class ClinicInformation extends Component {
         "appsRemaining": 0
       },
       "lsoaInRange": [],
-      "populationInLsoa": [],
       "rangeSelection": 1
     }
 
@@ -402,7 +401,6 @@ class ClinicInformation extends Component {
       targetFillToInputValue,
       appsToFill,
       lsoaInRange,
-      populationInLsoa,
       checkAll
     } = this.state
     return (
@@ -424,7 +422,6 @@ class ClinicInformation extends Component {
           onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
           onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
           lsoaInRange={lsoaInRange}
-          populationInLsoa={populationInLsoa}
           checkAll={checkAll}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
