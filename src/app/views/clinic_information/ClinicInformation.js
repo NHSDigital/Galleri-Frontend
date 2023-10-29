@@ -21,6 +21,7 @@ class ClinicInformation extends Component {
       "displayUserErrorTargetPercentage": false,
       "targetFillToInputValue": 0,
       "appsToFill": 0,
+      "checkAll": false,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
@@ -29,12 +30,33 @@ class ClinicInformation extends Component {
       },
       "lsoaInRange": [],
       "populationInLsoa": [],
+      "rangeSelection": 1
     }
 
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
+  }
+
+  checkAllHandler(event) {
+    if(event.target.checked) {
+      this.setState({
+        checkAll: true
+      })
+    } else {
+      this.setState({
+        checkAll: false
+      })
+    }
+
+  }
+
+  handleSelection(value){
+    console.log("before = ", this.state.rangeSelection)
+    this.setState({
+      rangeSelection: Number(value.target.selectedOptions[0].text)
+    })
   }
 
   calculateDaysSince(date) {
@@ -305,7 +327,7 @@ class ClinicInformation extends Component {
     const postcodeHolder = "AAA"
     axios
       .get(
-        `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}`
+        `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
@@ -346,6 +368,24 @@ class ClinicInformation extends Component {
     //   });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // Typical usage (don't forget to compare props):
+    if (this.state.rangeSelection !== prevState.rangeSelection) {
+      // make the axios call
+      const postcodeHolder = "AAA"
+      axios
+        .get(
+          `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+        )
+        .then((response) => {
+          this.setState({
+            lsoaInRange: response.data.sort((a,b) => a.DISTANCE_TO_SITE?.N - b.DISTANCE_TO_SITE?.N) // needs to be decile not distance
+          })
+        })
+    }
+  }
+
+
   render() {
     const {
       clinicList,
@@ -362,7 +402,8 @@ class ClinicInformation extends Component {
       targetFillToInputValue,
       appsToFill,
       lsoaInRange,
-      populationInLsoa
+      populationInLsoa,
+      checkAll
     } = this.state
     return (
       <div>
@@ -384,8 +425,11 @@ class ClinicInformation extends Component {
           onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
           lsoaInRange={lsoaInRange}
           populationInLsoa={populationInLsoa}
+          checkAll={checkAll}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
+          checkAllHandler={this.checkAllHandler}
+          handleSelection={this.handleSelection}
         />
       </div>
     );

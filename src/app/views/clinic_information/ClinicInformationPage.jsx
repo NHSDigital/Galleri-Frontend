@@ -27,7 +27,10 @@ export default function ClinicInformationPage(props) {
     onTargetFillToInputChangeHandler,
     lsoaList,
     lsoaInRange,
-    populationInLsoa
+    populationInLsoa,
+    checkAll,
+    checkAllHandler,
+    handleSelection
   } = props;
 
   return (
@@ -112,6 +115,9 @@ export default function ClinicInformationPage(props) {
             <LsoaTable
               lsoaInRange={lsoaInRange}
               populationInLsoa={populationInLsoa}
+              checkAll={checkAll}
+              checkAllHandler={checkAllHandler}
+              handleSelection={handleSelection}
             />
           </div>
         </div>
