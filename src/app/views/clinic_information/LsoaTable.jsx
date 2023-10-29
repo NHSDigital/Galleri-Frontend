@@ -1,8 +1,11 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, populationInLsoa } = prop;
+  const { lsoaInRange, populationInLsoa, checkAll, checkAllHandler, handleSelection } = prop;
 
+  const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
+
+  mileSelectionOptions.shift()
 
   return (
     <div /*class="nhsuk-grid-column-two-thirds"*/>
@@ -24,9 +27,11 @@ export default function LsoaTable(prop) {
           }
           id="milesFromSite"
           name="miles"
-          onChange={(e) => handleInputChange(e)}
+          onChange={(e) => handleSelection(e)}
         >
-          <option value="first">+1</option>
+          {mileSelectionOptions.map((e, key) => {
+            return(<option value="">{e}</option>)
+          })}
         </select>
         <div
           class={ "govuk-input__suffix"
@@ -51,8 +56,14 @@ export default function LsoaTable(prop) {
                     name="SelectAllLsoaInList"
                     type="checkbox"
                     value=""
-                    // onChange={(e) => onCheckHandler(e)}
+                    onChange={(e) => checkAllHandler(e)
+                    }
                   />
+                  <label
+                    class="nhsuk-label nhsuk-checkboxes__label"
+                    for="selectAllLsoa"
+                  >
+                  </label>
                 </div>
               </th>
               <th role="columnheader" class="" scope="col">
@@ -83,16 +94,39 @@ export default function LsoaTable(prop) {
               return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
-                    <div class="nhsuk-checkboxes__item">
-                      <input
+                      {checkAll ? (
+                      <div class="nhsuk-checkboxes__item">
+                        <input
                         class="nhsuk-checkboxes__input"
-                        id="selectAnLsoa"
-                        name="SelectAnLsoaInList"
+                        id="selectALsoa"
+                        name="SelectALsoaInList"
+                        type="checkbox"
+                        checked="true"
+                        value=""
+                        />
+                        <label
+                          class="nhsuk-label nhsuk-checkboxes__label"
+                          for="selectALsoa"
+                        >
+                        </label>
+                      </div>
+                      ): (
+                      <div class="nhsuk-checkboxes__item">
+                        <input
+                        class="nhsuk-checkboxes__input"
+                        id="selectALsoa"
+                        name="SelectALsoaInList"
                         type="checkbox"
                         value=""
-                        // onChange={(e) => onCheckHandler(e)}
-                      />
-                    </div>
+                        />
+                        <label
+                          class="nhsuk-label nhsuk-checkboxes__label"
+                          for="selectALsoa"
+                        >
+                        </label>
+                      </div>
+                      )
+                      }
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
                     {/* {e.LsoaName?.S} */}

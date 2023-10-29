@@ -26,7 +26,10 @@ export default function ClinicInformationPage(props) {
     onClickUpdateHandler,
     handleInputChange,
     lsoaInRange,
-    populationInLsoa
+    populationInLsoa,
+    checkAll,
+    checkAllHandler,
+    handleSelection
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -110,6 +113,9 @@ export default function ClinicInformationPage(props) {
             <LsoaTable
               lsoaInRange={lsoaInRange}
               populationInLsoa={populationInLsoa}
+              checkAll={checkAll}
+              checkAllHandler={checkAllHandler}
+              handleSelection={handleSelection}
             />
           </div>
         </div>
