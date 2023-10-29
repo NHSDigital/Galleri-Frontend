@@ -30,7 +30,7 @@ export default function LsoaTable(prop) {
           onChange={(e) => handleSelection(e)}
         >
           {mileSelectionOptions.map((e, key) => {
-            return(<option value="">{e}</option>)
+            return(<option value="">+{e}</option>)
           })}
         </select>
         <div
@@ -48,7 +48,7 @@ export default function LsoaTable(prop) {
         <table role="table" class="nhsuk-table-responsive">
           <thead role="rowgroup" class="nhsuk-table__head">
             <tr role="row">
-              <th role="columnheader" class="" scope="col">
+              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
                 <div class="nhsuk-checkboxes__item">
                   <input
                     class="nhsuk-checkboxes__input"
@@ -56,8 +56,7 @@ export default function LsoaTable(prop) {
                     name="SelectAllLsoaInList"
                     type="checkbox"
                     value=""
-                    onChange={(e) => checkAllHandler(e)
-                    }
+                    onChange={(e) => checkAllHandler(e)}
                   />
                   <label
                     class="nhsuk-label nhsuk-checkboxes__label"
@@ -66,26 +65,32 @@ export default function LsoaTable(prop) {
                   </label>
                 </div>
               </th>
-              <th role="columnheader" class="" scope="col">
+              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
                 LSOA name
               </th>
-              <th role="columnheader" class="" scope="col">
+              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
                 Distance
               </th>
               <th role="columnheader" class="" scope="col">
-                Forecast uptake
+                Forecast
+                <br/>
+                uptake
               </th>
               <th role="columnheader" class="" scope="col">
-                IMD decile
+                IMD
+                <br/>
+                decile
               </th>
-              <th role="columnheader" class="" scope="col">
+              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
                 Eligible
               </th>
-              <th role="columnheader" class="" scope="col">
+              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
                 Invited
               </th>
               <th role="columnheader" class="" scope="col">
-                Available to invite
+                Available
+                <br/>
+                to invite
               </th>
             </tr>
           </thead>
@@ -97,12 +102,13 @@ export default function LsoaTable(prop) {
                       {checkAll ? (
                       <div class="nhsuk-checkboxes__item">
                         <input
-                        class="nhsuk-checkboxes__input"
-                        id="selectALsoa"
-                        name="SelectALsoaInList"
-                        type="checkbox"
-                        checked="true"
-                        value=""
+                          class="nhsuk-checkboxes__input"
+                          id="selectALsoa"
+                          name="SelectALsoaInList"
+                          type="checkbox"
+                          checked="true"
+                          // onChange={(e) => checkAllHandler(e)}
+                          value=""
                         />
                         <label
                           class="nhsuk-label nhsuk-checkboxes__label"
@@ -113,11 +119,11 @@ export default function LsoaTable(prop) {
                       ): (
                       <div class="nhsuk-checkboxes__item">
                         <input
-                        class="nhsuk-checkboxes__input"
-                        id="selectALsoa"
-                        name="SelectALsoaInList"
-                        type="checkbox"
-                        value=""
+                          class="nhsuk-checkboxes__input"
+                          id="selectALsoa"
+                          name="SelectALsoaInList"
+                          type="checkbox"
+                          value=""
                         />
                         <label
                           class="nhsuk-label nhsuk-checkboxes__label"

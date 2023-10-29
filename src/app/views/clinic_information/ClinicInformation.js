@@ -332,46 +332,13 @@ class ClinicInformation extends Component {
         this.setState({
           lsoaInRange: response.data.sort((a,b) => a.DISTANCE_TO_SITE?.N - b.DISTANCE_TO_SITE?.N) // needs to be decile not distance
         })
-        // const lsoaCodeArray = response.data.map( lsoa => {
-        //   return lsoa.LSOA_2011.S
-        // })
-        // console.log("Size of lsoa data going to api = ", lsoaCodeArray.length)
-        // axios
-        //   .post(
-        //     `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/get-participants-in-lsoa`,
-        //     {
-        //       lsoaCodeArray: lsoaCodeArray.slice(0,1)
-        //     }
-        //   )
-        //   .then((response) => {
-        //     this.setState({
-        //       populationInLsoa: response.data
-        //     })
-        //   });
       });
-
-    // trigger lambda to get participants in selected LSOA
-    const lsoaCodeArray = this.state.lsoaInRange
-    // .map( lsoa => {
-    //   return lsoa.LSOA_2011.S
-    // })
-    // console.log("Size of lsoa data going to api = ", lsoaCodeArray)
-    // axios
-    //   .get(
-    //     `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/get-participants-in-lsoa?lsoaList=${lsoaCodeArray}`
-    //   )
-    //   .then((response) => {
-    //     this.setState({
-    //       populationInLsoa: response.data
-    //     })
-    //   });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // Typical usage (don't forget to compare props):
-    if (this.state.rangeSelection !== prevState.rangeSelection) {
+  componentDidUpdate(_, prevState) {
+    if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
       // make the axios call
-      const postcodeHolder = "AAA"
+      const postcodeHolder = "AAA" // pass in the this.state.postcode
       axios
         .get(
           `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
