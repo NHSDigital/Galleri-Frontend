@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, populationInLsoa, checkAll, checkAllHandler, handleSelection } = prop;
+  const { lsoaInRange, checkAll, checkAllHandler, handleSelection } = prop;
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 

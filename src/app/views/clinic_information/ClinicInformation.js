@@ -30,7 +30,6 @@ class ClinicInformation extends Component {
         "appsRemaining": 0
       },
       "lsoaInRange": [],
-      "populationInLsoa": [],
       "rangeSelection": 1
     }
 
@@ -310,7 +309,6 @@ class ClinicInformation extends Component {
       isInputTargetPercentageExceed,
       inputValue,
       lsoaInRange,
-      populationInLsoa,
       checkAll
     } = this.state
     return (
@@ -330,7 +328,6 @@ class ClinicInformation extends Component {
           isInputTargetPercentageExceed={isInputTargetPercentageExceed}
           inputValue={inputValue}
           lsoaInRange={lsoaInRange}
-          populationInLsoa={populationInLsoa}
           checkAll={checkAll}
           handleInputChange={this.handleInputChange}
           onClickUpdateHandler={this.onClickUpdateHandler}
