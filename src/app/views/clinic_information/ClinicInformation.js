@@ -70,7 +70,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.put(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        "https://zo7vpsqrw6.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
 
@@ -145,7 +145,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://zo7vpsqrw6.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -159,7 +159,6 @@ class ClinicInformation extends Component {
             });
             weeklyCapacityValue += Number(weeklyCapacityData[key].N)
           });
-          console.log(response);
 
           const clinicInvitationHistory = {
             dateOfPrevInv: response.data.PrevInviteDate.S,
@@ -170,18 +169,19 @@ class ClinicInformation extends Component {
             appsRemaining: weeklyCapacityValue,
           };
 
+          const addressParts = (response.data.Address.S).split(',');
+          const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+
           this.setState({
             clinicId: response.data.ClinicId.S,
             clinicName: response.data.ClinicName.S,
-            address1: response.data.Address.S,
-            // address2: response.data.Address2.S,
+            address1: addressParts[0].trim(),
+            address2: firstWordAfterComma,
             postcode: response.data.PostCode.S,
             weeklyCapacity: weeklyCapacityList,
             currentlySelectedClinic: e.target.value,
-            // cancelChangeText: "Change clinic",
             cancelChangeText: "Cancel change",
             recentInvitationHistory: clinicInvitationHistory,
-            // displayClinicSelector: false
           })
         });
     }
@@ -200,7 +200,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icb.code}`
+        `https://zo7vpsqrw6.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icb.code}`
       )
       .then((response) => {
         this.setState({
@@ -214,7 +214,7 @@ class ClinicInformation extends Component {
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
           .get(
-            `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+            `https://zo7vpsqrw6.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {
             const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -238,28 +238,42 @@ class ClinicInformation extends Component {
               appsRemaining: weeklyCapacityValue,
             };
 
+            const addressParts = (response.data.Address.S).split(',');
+            const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+
             this.setState({
               clinicId: response.data.ClinicId.S,
               clinicName: response.data.ClinicName.S,
               address1: response.data.Address.S,
+              address1: addressParts[0].trim(),
+              address2: firstWordAfterComma,
               postcode: response.data.PostCode.S,
               weeklyCapacity: weeklyCapacityList,
               recentInvitationHistory: clinicInvitationHistory,
-            })
-          });
-      });
+            },
+              () => {
+                // This callback will execute after the state has been updated
+                const recentInvitationHistory = this.state.recentInvitationHistory;
+                console.log('State updated:', recentInvitationHistory);
 
-    //Executes GET API call below when page renders - grabs default/previous value
-    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-    axios
-      .get(
-        "https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
-      )
-      .then((response) => {
-        const targetPercentageValue = response.data.targetPercentage.N;
-        this.setState({
-          targetFillToInputValue: targetPercentageValue,
-        });
+                //Executes GET API call below when page renders - grabs default Target Percentage input value
+                // and displays the target number of appointments to fill
+                // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+                axios
+                  .get(
+                    "https://zo7vpsqrw6.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+                  )
+                  .then((response) => {
+                    const targetPercentageValue = response.data.targetPercentage.N;
+                    console.log(recentInvitationHistory);
+                    this.setState({
+                      targetFillToInputValue: targetPercentageValue,
+                      appsToFill: Math.floor(recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                    });
+                  });
+              }
+            )
+          });
       });
   }
 
