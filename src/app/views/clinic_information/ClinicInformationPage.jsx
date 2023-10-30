@@ -25,6 +25,7 @@ export default function ClinicInformationPage(props) {
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
   } = props;
+
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -71,6 +72,7 @@ export default function ClinicInformationPage(props) {
                 <select
                   class="nhsuk-select"
                   id="clinic-selector"
+                  value={clinicName}
                   onChange={(e) => {
                     onChangeSelectedClinicHandler(e);
                   }}
