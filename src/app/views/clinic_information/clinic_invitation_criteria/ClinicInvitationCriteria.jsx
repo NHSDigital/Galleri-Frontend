@@ -10,7 +10,10 @@ export default function ClinicInvitationCriteria(props) {
   } = props;
 
   return (
-    <div id="clinic-invitation-criteria-section" class="nhsuk-grid-column-two-thirds">
+    <div
+      id="clinic-invitation-criteria-section"
+      class="nhsuk-grid-column-two-thirds"
+    >
       <h2 id="section-heading" label="header">
         Clinic Invitation Criteria
       </h2>
@@ -66,16 +69,26 @@ export default function ClinicInvitationCriteria(props) {
       >
         Update
       </button>
-      <dl id="summary-list" class="nhsuk-summary-list">
-        <div id="summary-list-content" class="nhsuk-summary-list__row">
-          <dt id="term-label" class="nhsuk-summary-list__key">
-            Target number of appointments to fill
-          </dt>
-          <dd id="target-apps-to-fill" class="nhsuk-summary-list__value">
-            {appsToFill}
-          </dd>
-        </div>
-      </dl>
+      <div>
+        <dl id="summary-list" class="nhsuk-summary-list">
+          <div id="summary-list-content" class="nhsuk-summary-list__row">
+            <dt
+              style={{ borderTop: "1px solid #d8dde0" }}
+              id="term-label"
+              class="nhsuk-summary-list__key"
+            >
+              Target number of appointments to fill
+            </dt>
+            <dd
+              style={{ borderTop: "1px solid #d8dde0" }}
+              id="target-apps-to-fill"
+              class="nhsuk-summary-list__value"
+            >
+              {appsToFill}
+            </dd>
+          </div>
+        </dl>
+      </div>
     </div>
   );
 }
