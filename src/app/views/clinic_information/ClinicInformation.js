@@ -19,9 +19,9 @@ class ClinicInformation extends Component {
       "currentlySelectedClinicId": "",
       "currentlySelectedClinic": "",
       "displayClinicSelector": false,
-      "displayUserErrorTargetPercentage" : false,
-      "targetFillToInputValue" : 0,
-      "appsToFill" : 0,
+      "displayUserErrorTargetPercentage": false,
+      "targetFillToInputValue": 0,
+      "appsToFill": 0,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
@@ -42,10 +42,10 @@ class ClinicInformation extends Component {
 
     const diff = now - unixTime
 
-    return Math.floor(diff/86400000)
+    return Math.floor(diff / 86400000)
   }
 
-  sortDate(weeklyArray){
+  sortDate(weeklyArray) {
     const sortedWeeklyArray = weeklyArray.map(el => {
       return Date.parse(el)
     }).sort()
@@ -59,7 +59,7 @@ class ClinicInformation extends Component {
   // Calculating the Target number of appointments to fill
   calculateTargetAppsToFill(targetFillToInputValue) {
     this.setState({
-      appsToFill : Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue/100)),
+      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
     });
   }
 
@@ -69,8 +69,8 @@ class ClinicInformation extends Component {
 
     try {
       const response = await axios.put(
-      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://8d2pxup6u6.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+        "https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
 
@@ -84,13 +84,13 @@ class ClinicInformation extends Component {
   async onClickTargetAppsToFillHandler(targetFillToInputValue) {
     let value = Number(targetFillToInputValue);
 
-    if ((value)&&(value <= 100)){
+    if ((value) && (value <= 100)) {
       await this.putTargetPercentageAWSDynamo(value);
       this.calculateTargetAppsToFill(targetFillToInputValue);
       this.setState({
         displayUserErrorTargetPercentage: false,
       });
-    } else{
+    } else {
       this.setState({
         displayUserErrorTargetPercentage: true,
       });
@@ -145,7 +145,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://8d2pxup6u6.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -155,17 +155,18 @@ class ClinicInformation extends Component {
           weeklyCapacityKeys.forEach((key) => {
             weeklyCapacityList.push({
               date: key,
-              value: weeklyCapacityData[key].S,
+              value: weeklyCapacityData[key].N,
             });
-            weeklyCapacityValue += Number(weeklyCapacityData[key].S)
+            weeklyCapacityValue += Number(weeklyCapacityData[key].N)
           });
+          console.log(response);
 
           const clinicInvitationHistory = {
-            dateOfPrevInv: response.data.prevInviteDate.S,
+            dateOfPrevInv: response.data.PrevInviteDate.S,
             daysSincePrevInv: this.calculateDaysSince(
-              response.data.prevInviteDate.S
+              response.data.PrevInviteDate.S
             ),
-            invSent: response.data.invitesSent.N,
+            invSent: response.data.InvitesSent.N,
             appsRemaining: weeklyCapacityValue,
           };
 
@@ -173,40 +174,86 @@ class ClinicInformation extends Component {
             clinicId: response.data.ClinicId.S,
             clinicName: response.data.ClinicName.S,
             address1: response.data.Address.S,
-            address2: response.data.Address2.S,
+            // address2: response.data.Address2.S,
             postcode: response.data.PostCode.S,
             weeklyCapacity: weeklyCapacityList,
             currentlySelectedClinic: e.target.value,
-            cancelChangeText: "Change clinic",
+            // cancelChangeText: "Change clinic",
+            cancelChangeText: "Cancel change",
             recentInvitationHistory: clinicInvitationHistory,
-            displayClinicSelector: false
+            // displayClinicSelector: false
           })
         });
     }
   }
 
   componentDidMount() {
-    const icbId = "Participating ICB 2"
+    //Mocked the data below which is supposed to be retrieved from previous page - "Clinic Summary"
+    const icb = {
+      code: "QJK",
+      board: "NHS DEVON INTEGRATED CARE BOARD",
+      id: "NHS DEVON INTEGRATED CARE BOARD"
+    };
+
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://8d2pxup6u6.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icb.code}`
       )
       .then((response) => {
         this.setState({
-          clinicList: [this.state.clinicList, ...response.data.map(clinic => {
+          clinicList: [...response.data.map(clinic => {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }
           })]
-        })
+        });
+
+        let initialSelectedClinicId = response.data[0].ClinicId.S
+        let initialSelectedClinic = response.data[0].ClinicName.S
+        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+        axios
+          .get(
+            `https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+          )
+          .then((response) => {
+            const weeklyCapacityData = response.data.WeekCommencingDate.M;
+            const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
+            let weeklyCapacityValue = 0
+            let weeklyCapacityList = [];
+            weeklyCapacityKeys.forEach((key) => {
+              weeklyCapacityList.push({
+                date: key,
+                value: weeklyCapacityData[key].N,
+              });
+              weeklyCapacityValue += Number(weeklyCapacityData[key].N)
+            });
+
+            const clinicInvitationHistory = {
+              dateOfPrevInv: response.data.PrevInviteDate.S,
+              daysSincePrevInv: this.calculateDaysSince(
+                response.data.PrevInviteDate.S
+              ),
+              invSent: response.data.InvitesSent.N,
+              appsRemaining: weeklyCapacityValue,
+            };
+
+            this.setState({
+              clinicId: response.data.ClinicId.S,
+              clinicName: response.data.ClinicName.S,
+              address1: response.data.Address.S,
+              postcode: response.data.PostCode.S,
+              weeklyCapacity: weeklyCapacityList,
+              recentInvitationHistory: clinicInvitationHistory,
+            })
+          });
       });
 
     //Executes GET API call below when page renders - grabs default/previous value
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://8d2pxup6u6.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+        "https://pc7tbxmzyj.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
       )
       .then((response) => {
         const targetPercentageValue = response.data.targetPercentage.N;
