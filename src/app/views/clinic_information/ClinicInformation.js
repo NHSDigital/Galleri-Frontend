@@ -65,8 +65,6 @@ class ClinicInformation extends Component {
 
   // DB actions to PUT target percentage of appointments to fill
   async putTargetPercentageAWSDynamo(value) {
-    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-
     try {
       const response = await axios.put(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
@@ -183,6 +181,11 @@ class ClinicInformation extends Component {
             cancelChangeText: "Change clinic",
             displayClinicSelector: false,
             recentInvitationHistory: clinicInvitationHistory,
+          },() => {
+            this.setState({
+              appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+            });
+
           })
         });
     }
@@ -254,8 +257,6 @@ class ClinicInformation extends Component {
             },
               () => {
                 // This callback will execute after the state has been updated
-                const recentInvitationHistory = this.state.recentInvitationHistory;
-                console.log('State updated:', recentInvitationHistory);
 
                 //Executes GET API call below when page renders - grabs default Target Percentage input value
                 // and displays the target number of appointments to fill
@@ -266,10 +267,9 @@ class ClinicInformation extends Component {
                   )
                   .then((response) => {
                     const targetPercentageValue = response.data.targetPercentage.N;
-                    console.log(recentInvitationHistory);
                     this.setState({
                       targetFillToInputValue: targetPercentageValue,
-                      appsToFill: Math.floor(recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
                     });
                   });
               }
