@@ -180,7 +180,8 @@ class ClinicInformation extends Component {
             postcode: response.data.PostCode.S,
             weeklyCapacity: weeklyCapacityList,
             currentlySelectedClinic: e.target.value,
-            cancelChangeText: "Cancel change",
+            cancelChangeText: "Change clinic",
+            displayClinicSelector: false,
             recentInvitationHistory: clinicInvitationHistory,
           })
         });
