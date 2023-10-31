@@ -369,8 +369,9 @@ class ClinicInformation extends Component {
       //////  Amar /////////////
 
     // trigger lambda to get LSOAs in 100 mile radius
-    // const clinicPostcode = this.state.postcode
-    const postcodeHolder = "UB8 2PQ"
+    // placeholder postcode as the clinic postcode is generated off of random string
+    // therefore there is no guarentee that the postcode actually exists
+    const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
     axios
       .get(
         `https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
@@ -384,8 +385,10 @@ class ClinicInformation extends Component {
 
   componentDidUpdate(_, prevState) {
     if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
-      // make the axios call
-      const postcodeHolder = "UB8 2PQ" // pass in the this.state.postcode
+      // placeholder postcode as the clinic postcode is generated off of random string
+      // therefore there is no guarantee that the postcode actually exists
+
+      const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
           `https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
