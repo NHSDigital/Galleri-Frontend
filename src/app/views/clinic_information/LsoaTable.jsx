@@ -8,7 +8,7 @@ export default function LsoaTable(prop) {
   mileSelectionOptions.shift()
 
   return (
-    <div /*class="nhsuk-grid-column-two-thirds"*/>
+    <div>
       <div class="govuk-form-group" id="lsoaText">
         <h3>
           <label class="govuk-label govuk-label--s" for="selectDistanceText">
@@ -19,11 +19,7 @@ export default function LsoaTable(prop) {
       <div class="govuk-input__wrapper" id="distance">
         <select
           class={
-            // "govuk-input govuk-input--width-5"
             "nhsuk-select"
-            // isInputTargetPercentageExceed && isInputTargetPercentageTotal
-              // ? "govuk-input govuk-input--width-5"
-              // : "govuk-input govuk-input--width-5 govuk-input--error"
           }
           id="milesFromSite"
           name="miles"
@@ -34,11 +30,7 @@ export default function LsoaTable(prop) {
           })}
         </select>
         <div
-          class={ "govuk-input__suffix"
-            // isInputTargetPercentageExceed && isInputTargetPercentageTotal
-              // ? "govuk-input__suffix"
-              // : "govuk-input__suffix govuk-input__suffix--error"
-          }
+          class={ "govuk-input__suffix" }
           aria-hidden="true"
         >
           miles
@@ -107,7 +99,6 @@ export default function LsoaTable(prop) {
                           name="SelectALsoaInList"
                           type="checkbox"
                           checked="true"
-                          // onChange={(e) => checkAllHandler(e)}
                           value=""
                         />
                         <label
@@ -135,7 +126,6 @@ export default function LsoaTable(prop) {
                       }
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {/* {e.LsoaName?.S} */}
                     {e.LSOA_2011?.S}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">

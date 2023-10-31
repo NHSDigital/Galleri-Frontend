@@ -340,7 +340,7 @@ class ClinicInformation extends Component {
       )
       .then((response) => {
         this.setState({
-          lsoaInRange: response.data.sort((a,b) => a.DISTANCE_TO_SITE?.N - b.DISTANCE_TO_SITE?.N) // needs to be decile not distance
+          lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
         })
       });
   }
@@ -356,7 +356,7 @@ class ClinicInformation extends Component {
         )
         .then((response) => {
           this.setState({
-            lsoaInRange: response.data.sort((a,b) => a.DISTANCE_TO_SITE?.N - b.DISTANCE_TO_SITE?.N) // needs to be decile not distance
+            lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
           })
         })
     }
