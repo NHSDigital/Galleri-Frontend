@@ -2,7 +2,6 @@ import React from "react";
 
 export default function WeeklyCapacityTable(props) {
   const { weeklyCapacity, lastUpdated } = props;
-  console.log(weeklyCapacity);
   return (
     <div class="nhsuk-grid-row">
       <div class="nhsuk-grid-column-full">
