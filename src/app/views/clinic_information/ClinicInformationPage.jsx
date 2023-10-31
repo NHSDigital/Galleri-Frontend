@@ -25,7 +25,6 @@ export default function ClinicInformationPage(props) {
     appsToFill,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
-    lsoaList,
     lsoaInRange,
     checkAll,
     checkAllHandler,
