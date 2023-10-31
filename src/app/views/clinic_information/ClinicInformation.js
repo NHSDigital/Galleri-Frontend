@@ -50,43 +50,12 @@ class ClinicInformation extends Component {
         checkAll: false
       })
     }
-
   }
 
   handleSelection(value){
-    console.log("before = ", this.state.rangeSelection)
     this.setState({
       rangeSelection: Number(value.target.selectedOptions[0].text)
     })
-  }
-
-  handleInputChange(e) {
-    this.setState({
-      inputValue: e.target.value,
-    });
-  }
-
-  onClickUpdateHandler(inputValue) {
-    let value = inputValue;
-    if (value === "") {
-      this.setState({
-        isInputTargetPercentageTotal: false,
-      });
-    } else {
-      this.setState({
-        isInputTargetPercentageTotal: true,
-      });
-    }
-
-    if (value > 100) {
-      this.setState({
-        isInputTargetPercentageExceed: false,
-      });
-    } else {
-      this.setState({
-        isInputTargetPercentageExceed: true,
-      });
-    }
   }
 
   checkAllHandler(event) {
@@ -103,7 +72,6 @@ class ClinicInformation extends Component {
   }
 
   handleSelection(value){
-    console.log("before = ", this.state.rangeSelection)
     this.setState({
       rangeSelection: Number(value.target.selectedOptions[0].text)
     })
@@ -350,10 +318,6 @@ class ClinicInformation extends Component {
           });
       });
 
-    ///////  Amar /////////////
-
-    // axios.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
-    // axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
@@ -366,9 +330,7 @@ class ClinicInformation extends Component {
         });
       });
 
-      //////  Amar /////////////
-
-    // trigger lambda to get LSOAs in 100 mile radius
+    // Trigger lambda to get LSOAs in 100 mile radius
     // placeholder postcode as the clinic postcode is generated off of random string
     // therefore there is no guarentee that the postcode actually exists
     const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
@@ -387,7 +349,6 @@ class ClinicInformation extends Component {
     if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
       // placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
-
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
@@ -400,7 +361,6 @@ class ClinicInformation extends Component {
         })
     }
   }
-
 
   render() {
     const {
