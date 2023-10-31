@@ -37,7 +37,7 @@ class ClinicInformation extends Component {
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
-    this.handleSelection = this.handleSelection.bind(this);
+    this.handleRangeSelection = this.handleRangeSelection.bind(this);
   }
 
   checkAllHandler(event) {
@@ -52,26 +52,7 @@ class ClinicInformation extends Component {
     }
   }
 
-  handleSelection(value){
-    this.setState({
-      rangeSelection: Number(value.target.selectedOptions[0].text)
-    })
-  }
-
-  checkAllHandler(event) {
-    if(event.target.checked) {
-      this.setState({
-        checkAll: true
-      })
-    } else {
-      this.setState({
-        checkAll: false
-      })
-    }
-
-  }
-
-  handleSelection(value){
+  handleRangeSelection(value){
     this.setState({
       rangeSelection: Number(value.target.selectedOptions[0].text)
     })
@@ -403,7 +384,7 @@ class ClinicInformation extends Component {
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
           checkAllHandler={this.checkAllHandler}
-          handleSelection={this.handleSelection}
+          handleRangeSelection={this.handleRangeSelection}
         />
       </div>
     );

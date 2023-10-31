@@ -29,7 +29,7 @@ export default function ClinicInformationPage(props) {
     lsoaInRange,
     checkAll,
     checkAllHandler,
-    handleSelection
+    handleRangeSelection
   } = props;
 
   return (
@@ -115,7 +115,7 @@ export default function ClinicInformationPage(props) {
               lsoaInRange={lsoaInRange}
               checkAll={checkAll}
               checkAllHandler={checkAllHandler}
-              handleSelection={handleSelection}
+              handleRangeSelection={handleRangeSelection}
             />
           </div>
         </div>

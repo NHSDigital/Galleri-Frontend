@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAll, checkAllHandler, handleSelection } = prop;
+  const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection } = prop;
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
@@ -23,7 +23,7 @@ export default function LsoaTable(prop) {
           }
           id="milesFromSite"
           name="miles"
-          onChange={(e) => handleSelection(e)}
+          onChange={(e) => handleRangeSelection(e)}
         >
           {mileSelectionOptions.map((e, key) => {
             return(<option value="">+{e}</option>)
