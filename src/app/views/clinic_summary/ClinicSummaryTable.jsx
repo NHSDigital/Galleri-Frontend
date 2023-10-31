@@ -3,7 +3,6 @@ import Pagination from "../../components/pagination";
 
 export default function ClinicSummaryTable(props) {
   const { onCheckHandler } = props;
-  console.log("props.clinicList = ", props.clinicList);
   return (
     <div>
       <table role="table" class="nhsuk-table-responsive">
@@ -58,27 +57,33 @@ export default function ClinicSummaryTable(props) {
           </tr>
         </thead>
         <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-          {props.clinicList?.map((e, key) => {
-            return (
-              <tr role="row" class="nhsuk-table__row">
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.ClinicName?.S}
-                </td>
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.PrevInviteDate?.S}
-                </td>
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.DaySincePrevInvite?.N}
-                </td>
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.InvitesSent?.N}
-                </td>
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.Availability?.N}
-                </td>
-              </tr>
-            );
-          })}
+          {props.clinicList
+            .sort((a, b) => {
+              return (
+                Number(b.DaySincePrevInvite.N) - Number(a.DaySincePrevInvite.N)
+              );
+            })
+            ?.map((e, key) => {
+              return (
+                <tr role="row" class="nhsuk-table__row">
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.ClinicName?.S}
+                  </td>
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.PrevInviteDate?.S}
+                  </td>
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.DaySincePrevInvite?.N}
+                  </td>
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.InvitesSent?.N}
+                  </td>
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.Availability?.N}
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
       <br />
