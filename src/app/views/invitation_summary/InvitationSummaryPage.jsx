@@ -65,13 +65,24 @@ RG14 4RH
               role="alert"
               tabindex="-1"
             >
-              <h2 class="nhsuk-error-summary__title nhsuk-u-margin-bottom-2" id="error-summary-title">
+              <h2
+                class="nhsuk-error-summary__title nhsuk-u-margin-bottom-2"
+                id="error-summary-title"
+              >
                 There is a problem
               </h2>
               <div class="nhsuk-error-summary__body">
                 <p>There are no invitations to generate</p>
               </div>
             </div>
+
+            <div class="govuk-panel govuk-panel--confirmation nhsuk-u-margin-bottom-7">
+              <h1 class="govuk-panel__title">Complete</h1>
+              <div class="govuk-panel__body">
+                The invitations have been generated
+              </div>
+            </div>
+
             <p style={{ whiteSpace: "pre" }}>
               <strong>{clinicNameHolder}</strong>
               {addressHolder}
@@ -176,7 +187,7 @@ RG14 4RH
 
             <dl
               id="summary-list-2"
-              class="nhsuk-summary-list nhsuk-u-margin-bottom-8"
+              class="nhsuk-summary-list nhsuk-u-margin-bottom-8 nhsuk-error-summary__list"
             >
               <div id="" class="nhsuk-summary-list__row">
                 <dt
@@ -194,17 +205,30 @@ RG14 4RH
                 </dd>
               </div>
               <div id="" class="nhsuk-summary-list__row">
-                <dt id="term2-label" class="nhsuk-summary-list__key">
+                <dt
+                  id="term2-label"
+                  class="nhsuk-summary-list__key nhsuk-error-message"
+                >
                   Number of invitations to generate
                 </dt>
                 <dd
                   id=""
                   class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
                 >
-                  {summaryList.invitationsToGenerateHolder}
+                  0
                 </dd>
               </div>
             </dl>
+
+            <div className="nhsuk-u-margin-bottom-8">
+              <a
+                id="changeCancelButtonId"
+                style={{ textDecorationLine: "underline" }}
+                onClick={() => {}}
+              >
+                Return to clinic invitations
+              </a>
+            </div>
 
             <button
               class="nhsuk-button"
@@ -213,6 +237,18 @@ RG14 4RH
             >
               Generate invitations
             </button>
+
+            <h2 class="govuk-heading-m">What happens next</h2>
+            <ul>
+              <li>
+                The invitations will be sent out to the participants using comms
+                manager
+              </li>
+              <li>
+                The participants will be able to book their appointment at any
+                clinic that has availability
+              </li>
+            </ul>
           </div>
         </div>
       </main>
