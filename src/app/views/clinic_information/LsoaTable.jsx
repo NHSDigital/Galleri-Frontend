@@ -159,7 +159,7 @@ export default function LsoaTable(prop) {
             <dt class="nhsuk-summary-list__key">
               Total available to invite
             </dt>
-            <dd class="nhsuk-summary-list__value">{lsoaInRange.reduce((acc,curr) => acc + Number(curr.ELIGIBLE_POPULATION?.S),0)}</dd>
+            <dd class="nhsuk-summary-list__value">{lsoaInRange.reduce((acc,curr) => acc + (Number(curr.ELIGIBLE_POPULATION?.S) - Number(curr.INVITED_POPULATION?.S)),0)}</dd>
           </div>
         </dl>
       </div>
