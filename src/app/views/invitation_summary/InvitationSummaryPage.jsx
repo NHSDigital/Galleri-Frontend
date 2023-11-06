@@ -1,5 +1,12 @@
 import "../../styles/css/sass.css";
 import React from "react";
+import ClinicInfo from "./ClinicInfo";
+import CheckDetailsBanner from "./CheckDetailsBanner";
+import ErrorBanner from "./ErrorBanner";
+import ConfirmationBanner from "./ConfirmationBanner";
+import Actions from "./Actions";
+import SummaryListFirst from "./SummaryListFirst";
+import SummaryListSecond from "./SummaryListSecond";
 
 export default function InvitationSummaryPage(props) {
   const {
@@ -16,27 +23,9 @@ export default function InvitationSummaryPage(props) {
     displayConfirmationInvitationSummary,
     recentInvitationHistory,
     onClickGenerateHandler,
-    dummySummaryList
+    dummySummaryList,
   } = props;
 
-
-  const clinicNameHolder = `Phlebotomy clinic 5`;
-
-  const addressHolder = `
-West Hospital
-Big Town
-RG14 4RH
-  `;
-
-  // const summaryList = {
-  //   clinicDistanceHolder: "+ 5 miles",
-  //   availableInvitationsHolder: "4,372",
-  //   remainingAppointmentsHolder: "240",
-  //   targetFillPercentageHolder: "50 %",
-  //   targetAppointmentsToFillHolder: "120",
-  //   expectedUptakeRateHolder: "24 %",
-  //   invitationsToGenerateHolder: "500",
-  // };
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -57,218 +46,27 @@ RG14 4RH
                 Go back to clinic invitations
               </a>
             </div>
-            <h1 label="header">Invitation summary</h1>
-            {displayCheckDetailsBanner && (
-              <div class="nhsuk-inset-text">
-                <span class="nhsuk-u-visually-hidden">Validation Alert: </span>
-                <h3>Check these details before you generate invitations</h3>
-              </div>
-            )}
+            <h1 id="header">Invitation summary</h1>
+            {displayCheckDetailsBanner && <CheckDetailsBanner />}
           </div>
-          <div class="nhsuk-grid-column-two-thirds">
+          <div id="main-content" className="nhsuk-grid-column-two-thirds">
             {displayErrorInvitationSummary && (
-              <div
-                class="nhsuk-error-summary nhsuk-u-padding-bottom-0"
-                aria-labelledby="error-summary-title"
-                role="alert"
-                tabindex="-1"
-              >
-                <h2
-                  class="nhsuk-error-summary__title nhsuk-u-margin-bottom-2"
-                  id="error-summary-title"
-                >
-                  There is a problem
-                </h2>
-                <div class="nhsuk-error-summary__body">
-                  <p>There are no invitations to generate</p>
-                </div>
-              </div>
+              <ErrorBanner dummySummaryList={dummySummaryList} />
             )}
-
-            {displayConfirmationInvitationSummary && (
-              <div class="govuk-panel govuk-panel--confirmation nhsuk-u-margin-bottom-7">
-                <h1 class="govuk-panel__title">Complete</h1>
-                <div class="govuk-panel__body">
-                  The invitations have been generated
-                </div>
-              </div>
-            )}
-
-            <p style={{ whiteSpace: "pre" }}>
-              <strong>{clinicNameHolder}</strong>
-              {addressHolder}
-            </p>
-
-            <dl
-              id="summary-list-1"
-              class="nhsuk-summary-list nhsuk-u-margin-bottom-9"
-            >
-              <div id="" class="nhsuk-summary-list__row">
-                <dt
-                  style={{ width: "350px" }}
-                  id="term1-label"
-                  class="nhsuk-summary-list__key"
-                >
-                  Distance from clinic
-                </dt>
-                <dd
-                  id=""
-                  class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
-                >
-                  {dummySummaryList.clinicDistanceHolder}
-                </dd>
-              </div>
-              <div id="" class="nhsuk-summary-list__row">
-                <dt id="term2-label" class="nhsuk-summary-list__key">
-                  Total available to invite
-                </dt>
-                <dd
-                  id=""
-                  class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
-                >
-                  {dummySummaryList.availableInvitationsHolder}
-                </dd>
-              </div>
-              <div id="" class="nhsuk-summary-list__row">
-                <dt id="term3-label" class="nhsuk-summary-list__key">
-                  Appointments remaining
-                </dt>
-                <dd
-                  id=""
-                  class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
-                >
-                  {dummySummaryList.remainingAppointmentsHolder}
-                </dd>
-              </div>
-              <div id="" class="nhsuk-summary-list__row">
-                <dt id="term4-label" class="nhsuk-summary-list__key">
-                  Target percentage of appointments to fill
-                </dt>
-                <dd
-                  id=""
-                  class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
-                >
-                  {dummySummaryList.targetFillPercentageHolder}
-                </dd>
-              </div>
-              <div id="" class="nhsuk-summary-list__row">
-                <dt id="term5-label" class="nhsuk-summary-list__key">
-                  Target number of appointments to fill
-                </dt>
-                <dd
-                  id=""
-                  class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
-                >
-                  {dummySummaryList.targetAppointmentsToFillHolder}
-                </dd>
-              </div>
-            </dl>
-
-            {displayErrorInvitationSummary ? (
-              <dl
-                id="summary-list-2"
-                class="nhsuk-summary-list nhsuk-u-margin-bottom-8 nhsuk-error-summary__list"
-              >
-                <div id="" class="nhsuk-summary-list__row">
-                  <dt
-                    style={{ width: "350px" }}
-                    id="term1-label"
-                    class="nhsuk-summary-list__key"
-                  >
-                    Overall expected uptake
-                  </dt>
-                  <dd
-                    id=""
-                    class="nhsuk-summary-list__value nhsuk-u-padding-left-1"
-                  >
-                    {dummySummaryList.expectedUptakeRateHolder}
-                  </dd>
-                </div>
-                <div id="" class="nhsuk-summary-list__row">
-                  <dt
-                    id="term2-label"
-                    class="nhsuk-summary-list__key nhsuk-error-message"
-                  >
-                    Number of invitations to generate
-                  </dt>
-                  <dd
-                    id=""
-                    class="nhsuk-summary-list__value nhsuk-u-padding-left-1"
-                  >
-                    0
-                  </dd>
-                </div>
-              </dl>
-            ) : (
-              <dl
-                id="summary-list-2"
-                class="nhsuk-summary-list nhsuk-u-margin-bottom-8"
-              >
-                <div id="" class="nhsuk-summary-list__row">
-                  <dt
-                    style={{ width: "350px" }}
-                    id="term1-label"
-                    class="nhsuk-summary-list__key"
-                  >
-                    Overall expected uptake
-                  </dt>
-                  <dd
-                    id=""
-                    class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
-                  >
-                    {dummySummaryList.expectedUptakeRateHolder}
-                  </dd>
-                </div>
-                <div id="" class="nhsuk-summary-list__row">
-                  <dt id="term2-label" class="nhsuk-summary-list__key">
-                    Number of invitations to generate
-                  </dt>
-                  <dd
-                    id=""
-                    class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
-                  >
-                    {dummySummaryList.invitationsToGenerateHolder}
-                  </dd>
-                </div>
-              </dl>
-            )}
-
-            <div className="nhsuk-u-margin-bottom-8">
-              <a
-                id="changeCancelButtonId"
-                style={{ textDecorationLine: "underline" }}
-                onClick={() => {}}
-              >
-                Return to clinic invitations
-              </a>
-            </div>
-
-            {!displayConfirmationInvitationSummary && (
-              <button
-                class="nhsuk-button"
-                data-module="nhsuk-button"
-                type="submit"
-                onClick={() => onClickGenerateHandler()}
-              >
-                Generate invitations
-              </button>
-            )}
-
-            {displayConfirmationInvitationSummary && (
-              <>
-                <h2 class="govuk-heading-m">What happens next</h2>
-                <ul>
-                  <li>
-                    The invitations will be sent out to the participants using
-                    comms manager
-                  </li>
-                  <li>
-                    The participants will be able to book their appointment at
-                    any clinic that has availability
-                  </li>
-                </ul>
-              </>
-            )}
+            {displayConfirmationInvitationSummary && <ConfirmationBanner />}
+            <ClinicInfo />
+            <SummaryListFirst dummySummaryList={dummySummaryList} />
+            <SummaryListSecond
+              dummySummaryList={dummySummaryList}
+              displayErrorInvitationSummary={displayErrorInvitationSummary}
+            />
+            <Actions
+              onClickGenerateHandler={onClickGenerateHandler}
+              displayErrorInvitationSummary={displayErrorInvitationSummary}
+              displayConfirmationInvitationSummary={
+                displayConfirmationInvitationSummary
+              }
+            />
           </div>
         </div>
       </main>

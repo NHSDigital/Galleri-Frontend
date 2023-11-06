@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import InvitationSummaryPage from './InvitationSummaryPage';
 
 class InvitationSummary extends Component {
@@ -13,11 +12,6 @@ class InvitationSummary extends Component {
       "address2": "",
       "postcode": "",
       "weeklyCapacity": [],
-      "lastUpdated": "14 July 2024, 1.00am",
-      "cancelChangeText": "Change clinic",
-      "currentlySelectedClinicId": "",
-      "currentlySelectedClinic": "",
-      "displayClinicSelector": false,
       "displayCheckDetailsBanner": true,
       "displayErrorInvitationSummary": false,
       "displayConfirmationInvitationSummary": false,
@@ -28,30 +22,37 @@ class InvitationSummary extends Component {
         "appsRemaining": 0
       },
       "dummySummaryList": {
-      "clinicDistanceHolder": "+ 5 miles",
-      "availableInvitationsHolder": "4,372",
-      "remainingAppointmentsHolder": "240",
-      "targetFillPercentageHolder": "50 %",
-      "targetAppointmentsToFillHolder": "120",
-      "expectedUptakeRateHolder": "24 %",
-      "invitationsToGenerateHolder": "0",
+        "clinicDistanceHolder": "+ 5 miles",
+        "availableInvitationsHolder": "4,372",
+        "remainingAppointmentsHolder": "240",
+        "targetFillPercentageHolder": "50 %",
+        "targetAppointmentsToFillHolder": "120",
+        "expectedUptakeRateHolder": "24 %",
+        "invitationsToGenerateHolder": "500",
       }
 
     }
     this.onClickGenerateHandler = this.onClickGenerateHandler.bind(this);
   }
 
+  scrollToMainContent() {
+    const mainContent = document.getElementById('header');
+    if (mainContent) {
+      mainContent.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   onClickGenerateHandler() {
     this.setState({
       displayConfirmationInvitationSummary: true,
       displayCheckDetailsBanner: false
-    })
+    });
+    this.scrollToMainContent();
 
   }
 
   componentDidMount() {
-    if (this.state.dummySummaryList.invitationsToGenerateHolder === "0" ) {
+    if (this.state.dummySummaryList.invitationsToGenerateHolder === "0") {
       this.setState({
         displayErrorInvitationSummary: true,
         displayCheckDetailsBanner: false
