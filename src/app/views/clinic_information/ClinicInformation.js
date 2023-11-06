@@ -299,18 +299,6 @@ class ClinicInformation extends Component {
           });
       });
 
-    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-    axios
-      .get(
-        "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
-      )
-      .then((response) => {
-        const targetPercentageValue = response.data.targetPercentage.N;
-        this.setState({
-          inputValue: targetPercentageValue,
-        });
-      });
-
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
     // therefore there is no guarentee that the postcode actually exists
