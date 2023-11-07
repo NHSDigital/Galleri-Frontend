@@ -13,8 +13,8 @@ export default function Root() {
       <body className="js-enabled">
         <Header />
         {/* <Content /> */}
-        {/* <ClinicSummary /> */}
-        <InvitationPlanning />
+        <ClinicSummary />
+        {/* <InvitationPlanning /> */}
         {/* <ClinicInformation /> */}
         <Footer />
       </body>

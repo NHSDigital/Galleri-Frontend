@@ -62,7 +62,7 @@ export default class ClinicSummary extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://n7y2gwsfie.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`
+        `https://45arj8wtdk.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`
       )
       .then((response) => {
         this.setState({
