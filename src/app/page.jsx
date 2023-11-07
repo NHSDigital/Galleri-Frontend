@@ -14,8 +14,8 @@ export default function Root() {
         <Header />
         {/* <Content /> */}
         {/* <ClinicSummary /> */}
-        <InvitationPlanning />
-        {/* <ClinicInformation /> */}
+        {/* <InvitationPlanning /> */}
+        <ClinicInformation />
         <Footer />
       </body>
     </div>
