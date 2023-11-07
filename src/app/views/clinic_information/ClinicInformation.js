@@ -38,6 +38,7 @@ class ClinicInformation extends Component {
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
+    this.OnClickLsoaCodesAppsToFillHandler = this.OnClickLsoaCodesAppsToFillHandler.bind(this);
   }
 
   checkAllHandler(event) {
@@ -94,6 +95,23 @@ class ClinicInformation extends Component {
         { targetPercentage: Number(value) }
       );
 
+      return response.data;
+    } catch (error) {
+      console.error("Request failed: " + error.message);
+    }
+  }
+
+  // PUT lsoa codes and appsToFill (send to lambda)
+  async OnClickLsoaCodesAppsToFillHandler(tpv, lsoaCodes) {
+    try {
+      const response = await axios.put(
+        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+        "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
+        {
+          targetAppsToFill: Number(tpv),
+          lsoaCodes: [...lsoaCodes]
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Request failed: " + error.message);
@@ -309,7 +327,7 @@ class ClinicInformation extends Component {
       )
       .then((response) => {
         this.setState({
-          lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+          lsoaInRange: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
         })
       });
   }

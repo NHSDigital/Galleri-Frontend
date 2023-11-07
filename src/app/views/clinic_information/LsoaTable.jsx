@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection } = prop;
+  const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection, calcNumToInvite } = prop;
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
@@ -12,7 +12,7 @@ export default function LsoaTable(prop) {
       <div class="govuk-form-group" id="lsoaText">
         <h3>
           <label class="govuk-label govuk-label--s" for="selectDistanceText">
-          Select a distance from the clinic to find eligible people per lower layer super output area (LSOA)
+            Select a distance from the clinic to find eligible people per lower layer super output area (LSOA)
           </label>
         </h3>
       </div>
@@ -91,7 +91,7 @@ export default function LsoaTable(prop) {
               return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
-                      {checkAll ? (
+                    {checkAll ? (
                       <div class="nhsuk-checkboxes__item">
                         <input
                           class="nhsuk-checkboxes__input"
@@ -107,7 +107,7 @@ export default function LsoaTable(prop) {
                         >
                         </label>
                       </div>
-                      ): (
+                    ): (
                       <div class="nhsuk-checkboxes__item">
                         <input
                           class="nhsuk-checkboxes__input"
@@ -122,8 +122,8 @@ export default function LsoaTable(prop) {
                         >
                         </label>
                       </div>
-                      )
-                      }
+                    )
+                    }
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
                     {e.LSOA_2011?.S}
@@ -162,6 +162,7 @@ export default function LsoaTable(prop) {
             <dd class="nhsuk-summary-list__value">{lsoaInRange.reduce((acc,curr) => acc + (Number(curr.ELIGIBLE_POPULATION?.S) - Number(curr.INVITED_POPULATION?.S)),0)}</dd>
           </div>
         </dl>
+        <button class="nhsuk-button" onClick={calcNumToInvite} >Calculate number to invite</button>
       </div>
     </div>
   );

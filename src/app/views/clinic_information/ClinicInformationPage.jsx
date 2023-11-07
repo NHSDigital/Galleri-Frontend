@@ -28,7 +28,8 @@ export default function ClinicInformationPage(props) {
     lsoaInRange,
     checkAll,
     checkAllHandler,
-    handleRangeSelection
+    handleRangeSelection,
+    OnClickLsoaCodesAppsToFillHandler
   } = props;
 
   return (
@@ -115,6 +116,8 @@ export default function ClinicInformationPage(props) {
               checkAll={checkAll}
               checkAllHandler={checkAllHandler}
               handleRangeSelection={handleRangeSelection}
+              appsToFill={appsToFill}
+              calcNumToInvite={OnClickLsoaCodesAppsToFillHandler}
             />
           </div>
         </div>
