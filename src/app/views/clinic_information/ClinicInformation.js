@@ -391,6 +391,7 @@ class ClinicInformation extends Component {
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
           checkAllHandler={this.checkAllHandler}
           handleRangeSelection={this.handleRangeSelection}
+          OnClickLsoaCodesAppsToFillHandler={this.OnClickLsoaCodesAppsToFillHandler}
         />
       </div>
     );
