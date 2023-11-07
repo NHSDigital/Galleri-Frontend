@@ -1,11 +1,15 @@
 import "../../styles/css/sass.css";
 import React from "react";
 
-export default function SummaryListSecond({ dummySummaryList, displayErrorInvitationSummary }) {
+export default function SummaryListSecond({
+  dummySummaryList,
+  displayErrorInvitationSummary,
+}) {
   return (
     <>
       {displayErrorInvitationSummary ? (
         <dl
+          data-testid="summary-list-2-error"
           id="summary-list-2"
           class="nhsuk-summary-list nhsuk-u-margin-bottom-8 nhsuk-error-summary__list"
         >
@@ -35,6 +39,7 @@ export default function SummaryListSecond({ dummySummaryList, displayErrorInvita
         </dl>
       ) : (
         <dl
+          data-testid="summary-list-2"
           id="summary-list-2"
           class="nhsuk-summary-list nhsuk-u-margin-bottom-8"
         >

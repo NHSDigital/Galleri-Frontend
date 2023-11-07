@@ -1,7 +1,11 @@
 import "../../styles/css/sass.css";
 import React from "react";
 
-const Actions = ({ onClickGenerateHandler, displayConfirmationInvitationSummary, displayErrorInvitationSummary }) => (
+const Actions = ({
+  onClickGenerateHandler,
+  displayConfirmationInvitationSummary,
+  displayErrorInvitationSummary,
+}) => (
   <>
     <div className="nhsuk-u-margin-bottom-8">
       <a
@@ -14,6 +18,7 @@ const Actions = ({ onClickGenerateHandler, displayConfirmationInvitationSummary,
     </div>
     {!displayConfirmationInvitationSummary && (
       <button
+        data-testid="generate-button"
         className="nhsuk-button"
         data-module="nhsuk-button"
         type="submit"

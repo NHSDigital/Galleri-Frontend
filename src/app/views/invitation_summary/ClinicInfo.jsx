@@ -10,7 +10,7 @@ const ClinicInfo = () => {
   `;
 
   return (
-    <p style={{ whiteSpace: 'pre' }}>
+    <p data-testid="addressLine" style={{ whiteSpace: 'pre' }}>
       <strong>{clinicNameHolder}</strong>
       {addressHolder}
     </p>

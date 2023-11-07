@@ -4,6 +4,7 @@ import React from "react";
 export default function ErrorBanner() {
   return (
     <div
+      data-testid="error-banner"
       class="nhsuk-error-summary nhsuk-u-padding-bottom-0"
       aria-labelledby="error-summary-title"
       role="alert"

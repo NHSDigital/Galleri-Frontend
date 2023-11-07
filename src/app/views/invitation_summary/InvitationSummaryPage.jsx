@@ -27,7 +27,7 @@ export default function InvitationSummaryPage(props) {
   } = props;
 
   return (
-    <div class="nhsuk-width-container ">
+    <div data-testid="invitation-summary-container" class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
         <div class="nhsuk-grid-row">
           <div class="nhsuk-grid-column-full">
@@ -46,10 +46,10 @@ export default function InvitationSummaryPage(props) {
                 Go back to clinic invitations
               </a>
             </div>
-            <h1 id="header">Invitation summary</h1>
+            <h1 data-testid="header" id="header">Invitation summary</h1>
             {displayCheckDetailsBanner && <CheckDetailsBanner />}
           </div>
-          <div id="main-content" className="nhsuk-grid-column-two-thirds">
+          <div data-testid="main-content" id="main-content" className="nhsuk-grid-column-two-thirds">
             {displayErrorInvitationSummary && (
               <ErrorBanner dummySummaryList={dummySummaryList} />
             )}
