@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection, calcNumToInvite } = prop;
+  const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection, onClickLsoaCodesAppsToFillHandler } = prop;
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
@@ -26,11 +26,11 @@ export default function LsoaTable(prop) {
           onChange={(e) => handleRangeSelection(e)}
         >
           {mileSelectionOptions.map((e, key) => {
-            return(<option value="">+{e}</option>)
+            return (<option value="">+{e}</option>)
           })}
         </select>
         <div
-          class={ "govuk-input__suffix" }
+          class={"govuk-input__suffix"}
           aria-hidden="true"
         >
           miles
@@ -40,7 +40,7 @@ export default function LsoaTable(prop) {
         <table role="table" class="nhsuk-table-responsive">
           <thead role="rowgroup" class="nhsuk-table__head">
             <tr role="row">
-              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+              <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                 <div class="nhsuk-checkboxes__item">
                   <input
                     class="nhsuk-checkboxes__input"
@@ -57,31 +57,31 @@ export default function LsoaTable(prop) {
                   </label>
                 </div>
               </th>
-              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+              <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                 LSOA name
               </th>
-              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+              <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                 Distance
               </th>
               <th role="columnheader" class="" scope="col">
                 Forecast
-                <br/>
+                <br />
                 uptake
               </th>
               <th role="columnheader" class="" scope="col">
                 IMD
-                <br/>
+                <br />
                 decile
               </th>
-              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+              <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                 Eligible
               </th>
-              <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+              <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                 Invited
               </th>
               <th role="columnheader" class="" scope="col">
                 Available
-                <br/>
+                <br />
                 to invite
               </th>
             </tr>
@@ -107,7 +107,7 @@ export default function LsoaTable(prop) {
                         >
                         </label>
                       </div>
-                    ): (
+                    ) : (
                       <div class="nhsuk-checkboxes__item">
                         <input
                           class="nhsuk-checkboxes__input"
@@ -152,17 +152,19 @@ export default function LsoaTable(prop) {
           </tbody>
         </table>
       </div>
-      <br/>
+      <br />
       <div class="nhsuk-grid-column-two-thirds">
         <dl class="nhsuk-summary-list">
           <div class="nhsuk-summary-list__row">
             <dt class="nhsuk-summary-list__key">
               Total available to invite
             </dt>
-            <dd class="nhsuk-summary-list__value">{lsoaInRange.reduce((acc,curr) => acc + (Number(curr.ELIGIBLE_POPULATION?.S) - Number(curr.INVITED_POPULATION?.S)),0)}</dd>
+            <dd class="nhsuk-summary-list__value">{lsoaInRange.reduce((acc, curr) => acc + (Number(curr.ELIGIBLE_POPULATION?.S) - Number(curr.INVITED_POPULATION?.S)), 0)}</dd>
           </div>
         </dl>
-        <button class="nhsuk-button" onClick={calcNumToInvite} >Calculate number to invite</button>
+        <button class="nhsuk-button" onClick={((e) => {
+          onClickLsoaCodesAppsToFillHandler(e)
+        })} >Calculate number to invite</button>
       </div>
     </div>
   );

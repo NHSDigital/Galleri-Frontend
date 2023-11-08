@@ -29,7 +29,7 @@ export default function ClinicInformationPage(props) {
     checkAll,
     checkAllHandler,
     handleRangeSelection,
-    OnClickLsoaCodesAppsToFillHandler
+    onClickLsoaCodesAppsToFillHandler
   } = props;
 
   return (
@@ -117,7 +117,7 @@ export default function ClinicInformationPage(props) {
               checkAllHandler={checkAllHandler}
               handleRangeSelection={handleRangeSelection}
               appsToFill={appsToFill}
-              calcNumToInvite={OnClickLsoaCodesAppsToFillHandler}
+              onClickLsoaCodesAppsToFillHandler={onClickLsoaCodesAppsToFillHandler}
             />
           </div>
         </div>
