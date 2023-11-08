@@ -55,11 +55,18 @@ export default class ClinicSummary extends Component {
 
   componentDidMount() {
     // API call
-    const { lastUpdated, clinicList } = getClinicData();
+    const { lastUpdated, clinicList } = getClinicData(); // This is using mock data, rewire to response from server
 
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+
+    this.setState({
+      icbData: [...this.state.icbData, ...response.data],
+      lastUpdated: lastUpdated,
+      clinicList: clinicList,
+    });
+
     axios
       .get(
         `https://45arj8wtdk.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`
@@ -94,6 +101,7 @@ export default class ClinicSummary extends Component {
       filteredClinicList,
       displayClinicsNoApp
     );
+    console.log('DEBUG final cliniclist => ' + JSON.stringify(addDaysSinceLastInvite[0]));
     return (
       <div>
         <ClinicSummaryPage

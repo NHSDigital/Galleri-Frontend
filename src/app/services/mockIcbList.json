@@ -1,24 +1,16 @@
 {
   "icbList": [
     {
-      "icbId": "0",
-      "icbName": ""
+      "icbCode": "QMJ",
+      "icbName": "devon and cornwall"
     },
     {
-      "icbId": "1",
-      "icbName": "Participating ICB 1"
+      "icbCode": "QQQ",
+      "icbName": "other option"
     },
     {
-      "icbId": "2",
-      "icbName": "Participating ICB 2"
-    },
-    {
-      "icbId": "3",
-      "icbName": "Participating ICB 3"
-    },
-    {
-      "icbId": "4",
-      "icbName": "Participating ICB 4"
+      "icbCode": "JJJ",
+      "icbName": "other option 2"
     }
   ]
 }
