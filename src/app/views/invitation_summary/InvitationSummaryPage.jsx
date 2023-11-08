@@ -10,18 +10,9 @@ import SummaryListSecond from "./SummaryListSecond";
 
 export default function InvitationSummaryPage(props) {
   const {
-    clinicList,
-    clinicName,
-    address1,
-    address2,
-    postcode,
-    weeklyCapacity,
-    lastUpdated,
-    displayClinicSelector,
     displayCheckDetailsBanner,
     displayErrorInvitationSummary,
     displayConfirmationInvitationSummary,
-    recentInvitationHistory,
     onClickGenerateHandler,
     dummySummaryList,
   } = props;

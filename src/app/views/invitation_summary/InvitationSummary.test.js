@@ -38,6 +38,14 @@ describe('InvitationSummary Component', () => {
     expect(header.innerHTML).toBe('Invitation summary');
   })
 
+  test('should render Generate Invitation button ', () => {
+    const mockScrollIntoView = setupMockScrollIntoView();
+
+    let buttonText = screen.getByText('Generate invitations');
+    expect(buttonText.innerHTML).toBe('Generate invitations');
+    const button = screen.getByText('Generate invitations');
+  })
+
   test('should display Generate Invitation button and confirmation', () => {
     const mockScrollIntoView = setupMockScrollIntoView();
 
@@ -50,18 +58,7 @@ describe('InvitationSummary Component', () => {
     expect(completeText).toBeInTheDocument();
   });
 
-  test('should render Generate Invitation button ', () => {
-    const mockScrollIntoView = setupMockScrollIntoView();
-
-    let buttonText = screen.getByText('Generate invitations');
-    expect(buttonText.innerHTML).toBe('Generate invitations');
-    const button = screen.getByText('Generate invitations');
-    fireEvent.click(button);
-    let CompleteText = screen.getByText('The invitations have been generated');
-    expect(CompleteText.innerHTML).toBe('The invitations have been generated');
-  })
-
-  test('should render summary lists without errors', () => {
+  test('should render summary list second without errors', () => {
     const summaryList2 = screen.getByTestId('summary-list-2');
     const checkDetailsBanner = screen.getByTestId('check-details-banner');
 

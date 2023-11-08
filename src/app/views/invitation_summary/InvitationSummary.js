@@ -5,22 +5,10 @@ class InvitationSummary extends Component {
   constructor() {
     super();
     this.state = {
-      "clinicList": [{ "clinicId": "", "clinicName": "" }],
-      "clinicId": "",
-      "clinicName": "",
-      "address1": "",
-      "address2": "",
-      "postcode": "",
-      "weeklyCapacity": [],
       "displayCheckDetailsBanner": true,
       "displayErrorInvitationSummary": false,
       "displayConfirmationInvitationSummary": false,
-      "recentInvitationHistory": {
-        "dateOfPrevInv": "Not available",
-        "daysSincePrevInv": "Not available",
-        "invSent": 0,
-        "appsRemaining": 0
-      },
+      // Using the mock data below as placeholders for now until the Router is implemented to bring these values from previous pages
       "dummySummaryList": {
         "clinicDistanceHolder": "+ 5 miles",
         "availableInvitationsHolder": "4,372",
@@ -28,7 +16,7 @@ class InvitationSummary extends Component {
         "targetFillPercentageHolder": "50 %",
         "targetAppointmentsToFillHolder": "120",
         "expectedUptakeRateHolder": "24 %",
-        "invitationsToGenerateHolder": "500",
+        "invitationsToGenerateHolder": "500", // Change this to "0" to trigger the Error Scenario
       }
 
     }
@@ -62,37 +50,17 @@ class InvitationSummary extends Component {
 
   render() {
     const {
-      clinicList,
-      clinicName,
-      address1,
-      address2,
-      postcode,
-      weeklyCapacity,
-      lastUpdated,
-      cancelChangeText,
-      displayClinicSelector,
       displayCheckDetailsBanner,
       displayErrorInvitationSummary,
       displayConfirmationInvitationSummary,
-      recentInvitationHistory,
       dummySummaryList
     } = this.state
     return (
       <div>
         <InvitationSummaryPage
-          clinicList={clinicList}
-          clinicName={clinicName}
-          address1={address1}
-          address2={address2}
-          postcode={postcode}
-          weeklyCapacity={weeklyCapacity}
-          lastUpdated={lastUpdated}
-          displayClinicSelector={displayClinicSelector}
           displayCheckDetailsBanner={displayCheckDetailsBanner}
           displayErrorInvitationSummary={displayErrorInvitationSummary}
           displayConfirmationInvitationSummary={displayConfirmationInvitationSummary}
-          cancelChangeText={cancelChangeText}
-          recentInvitationHistory={recentInvitationHistory}
           dummySummaryList={dummySummaryList}
           onClickGenerateHandler={this.onClickGenerateHandler}
         />

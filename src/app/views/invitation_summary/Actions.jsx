@@ -9,9 +9,9 @@ const Actions = ({
   <>
     <div className="nhsuk-u-margin-bottom-8">
       <a
-        id="changeCancelButtonId"
+        id="returnToClinicInvitations-link"
         style={{ textDecorationLine: "underline" }}
-        onClick={() => {}}
+        onClick={() => {}} // Will have to come back and add a path to previous page after Router is implemented
       >
         Return to clinic invitations
       </a>
@@ -19,6 +19,7 @@ const Actions = ({
     {!displayConfirmationInvitationSummary && (
       <button
         data-testid="generate-button"
+        id="generate-button"
         className="nhsuk-button"
         data-module="nhsuk-button"
         type="submit"
