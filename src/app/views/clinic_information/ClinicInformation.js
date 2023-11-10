@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ClinicSummaryPage from './ClinicInformationPage';
+import ClinicInformationPage from "./ClinicInformationPage";
 import axios from 'axios';
+
 
 class ClinicInformation extends Component {
   constructor() {
@@ -18,15 +19,22 @@ class ClinicInformation extends Component {
       "currentlySelectedClinicId": "",
       "currentlySelectedClinic": "",
       "displayClinicSelector": false,
+      "displayUserErrorTargetPercentage": false,
+      "displayViewAllPrevInvitations": false,
+      "targetFillToInputValue": 0,
+      "appsToFill": 0,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
         "invSent": 0,
         "appsRemaining": 0
-      }
+      },
     }
+
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
+    this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
+    this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
   }
 
   calculateDaysSince(date) {
@@ -35,10 +43,10 @@ class ClinicInformation extends Component {
 
     const diff = now - unixTime
 
-    return Math.floor(diff/86400000)
+    return Math.floor(diff / 86400000)
   }
 
-  sortDate(weeklyArray){
+  sortDate(weeklyArray) {
     const sortedWeeklyArray = weeklyArray.map(el => {
       return Date.parse(el)
     }).sort()
@@ -47,6 +55,50 @@ class ClinicInformation extends Component {
       return date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
     })
     return convertSortedArrayToString
+  }
+
+  // Calculating the Target number of appointments to fill
+  calculateTargetAppsToFill(targetFillToInputValue) {
+    this.setState({
+      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
+    });
+  }
+
+  // DB actions to PUT target percentage of appointments to fill
+  async putTargetPercentageAWSDynamo(value) {
+    try {
+      const response = await axios.put(
+        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+        "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        { targetPercentage: Number(value) }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Request failed: " + error.message);
+    }
+  }
+
+  // Handler Function for user errors and calculating target number of appointments to fill
+  async onClickTargetAppsToFillHandler(targetFillToInputValue) {
+    let value = Number(targetFillToInputValue);
+
+    if ((value) && (value <= 100)) {
+      await this.putTargetPercentageAWSDynamo(value);
+      this.calculateTargetAppsToFill(targetFillToInputValue);
+      this.setState({
+        displayUserErrorTargetPercentage: false,
+      });
+    } else {
+      this.setState({
+        displayUserErrorTargetPercentage: true,
+      });
+    }
+  }
+
+  onTargetFillToInputChangeHandler(e) {
+    this.setState({
+      targetFillToInputValue: e.target.value,
+    });
   }
 
   onClickChangeClinicHandler() {
@@ -91,7 +143,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://q8rpjf6rtg.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://f2cy8ksz2g.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -101,51 +153,144 @@ class ClinicInformation extends Component {
           weeklyCapacityKeys.forEach((key) => {
             weeklyCapacityList.push({
               date: key,
-              value: weeklyCapacityData[key].S,
+              value: weeklyCapacityData[key].N,
             });
-            weeklyCapacityValue += Number(weeklyCapacityData[key].S)
+            weeklyCapacityValue += Number(weeklyCapacityData[key].N)
           });
 
+          const prevInviteDate = response.data.PrevInviteDate.S;
+          const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
+          const daysSincePrevInv = prevInviteDate
+            ? this.calculateDaysSince(prevInviteDate)
+            : "Not Available";
+
           const clinicInvitationHistory = {
-            dateOfPrevInv: response.data.prevInviteDate.S,
-            daysSincePrevInv: this.calculateDaysSince(
-              response.data.prevInviteDate.S
-            ),
-            invSent: response.data.invitesSent.N,
+            dateOfPrevInv,
+            daysSincePrevInv,
+            invSent: response.data.InvitesSent.N,
             appsRemaining: weeklyCapacityValue,
           };
+
+          const addressParts = (response.data.Address.S).split(',');
+          const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+          const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
           this.setState({
             clinicId: response.data.ClinicId.S,
             clinicName: response.data.ClinicName.S,
-            address1: response.data.Address.S,
-            address2: response.data.Address2.S,
+            address1: addressParts[0].trim(),
+            address2: firstWordAfterComma,
             postcode: response.data.PostCode.S,
             weeklyCapacity: weeklyCapacityList,
             currentlySelectedClinic: e.target.value,
             cancelChangeText: "Change clinic",
+            displayClinicSelector: false,
             recentInvitationHistory: clinicInvitationHistory,
-            displayClinicSelector: false
+            displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+          }, () => {
+            this.setState({
+              appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+            });
+
           })
         });
     }
   }
 
   componentDidMount() {
-    const icbId = "Participating ICB 2"
+    //Mocked the data below which is supposed to be retrieved from previous page - "Clinic Summary"
+    const icb = {
+      code: "QJK",
+      board: "NHS DEVON INTEGRATED CARE BOARD",
+      id: "NHS DEVON INTEGRATED CARE BOARD"
+    };
+
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://q8rpjf6rtg.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://gijt16kt42.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icb.code}`
       )
       .then((response) => {
         this.setState({
-          clinicList: [this.state.clinicList, ...response.data.map(clinic => {
+          clinicList: [...response.data.map(clinic => {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }
           })]
-        })
+        });
+
+        let initialSelectedClinicId = response.data[0].ClinicId.S
+        let initialSelectedClinic = response.data[0].ClinicName.S
+        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+        axios
+          .get(
+            `https://f2cy8ksz2g.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+          )
+          .then((response) => {
+            const weeklyCapacityData = response.data.WeekCommencingDate.M;
+            const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
+            let weeklyCapacityValue = 0
+            let weeklyCapacityList = [];
+            weeklyCapacityKeys.forEach((key) => {
+              weeklyCapacityList.push({
+                date: key,
+                value: weeklyCapacityData[key].N,
+              });
+              weeklyCapacityValue += Number(weeklyCapacityData[key].N)
+            });
+
+            const prevInviteDate = response.data.PrevInviteDate.S;
+            const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
+            const daysSincePrevInv = prevInviteDate
+              ? this.calculateDaysSince(prevInviteDate)
+              : "Not Available";
+
+            const clinicInvitationHistory = {
+              dateOfPrevInv,
+              daysSincePrevInv,
+              invSent: response.data.InvitesSent.N,
+              appsRemaining: weeklyCapacityValue,
+            };
+
+            const addressParts = (response.data.Address.S).split(',');
+            const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+            const displayViewAllPrevInvitations = prevInviteDate ? true : false;
+
+            this.setState({
+              clinicId: response.data.ClinicId.S,
+              clinicName: response.data.ClinicName.S,
+              address1: response.data.Address.S,
+              address1: addressParts[0].trim(),
+              address2: firstWordAfterComma,
+              postcode: response.data.PostCode.S,
+              weeklyCapacity: weeklyCapacityList,
+              recentInvitationHistory: clinicInvitationHistory,
+              displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+            },
+              () => {
+                // This callback will execute after the state has been updated
+
+                if (this.state.recentInvitationHistory.dateOfPrevInv === "Not Available" ) {
+                  this.putTargetPercentageAWSDynamo("50");
+                }
+
+                //Executes GET API call below when page renders - grabs default Target Percentage input value
+                // and displays the target number of appointments to fill
+                // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+                axios
+                  .get(
+                    "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+                  )
+                  .then((response) => {
+                    const targetPercentageValue = response.data.targetPercentage.N;
+                    this.setState({
+                      targetFillToInputValue: targetPercentageValue,
+                      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                    });
+                  });
+              }
+            )
+          });
       });
   }
 
@@ -160,11 +305,15 @@ class ClinicInformation extends Component {
       lastUpdated,
       cancelChangeText,
       displayClinicSelector,
-      recentInvitationHistory
+      recentInvitationHistory,
+      displayUserErrorTargetPercentage,
+      displayViewAllPrevInvitations,
+      targetFillToInputValue,
+      appsToFill,
     } = this.state
     return (
       <div>
-        <ClinicSummaryPage
+        <ClinicInformationPage
           clinicList={clinicList}
           clinicName={clinicName}
           address1={address1}
@@ -175,6 +324,12 @@ class ClinicInformation extends Component {
           displayClinicSelector={displayClinicSelector}
           cancelChangeText={cancelChangeText}
           recentInvitationHistory={recentInvitationHistory}
+          displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+          displayViewAllPrevInvitations={displayViewAllPrevInvitations}
+          targetFillToInputValue={targetFillToInputValue}
+          appsToFill={appsToFill}
+          onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
+          onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
         />
