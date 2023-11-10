@@ -1,8 +1,6 @@
 import { Component } from "react";
-import {
-  getInvitationPlanningData,
-  getNationalForecastData,
-} from "../../services/invitation_planning/InvitationPlanningService";
+import axios from "axios";
+import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 import axios from "axios";
@@ -23,6 +21,7 @@ class InvitationPlanning extends Component {
       isCorrectTotal: true,
       enableUptakeEdit: false,
       isCorrectUptakeTotal: true,
+      BASE_URL: "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev"
     };
 
     // Handlers
@@ -47,7 +46,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://n7y2gwsfie.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
         { forecastUptake: Number(value) }
       )
       .then((response) => {
@@ -59,7 +58,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://n7y2gwsfie.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
         { quintiles: updatedQuintile }
       )
       .then((response) => {
@@ -99,13 +98,15 @@ class InvitationPlanning extends Component {
   }
 
   async onSaveFillHandler() {
-    if (sumQuintiles(this.state.quintileValuesAux) === 100) {
+    const quintileValues = this.state.quintileValuesAux;
+    if (sumQuintiles(quintileValues) === 100) {
       await this.setState({
-        quintileValues: this.state.quintileValuesAux,
-        quintileValuesPrevious: this.state.quintileValuesAux,
+        quintileValues: quintileValues,
+        quintileValuesPrevious: quintileValues,
       });
       this.toggleFillEdit(false);
       this.displayFillError(true);
+      await this.putQuintilesAWSDynamo(quintileValues);
     } else {
       this.displayFillError(false);
     }
@@ -149,13 +150,14 @@ class InvitationPlanning extends Component {
     });
   }
 
-  onSaveForecastHandler(value) {
-    if (value <= 100) {
+  async onSaveForecastHandler(value) {
+    if (value <= 100 && value > 0) {
       this.setState({
         nationalUptakePercentage: value,
       });
       this.toggleUptakeEdit(false);
       this.displayUptakeError(true);
+      await this.putForecastUptakeAWSDynamo(value);
     } else {
       this.displayUptakeError(false);
     }
@@ -177,7 +179,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://n7y2gwsfie.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
         console.log("response -> " + response.status);
