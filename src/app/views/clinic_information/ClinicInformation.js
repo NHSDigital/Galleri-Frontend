@@ -39,6 +39,7 @@ class ClinicInformation extends Component {
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
     this.onClickLsoaCodesAppsToFillHandler = this.onClickLsoaCodesAppsToFillHandler.bind(this);
+    this.isCheckedLsoaHandler = this.isCheckedLsoaHandler.bind(this);
   }
 
   checkAllHandler(event) {
@@ -51,6 +52,40 @@ class ClinicInformation extends Component {
         checkAll: false
       })
     }
+  }
+  //example
+  // { "E01022970": {
+  //                 "IMD_DECILE": 2,
+  //                 "FORECAST_UPTAKE": 13
+  //                }
+  // }
+  isCheckedLsoaHandler(event, lsoaInRange) {
+    const lsoaInfo = {};
+    if (event.target.checked === true) {
+      for (let i = 0; i < lsoaInRange.length; i++) {
+        console.log(lsoaInRange[i]);
+        let eachLSOA_2011 = lsoaInRange[i].LSOA_2011.S;
+        // console.log(eachLSOA_2011);
+        let eachIMD_DECILE = lsoaInRange[i].IMD_DECILE.N;
+        // console.log(eachIMD_DECILE);
+        let eachFORECAST_UPTAKE = lsoaInRange[i].FORECAST_UPTAKE.N;
+        // console.log(eachFORECAST_UPTAKE);
+        lsoaInfo[eachLSOA_2011] = {
+          "IMD_DECILE": eachIMD_DECILE,
+          "FORECAST_UPTAKE": eachFORECAST_UPTAKE
+        }
+        lsoaInRange[i].CHECKED = "true";
+      }
+      console.log('lsoaInfo below:');
+      console.log(lsoaInfo);
+    } else {
+      for (let i = 1; i < lsoaInRange.length; i++) {
+        lsoaInRange[i].CHECKED = "false";
+      }
+    }
+    console.log(lsoaInRange);
+    console.log(event);
+    return lsoaInfo;
   }
 
   handleRangeSelection(value) {
@@ -392,6 +427,7 @@ class ClinicInformation extends Component {
           checkAllHandler={this.checkAllHandler}
           handleRangeSelection={this.handleRangeSelection}
           onClickLsoaCodesAppsToFillHandler={this.onClickLsoaCodesAppsToFillHandler}
+          isCheckedLsoaHandler={this.isCheckedLsoaHandler}
         />
       </div>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection, onClickLsoaCodesAppsToFillHandler } = prop;
+  const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection, onClickLsoaCodesAppsToFillHandler, isCheckedLsoaHandler } = prop;
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
@@ -49,6 +49,7 @@ export default function LsoaTable(prop) {
                     type="checkbox"
                     value=""
                     onChange={(e) => checkAllHandler(e)}
+                    onClick={(e) => isCheckedLsoaHandler(e, lsoaInRange)}
                   />
                   <label
                     class="nhsuk-label nhsuk-checkboxes__label"
