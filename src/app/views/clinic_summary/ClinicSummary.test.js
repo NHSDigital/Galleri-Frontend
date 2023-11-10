@@ -121,8 +121,8 @@ describe("Clinic Summary render", () => {
       clinicList={[]}
       lastUpdated={"lastUpdated"}
       displayClinicsNoApp={false}
-      onIcbChangeHandler={() => {}}
-      onCheckHandler={() => {}}
+      onIcbChangeHandler={() => { }}
+      onCheckHandler={() => { }}
     />
   );
 
@@ -154,27 +154,27 @@ describe("Clinic Summary render", () => {
 });
 
 describe('PrevInviteDate empty', () => {
-  const dummyClinicList=[{
-    ClinicName: {S: "Phlebotomy clinic 001"},
+  const dummyClinicList = [{
+    ClinicName: { S: "Phlebotomy clinic 001" },
     PrevInviteDate: { S: "" },
-    DaySincePrevInvite :{N: 'NaN'},
-    InvitesSent : {N:0},
-    Availability : {N:0},
+    DaySincePrevInvite: { N: 'NaN' },
+    InvitesSent: { N: 0 },
+    Availability: { N: 0 },
   }
-];
+  ];
   const DummyClinicSummaryTable = (
     <ClinicSummaryTable clinicList={dummyClinicList}></ClinicSummaryTable>
   );
-  test("PrevInviteDate returns Not available if empty", ()=>{
-  render(DummyClinicSummaryTable);
-  let label = screen.getByText("Clinic name");
-  expect(label.innerHTML).toBe("Clinic name");
+  test("PrevInviteDate returns Not available if empty", () => {
+    render(DummyClinicSummaryTable);
+    let label = screen.getByText("Clinic name");
+    expect(label.innerHTML).toBe("Clinic name");
 
-   let prevInviteDateSet = screen.getByText("Not Available");
-   expect(prevInviteDateSet.innerHTML).toBe("Not Available");
+    let prevInviteDateSet = screen.getByText("Not Available");
+    expect(prevInviteDateSet.innerHTML).toBe("Not Available");
 
-   let clinicNameSet = screen.getByText("Phlebotomy clinic 001");
-   expect(clinicNameSet.innerHTML).toBe("Phlebotomy clinic 001");
+    let clinicNameSet = screen.getByText("Phlebotomy clinic 001");
+    expect(clinicNameSet.innerHTML).toBe("Phlebotomy clinic 001");
   })
 });
 
