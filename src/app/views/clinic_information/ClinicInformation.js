@@ -61,8 +61,7 @@ class ClinicInformation extends Component {
   //                }
   // }
   isCheckedLsoaHandler(event, lsoaInRange) {
-    const lsoaInfo = [];
-    const lsoaObj = {};
+    const lsoaInfo = {};
     if (event.target.checked === true) {
       for (let i = 0; i < lsoaInRange.length; i++) {
         console.log(lsoaInRange[i]);
@@ -72,13 +71,12 @@ class ClinicInformation extends Component {
         // console.log(eachIMD_DECILE);
         let eachFORECAST_UPTAKE = lsoaInRange[i].FORECAST_UPTAKE.N;
         // console.log(eachFORECAST_UPTAKE);
-        lsoaObj[eachLSOA_2011] = {
+        lsoaInfo[eachLSOA_2011] = {
           "IMD_DECILE": eachIMD_DECILE,
           "FORECAST_UPTAKE": eachFORECAST_UPTAKE
         }
         lsoaInRange[i].CHECKED = "true";
       }
-      lsoaInfo.push(lsoaObj);
       console.log('lsoaInfo below:');
       console.log(lsoaInfo);
     } else {
