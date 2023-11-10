@@ -6,7 +6,7 @@ import RecentInvitationHistory from "./RecentInvitationHistory";
 
 export default function ClinicInformationPage(props) {
   const {
-    clinicList,
+    clinicIdNameList,
     clinicName,
     address1,
     address2,
@@ -16,15 +16,19 @@ export default function ClinicInformationPage(props) {
     displayClinicSelector,
     cancelChangeText,
     recentInvitationHistory,
+    currentlySelectedClinic,
     onClickChangeClinicHandler,
     onChangeSelectedClinicHandler,
+    onSubmitHandler,
+    onClickGoBackLinkHandler
   } = props;
+  console.log("props.clinicIdNameList = ", clinicIdNameList);
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
         <div class="nhsuk-grid-row">
           <div class="nhsuk-back-link">
-            <a class="nhsuk-back-link__link" href="#">
+            <a class="nhsuk-back-link__link" href="#" onClick={onClickGoBackLinkHandler}>
               <svg
                 class="nhsuk-icon nhsuk-icon__chevron-left"
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,11 +67,12 @@ export default function ClinicInformationPage(props) {
                 <select
                   class="nhsuk-select"
                   id="clinic-selector"
+                  value={currentlySelectedClinic}
                   onChange={(e) => {
                     onChangeSelectedClinicHandler(e);
                   }}
                 >
-                  {clinicList.map((clinic) => {
+                  {clinicIdNameList.map((clinic) => {
                     return (
                       <option value={clinic.clinicName}>
                         {clinic.clinicName}
@@ -85,9 +90,17 @@ export default function ClinicInformationPage(props) {
               lastUpdated={lastUpdated}
             />
           </div>
-          <br/>
+          <br />
           <RecentInvitationHistory props={recentInvitationHistory} />
         </div>
+        <button
+          class="nhsuk-button"
+          data-module="nhsuk-button"
+          type="submit"
+          onClick={() => onSubmitHandler()}
+        >
+          Calculate number to invite
+        </button>
       </main>
     </div>
   );

@@ -1,32 +1,25 @@
 import React, { Component } from 'react';
-import ClinicSummaryPage from './ClinicInformationPage';
+import ClinicInformationPage from './ClinicInformationPage';
+import InvitationSummary from '../invitation_summary/InvitationSummary';
+import { AppStateContext } from '@/app/context/AppStateContext';
+
 import axios from 'axios';
 
 class ClinicInformation extends Component {
   constructor() {
     super();
-    this.state = {
-      "clinicList": [{ "clinicId": "", "clinicName": "" }],
-      "clinicId": "",
-      "clinicName": "",
-      "address1": "",
-      "address2": "",
-      "postcode": "",
-      "weeklyCapacity": [],
-      "lastUpdated": "14 July 2024, 1.00am",
-      "cancelChangeText": "Change clinic",
-      "currentlySelectedClinicId": "",
-      "currentlySelectedClinic": "",
-      "displayClinicSelector": false,
-      "recentInvitationHistory": {
-        "dateOfPrevInv": "Not available",
-        "daysSincePrevInv": "Not available",
-        "invSent": 0,
-        "appsRemaining": 0
-      }
-    }
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
+    this.onSubmitHandler = this.onSubmitHandler.bind(this);
+    this.onClickGoBackLinkHandler = this.onClickGoBackLinkHandler.bind(this);
+  }
+
+  onSubmitHandler() {
+    this.context.setState({ "isSubmit": true })
+  }
+
+  onClickGoBackLinkHandler() {
+    this.context.setState({ "navigateToClinic": false })
   }
 
   calculateDaysSince(date) {
@@ -35,10 +28,10 @@ class ClinicInformation extends Component {
 
     const diff = now - unixTime
 
-    return Math.floor(diff/86400000)
+    return Math.floor(diff / 86400000)
   }
 
-  sortDate(weeklyArray){
+  sortDate(weeklyArray) {
     const sortedWeeklyArray = weeklyArray.map(el => {
       return Date.parse(el)
     }).sort()
@@ -50,16 +43,16 @@ class ClinicInformation extends Component {
   }
 
   onClickChangeClinicHandler() {
-    const { displayClinicSelector } = this.state;
+    const { displayClinicSelector } = this.context.state;
     switch (displayClinicSelector) {
       case false:
-        this.setState({
+        this.context.setState({
           cancelChangeText: "Cancel change",
           displayClinicSelector: true
         })
         break;
       case true:
-        this.setState({
+        this.context.setState({
           cancelChangeText: "Change clinic",
           displayClinicSelector: false
         })
@@ -71,13 +64,17 @@ class ClinicInformation extends Component {
     let currentlySelectedClinicId = "";
     let currentlySelectedClinic = "";
 
-    const { clinicList } = this.state;
+    const { clinicIdNameList } = this.context.state;
+    console.log(this.context.state.clinicIdNameList)
 
     if (e.target.value !== "") {
-      clinicList.forEach(clinic => {
+      clinicIdNameList.forEach(clinic => {
         if (clinic.clinicName === e.target.value) {
           currentlySelectedClinicId = clinic.clinicId;
           currentlySelectedClinic = clinic.clinicName;
+          this.context.setState({
+            currentlySelectedClinic: clinic.clinicName
+          })
         }
       })
     } else {
@@ -91,7 +88,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://q8rpjf6rtg.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://f2cy8ksz2g.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -101,57 +98,117 @@ class ClinicInformation extends Component {
           weeklyCapacityKeys.forEach((key) => {
             weeklyCapacityList.push({
               date: key,
-              value: weeklyCapacityData[key].S,
+              value: weeklyCapacityData[key].N,
             });
-            weeklyCapacityValue += Number(weeklyCapacityData[key].S)
+            weeklyCapacityValue += Number(weeklyCapacityData[key].N)
           });
 
+          const prevInviteDate = response.data.PrevInviteDate.S;
+          const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
+          const daysSincePrevInv = prevInviteDate
+            ? this.calculateDaysSince(prevInviteDate)
+            : "Not Available";
+
           const clinicInvitationHistory = {
-            dateOfPrevInv: response.data.prevInviteDate.S,
-            daysSincePrevInv: this.calculateDaysSince(
-              response.data.prevInviteDate.S
-            ),
-            invSent: response.data.invitesSent.N,
+            dateOfPrevInv,
+            daysSincePrevInv,
+            invSent: response.data.InvitesSent.N,
             appsRemaining: weeklyCapacityValue,
           };
 
-          this.setState({
+          const addressParts = (response.data.Address.S).split(',');
+          const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+          const displayViewAllPrevInvitations = prevInviteDate ? true : false;
+
+          this.context.setState({
             clinicId: response.data.ClinicId.S,
             clinicName: response.data.ClinicName.S,
-            address1: response.data.Address.S,
-            address2: response.data.Address2.S,
+            address1: addressParts[0].trim(),
+            address2: firstWordAfterComma,
             postcode: response.data.PostCode.S,
             weeklyCapacity: weeklyCapacityList,
             currentlySelectedClinic: e.target.value,
             cancelChangeText: "Change clinic",
+            displayClinicSelector: false,
             recentInvitationHistory: clinicInvitationHistory,
-            displayClinicSelector: false
+            displayViewAllPrevInvitations: displayViewAllPrevInvitations,
           })
         });
     }
   }
 
   componentDidMount() {
-    const icbId = "Participating ICB 2"
+    // const icbId = "Participating ICB 2"
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://q8rpjf6rtg.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icbId}`
+        `https://gijt16kt42.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
-        this.setState({
-          clinicList: [this.state.clinicList, ...response.data.map(clinic => {
+        this.context.setState({
+          clinicIdNameList: [...response.data.map(clinic => {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }
           })]
+        }, () => { console.log(this.context.state.clinicIdNameList) })
+      });
+
+    let initialSelectedClinicId = this.context.state.clinicIdSelected;
+    let initialSelectedClinic = this.context.state.clinicNameSelected;
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    axios
+      .get(
+        `https://f2cy8ksz2g.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+      )
+      .then((response) => {
+        const weeklyCapacityData = response.data.WeekCommencingDate.M;
+        const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
+        let weeklyCapacityValue = 0
+        let weeklyCapacityList = [];
+        weeklyCapacityKeys.forEach((key) => {
+          weeklyCapacityList.push({
+            date: key,
+            value: weeklyCapacityData[key].N,
+          });
+          weeklyCapacityValue += Number(weeklyCapacityData[key].N)
+        });
+
+        const prevInviteDate = response.data.PrevInviteDate.S;
+        const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
+        const daysSincePrevInv = prevInviteDate
+          ? this.calculateDaysSince(prevInviteDate)
+          : "Not Available";
+
+        const clinicInvitationHistory = {
+          dateOfPrevInv,
+          daysSincePrevInv,
+          invSent: response.data.InvitesSent.N,
+          appsRemaining: weeklyCapacityValue,
+        };
+
+        const addressParts = (response.data.Address.S).split(',');
+        const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+        const displayViewAllPrevInvitations = prevInviteDate ? true : false;
+
+        this.context.setState({
+          clinicId: response.data.ClinicId.S,
+          clinicName: response.data.ClinicName.S,
+          address1: response.data.Address.S,
+          address1: addressParts[0].trim(),
+          address2: firstWordAfterComma,
+          postcode: response.data.PostCode.S,
+          weeklyCapacity: weeklyCapacityList,
+          recentInvitationHistory: clinicInvitationHistory,
+          displayViewAllPrevInvitations: displayViewAllPrevInvitations,
         })
       });
+
   }
 
   render() {
     const {
-      clinicList,
+      clinicIdNameList,
       clinicName,
       address1,
       address2,
@@ -160,27 +217,41 @@ class ClinicInformation extends Component {
       lastUpdated,
       cancelChangeText,
       displayClinicSelector,
-      recentInvitationHistory
-    } = this.state
+      recentInvitationHistory,
+      currentlySelectedClinic,
+      isSubmit
+    } = this.context.state
     return (
       <div>
-        <ClinicSummaryPage
-          clinicList={clinicList}
-          clinicName={clinicName}
-          address1={address1}
-          address2={address2}
-          postcode={postcode}
-          weeklyCapacity={weeklyCapacity}
-          lastUpdated={lastUpdated}
-          displayClinicSelector={displayClinicSelector}
-          cancelChangeText={cancelChangeText}
-          recentInvitationHistory={recentInvitationHistory}
-          onClickChangeClinicHandler={this.onClickChangeClinicHandler}
-          onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
-        />
+        {!this.context.state.isSubmit ?
+          <div>
+            <ClinicInformationPage
+              clinicIdNameList={clinicIdNameList}
+              clinicName={clinicName}
+              address1={address1}
+              address2={address2}
+              postcode={postcode}
+              weeklyCapacity={weeklyCapacity}
+              lastUpdated={lastUpdated}
+              displayClinicSelector={displayClinicSelector}
+              cancelChangeText={cancelChangeText}
+              recentInvitationHistory={recentInvitationHistory}
+              currentlySelectedClinic={currentlySelectedClinic}
+              onClickChangeClinicHandler={this.onClickChangeClinicHandler}
+              onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
+              onSubmitHandler={this.onSubmitHandler}
+              onClickGoBackLinkHandler={this.onClickGoBackLinkHandler}
+            />
+          </div>
+          :
+          <div>
+            <InvitationSummary />
+          </div>
+        }
       </div>
     );
   }
 }
 
 export default ClinicInformation;
+ClinicInformation.contextType = AppStateContext;
