@@ -29,7 +29,8 @@ class ClinicInformation extends Component {
         "appsRemaining": 0
       },
       "lsoaInRange": [],
-      "rangeSelection": 1
+      "rangeSelection": 1,
+      "selectedLsoa": []
     }
 
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
@@ -60,7 +61,8 @@ class ClinicInformation extends Component {
   //                }
   // }
   isCheckedLsoaHandler(event, lsoaInRange) {
-    const lsoaInfo = {};
+    const lsoaInfo = [];
+    const lsoaObj = {};
     if (event.target.checked === true) {
       for (let i = 0; i < lsoaInRange.length; i++) {
         console.log(lsoaInRange[i]);
@@ -70,21 +72,24 @@ class ClinicInformation extends Component {
         // console.log(eachIMD_DECILE);
         let eachFORECAST_UPTAKE = lsoaInRange[i].FORECAST_UPTAKE.N;
         // console.log(eachFORECAST_UPTAKE);
-        lsoaInfo[eachLSOA_2011] = {
+        lsoaObj[eachLSOA_2011] = {
           "IMD_DECILE": eachIMD_DECILE,
           "FORECAST_UPTAKE": eachFORECAST_UPTAKE
         }
         lsoaInRange[i].CHECKED = "true";
       }
+      lsoaInfo.push(lsoaObj);
       console.log('lsoaInfo below:');
       console.log(lsoaInfo);
     } else {
       for (let i = 1; i < lsoaInRange.length; i++) {
         lsoaInRange[i].CHECKED = "false";
+        console.log(lsoaInRange);
       }
     }
     console.log(lsoaInRange);
     console.log(event);
+    this.setState({ "selectedLsoa": lsoaInfo });
     return lsoaInfo;
   }
 
@@ -138,13 +143,15 @@ class ClinicInformation extends Component {
 
   // PUT lsoa codes and appsToFill (send to lambda)
   async onClickLsoaCodesAppsToFillHandler(e) {
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     try {
-      const response = await axios.put(
+      const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
+        "https://fo768dcgqb.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
         {
-          targetAppsToFill: Number(e.tpv),
-          lsoaCodes: [...e.lsoa]
+          targetAppsToFill: this.state.appsToFill,
+          lsoaCodes: this.state.selectedLsoa
         }
       );
       return response.data;
