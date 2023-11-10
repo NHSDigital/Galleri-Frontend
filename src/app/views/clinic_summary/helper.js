@@ -11,8 +11,7 @@ export function daysSinceLastInvite(clinicList) {
     const daysSinceLastInvite = Math.floor(
       (todayDateUnix - inviteDateUnix) / dayInUnix
     );
-    console.log('days ' + daysSinceLastInvite)
-    el.DaysSincePrevInvite = {
+    el.DaySincePrevInvite = {
       N: String(daysSinceLastInvite),
     };
   });
@@ -23,7 +22,7 @@ export function filterClinicsByIcb(clinicList, icb) {
   let filteredList = [];
   if (clinicList !== undefined && icb !== "") {
     clinicList.forEach((e) => {
-      if (String(e.icbCode?.S) === icb) {
+      if (String(e.ICBCode?.S) === icb) {
         filteredList.push(e);
       }
     });
@@ -36,7 +35,7 @@ export function filterClinicsNoAppointments(clinicList, displayClinicsNoApp) {
   if (clinicList !== undefined) {
     clinicList.forEach((e) => {
       if (displayClinicsNoApp === false) {
-        if (e.availability?.N > 0) {
+        if (e.Availability?.N > 0) {
           filteredList.push(e);
         }
       } else {
