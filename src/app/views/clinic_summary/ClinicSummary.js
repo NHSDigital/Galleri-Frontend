@@ -18,6 +18,7 @@ export default class ClinicSummary extends Component {
     this.state = {
       loading: true,
       isInitialLoad: true,
+
     };
 
     // Handlers
@@ -43,7 +44,8 @@ export default class ClinicSummary extends Component {
 
   async onIcbChangeHandler(e) {
     await this.context.setState({
-      icbSelected: e.target.value.replace('Participating ICB ', '')
+      icbSelected: e.target.value.replace('Participating ICB ', ''),
+      participatingICBSelected: e.target.value
     });
     this.getClinicsFromIcbCode();
     this.setState({ loading: false });
@@ -64,6 +66,8 @@ export default class ClinicSummary extends Component {
       clinicNameSelected: e.ClinicName.S,
       currentlySelectedClinic: e.ClinicName.S
     })
+    // Scroll to the top of the page every time it renders the page
+    window.scrollTo(0, 0);
   }
 
 
@@ -75,25 +79,14 @@ export default class ClinicSummary extends Component {
       axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
       axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      // axios
-      //   .get(
-      //     `https://45arj8wtdk.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`
-      //   )
-      //   .then((response) => {
-      //     this.context.setState({
-      //       icbData: [...this.context.state.icbData, ...response.data],
-      //       lastUpdated: lastUpdated,
-      //       clinicList: clinicList,
-      //     }, () => { console.log(this.context.state.icbData) });
-      //   });
       const response = await axios.get(`https://45arj8wtdk.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`);
 
       // Update the state
       this.context.setState({
-        icbData: [...this.context.state.icbData, ...response.data],
+        icbData: [...response.data],
         lastUpdated: lastUpdated,
         clinicList: clinicList,
-      }, () => { console.log(this.context.state.icbData) });
+      }, () => { console.log(this.context.state.clinicList.length) });
 
       this.setState({ isInitialLoad: false });
     } catch (error) {
@@ -102,20 +95,6 @@ export default class ClinicSummary extends Component {
     }
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   // Only allow re-render if it's not the initial load or when yourStateVariable changes.
-  //   const { isInitialLoad } = this.state;
-  //   const { icbData, lastUpdated, clinicList } = this.context.state;
-
-  //   const shouldUpdate =
-  //     !nextState.isInitialLoad &&
-  //     (nextState.icbData !== icbData ||
-  //       nextState.lastUpdated !== lastUpdated ||
-  //       nextState.clinicList !== clinicList);
-
-  //   return shouldUpdate;
-  // }
-
   render() {
     const {
       icbData,
@@ -123,9 +102,11 @@ export default class ClinicSummary extends Component {
       clinicList,
       lastUpdated,
       displayClinicsNoApp,
+      participatingICBSelected
     } = this.context.state;
 
-    const { loading } = this.state;
+    const isContextLoaded =
+      icbData.length > 1;
 
     let addDaysSinceLastInvite = daysSinceLastInvite(clinicList);
 
@@ -139,32 +120,32 @@ export default class ClinicSummary extends Component {
       filteredClinicList,
       displayClinicsNoApp
     );
-    console.log(this.state.isInitialLoad);
+    console.log("......", participatingICBSelected);
 
     return (
       <div>
         {
           // Check if a clinic link has been clicked
-          !this.context.state.navigateToClinic ?
-            <ClinicSummaryPage // Render the default page
-              icbData={icbData}
-              icbSelected={icbSelected}
-              clinicList={filterClinicListApps}
-              lastUpdated={lastUpdated}
-              displayClinicsNoApp={displayClinicsNoApp}
-              onIcbChangeHandler={this.onIcbChangeHandler}
-              onCheckHandler={this.onCheckHandler}
-              onClickClinicHandler={this.onClickClinicHandler}
-              loading={loading}
-            />
-            :
-            // If clicked render the clinic information page and pass the props
-            // Pass the props this components required from this component.
-            // My approach would be to create an object in state, package up all data needed for this component below
-            // Unpack it within the component below.
+          // If clicked render the clinic information page and pass the props
+          !this.context.state.navigateToClinic ? (
+            isContextLoaded && (
+              <ClinicSummaryPage // Render the default page
+                icbData={icbData}
+                icbSelected={icbSelected}
+                participatingICBSelected={participatingICBSelected}
+                clinicList={filterClinicListApps}
+                lastUpdated={lastUpdated}
+                displayClinicsNoApp={displayClinicsNoApp}
+                onIcbChangeHandler={this.onIcbChangeHandler}
+                onCheckHandler={this.onCheckHandler}
+                onClickClinicHandler={this.onClickClinicHandler}
+              />
+            )
+          ) : (
             <div>
               <ClinicInformation />
             </div>
+          )
         }
       </div>
     );

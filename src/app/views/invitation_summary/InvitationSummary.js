@@ -1,30 +1,97 @@
-import { Component } from "react";
-import axios from 'axios';
+import React, { Component } from 'react';
+import InvitationSummaryPage from './InvitationSummaryPage';
+import { AppStateContext } from '@/app/context/AppStateContext';
 
-// Clinic Summary container
-export default class InvitationSummary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+class InvitationSummary extends Component {
+  constructor() {
+    super();
+    this.state = {
+      "displayCheckDetailsBanner": true,
+      "displayErrorInvitationSummary": false,
+      "displayConfirmationInvitationSummary": false,
+      // Using the mock data (values inside " ") below as placeholders for now until the Router is implemented to bring these values from previous pages
+      "dummySummaryList": {
+        "clinicDistanceHolder": `"+ 5 miles"`, //Context API from Clinic Invitation Page
+        "availableInvitationsHolder": `"4,372"`,//Context API from Clinic Invitation Page
+        "remainingAppointmentsHolder": `"240"`, //Context API from Clinic Invitation Page
+        "targetFillPercentageHolder": `"50 %"`,//Context API from Clinic Invitation Page
+        "targetAppointmentsToFillHolder": `"120"`,//Context API from Clinic Invitation Page
+        "expectedUptakeRateHolder": `"24 %"`, //Context API from ??
+        "invitationsToGenerateHolder": `"500"`, // From calculation done in Clinic Invitation Page, Change this to "0" to trigger the Error Scenario
+      }
+
+    }
+    this.onClickGenerateHandler = this.onClickGenerateHandler.bind(this);
+    this.onClickGoBackPrevPageLinkHandler = this.onClickGoBackPrevPageLinkHandler.bind(this);
+  }
+
+  onClickGoBackPrevPageLinkHandler() {
+    this.context.setState({ "isSubmit": false })
+    // Scroll to the top of the page every time it renders the page
+    window.scrollTo(0, 0);
+  }
+
+  scrollToMainContent() {
+    const mainContent = document.getElementById('header');
+    if (mainContent) {
+      mainContent.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  onClickGenerateHandler() {
+    this.setState({
+      displayConfirmationInvitationSummary: true,
+      displayCheckDetailsBanner: false
+    });
+    this.scrollToMainContent();
+
   }
 
   componentDidMount() {
-
+    if (this.state.dummySummaryList.invitationsToGenerateHolder === "0") {
+      this.setState({
+        displayErrorInvitationSummary: true,
+        displayCheckDetailsBanner: false
+      })
+    }
   }
 
   render() {
-    return (
-      <div class="nhsuk-width-container ">
-        <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
-          <div class="nhsuk-grid-row">
-            <h1 label="header">Invitation Summary</h1>
-            <div class="nhsuk-u-reading-width">
+    const {
+      displayCheckDetailsBanner,
+      displayErrorInvitationSummary,
+      displayConfirmationInvitationSummary,
+      dummySummaryList
+    } = this.state
 
-              <br />
-            </div>
-          </div>
-        </main>
+    // Add the context state variables you want to pass onto this page, and pass it as props on Return block below
+    const {
+      clinicName,
+      address1,
+      address2,
+      postcode,
+      recentInvitationHistory,
+    } = this.context.state;
+    console.log("CLass Component ...", recentInvitationHistory)
+    return (
+      <div>
+        <InvitationSummaryPage
+          clinicName={clinicName}
+          address1={address1}
+          address2={address2}
+          postcode={postcode}
+          recentInvitationHistory={recentInvitationHistory}
+          displayCheckDetailsBanner={displayCheckDetailsBanner}
+          displayErrorInvitationSummary={displayErrorInvitationSummary}
+          displayConfirmationInvitationSummary={displayConfirmationInvitationSummary}
+          dummySummaryList={dummySummaryList}
+          onClickGenerateHandler={this.onClickGenerateHandler}
+          onClickGoBackPrevPageLinkHandler={this.onClickGoBackPrevPageLinkHandler}
+        />
       </div>
     );
   }
 }
+
+export default InvitationSummary;
+InvitationSummary.contextType = AppStateContext;

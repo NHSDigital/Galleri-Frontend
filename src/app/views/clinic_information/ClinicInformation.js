@@ -16,10 +16,14 @@ class ClinicInformation extends Component {
 
   onSubmitHandler() {
     this.context.setState({ "isSubmit": true })
+    // Scroll to the top of the page every time it renders the page
+    window.scrollTo(0, 0);
   }
 
   onClickGoBackLinkHandler() {
     this.context.setState({ "navigateToClinic": false })
+    // Scroll to the top of the page every time it renders the page
+    window.scrollTo(0, 0);
   }
 
   calculateDaysSince(date) {
@@ -134,6 +138,8 @@ class ClinicInformation extends Component {
             displayViewAllPrevInvitations: displayViewAllPrevInvitations,
           })
         });
+      // Scroll to the top of the page every time it renders the page
+      window.scrollTo(0, 0);
     }
   }
 
@@ -194,7 +200,6 @@ class ClinicInformation extends Component {
         this.context.setState({
           clinicId: response.data.ClinicId.S,
           clinicName: response.data.ClinicName.S,
-          address1: response.data.Address.S,
           address1: addressParts[0].trim(),
           address2: firstWordAfterComma,
           postcode: response.data.PostCode.S,
@@ -221,32 +226,47 @@ class ClinicInformation extends Component {
       currentlySelectedClinic,
       isSubmit
     } = this.context.state
+
+    // Check if all the listed context state variables are available
+    const isContextLoaded =
+      clinicIdNameList.length > 0 &&
+      clinicName !== "" &&
+      address1 !== "" &&
+      address2 !== "" &&
+      postcode !== "" &&
+      weeklyCapacity.length > 0;
+
+    console.log(weeklyCapacity);
+
     return (
       <div>
-        {!this.context.state.isSubmit ?
-          <div>
-            <ClinicInformationPage
-              clinicIdNameList={clinicIdNameList}
-              clinicName={clinicName}
-              address1={address1}
-              address2={address2}
-              postcode={postcode}
-              weeklyCapacity={weeklyCapacity}
-              lastUpdated={lastUpdated}
-              displayClinicSelector={displayClinicSelector}
-              cancelChangeText={cancelChangeText}
-              recentInvitationHistory={recentInvitationHistory}
-              currentlySelectedClinic={currentlySelectedClinic}
-              onClickChangeClinicHandler={this.onClickChangeClinicHandler}
-              onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
-              onSubmitHandler={this.onSubmitHandler}
-              onClickGoBackLinkHandler={this.onClickGoBackLinkHandler}
-            />
-          </div>
-          :
+        {!this.context.state.isSubmit ? (
+          isContextLoaded && (
+            <div>
+              <ClinicInformationPage
+                clinicIdNameList={clinicIdNameList}
+                clinicName={clinicName}
+                address1={address1}
+                address2={address2}
+                postcode={postcode}
+                weeklyCapacity={weeklyCapacity}
+                lastUpdated={lastUpdated}
+                displayClinicSelector={displayClinicSelector}
+                cancelChangeText={cancelChangeText}
+                recentInvitationHistory={recentInvitationHistory}
+                currentlySelectedClinic={currentlySelectedClinic}
+                onClickChangeClinicHandler={this.onClickChangeClinicHandler}
+                onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
+                onSubmitHandler={this.onSubmitHandler}
+                onClickGoBackLinkHandler={this.onClickGoBackLinkHandler}
+              />
+            </div>
+          )
+        ) : (
           <div>
             <InvitationSummary />
           </div>
+        )
         }
       </div>
     );

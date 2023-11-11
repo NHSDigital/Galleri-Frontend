@@ -6,14 +6,20 @@ export default function ClinicSummaryPage(props) {
   const {
     icbData,
     icbSelected,
+    participatingICBSelected,
     lastUpdated,
     clinicList,
     onIcbChangeHandler,
     onCheckHandler,
     onClickClinicHandler,
-    loading,
   } = props;
-  console.log(icbData);
+
+ // Check if all the listed context state variables are available
+  const isContextLoaded = clinicList.length > 0;
+
+  console.log("icbData....", icbData);
+  console.log("participatingICBSelected....", participatingICBSelected);
+
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -34,27 +40,29 @@ export default function ClinicSummaryPage(props) {
                 name="select-icb"
                 onChange={(e) => onIcbChangeHandler(e)}
               >
-                <option value=""></option>
+                <option value={participatingICBSelected}></option>
                 {icbData.map((icb, key) => {
-                  return <option key={key}>{"Participating ICB " + icb}</option>;
+                  return (
+                    <option key={key}>{"Participating ICB " + icb}</option>
+                  );
                 })}
               </select>
             </div>
             <br />
           </div>
-          {loading ? (
-            console.log("Loading Clinic Summary...") // You can add a loading indicator here
-          ) : icbSelected === "" ? null : (
-            <ClinicSummaryTable
-              lastUpdated={lastUpdated}
-              clinicList={clinicList}
-              onCheckHandler={onCheckHandler}
-              onClickClinicHandler={onClickClinicHandler}
-            />
-          )}
+          {icbSelected === ""
+            ? null
+            : isContextLoaded && (
+                <ClinicSummaryTable
+                  lastUpdated={lastUpdated}
+                  clinicList={clinicList}
+                  onCheckHandler={onCheckHandler}
+                  onClickClinicHandler={onClickClinicHandler}
+                />
+              )}
         </div>
       </main>
-      {console.log("End of Summary Page ......")};
+      {console.log("End of Summary Page ......")}
     </div>
   );
 }

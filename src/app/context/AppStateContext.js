@@ -27,6 +27,7 @@ export class AppStateProvider extends React.Component {
       "cancelChangeText": "Change clinic",
       "currentlySelectedClinicId": "",
       "currentlySelectedClinic": "",
+      "participatingICBSelected": "",
       "displayClinicSelector": false,
       "displayViewAllPrevInvitations": false,
       "recentInvitationHistory": {
