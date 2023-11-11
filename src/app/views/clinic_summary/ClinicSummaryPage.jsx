@@ -38,9 +38,11 @@ export default function ClinicSummaryPage(props) {
                 class="nhsuk-select"
                 id="select-icb"
                 name="select-icb"
+                value={participatingICBSelected}
                 onChange={(e) => onIcbChangeHandler(e)}
               >
-                <option value={participatingICBSelected}></option>
+
+                <option></option>
                 {icbData.map((icb, key) => {
                   return (
                     <option key={key}>{"Participating ICB " + icb}</option>
