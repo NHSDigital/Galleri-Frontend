@@ -14,7 +14,7 @@ export default function ClinicSummaryPage(props) {
     onClickClinicHandler,
   } = props;
 
- // Check if all the listed context state variables are available
+  // Check if all the listed context state variables are available
   const isContextLoaded = clinicList.length > 0;
 
   console.log("icbData....", icbData);
