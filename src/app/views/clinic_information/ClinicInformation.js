@@ -264,7 +264,7 @@ class ClinicInformation extends Component {
               () => {
                 // This callback will execute after the state has been updated
 
-                if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available" ) {
+                if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
                   this.putTargetPercentageAWSDynamo("50");
                 }
 
@@ -304,7 +304,7 @@ class ClinicInformation extends Component {
       displayViewAllPrevInvitations,
       isSubmit
     } = this.context.state
-    
+
     const {
       displayUserErrorTargetPercentage,
       targetFillToInputValue,
