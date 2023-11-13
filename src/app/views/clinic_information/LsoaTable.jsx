@@ -1,13 +1,18 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAll, checkAllHandler, checkRecord, handleRangeSelection } = prop;
+  const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection } = prop;
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
   mileSelectionOptions.shift()
 
-  // console.log("element", document.getElementById("selectALsoa").defaultChecked)
+  const lsoaArray = lsoaInRange.filter(el => {
+    if (el.checked){
+      return el
+    }
+  })
+
   return (
     <div>
       <div class="govuk-form-group" id="lsoaText">
@@ -92,16 +97,14 @@ export default function LsoaTable(prop) {
               return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
-                      {checkAll ? (
                       <div class="nhsuk-checkboxes__item">
                         <input
                           class="nhsuk-checkboxes__input"
                           id="selectALsoa"
                           name="SelectALsoaInList"
                           type="checkbox"
-                          checked="true"
-                          value=""
-                          onChange={(e) => checkRecord(e)}
+                          onChange={(event) => checkRecord(event, e)}
+                          checked={e.checked}
                         />
                         <label
                           class="nhsuk-label nhsuk-checkboxes__label"
@@ -109,24 +112,6 @@ export default function LsoaTable(prop) {
                         >
                         </label>
                       </div>
-                      ): (
-                      <div class="nhsuk-checkboxes__item">
-                        <input
-                          class="nhsuk-checkboxes__input"
-                          id="selectALsoa"
-                          name="SelectALsoaInList"
-                          // checked={checkAll}
-                          type="checkbox"
-                          value=""
-                        />
-                        <label
-                          class="nhsuk-label nhsuk-checkboxes__label"
-                          for="selectALsoa"
-                        >
-                        </label>
-                      </div>
-                      )
-                      }
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
                     {e.LSOA_2011?.S}
@@ -162,7 +147,12 @@ export default function LsoaTable(prop) {
             <dt class="nhsuk-summary-list__key">
               Total available to invite
             </dt>
-            <dd class="nhsuk-summary-list__value">{lsoaInRange.reduce((acc,curr) => acc + (Number(curr.ELIGIBLE_POPULATION?.S) - Number(curr.INVITED_POPULATION?.S)),0)}</dd>
+            <dd class="nhsuk-summary-list__value">{
+              lsoaArray.reduce((acc,curr) => {
+                  return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S))
+                }
+              ,0)
+            }</dd>
           </div>
         </dl>
       </div>

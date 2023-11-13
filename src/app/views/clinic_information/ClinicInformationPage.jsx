@@ -117,7 +117,6 @@ export default function ClinicInformationPage(props) {
           <div class="nhsuk-grid-column-full">
             <LsoaTable
               lsoaInRange={lsoaInRange}
-              checkAll={checkAll}
               checkAllHandler={checkAllHandler}
               checkRecord={checkRecord}
               handleRangeSelection={handleRangeSelection}

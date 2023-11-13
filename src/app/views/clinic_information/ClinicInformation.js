@@ -22,7 +22,7 @@ class ClinicInformation extends Component {
       "displayViewAllPrevInvitations": false,
       "targetFillToInputValue": 0,
       "appsToFill": 0,
-      "checkAll": false,
+      "checkAll": true,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
@@ -30,6 +30,7 @@ class ClinicInformation extends Component {
         "appsRemaining": 0
       },
       "lsoaInRange": [],
+      "selectedLsoa": [],
       "rangeSelection": 1
     }
 
@@ -43,22 +44,49 @@ class ClinicInformation extends Component {
   }
 
   checkAllHandler(event) {
-    console.log("checkall state", event)
+    // toggle between setting the value of checked in all elements in lsoaInRange
     if(event.target.checked) {
+      // set all "checked" fields in lsoaInRange to true
+      const selectAll = this.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = true
+        return lsoa
+      })
       this.setState({
-        checkAll: true
+        lsoaInRange: selectAll
       })
     } else {
+      const deselectAll = this.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = false
+        return lsoa
+      })
       this.setState({
-        checkAll: false
+        lsoaInRange: deselectAll
       })
     }
   }
 
-  checkRecord(event){
-    this.setState({
-      checkAll: false
+  checkRecord(event, el) {
+    let selectedLsoaCopy = [...this.state.selectedLsoa]
+    const lsoaItemIndex = this.state.selectedLsoa.findIndex((lsoa) => {
+      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S
     })
+
+    const item = selectedLsoaCopy[lsoaItemIndex]
+    if (event.target.checked) {
+      item.checked = true
+      selectedLsoaCopy[lsoaItemIndex] = item
+
+      this.setState({
+        lsoaInRange: selectedLsoaCopy
+      })
+    } else {
+      item.checked = false
+      selectedLsoaCopy[lsoaItemIndex] = item
+
+      this.setState({
+        lsoaInRange: selectedLsoaCopy
+      })
+    }
   }
 
   handleRangeSelection(value){
@@ -333,7 +361,8 @@ class ClinicInformation extends Component {
       )
       .then((response) => {
         this.setState({
-          lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+          lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+          selectedLsoa: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
         })
       });
   }
@@ -349,7 +378,8 @@ class ClinicInformation extends Component {
         )
         .then((response) => {
           this.setState({
-            lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+            lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+            selectedLsoa: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
           })
         })
     }
@@ -372,7 +402,6 @@ class ClinicInformation extends Component {
       targetFillToInputValue,
       appsToFill,
       lsoaInRange,
-      checkAll
     } = this.state
     return (
       <div>
@@ -394,7 +423,6 @@ class ClinicInformation extends Component {
           onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
           onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
           lsoaInRange={lsoaInRange}
-          checkAll={checkAll}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
           checkAllHandler={this.checkAllHandler}
