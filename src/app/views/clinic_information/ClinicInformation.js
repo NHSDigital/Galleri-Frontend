@@ -139,14 +139,16 @@ class ClinicInformation extends Component {
     }
   }
 
-  // PUT lsoa codes and appsToFill (send to lambda)
+  // POST lsoa codes and appsToFill (send to lambda)
   async onClickLsoaCodesAppsToFillHandler(e) {
-    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    console.log(this.state.appsToFill);
+    console.log(this.state.selectedLsoa);
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://fo768dcgqb.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
+        "https://5722cr9jy7.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
         {
           targetAppsToFill: this.state.appsToFill,
           lsoaCodes: this.state.selectedLsoa
