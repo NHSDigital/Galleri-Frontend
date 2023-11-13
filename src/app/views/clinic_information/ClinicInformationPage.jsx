@@ -22,7 +22,6 @@ export default function ClinicInformationPage(props) {
     onSubmitHandler,
     onClickGoBackLinkHandler
   } = props;
-  console.log("props.clinicIdNameList = ", clinicIdNameList);
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">

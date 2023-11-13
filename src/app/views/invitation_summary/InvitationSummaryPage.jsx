@@ -23,8 +23,6 @@ export default function InvitationSummaryPage(props) {
     dummySummaryList,
   } = props;
 
-  console.log("Page Component level ...", recentInvitationHistory);
-
   return (
     <div
       data-testid="invitation-summary-container"

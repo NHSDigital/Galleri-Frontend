@@ -58,8 +58,6 @@ export default class ClinicSummary extends Component {
   }
 
   onClickClinicHandler(event, e) {
-    console.log(e.ClinicId.S, e.ClinicName.S);
-    console.log(event.target.id);
     this.context.setState({
       "navigateToClinic": true,
       clinicIdSelected: e.ClinicId.S,
@@ -86,7 +84,7 @@ export default class ClinicSummary extends Component {
         icbData: [...response.data],
         lastUpdated: lastUpdated,
         clinicList: clinicList,
-      }, () => { console.log(this.context.state.clinicList.length) });
+      });
 
       this.setState({ isInitialLoad: false });
     } catch (error) {
@@ -105,6 +103,7 @@ export default class ClinicSummary extends Component {
       participatingICBSelected
     } = this.context.state;
 
+    // Check if the context state variables are available
     const isContextLoaded =
       icbData.length > 1;
 
@@ -120,13 +119,13 @@ export default class ClinicSummary extends Component {
       filteredClinicList,
       displayClinicsNoApp
     );
-    console.log("......", participatingICBSelected);
 
     return (
       <div>
         {
           // Check if a clinic link has been clicked
           // If clicked render the clinic information page and pass the props
+          // Also added conditional rendering to ensure that the page is rendered only after certain context state variables are loaded
           !this.context.state.navigateToClinic ? (
             isContextLoaded && (
               <ClinicSummaryPage // Render the default page

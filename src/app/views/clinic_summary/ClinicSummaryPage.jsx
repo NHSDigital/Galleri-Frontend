@@ -17,9 +17,6 @@ export default function ClinicSummaryPage(props) {
   // Check if all the listed context state variables are available
   const isContextLoaded = clinicList.length > 0;
 
-  console.log("icbData....", icbData);
-  console.log("participatingICBSelected....", participatingICBSelected);
-
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -64,7 +61,6 @@ export default function ClinicSummaryPage(props) {
               )}
         </div>
       </main>
-      {console.log("End of Summary Page ......")}
     </div>
   );
 }

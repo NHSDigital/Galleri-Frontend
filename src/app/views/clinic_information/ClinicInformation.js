@@ -69,7 +69,6 @@ class ClinicInformation extends Component {
     let currentlySelectedClinic = "";
 
     const { clinicIdNameList } = this.context.state;
-    console.log(this.context.state.clinicIdNameList)
 
     if (e.target.value !== "") {
       clinicIdNameList.forEach(clinic => {
@@ -157,7 +156,7 @@ class ClinicInformation extends Component {
           clinicIdNameList: [...response.data.map(clinic => {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }
           })]
-        }, () => { console.log(this.context.state.clinicIdNameList) })
+        })
       });
 
     let initialSelectedClinicId = this.context.state.clinicIdSelected;
@@ -236,37 +235,39 @@ class ClinicInformation extends Component {
       postcode !== "" &&
       weeklyCapacity.length > 0;
 
-    console.log(weeklyCapacity);
-
     return (
       <div>
-        {!this.context.state.isSubmit ? (
-          isContextLoaded && (
+        {
+          // Check if a Calculate number to invite button has been clicked
+          // If clicked render the Invitation Summary page and pass the props
+          // Also added conditional rendering to ensure that the page is rendered only after certain context state variables are loaded
+          !this.context.state.isSubmit ? (
+            isContextLoaded && (
+              <div>
+                <ClinicInformationPage
+                  clinicIdNameList={clinicIdNameList}
+                  clinicName={clinicName}
+                  address1={address1}
+                  address2={address2}
+                  postcode={postcode}
+                  weeklyCapacity={weeklyCapacity}
+                  lastUpdated={lastUpdated}
+                  displayClinicSelector={displayClinicSelector}
+                  cancelChangeText={cancelChangeText}
+                  recentInvitationHistory={recentInvitationHistory}
+                  currentlySelectedClinic={currentlySelectedClinic}
+                  onClickChangeClinicHandler={this.onClickChangeClinicHandler}
+                  onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
+                  onSubmitHandler={this.onSubmitHandler}
+                  onClickGoBackLinkHandler={this.onClickGoBackLinkHandler}
+                />
+              </div>
+            )
+          ) : (
             <div>
-              <ClinicInformationPage
-                clinicIdNameList={clinicIdNameList}
-                clinicName={clinicName}
-                address1={address1}
-                address2={address2}
-                postcode={postcode}
-                weeklyCapacity={weeklyCapacity}
-                lastUpdated={lastUpdated}
-                displayClinicSelector={displayClinicSelector}
-                cancelChangeText={cancelChangeText}
-                recentInvitationHistory={recentInvitationHistory}
-                currentlySelectedClinic={currentlySelectedClinic}
-                onClickChangeClinicHandler={this.onClickChangeClinicHandler}
-                onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
-                onSubmitHandler={this.onSubmitHandler}
-                onClickGoBackLinkHandler={this.onClickGoBackLinkHandler}
-              />
+              <InvitationSummary />
             </div>
           )
-        ) : (
-          <div>
-            <InvitationSummary />
-          </div>
-        )
         }
       </div>
     );

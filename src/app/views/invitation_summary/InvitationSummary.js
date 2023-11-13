@@ -9,7 +9,7 @@ class InvitationSummary extends Component {
       "displayCheckDetailsBanner": true,
       "displayErrorInvitationSummary": false,
       "displayConfirmationInvitationSummary": false,
-      // Using the mock data (values inside " ") below as placeholders for now until the Router is implemented to bring these values from previous pages
+      // Using the mock data (values inside " ") as some of components missing like LSOA Table form where the values are brought over
       "dummySummaryList": {
         "clinicDistanceHolder": `"+ 5 miles"`, //Context API from Clinic Invitation Page
         "availableInvitationsHolder": `"4,372"`,//Context API from Clinic Invitation Page
@@ -72,7 +72,6 @@ class InvitationSummary extends Component {
       postcode,
       recentInvitationHistory,
     } = this.context.state;
-    console.log("CLass Component ...", recentInvitationHistory)
     return (
       <div>
         <InvitationSummaryPage
