@@ -1,12 +1,13 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection } = prop;
+  const { lsoaInRange, checkAll, checkAllHandler, checkRecord, handleRangeSelection } = prop;
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
   mileSelectionOptions.shift()
 
+  // console.log("element", document.getElementById("selectALsoa").defaultChecked)
   return (
     <div>
       <div class="govuk-form-group" id="lsoaText">
@@ -100,6 +101,7 @@ export default function LsoaTable(prop) {
                           type="checkbox"
                           checked="true"
                           value=""
+                          onChange={(e) => checkRecord(e)}
                         />
                         <label
                           class="nhsuk-label nhsuk-checkboxes__label"
@@ -113,6 +115,7 @@ export default function LsoaTable(prop) {
                           class="nhsuk-checkboxes__input"
                           id="selectALsoa"
                           name="SelectALsoaInList"
+                          // checked={checkAll}
                           type="checkbox"
                           value=""
                         />

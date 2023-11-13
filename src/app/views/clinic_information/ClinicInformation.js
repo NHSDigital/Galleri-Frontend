@@ -38,10 +38,12 @@ class ClinicInformation extends Component {
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
+    this.checkRecord= this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
   }
 
   checkAllHandler(event) {
+    console.log("checkall state", event)
     if(event.target.checked) {
       this.setState({
         checkAll: true
@@ -51,6 +53,12 @@ class ClinicInformation extends Component {
         checkAll: false
       })
     }
+  }
+
+  checkRecord(event){
+    this.setState({
+      checkAll: false
+    })
   }
 
   handleRangeSelection(value){
@@ -390,6 +398,7 @@ class ClinicInformation extends Component {
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
           checkAllHandler={this.checkAllHandler}
+          checkRecord={this.checkRecord}
           handleRangeSelection={this.handleRangeSelection}
         />
       </div>
