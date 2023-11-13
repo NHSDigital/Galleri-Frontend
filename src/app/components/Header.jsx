@@ -15,6 +15,7 @@ export default function Header() {
         </div>
         <div class="nhsuk-header__transactional-service-name">
           <a class="nhsuk-header__transactional-service-name--link" href="#">Galleri</a>
+          <a class="nhsuk-skip-link" href="#maincontent">Skip to main content</a>
         </div>
       </div>
       <NavMenu />
