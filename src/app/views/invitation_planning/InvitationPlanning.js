@@ -1,5 +1,4 @@
 import { Component } from "react";
-import axios from "axios";
 import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";

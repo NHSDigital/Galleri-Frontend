@@ -55,7 +55,7 @@ class ClinicInformation extends Component {
   // Calculating the Target number of appointments to fill
   calculateTargetAppsToFill(targetFillToInputValue) {
     this.setState({
-      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
+      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
     });
   }
 
@@ -64,7 +64,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.put(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        "https://je5d3ew5i1.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
       return response.data;
