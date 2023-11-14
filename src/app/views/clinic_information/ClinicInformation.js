@@ -30,7 +30,8 @@ class ClinicInformation extends Component {
       },
       "lsoaInRange": [],
       "rangeSelection": 1,
-      "selectedLsoa": []
+      "selectedLsoa": [],
+      "clickedButton": false
     }
 
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
@@ -139,25 +140,51 @@ class ClinicInformation extends Component {
     }
   }
 
+
+
   // POST lsoa codes and appsToFill (send to lambda)
-  async onClickLsoaCodesAppsToFillHandler(e) {
-    // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-    console.log(this.state.appsToFill);
-    console.log(this.state.selectedLsoa);
-    try {
-      const response = await axios.post(
-        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://5722cr9jy7.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
-        {
-          targetAppsToFill: this.state.appsToFill,
-          lsoaCodes: this.state.selectedLsoa
-        }
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Request failed: " + error.message);
-    }
+  onClickLsoaCodesAppsToFillHandler = (e) => {
+    let fullUrl =
+    "https://vnfuxrr9ke.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite";
+  // let headers = {
+  //   "Access-Control-Request-Headers": "content-type",
+  // };
+    let fileContent = {
+      targetAppsToFill: "131",
+      lsoaCodes: {
+        E01000005: {
+          IMD_DECILE: "3",
+          FORECAST_UPTAKE: "1",
+        },
+        E01004294: {
+          IMD_DECILE: "5",
+          FORECAST_UPTAKE: "1",
+        },
+        E01032767: {
+          IMD_DECILE: "7",
+          FORECAST_UPTAKE: "1",
+        },
+        E01032739: {
+          IMD_DECILE: "7",
+          FORECAST_UPTAKE: "1",
+        },
+        E01004293: {
+          IMD_DECILE: "8",
+          FORECAST_UPTAKE: "1",
+        },
+      },
+    };
+
+    console.log("Sending fullUrl: ", fullUrl)
+    console.log("Sending fileContent: ", fileContent)
+    // console.log(axios.post(fullUrl, fileContent, config))
+
+    // let config = { headers: headers };
+    let response = axios.post(fullUrl, fileContent).then((response) => {
+      console.log(response.data)
+    });
+
+    console.log(response.data)
   }// will need to add some conditionals on when this fires
 
   // Handler Function for user errors and calculating target number of appointments to fill
@@ -274,6 +301,43 @@ class ClinicInformation extends Component {
   }
 
   componentDidMount() {
+    let fullUrl =
+      "https://vnfuxrr9ke.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite";
+    let headers = {
+      accept: "application/vnd.mesh.v2+json",
+      "Content-Type": "application/json",
+    };
+    let fileContent = {
+      targetAppsToFill: "131",
+      lsoaCodes: {
+        E01000005: {
+          IMD_DECILE: "3",
+          FORECAST_UPTAKE: "1",
+        },
+        E01004294: {
+          IMD_DECILE: "5",
+          FORECAST_UPTAKE: "1",
+        },
+        E01032767: {
+          IMD_DECILE: "7",
+          FORECAST_UPTAKE: "1",
+        },
+        E01032739: {
+          IMD_DECILE: "7",
+          FORECAST_UPTAKE: "1",
+        },
+        E01004293: {
+          IMD_DECILE: "8",
+          FORECAST_UPTAKE: "1",
+        },
+      },
+    };
+    // let config = { headers: headers };
+    let response = axios.post(fullUrl, fileContent).then((response) => {
+      console.log(response.data)
+    });
+
+    // console.log(response.data)
     //Mocked the data below which is supposed to be retrieved from previous page - "Clinic Summary"
     const icb = {
       code: "QJK",
@@ -375,6 +439,44 @@ class ClinicInformation extends Component {
   }
 
   componentDidUpdate(_, prevState) {
+  //   if (this.state.clickedButton !== prevState.clickedButton) {
+  //     console.log("Abdul come closer")
+  //     let fullUrl =
+  //     "https://vnfuxrr9ke.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite";
+  //     let headers = {
+  //       accept: "application/vnd.mesh.v2+json",
+  //       "Content-Type": "application/json",
+  //     };
+  //     let fileContent = {
+  //       targetAppsToFill: "131",
+  //       lsoaCodes: {
+  //         E01000005: {
+  //           IMD_DECILE: "3",
+  //           FORECAST_UPTAKE: "1",
+  //         },
+  //         E01004294: {
+  //           IMD_DECILE: "5",
+  //           FORECAST_UPTAKE: "1",
+  //         },
+  //         E01032767: {
+  //           IMD_DECILE: "7",
+  //           FORECAST_UPTAKE: "1",
+  //         },
+  //         E01032739: {
+  //           IMD_DECILE: "7",
+  //           FORECAST_UPTAKE: "1",
+  //         },
+  //         E01004293: {
+  //           IMD_DECILE: "8",
+  //           FORECAST_UPTAKE: "1",
+  //         },
+  //       },
+  //     };
+  //     let config = { headers: headers };
+  //     let response = axios.post(fullUrl, fileContent).then((response) => {
+  //       console.log(response.data)
+  //     });
+  // }
     if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
       // placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
