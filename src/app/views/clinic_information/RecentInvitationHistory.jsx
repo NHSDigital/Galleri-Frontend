@@ -1,4 +1,5 @@
 export default function RecentInvitationHistory(props) {
+  const { displayViewAllPrevInvitations } = props;
   const { dateOfPrevInv, daysSincePrevInv, invSent, appsRemaining } =
     props.props;
   return (
@@ -32,6 +33,17 @@ export default function RecentInvitationHistory(props) {
               </tr>
             </tbody>
           </table>
+          {displayViewAllPrevInvitations && (
+          <div style={{marginTop:"20px"}} className=".nhsuk-main-wrapper--l">
+            <a
+              id="changeCancelButtonId"
+              style={{ textDecorationLine: "underline" }}
+              onClick={() => {}}
+            >
+              View all previous invitations
+            </a>
+          </div>
+          )}
         </div>
       </div>
     </div>

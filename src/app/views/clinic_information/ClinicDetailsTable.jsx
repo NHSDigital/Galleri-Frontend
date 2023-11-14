@@ -11,42 +11,43 @@ export default function ClinicDetailsTable(props) {
     onClickChangeClinicHandler,
   } = props;
   return (
-    <table role="table" class="nhsuk-table-responsive">
-      <thead role="rowgroup" class="nhsuk-table__head">
-        <tr role="row">
-          <th role="columnheader" class="" scope="col">
-            Clinic Name
-          </th>
-          <td role="columnheader" class="" scope="col">
-            {clinicName}
-          </td>
-          <td role="columnheader" class="" scope="col">
-            <a
-              id="changeCancelButtonId"
-              style={{ textDecorationLine: "underline" }}
-              onClick={() => {
-                onClickChangeClinicHandler();
-              }}
-            >
-              {cancelChangeText}
-            </a>
-          </td>
-        </tr>
-      </thead>
-      <tbody class="nhsuk-table__body">
-        <tr role="row" class="nhsuk-table__row">
-          <th role="columnheader" class="" scope="col">
-            Address
-          </th>
-          <td role="columnheader" class="" scope="col">
-            {address1}
-            <br />
-            {address2}
-            <br />
-            {postcode}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <div>
+        <dl id="summary-list" class="nhsuk-summary-list">
+          <div id="" class="nhsuk-summary-list__row">
+            <dt id="term1-label" class="nhsuk-summary-list__key">
+              Clinic Name
+            </dt>
+            <dd id="" class="nhsuk-summary-list__value">
+              {clinicName}
+            </dd>
+            <dd class="nhsuk-summary-list__actions">
+              <a
+                id="changeCancelButtonId"
+                style={{ textDecorationLine: "underline" }}
+                onClick={() => {
+                  onClickChangeClinicHandler();
+                }}
+              >
+                {cancelChangeText}
+              </a>
+            </dd>
+          </div>
+
+          <div id="" class="nhsuk-summary-list__row">
+            <dt id="term2-label" class="nhsuk-summary-list__key">
+              Address
+            </dt>
+            <dd id="" class="nhsuk-summary-list__value">
+              {address1}
+              <br />
+              {address2}
+              <br />
+              {postcode}
+            </dd>
+            <dd id="" class="nhsuk-summary-list__value">
+            </dd>
+          </div>
+        </dl>
+      </div>
   );
 }

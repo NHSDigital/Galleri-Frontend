@@ -3,6 +3,7 @@ import React from "react";
 import ClinicDetailsTable from "./ClinicDetailsTable";
 import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
+import ClinicInvitationCriteria from "./clinic_invitation_criteria/ClinicInvitationCriteria";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -18,7 +19,14 @@ export default function ClinicInformationPage(props) {
     recentInvitationHistory,
     onClickChangeClinicHandler,
     onChangeSelectedClinicHandler,
+    displayUserErrorTargetPercentage,
+    displayViewAllPrevInvitations,
+    targetFillToInputValue,
+    appsToFill,
+    onClickTargetAppsToFillHandler,
+    onTargetFillToInputChangeHandler,
   } = props;
+
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -45,7 +53,9 @@ export default function ClinicInformationPage(props) {
           </p>
           <br />
           <div class="nhsuk-grid-column-two-thirds">
-            <h2 label="header">Clinic Information</h2>
+            <h2 id="maincontent" label="header">
+              Clinic Information
+            </h2>
             <ClinicDetailsTable
               clinicName={clinicName}
               address1={address1}
@@ -63,6 +73,7 @@ export default function ClinicInformationPage(props) {
                 <select
                   class="nhsuk-select"
                   id="clinic-selector"
+                  value={clinicName}
                   onChange={(e) => {
                     onChangeSelectedClinicHandler(e);
                   }}
@@ -85,8 +96,18 @@ export default function ClinicInformationPage(props) {
               lastUpdated={lastUpdated}
             />
           </div>
-          <br/>
-          <RecentInvitationHistory props={recentInvitationHistory} />
+          <br />
+          <RecentInvitationHistory
+            props={recentInvitationHistory}
+            displayViewAllPrevInvitations={displayViewAllPrevInvitations}
+          />
+          <ClinicInvitationCriteria
+            displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+            targetFillToInputValue={targetFillToInputValue}
+            appsToFill={appsToFill}
+            onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
+            onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
+          />
         </div>
       </main>
     </div>
