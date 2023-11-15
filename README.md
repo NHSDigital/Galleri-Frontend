@@ -51,7 +51,7 @@ If this repository is
 
 ### Prerequisites
 
-The following software packages or their equivalents are expected to be installed:
+The following software packages or their equivalents are expected to be installed
 
 - [GNU make](https://www.gnu.org/software/make/)
 - [Docker](https://www.docker.com/)
