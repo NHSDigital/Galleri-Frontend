@@ -20,7 +20,7 @@ class InvitationPlanning extends Component {
       isCorrectTotal: true,
       enableUptakeEdit: false,
       isCorrectUptakeTotal: true,
-      BASE_URL: "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev"
+      BASE_URL: "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev",
     };
 
     // Handlers
