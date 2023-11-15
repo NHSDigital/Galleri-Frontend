@@ -23,6 +23,8 @@ class ClinicInformation extends Component {
       "displayViewAllPrevInvitations": false,
       "targetFillToInputValue": 0,
       "appsToFill": 0,
+      "lastSelectedRange": 0,
+      "targetFillToPercentage": 0,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
@@ -175,6 +177,9 @@ class ClinicInformation extends Component {
           const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
           const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
+          const lastSelectedRange = response.data.LastSelectedRange.N;
+          const targetFillToPercentage = response.data.TargetFillToPercentage.N;
+
           this.setState({
             clinicId: response.data.ClinicId.S,
             clinicName: response.data.ClinicName.S,
@@ -187,6 +192,8 @@ class ClinicInformation extends Component {
             displayClinicSelector: false,
             recentInvitationHistory: clinicInvitationHistory,
             displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+            lastSelectedRange: lastSelectedRange,
+            targetFillToPercentage: targetFillToPercentage
           }, () => {
             this.setState({
               appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
@@ -219,8 +226,8 @@ class ClinicInformation extends Component {
           })]
         });
 
-        let initialSelectedClinicId = response.data[0].ClinicId.S
-        let initialSelectedClinic = response.data[0].ClinicName.S
+        let initialSelectedClinicId = response.data[25].ClinicId.S
+        let initialSelectedClinic = response.data[25].ClinicName.S
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
           .get(
@@ -256,6 +263,9 @@ class ClinicInformation extends Component {
             const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
             const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
+            const lastSelectedRange = response.data.LastSelectedRange.N;
+            const targetFillToPercentage = response.data.TargetFillToPercentage.N;
+
             this.setState({
               clinicId: response.data.ClinicId.S,
               clinicName: response.data.ClinicName.S,
@@ -266,11 +276,13 @@ class ClinicInformation extends Component {
               weeklyCapacity: weeklyCapacityList,
               recentInvitationHistory: clinicInvitationHistory,
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+              lastSelectedRange: lastSelectedRange,
+              targetFillToPercentage: targetFillToPercentage
             },
               () => {
                 // This callback will execute after the state has been updated
 
-                if (this.state.recentInvitationHistory.dateOfPrevInv === "Not Available" ) {
+                if (this.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
                   this.putTargetPercentageAWSDynamo("50");
                 }
 
@@ -310,6 +322,8 @@ class ClinicInformation extends Component {
       displayViewAllPrevInvitations,
       targetFillToInputValue,
       appsToFill,
+      lastSelectedRange,
+      targetFillToPercentage
     } = this.state
     return (
       <div>
@@ -328,6 +342,8 @@ class ClinicInformation extends Component {
           displayViewAllPrevInvitations={displayViewAllPrevInvitations}
           targetFillToInputValue={targetFillToInputValue}
           appsToFill={appsToFill}
+          lastSelectedRange={lastSelectedRange}
+          targetFillToPercentage={targetFillToPercentage}
           onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
           onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
