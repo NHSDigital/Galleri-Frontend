@@ -4,54 +4,56 @@ import axios from "axios";
 export default function LsoaTable(prop) {
   const { lsoaInRange, checkAll, checkAllHandler, handleRangeSelection, onClickLsoaCodesAppsToFillHandler, isCheckedLsoaHandler } = prop;
 
-    // POST lsoa codes and appsToFill (send to lambda)
-  function click(e) {
-      let fullUrl =
-      "https://vnfuxrr9ke.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite";
-    let headers = {
-      accept: "application/vnd.mesh.v2+json",
-      "Content-Type": "application/json",
-    };
-    let fileContent = {
-      targetAppsToFill: "131",
-      lsoaCodes: {
-        E01000005: {
-          IMD_DECILE: "3",
-          FORECAST_UPTAKE: "1",
-        },
-        E01004294: {
-          IMD_DECILE: "5",
-          FORECAST_UPTAKE: "1",
-        },
-        E01032767: {
-          IMD_DECILE: "7",
-          FORECAST_UPTAKE: "1",
-        },
-        E01032739: {
-          IMD_DECILE: "7",
-          FORECAST_UPTAKE: "1",
-        },
-        E01004293: {
-          IMD_DECILE: "8",
-          FORECAST_UPTAKE: "1",
-        },
-      },
-    };
-    // let headers = await generateHeaders(
-    //   mailboxID,
-    //   mailboxPassword,
-    //   mailboxTarget
-    // );
-    let config = { headers: headers };
-    // if (tlsEnabled) {
-    //   config.httpsAgent = agent;
-    // }
-    let response = axios.post(fullUrl, fileContent).then((response) => {
-      console.log(response.data)
-    });
+  // POST lsoa codes and appsToFill (send to lambda)
 
-    console.log(response.data)
-    }// will need to add some conditionals on when this fires
+
+  // function click(e) {
+  //   let fullUrl =
+  //     "https://vnfuxrr9ke.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite";
+  //   let headers = {
+  //     accept: "application/vnd.mesh.v2+json",
+  //     "Content-Type": "application/json",
+  //   };
+  //   // let fileContent = {
+  //   //   targetAppsToFill: "131",
+  //   //   lsoaCodes: {
+  //   //     E01000005: {
+  //   //       IMD_DECILE: "3",
+  //   //       FORECAST_UPTAKE: "1",
+  //   //     },
+  //   //     E01004294: {
+  //   //       IMD_DECILE: "5",
+  //   //       FORECAST_UPTAKE: "1",
+  //   //     },
+  //   //     E01032767: {
+  //   //       IMD_DECILE: "7",
+  //   //       FORECAST_UPTAKE: "1",
+  //   //     },
+  //   //     E01032739: {
+  //   //       IMD_DECILE: "7",
+  //   //       FORECAST_UPTAKE: "1",
+  //   //     },
+  //   //     E01004293: {
+  //   //       IMD_DECILE: "8",
+  //   //       FORECAST_UPTAKE: "1",
+  //   //     },
+  //   //   },
+  //   // };
+  //   // let headers = await generateHeaders(
+  //   //   mailboxID,
+  //   //   mailboxPassword,
+  //   //   mailboxTarget
+  //   // );
+  //   let config = { headers: headers };
+  //   // if (tlsEnabled) {
+  //   //   config.httpsAgent = agent;
+  //   // }
+  //   let response = axios.post(fullUrl, fileContent).then((response) => {
+  //     console.log(response.data)
+  //   });
+
+  //   console.log(response.data)
+  // }// will need to add some conditionals on when this fires
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
