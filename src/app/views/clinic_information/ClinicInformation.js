@@ -19,6 +19,7 @@ class ClinicInformation extends Component {
       "currentlySelectedClinic": "",
       "displayClinicSelector": false,
       "displayUserErrorTargetPercentage": false,
+      "displayViewAllPrevInvitations": false,
       "targetFillToInputValue": 0,
       "appsToFill": 0,
       "checkAll": false,
@@ -91,9 +92,9 @@ class ClinicInformation extends Component {
       const response = await axios.put(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+
         { targetPercentage: Number(value) }
       );
-
       return response.data;
     } catch (error) {
       console.error("Request failed: " + error.message);
@@ -180,17 +181,22 @@ class ClinicInformation extends Component {
             weeklyCapacityValue += Number(weeklyCapacityData[key].N)
           });
 
+          const prevInviteDate = response.data.PrevInviteDate.S;
+          const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
+          const daysSincePrevInv = prevInviteDate
+            ? this.calculateDaysSince(prevInviteDate)
+            : "Not Available";
+
           const clinicInvitationHistory = {
-            dateOfPrevInv: response.data.PrevInviteDate.S,
-            daysSincePrevInv: this.calculateDaysSince(
-              response.data.PrevInviteDate.S
-            ),
+            dateOfPrevInv,
+            daysSincePrevInv,
             invSent: response.data.InvitesSent.N,
             appsRemaining: weeklyCapacityValue,
           };
 
           const addressParts = (response.data.Address.S).split(',');
           const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+          const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
           this.setState({
             clinicId: response.data.ClinicId.S,
@@ -203,7 +209,8 @@ class ClinicInformation extends Component {
             cancelChangeText: "Change clinic",
             displayClinicSelector: false,
             recentInvitationHistory: clinicInvitationHistory,
-          },() => {
+            displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+          }, () => {
             this.setState({
               appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
             });
@@ -255,17 +262,22 @@ class ClinicInformation extends Component {
               weeklyCapacityValue += Number(weeklyCapacityData[key].N)
             });
 
+            const prevInviteDate = response.data.PrevInviteDate.S;
+            const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
+            const daysSincePrevInv = prevInviteDate
+              ? this.calculateDaysSince(prevInviteDate)
+              : "Not Available";
+
             const clinicInvitationHistory = {
-              dateOfPrevInv: response.data.PrevInviteDate.S,
-              daysSincePrevInv: this.calculateDaysSince(
-                response.data.PrevInviteDate.S
-              ),
+              dateOfPrevInv,
+              daysSincePrevInv,
               invSent: response.data.InvitesSent.N,
               appsRemaining: weeklyCapacityValue,
             };
 
             const addressParts = (response.data.Address.S).split(',');
             const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+            const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
             this.setState({
               clinicId: response.data.ClinicId.S,
@@ -276,9 +288,14 @@ class ClinicInformation extends Component {
               postcode: response.data.PostCode.S,
               weeklyCapacity: weeklyCapacityList,
               recentInvitationHistory: clinicInvitationHistory,
+              displayViewAllPrevInvitations: displayViewAllPrevInvitations,
             },
               () => {
                 // This callback will execute after the state has been updated
+
+                if (this.state.recentInvitationHistory.dateOfPrevInv === "Not Available" ) {
+                  this.putTargetPercentageAWSDynamo("50");
+                }
 
                 //Executes GET API call below when page renders - grabs default Target Percentage input value
                 // and displays the target number of appointments to fill
@@ -344,6 +361,7 @@ class ClinicInformation extends Component {
       displayClinicSelector,
       recentInvitationHistory,
       displayUserErrorTargetPercentage,
+      displayViewAllPrevInvitations,
       targetFillToInputValue,
       appsToFill,
       lsoaInRange,
@@ -363,6 +381,7 @@ class ClinicInformation extends Component {
           cancelChangeText={cancelChangeText}
           recentInvitationHistory={recentInvitationHistory}
           displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+          displayViewAllPrevInvitations={displayViewAllPrevInvitations}
           targetFillToInputValue={targetFillToInputValue}
           appsToFill={appsToFill}
           onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}

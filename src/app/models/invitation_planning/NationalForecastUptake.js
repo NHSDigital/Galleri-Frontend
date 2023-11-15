@@ -1,5 +1,6 @@
 export class NationalForecastUptake {
-  constructor(currentPercentage) {
+  constructor(currentPercentage, lastUpdated) {
     this.currentPercentage = currentPercentage;
+    this.lastUpdated = lastUpdated;
   }
 }
