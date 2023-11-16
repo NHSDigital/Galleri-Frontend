@@ -1,7 +1,6 @@
 import "../../styles/css/sass.css";
 import React from 'react';
 
-
 const ClinicInfo = (props) => {
   const {
     clinicName,

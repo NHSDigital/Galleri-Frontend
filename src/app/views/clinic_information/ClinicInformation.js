@@ -13,12 +13,6 @@ class ClinicInformation extends Component {
       "targetFillToInputValue": 0,
       "appsToFill": 0,
       "checkAll": true,
-      // "recentInvitationHistory": {
-      //   "dateOfPrevInv": "Not available",
-      //   "daysSincePrevInv": "Not available",
-      //   "invSent": 0,
-      //   "appsRemaining": 0
-      // },
       "lsoaInRange": [],
       "selectedLsoa": [],
       "rangeSelection": 1
@@ -265,8 +259,6 @@ class ClinicInformation extends Component {
   }
 
   componentDidMount() {
-    // const icbId = "Participating ICB 2"
-
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
@@ -374,7 +366,9 @@ class ClinicInformation extends Component {
   componentDidUpdate(_, prevState) {
     if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
       // placeholder postcode as the clinic postcode is generated off of random string
+      // TODO: placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
+      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(

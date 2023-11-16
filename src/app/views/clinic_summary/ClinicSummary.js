@@ -18,7 +18,6 @@ export default class ClinicSummary extends Component {
     this.state = {
       loading: true,
       isInitialLoad: true,
-
     };
 
     // Handlers
@@ -128,7 +127,7 @@ export default class ClinicSummary extends Component {
           // Also added conditional rendering to ensure that the page is rendered only after certain context state variables are loaded
           !this.context.state.navigateToClinic ? (
             isContextLoaded && (
-              <ClinicSummaryPage // Render the default page
+              <ClinicSummaryPage
                 icbData={icbData}
                 icbSelected={icbSelected}
                 participatingICBSelected={participatingICBSelected}
