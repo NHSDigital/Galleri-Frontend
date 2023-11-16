@@ -33,7 +33,7 @@ export default function LsoaTable(prop) {
           class={"nhsuk-select"}
           id="milesFromSite"
           name="miles"milesOptions
-          defaultValue={lastSelectedRange}
+          value={lastSelectedRange}
           onChange={(e) => handleRangeSelection(e)}
           >
             {milesOptions.map(e => {
