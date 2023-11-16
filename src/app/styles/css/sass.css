@@ -4345,6 +4345,8 @@ COMPONENTS/ #ERROR-SUMMARY
 	/* 1 */
 	margin-bottom: 0;
 	margin-top: 0;
+	padding-left: 16px;
+	border-left: 4px solid #d5281b
 }
 
 .nhsuk-error-summary__list a {
