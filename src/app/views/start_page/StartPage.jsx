@@ -30,16 +30,16 @@ export default function StartPage(props) {
           <div class="nhsuk-grid-row">
             <div class="nhsuk-grid-column-two-thirds">
               <h1>Galleri Pilot System</h1>
-              <p>Use this service to do invite eligible population for screening.</p>
-              <p>You can use this service if the participants:</p>
+              <p>Use this service to send out invitations to the Galleri Pilot Systems</p>
+              <p>Participants are eligible to be invited if they meet the following criteria:</p>
               <ul>
                 <li>live in England</li>
-                <li>eligible for screening</li>
+                <li>registered to a participating GP Practice</li>
+                <li>aged between 50 and 77</li>
+                <li>have not had a cancer diagnosis in the past 3 years</li>
               </ul>
 
-              <h2>Before you start</h2>
-
-              <p>We'll ask you for: ...</p>
+              <h2>To get started, click button below</h2>
 
               <a class="nhsuk-button" href="#" role="button" draggable="false" onClick={onClickStartHandler}>
                 Start now
