@@ -278,7 +278,6 @@ class ClinicInformation extends Component {
         `https://gijt16kt42.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icb.code}`
       )
       .then((response) => {
-        console.log(response);
         this.setState({
           clinicList: [...response.data.map(clinic => {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }

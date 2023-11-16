@@ -35,7 +35,6 @@ export default function ClinicInformationPage(props) {
     handleRangeSelection
   } = props;
 
-  // console.log(lastSelectedRange + ' ' + targetFillToPercentage)
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -125,6 +124,7 @@ export default function ClinicInformationPage(props) {
               checkAllHandler={checkAllHandler}
               checkRecord={checkRecord}
               handleRangeSelection={handleRangeSelection}
+              lastSelectedRange={lastSelectedRange}
             />
           </div>
         </div>

@@ -49,7 +49,7 @@ class InvitationPlanning extends Component {
         { forecastUptake: Number(value) }
       )
       .then((response) => {
-        console.log("response -> " + response.status);
+
       });
   }
 
@@ -61,7 +61,7 @@ class InvitationPlanning extends Component {
         { quintiles: updatedQuintile }
       )
       .then((response) => {
-        console.log("response -> " + response.status);
+
       });
   }
 
@@ -185,7 +185,6 @@ class InvitationPlanning extends Component {
         "https://yehr3cfrvc.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
-        console.log('response -> ' + response.data.NATIONAL_FORCAST_UPTAKE.N);
         const quintiles = [
           response.data.QUINTILE_1.N,
           response.data.QUINTILE_2.N,
