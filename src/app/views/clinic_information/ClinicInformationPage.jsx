@@ -99,7 +99,17 @@ export default function ClinicInformationPage(props) {
             />
           </div>
           <br />
-          <RecentInvitationHistory props={recentInvitationHistory} />
+          <RecentInvitationHistory
+            props={recentInvitationHistory}
+            displayViewAllPrevInvitations={displayViewAllPrevInvitations}
+          />
+          <ClinicInvitationCriteria
+            displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+            targetFillToInputValue={targetFillToInputValue}
+            appsToFill={appsToFill}
+            onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
+            onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
+          />
         </div>
       </main>
     </div>

@@ -17,7 +17,7 @@ export default function Root() {
         <ClinicSummary />
         {/* <InvitationPlanning /> */}
         {/* <ClinicInformation /> */}
-        <InvitationSummary />
+        {/* <InvitationSummary /> */}
         <Footer />
       </body>
     </div>

@@ -55,7 +55,7 @@ export default class ClinicSummary extends Component {
 
   componentDidMount() {
     // API call
-    const { lastUpdated, clinicList } = getClinicData();
+    const { lastUpdated, clinicList } = getClinicData(); // This is using mock data, rewire to response from server
 
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';

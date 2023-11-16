@@ -10,6 +10,7 @@ export default function ClinicSummaryPage(props) {
     clinicList,
     onIcbChangeHandler,
     onCheckHandler,
+    onClickClinicHandler
   } = props;
   return (
     <div class="nhsuk-width-container ">
@@ -42,6 +43,7 @@ export default function ClinicSummaryPage(props) {
               lastUpdated={lastUpdated}
               clinicList={clinicList}
               onCheckHandler={onCheckHandler}
+              onClickClinicHandler={onClickClinicHandler}
             />
           )}
         </div>
