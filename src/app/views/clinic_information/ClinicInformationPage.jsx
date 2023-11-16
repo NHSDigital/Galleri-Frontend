@@ -4,6 +4,7 @@ import ClinicDetailsTable from "./ClinicDetailsTable";
 import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
 import ClinicInvitationCriteria from "./clinic_invitation_criteria/ClinicInvitationCriteria";
+import LsoaTable from "./LsoaTable";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -25,6 +26,10 @@ export default function ClinicInformationPage(props) {
     appsToFill,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
+    lsoaInRange,
+    checkAll,
+    checkAllHandler,
+    handleRangeSelection
   } = props;
 
   return (
@@ -110,6 +115,14 @@ export default function ClinicInformationPage(props) {
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
             onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
           />
+          <div class="nhsuk-grid-column-full">
+            <LsoaTable
+              lsoaInRange={lsoaInRange}
+              checkAll={checkAll}
+              checkAllHandler={checkAllHandler}
+              handleRangeSelection={handleRangeSelection}
+            />
+          </div>
         </div>
       </main>
     </div>
