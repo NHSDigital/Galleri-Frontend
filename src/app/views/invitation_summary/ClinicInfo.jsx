@@ -23,4 +23,3 @@ ${postcode}`;
 };
 
 export default ClinicInfo;
-

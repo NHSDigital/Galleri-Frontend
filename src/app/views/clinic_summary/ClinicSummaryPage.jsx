@@ -52,13 +52,13 @@ export default function ClinicSummaryPage(props) {
           {icbSelected === ""
             ? null
             : isContextLoaded && (
-                <ClinicSummaryTable
-                  lastUpdated={lastUpdated}
-                  clinicList={clinicList}
-                  onCheckHandler={onCheckHandler}
-                  onClickClinicHandler={onClickClinicHandler}
-                />
-              )}
+              <ClinicSummaryTable
+                lastUpdated={lastUpdated}
+                clinicList={clinicList}
+                onCheckHandler={onCheckHandler}
+                onClickClinicHandler={onClickClinicHandler}
+              />
+            )}
         </div>
       </main>
     </div>

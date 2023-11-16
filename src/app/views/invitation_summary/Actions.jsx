@@ -3,9 +3,9 @@ import React from "react";
 
 const Actions = ({
   onClickGenerateHandler,
-  onClickGoBackPrevPageLinkHandler,
   displayConfirmationInvitationSummary,
   displayErrorInvitationSummary,
+  onClickGoBackPrevPageLinkHandler
 }) => (
   <>
     {displayConfirmationInvitationSummary && (
@@ -13,7 +13,7 @@ const Actions = ({
         <a
           id="returnToClinicInvitations-link"
           style={{ textDecorationLine: "underline" }}
-          onClick={onClickGoBackPrevPageLinkHandler}
+          onClick={onClickGoBackPrevPageLinkHandler} // Will have to come back and add a path to previous page after Router is implemented
         >
           Return to clinic invitations
         </a>

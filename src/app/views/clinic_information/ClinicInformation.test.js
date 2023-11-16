@@ -31,6 +31,12 @@ describe('Clinic Information render', () => {
     expect(tableHeader.innerHTML).toBe('Recent Invitation History');
   })
 
+  test('LSOA Table renders', () => {
+    render(clinicInformation)
+    let tableHeader = screen.getByText('Select a distance from the clinic to find eligible people per lower layer super output area (LSOA)');
+    expect(tableHeader.innerHTML).toBe('Select a distance from the clinic to find eligible people per lower layer super output area (LSOA)');
+  })
+
   test('Change/cancel button renders', () => {
     const { container } = render(<ClinicInformation />);
     let buttonText = screen.getByText('Change clinic');

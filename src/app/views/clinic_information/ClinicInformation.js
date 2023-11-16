@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ClinicInformationPage from './ClinicInformationPage';
 import InvitationSummary from '../invitation_summary/InvitationSummary';
 import { AppStateContext } from '@/app/context/AppStateContext';
-
 import axios from 'axios';
 
 class ClinicInformation extends Component {
@@ -13,11 +12,27 @@ class ClinicInformation extends Component {
       "displayViewAllPrevInvitations": false,
       "targetFillToInputValue": 0,
       "appsToFill": 0,
+      "checkAll": true,
+      // "recentInvitationHistory": {
+      //   "dateOfPrevInv": "Not available",
+      //   "daysSincePrevInv": "Not available",
+      //   "invSent": 0,
+      //   "appsRemaining": 0
+      // },
+      "lsoaInRange": [],
+      "selectedLsoa": [],
+      "rangeSelection": 1
     }
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
     this.onClickGoBackLinkHandler = this.onClickGoBackLinkHandler.bind(this);
+    this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
+    this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
+    this.checkAllHandler = this.checkAllHandler.bind(this);
+    this.checkRecord = this.checkRecord.bind(this)
+    this.handleRangeSelection = this.handleRangeSelection.bind(this);
+
   }
 
   onSubmitHandler() {
@@ -31,6 +46,59 @@ class ClinicInformation extends Component {
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
   }
+
+  checkAllHandler(event) {
+    // toggle between setting the value of checked in all elements in lsoaInRange
+    if (event.target.checked) {
+      // set all "checked" fields in lsoaInRange to true
+      const selectAll = this.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = true
+        return lsoa
+      })
+      this.setState({
+        lsoaInRange: selectAll
+      })
+    } else {
+      const deselectAll = this.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = false
+        return lsoa
+      })
+      this.setState({
+        lsoaInRange: deselectAll
+      })
+    }
+  }
+
+  checkRecord(event, el) {
+    let selectedLsoaCopy = [...this.state.selectedLsoa]
+    const lsoaItemIndex = this.state.selectedLsoa.findIndex((lsoa) => {
+      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S
+    })
+
+    const item = selectedLsoaCopy[lsoaItemIndex]
+    if (event.target.checked) {
+      item.checked = true
+      selectedLsoaCopy[lsoaItemIndex] = item
+
+      this.setState({
+        lsoaInRange: selectedLsoaCopy
+      })
+    } else {
+      item.checked = false
+      selectedLsoaCopy[lsoaItemIndex] = item
+
+      this.setState({
+        lsoaInRange: selectedLsoaCopy
+      })
+    }
+  }
+
+  handleRangeSelection(value) {
+    this.setState({
+      rangeSelection: Number(value.target.selectedOptions[0].text)
+    })
+  }
+
 
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
@@ -286,6 +354,39 @@ class ClinicInformation extends Component {
             )
           });
       });
+
+    // Trigger lambda to get LSOAs in 100 mile radius
+    // TODO: placeholder postcode as the clinic postcode is generated off of random string
+    // therefore there is no guarentee that the postcode actually exists
+    const postcodeHolder = "SE1 9RT" // const clinicPostcode = this.state.postcode
+    axios
+      .get(
+        `https://vknseewvml.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+      )
+      .then((response) => {
+        this.setState({
+          lsoaInRange: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+          selectedLsoa: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+        })
+      });
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
+      // placeholder postcode as the clinic postcode is generated off of random string
+      // therefore there is no guarantee that the postcode actually exists
+      const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
+      axios
+        .get(
+          `https://vknseewvml.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+        )
+        .then((response) => {
+          this.setState({
+            lsoaInRange: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+            selectedLsoa: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+          })
+        })
+    }
   }
 
   render() {
@@ -302,13 +403,13 @@ class ClinicInformation extends Component {
       recentInvitationHistory,
       currentlySelectedClinic,
       displayViewAllPrevInvitations,
-      isSubmit
     } = this.context.state
 
     const {
       displayUserErrorTargetPercentage,
       targetFillToInputValue,
       appsToFill,
+      lsoaInRange,
     } = this.state
 
     // Check if all the listed context state variables are available
@@ -345,10 +446,16 @@ class ClinicInformation extends Component {
                   displayViewAllPrevInvitations={displayViewAllPrevInvitations}
                   targetFillToInputValue={targetFillToInputValue}
                   appsToFill={appsToFill}
+                  lsoaInRange={lsoaInRange}
                   onClickChangeClinicHandler={this.onClickChangeClinicHandler}
                   onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
                   onSubmitHandler={this.onSubmitHandler}
                   onClickGoBackLinkHandler={this.onClickGoBackLinkHandler}
+                  onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
+                  onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
+                  handleRangeSelection={this.handleRangeSelection}
+                  checkRecord={this.checkRecord}
+                  checkAllHandler={this.checkAllHandler}
                 />
               </div>
             )
@@ -358,7 +465,7 @@ class ClinicInformation extends Component {
             </div>
           )
         }
-      </div>
+      </div >
     );
   }
 }

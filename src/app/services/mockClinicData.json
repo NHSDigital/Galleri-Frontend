@@ -1,59 +1,36 @@
 {
-  "lastUpdated" : "2018-12-17T03:24:00",
-  "clinicList" : [{
-    "clinicName" : "Phlebotomy Clinic 5",
-    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
-    "daysSincePreviousInvitations" : 15,
-    "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 250,
-    "icbId" : "Participating ICB 1"
-  },
-  {
-    "clinicName" : "Phlebotomy Clinic 6",
-    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
-    "daysSincePreviousInvitations" : 15,
-    "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 0,
-    "icbId" : "Participating ICB 1"
-  },
-  {
-    "clinicName" : "Phlebotomy Clinic 7",
-    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
-    "daysSincePreviousInvitations" : 15,
-    "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 320,
-    "icbId" : "Participating ICB 1"
-  },
-  {
-    "clinicName" : "Phlebotomy Clinic 8",
-    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
-    "daysSincePreviousInvitations" : 15,
-    "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 0,
-    "icbId" : "Participating ICB 2"
-  },
-  {
-    "clinicName" : "Phlebotomy Clinic 9",
-    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
-    "daysSincePreviousInvitations" : 15,
-    "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 190,
-    "icbId" : "Participating ICB 3"
-  },
-  {
-    "clinicName" : "Phlebotomy Clinic 10",
-    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
-    "daysSincePreviousInvitations" : 15,
-    "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 50,
-    "icbId" : "Participating ICB 4"
-  },
-  {
-    "clinicName" : "Phlebotomy Clinic 11",
-    "dateOfPreviousInvitations" : "2017-12-17T03:24:00",
-    "daysSincePreviousInvitations" : 15,
-    "numberOfInvitationsSent" : 500,
-    "numberOfAppointmentsAvailable" : 260,
-    "icbId" : "Participating ICB 4"
-  }]
+  "clinicList": [
+    {
+      "Availability": { "N": "149" },
+      "ClinicId": { "S": "IC52B884" },
+      "InvitesSent": { "N": "74" },
+      "ICBCode": { "S": "QMJ" },
+      "PrevInviteDate": { "S": "Saturday 21 October 2023" },
+      "ClinicName": { "S": "Phlebotomy clinic 27" }
+    },
+    {
+      "Availability": { "N": "293" },
+      "ClinicId": { "S": "FC50C086" },
+      "InvitesSent": { "N": "146" },
+      "ICBCode": { "S": "QMJ" },
+      "PrevInviteDate": { "S": "Tuesday 17 October 2023" },
+      "ClinicName": { "S": "Phlebotomy clinic 99" }
+    },
+    {
+      "Availability": { "N": "271" },
+      "ClinicId": { "S": "JO36F146" },
+      "InvitesSent": { "N": "135" },
+      "ICBCode": { "S": "QMJ" },
+      "PrevInviteDate": { "S": "Monday 16 October 2023" },
+      "ClinicName": { "S": "Phlebotomy clinic 61" }
+    },
+    {
+      "Availability": { "N": "404" },
+      "ClinicId": { "S": "QI38C419" },
+      "InvitesSent": { "N": "202" },
+      "ICBCode": { "S": "QMJ" },
+      "PrevInviteDate": { "S": "Thursday 19 October 2023" },
+      "ClinicName": { "S": "Phlebotomy clinic 77" }
+    }
+  ]
 }
