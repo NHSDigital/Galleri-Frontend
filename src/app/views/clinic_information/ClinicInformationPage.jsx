@@ -24,6 +24,8 @@ export default function ClinicInformationPage(props) {
     displayViewAllPrevInvitations,
     targetFillToInputValue,
     appsToFill,
+    lastSelectedRange,
+    targetFillToPercentage,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
     lsoaInRange,
@@ -33,6 +35,7 @@ export default function ClinicInformationPage(props) {
     handleRangeSelection
   } = props;
 
+  // console.log(lastSelectedRange + ' ' + targetFillToPercentage)
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -111,7 +114,7 @@ export default function ClinicInformationPage(props) {
           />
           <ClinicInvitationCriteria
             displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
-            targetFillToInputValue={targetFillToInputValue}
+            targetFillToInputValue={targetFillToPercentage}
             appsToFill={appsToFill}
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
             onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
