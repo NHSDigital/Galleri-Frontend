@@ -1,9 +1,5 @@
 import { Component } from "react";
-import axios from 'axios';
-import {
-  getInvitationPlanningData,
-  getNationalForecastData,
-} from "../../services/invitation_planning/InvitationPlanningService";
+import axios from "axios";
 import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
@@ -23,8 +19,7 @@ class InvitationPlanning extends Component {
       userName: "",
       isCorrectTotal: true,
       enableUptakeEdit: false,
-      isCorrectUptakeTotal: true,
-      BASE_URL: "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev"
+      isCorrectUptakeTotal: true
     };
 
     // Handlers
@@ -46,12 +41,28 @@ class InvitationPlanning extends Component {
 
 
   // DB actions
-  putForecastUptakeAWSDynamo(value){
-    console.log('write uptake to db -->' + value);
+  async putForecastUptakeAWSDynamo(value) {
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    await axios
+      .put(
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
+        { forecastUptake: Number(value) }
+      )
+      .then((response) => {
+        console.log("response -> " + response.status);
+      });
   }
 
-  putQuintilesAWSDynamo(values){
-    console.log('write quintiles to db');
+  async putQuintilesAWSDynamo(updatedQuintile) {
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    await axios
+      .put(
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
+        { quintiles: updatedQuintile }
+      )
+      .then((response) => {
+        console.log("response -> " + response.status);
+      });
   }
 
   // toggle edit mode
@@ -164,7 +175,6 @@ class InvitationPlanning extends Component {
     // API call
     // const { quintile, lastUpdatedQuintile, userName } =
     //   getInvitationPlanningData();
-    // const nationalUptakePercentageCall = getNationalForecastData();
 
     // Get quintiles and forecast uptake data
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
@@ -172,7 +182,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://812potdz05.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://eqsnf31ud8.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
         console.log('response -> ' + response.data.NATIONAL_FORCAST_UPTAKE.N);
