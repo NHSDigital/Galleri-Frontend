@@ -22,7 +22,7 @@ class ClinicInformation extends Component {
       "displayViewAllPrevInvitations": false,
       "targetFillToInputValue": 0,
       "appsToFill": 0,
-      "checkAll": false,
+      "checkAll": true,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
         "daysSincePrevInv": "Not available",
@@ -30,6 +30,7 @@ class ClinicInformation extends Component {
         "appsRemaining": 0
       },
       "lsoaInRange": [],
+      "selectedLsoa": [],
       "rangeSelection": 1
     }
 
@@ -38,17 +39,52 @@ class ClinicInformation extends Component {
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
+    this.checkRecord= this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
   }
 
   checkAllHandler(event) {
+    // toggle between setting the value of checked in all elements in lsoaInRange
     if(event.target.checked) {
+      // set all "checked" fields in lsoaInRange to true
+      const selectAll = this.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = true
+        return lsoa
+      })
       this.setState({
-        checkAll: true
+        lsoaInRange: selectAll
       })
     } else {
+      const deselectAll = this.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = false
+        return lsoa
+      })
       this.setState({
-        checkAll: false
+        lsoaInRange: deselectAll
+      })
+    }
+  }
+
+  checkRecord(event, el) {
+    let selectedLsoaCopy = [...this.state.selectedLsoa]
+    const lsoaItemIndex = this.state.selectedLsoa.findIndex((lsoa) => {
+      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S
+    })
+
+    const item = selectedLsoaCopy[lsoaItemIndex]
+    if (event.target.checked) {
+      item.checked = true
+      selectedLsoaCopy[lsoaItemIndex] = item
+
+      this.setState({
+        lsoaInRange: selectedLsoaCopy
+      })
+    } else {
+      item.checked = false
+      selectedLsoaCopy[lsoaItemIndex] = item
+
+      this.setState({
+        lsoaInRange: selectedLsoaCopy
       })
     }
   }
@@ -91,8 +127,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.put(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
-
+        "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
       return response.data;
@@ -166,7 +201,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://f2cy8ksz2g.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -233,7 +268,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icb.code}`
+        `https://gijt16kt42.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icb.code}`
       )
       .then((response) => {
         console.log(response);
@@ -248,7 +283,7 @@ class ClinicInformation extends Component {
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
           .get(
-            `https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+            `https://f2cy8ksz2g.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {
             const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -303,7 +338,7 @@ class ClinicInformation extends Component {
                 // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
                 axios
                   .get(
-                    "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+                    "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
                   )
                   .then((response) => {
                     const targetPercentageValue = response.data.targetPercentage.N;
@@ -323,11 +358,12 @@ class ClinicInformation extends Component {
     const postcodeHolder = "SE1 9RT" // const clinicPostcode = this.state.postcode
     axios
       .get(
-        `https://8amducqw9f.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+        `https://vknseewvml.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
-          lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+          lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+          selectedLsoa: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
         })
       });
   }
@@ -339,11 +375,12 @@ class ClinicInformation extends Component {
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
-          `https://8amducqw9f.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+          `https://vknseewvml.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
         )
         .then((response) => {
           this.setState({
-            lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+            lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+            selectedLsoa: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
           })
         })
     }
@@ -366,7 +403,6 @@ class ClinicInformation extends Component {
       targetFillToInputValue,
       appsToFill,
       lsoaInRange,
-      checkAll
     } = this.state
     return (
       <div>
@@ -388,10 +424,10 @@ class ClinicInformation extends Component {
           onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
           onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
           lsoaInRange={lsoaInRange}
-          checkAll={checkAll}
           onClickChangeClinicHandler={this.onClickChangeClinicHandler}
           onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
           checkAllHandler={this.checkAllHandler}
+          checkRecord={this.checkRecord}
           handleRangeSelection={this.handleRangeSelection}
         />
       </div>
