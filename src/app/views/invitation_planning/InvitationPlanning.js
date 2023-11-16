@@ -1,8 +1,8 @@
 import { Component } from "react";
-import axios from "axios";
 import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
+import axios from "axios";
 
 // Invitation Planning container
 class InvitationPlanning extends Component {
@@ -34,9 +34,9 @@ class InvitationPlanning extends Component {
     this.onCancelSaveForecastHandler =
       this.onCancelSaveForecastHandler.bind(this);
 
-      // db write handlers
-      this.putForecastUptakeAWSDynamo = this.putForecastUptakeAWSDynamo.bind();
-      this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
+    // db write handlers
+    this.putForecastUptakeAWSDynamo = this.putForecastUptakeAWSDynamo.bind();
+    this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
   }
 
 

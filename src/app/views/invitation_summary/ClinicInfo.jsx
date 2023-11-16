@@ -1,17 +1,21 @@
 import "../../styles/css/sass.css";
 import React from 'react';
 
-const ClinicInfo = () => {
-  const clinicNameHolder = 'Phlebotomy clinic 5';
+const ClinicInfo = (props) => {
+  const {
+    clinicName,
+    address1,
+    address2,
+    postcode,
+  } = props;
   const addressHolder = `
-    West Hospital
-    Big Town
-    RG14 4RH
-  `;
+${address1}
+${address2}
+${postcode}`;
 
   return (
     <p data-testid="addressLine" style={{ whiteSpace: 'pre' }}>
-      <strong>{clinicNameHolder}</strong>
+      <strong>{clinicName}</strong>
       {addressHolder}
     </p>
   );

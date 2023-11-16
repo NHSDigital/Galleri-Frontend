@@ -1,51 +1,49 @@
 import React, { Component } from 'react';
-import ClinicInformationPage from "./ClinicInformationPage";
+import ClinicInformationPage from './ClinicInformationPage';
+import InvitationSummary from '../invitation_summary/InvitationSummary';
+import { AppStateContext } from '@/app/context/AppStateContext';
 import axios from 'axios';
 
 class ClinicInformation extends Component {
   constructor() {
     super();
     this.state = {
-      "clinicList": [{ "clinicId": "", "clinicName": "" }],
-      "clinicId": "",
-      "clinicName": "",
-      "address1": "",
-      "address2": "",
-      "postcode": "",
-      "weeklyCapacity": [],
-      "lastUpdated": "14 July 2024, 1.00am",
-      "cancelChangeText": "Change clinic",
-      "currentlySelectedClinicId": "",
-      "currentlySelectedClinic": "",
-      "displayClinicSelector": false,
       "displayUserErrorTargetPercentage": false,
       "displayViewAllPrevInvitations": false,
       "targetFillToInputValue": 0,
       "appsToFill": 0,
       "checkAll": true,
-      "recentInvitationHistory": {
-        "dateOfPrevInv": "Not available",
-        "daysSincePrevInv": "Not available",
-        "invSent": 0,
-        "appsRemaining": 0
-      },
       "lsoaInRange": [],
       "selectedLsoa": [],
       "rangeSelection": 1
     }
-
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
+    this.onSubmitHandler = this.onSubmitHandler.bind(this);
+    this.onClickGoBackLinkHandler = this.onClickGoBackLinkHandler.bind(this);
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
-    this.checkRecord= this.checkRecord.bind(this)
+    this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
+
+  }
+
+  onSubmitHandler() {
+    this.context.setState({ "isSubmit": true })
+    // Scroll to the top of the page every time it renders the page
+    window.scrollTo(0, 0);
+  }
+
+  onClickGoBackLinkHandler() {
+    this.context.setState({ "navigateToClinic": false })
+    // Scroll to the top of the page every time it renders the page
+    window.scrollTo(0, 0);
   }
 
   checkAllHandler(event) {
     // toggle between setting the value of checked in all elements in lsoaInRange
-    if(event.target.checked) {
+    if (event.target.checked) {
       // set all "checked" fields in lsoaInRange to true
       const selectAll = this.state.lsoaInRange.map(lsoa => {
         lsoa.checked = true
@@ -89,11 +87,12 @@ class ClinicInformation extends Component {
     }
   }
 
-  handleRangeSelection(value){
+  handleRangeSelection(value) {
     this.setState({
       rangeSelection: Number(value.target.selectedOptions[0].text)
     })
   }
+
 
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
@@ -118,7 +117,7 @@ class ClinicInformation extends Component {
   // Calculating the Target number of appointments to fill
   calculateTargetAppsToFill(targetFillToInputValue) {
     this.setState({
-      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
+      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
     });
   }
 
@@ -127,7 +126,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.put(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        "https://je5d3ew5i1.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
       return response.data;
@@ -160,16 +159,16 @@ class ClinicInformation extends Component {
   }
 
   onClickChangeClinicHandler() {
-    const { displayClinicSelector } = this.state;
+    const { displayClinicSelector } = this.context.state;
     switch (displayClinicSelector) {
       case false:
-        this.setState({
+        this.context.setState({
           cancelChangeText: "Cancel change",
           displayClinicSelector: true
         })
         break;
       case true:
-        this.setState({
+        this.context.setState({
           cancelChangeText: "Change clinic",
           displayClinicSelector: false
         })
@@ -181,13 +180,16 @@ class ClinicInformation extends Component {
     let currentlySelectedClinicId = "";
     let currentlySelectedClinic = "";
 
-    const { clinicList } = this.state;
+    const { clinicIdNameList } = this.context.state;
 
     if (e.target.value !== "") {
-      clinicList.forEach(clinic => {
+      clinicIdNameList.forEach(clinic => {
         if (clinic.clinicName === e.target.value) {
           currentlySelectedClinicId = clinic.clinicId;
           currentlySelectedClinic = clinic.clinicName;
+          this.context.setState({
+            currentlySelectedClinic: clinic.clinicName
+          })
         }
       })
     } else {
@@ -233,7 +235,7 @@ class ClinicInformation extends Component {
           const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
           const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
-          this.setState({
+          this.context.setState({
             clinicId: response.data.ClinicId.S,
             clinicName: response.data.ClinicName.S,
             address1: addressParts[0].trim(),
@@ -247,39 +249,32 @@ class ClinicInformation extends Component {
             displayViewAllPrevInvitations: displayViewAllPrevInvitations,
           }, () => {
             this.setState({
-              appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+              appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
             });
-
           })
         });
+      // Scroll to the top of the page every time it renders the page
+      window.scrollTo(0, 0);
     }
   }
 
   componentDidMount() {
-    //Mocked the data below which is supposed to be retrieved from previous page - "Clinic Summary"
-    const icb = {
-      code: "QJK",
-      board: "NHS DEVON INTEGRATED CARE BOARD",
-      id: "NHS DEVON INTEGRATED CARE BOARD"
-    };
-
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://gijt16kt42.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${icb.code}`
+        `https://gijt16kt42.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
-        console.log(response);
-        this.setState({
-          clinicList: [...response.data.map(clinic => {
+        this.context.setState({
+          clinicIdNameList: [...response.data.map(clinic => {
             return { "clinicId": clinic.ClinicId.S, "clinicName": clinic.ClinicName.S }
           })]
         });
 
-        let initialSelectedClinicId = response.data[0].ClinicId.S
-        let initialSelectedClinic = response.data[0].ClinicName.S
+        let initialSelectedClinicId = this.context.state.clinicIdSelected;
+        let initialSelectedClinic = this.context.state.clinicNameSelected;
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
           .get(
@@ -315,7 +310,7 @@ class ClinicInformation extends Component {
             const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
             const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
-            this.setState({
+            this.context.setState({
               clinicId: response.data.ClinicId.S,
               clinicName: response.data.ClinicName.S,
               address1: response.data.Address.S,
@@ -329,7 +324,7 @@ class ClinicInformation extends Component {
               () => {
                 // This callback will execute after the state has been updated
 
-                if (this.state.recentInvitationHistory.dateOfPrevInv === "Not Available" ) {
+                if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
                   this.putTargetPercentageAWSDynamo("50");
                 }
 
@@ -344,7 +339,7 @@ class ClinicInformation extends Component {
                     const targetPercentageValue = response.data.targetPercentage.N;
                     this.setState({
                       targetFillToInputValue: targetPercentageValue,
-                      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
                     });
                   });
               }
@@ -362,8 +357,8 @@ class ClinicInformation extends Component {
       )
       .then((response) => {
         this.setState({
-          lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
-          selectedLsoa: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+          lsoaInRange: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+          selectedLsoa: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
         })
       });
   }
@@ -371,7 +366,9 @@ class ClinicInformation extends Component {
   componentDidUpdate(_, prevState) {
     if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
       // placeholder postcode as the clinic postcode is generated off of random string
+      // TODO: placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
+      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
@@ -379,8 +376,8 @@ class ClinicInformation extends Component {
         )
         .then((response) => {
           this.setState({
-            lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
-            selectedLsoa: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+            lsoaInRange: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+            selectedLsoa: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
           })
         })
     }
@@ -388,7 +385,7 @@ class ClinicInformation extends Component {
 
   render() {
     const {
-      clinicList,
+      clinicIdNameList,
       clinicName,
       address1,
       address2,
@@ -398,41 +395,74 @@ class ClinicInformation extends Component {
       cancelChangeText,
       displayClinicSelector,
       recentInvitationHistory,
-      displayUserErrorTargetPercentage,
+      currentlySelectedClinic,
       displayViewAllPrevInvitations,
+    } = this.context.state
+
+    const {
+      displayUserErrorTargetPercentage,
       targetFillToInputValue,
       appsToFill,
       lsoaInRange,
     } = this.state
+
+    // Check if all the listed context state variables are available
+    const isContextLoaded =
+      clinicIdNameList.length > 0 &&
+      clinicName !== "" &&
+      address1 !== "" &&
+      address2 !== "" &&
+      postcode !== "" &&
+      weeklyCapacity.length > 0;
+
     return (
       <div>
-        <ClinicInformationPage
-          clinicList={clinicList}
-          clinicName={clinicName}
-          address1={address1}
-          address2={address2}
-          postcode={postcode}
-          weeklyCapacity={weeklyCapacity}
-          lastUpdated={lastUpdated}
-          displayClinicSelector={displayClinicSelector}
-          cancelChangeText={cancelChangeText}
-          recentInvitationHistory={recentInvitationHistory}
-          displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
-          displayViewAllPrevInvitations={displayViewAllPrevInvitations}
-          targetFillToInputValue={targetFillToInputValue}
-          appsToFill={appsToFill}
-          onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
-          onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
-          lsoaInRange={lsoaInRange}
-          onClickChangeClinicHandler={this.onClickChangeClinicHandler}
-          onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
-          checkAllHandler={this.checkAllHandler}
-          checkRecord={this.checkRecord}
-          handleRangeSelection={this.handleRangeSelection}
-        />
-      </div>
+        {
+          // Check if a Calculate number to invite button has been clicked
+          // If clicked render the Invitation Summary page and pass the props
+          // Also added conditional rendering to ensure that the page is rendered only after certain context state variables are loaded
+          !this.context.state.isSubmit ? (
+            isContextLoaded && (
+              <div>
+                <ClinicInformationPage
+                  clinicIdNameList={clinicIdNameList}
+                  clinicName={clinicName}
+                  address1={address1}
+                  address2={address2}
+                  postcode={postcode}
+                  weeklyCapacity={weeklyCapacity}
+                  lastUpdated={lastUpdated}
+                  displayClinicSelector={displayClinicSelector}
+                  cancelChangeText={cancelChangeText}
+                  recentInvitationHistory={recentInvitationHistory}
+                  currentlySelectedClinic={currentlySelectedClinic}
+                  displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+                  displayViewAllPrevInvitations={displayViewAllPrevInvitations}
+                  targetFillToInputValue={targetFillToInputValue}
+                  appsToFill={appsToFill}
+                  lsoaInRange={lsoaInRange}
+                  onClickChangeClinicHandler={this.onClickChangeClinicHandler}
+                  onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
+                  onSubmitHandler={this.onSubmitHandler}
+                  onClickGoBackLinkHandler={this.onClickGoBackLinkHandler}
+                  onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
+                  onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
+                  handleRangeSelection={this.handleRangeSelection}
+                  checkRecord={this.checkRecord}
+                  checkAllHandler={this.checkAllHandler}
+                />
+              </div>
+            )
+          ) : (
+            <div>
+              <InvitationSummary />
+            </div>
+          )
+        }
+      </div >
     );
   }
 }
 
 export default ClinicInformation;
+ClinicInformation.contextType = AppStateContext;

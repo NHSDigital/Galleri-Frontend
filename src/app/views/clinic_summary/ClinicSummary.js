@@ -1,6 +1,8 @@
 import { Component } from "react";
 import ClinicSummaryPage from './ClinicSummaryPage';
+import ClinicInformation from "../clinic_information/ClinicInformation";
 import { getClinicData } from '../../services/ClinicSummaryService';
+import { AppStateContext } from "@/app/context/AppStateContext";
 import {
   filterClinicsByIcb,
   filterClinicsNoAppointments,
@@ -12,17 +14,16 @@ import axios from 'axios';
 export default class ClinicSummary extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      "icbData": [" "],
-      "icbSelected": '',
-      "lastUpdated": '',
-      "clinicList": [],
-      "displayClinicsNoApp": false,
+      loading: true,
+      isInitialLoad: true,
     };
 
     // Handlers
     this.onIcbChangeHandler = this.onIcbChangeHandler.bind(this);
     this.onCheckHandler = this.onCheckHandler.bind(this);
+    this.onClickClinicHandler = this.onClickClinicHandler.bind(this);
   }
 
   getClinicsFromIcbCode() {
@@ -31,46 +32,64 @@ export default class ClinicSummary extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://167avm4gy0.execute-api.eu-west-2.amazonaws.com/dev/clinic-summary-list?participatingIcb=${this.state.icbSelected}`
+        `https://167avm4gy0.execute-api.eu-west-2.amazonaws.com/dev/clinic-summary-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
-        this.setState({
+        this.context.setState({
           clinicList: response.data,
         });
       });
   }
 
   async onIcbChangeHandler(e) {
-    await this.setState({
-      icbSelected: e.target.value.replace('Participating ICB ', '')
+    await this.context.setState({
+      icbSelected: e.target.value.replace('Participating ICB ', ''),
+      participatingICBSelected: e.target.value
     });
     this.getClinicsFromIcbCode();
+    this.setState({ loading: false });
   }
 
   onCheckHandler(e) {
-    this.setState({
+    this.context.setState({
       displayClinicsNoApp: e.target.checked,
     });
   }
 
-  componentDidMount() {
-    // API call
-    const { lastUpdated, clinicList } = getClinicData(); // This is using mock data, rewire to response from server
+  onClickClinicHandler(event, e) {
+    this.context.setState({
+      "navigateToClinic": true,
+      clinicIdSelected: e.ClinicId.S,
+      clinicNameSelected: e.ClinicName.S,
+      currentlySelectedClinic: e.ClinicName.S
+    })
+    // Scroll to the top of the page every time it renders the page
+    window.scrollTo(0, 0);
+  }
 
-    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-    axios
-      .get(
-        `https://45arj8wtdk.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`
-      )
-      .then((response) => {
-        this.setState({
-          icbData: [...this.state.icbData, ...response.data],
-          lastUpdated: lastUpdated,
-          clinicList: clinicList,
-        });
+
+  async componentDidMount() {
+    try {
+      // API call
+      const { lastUpdated, clinicList } = getClinicData();
+
+      axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+      const response = await axios.get(`https://45arj8wtdk.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`);
+
+      // Update the state
+      this.context.setState({
+        icbData: [...response.data],
+        lastUpdated: lastUpdated,
+        clinicList: clinicList,
       });
+
+      this.setState({ isInitialLoad: false });
+    } catch (error) {
+      // Handle errors
+      console.error("Error in componentDidMount:", error);
+    }
   }
 
   render() {
@@ -80,7 +99,12 @@ export default class ClinicSummary extends Component {
       clinicList,
       lastUpdated,
       displayClinicsNoApp,
-    } = this.state;
+      participatingICBSelected
+    } = this.context.state;
+
+    // Check if the context state variables are available
+    const isContextLoaded =
+      icbData.length > 1;
 
     let addDaysSinceLastInvite = daysSinceLastInvite(clinicList);
 
@@ -94,18 +118,36 @@ export default class ClinicSummary extends Component {
       filteredClinicList,
       displayClinicsNoApp
     );
+
     return (
       <div>
-        <ClinicSummaryPage
-          icbData={icbData}
-          icbSelected={icbSelected}
-          clinicList={filterClinicListApps}
-          lastUpdated={lastUpdated}
-          displayClinicsNoApp={displayClinicsNoApp}
-          onIcbChangeHandler={this.onIcbChangeHandler}
-          onCheckHandler={this.onCheckHandler}
-        />
+        {
+          // Check if a clinic link has been clicked
+          // If clicked render the clinic information page and pass the props
+          // Also added conditional rendering to ensure that the page is rendered only after certain context state variables are loaded
+          !this.context.state.navigateToClinic ? (
+            isContextLoaded && (
+              <ClinicSummaryPage
+                icbData={icbData}
+                icbSelected={icbSelected}
+                participatingICBSelected={participatingICBSelected}
+                clinicList={filterClinicListApps}
+                lastUpdated={lastUpdated}
+                displayClinicsNoApp={displayClinicsNoApp}
+                onIcbChangeHandler={this.onIcbChangeHandler}
+                onCheckHandler={this.onCheckHandler}
+                onClickClinicHandler={this.onClickClinicHandler}
+              />
+            )
+          ) : (
+            <div>
+              <ClinicInformation />
+            </div>
+          )
+        }
       </div>
     );
   }
 }
+
+ClinicSummary.contextType = AppStateContext;
