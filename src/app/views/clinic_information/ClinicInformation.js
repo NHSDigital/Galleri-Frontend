@@ -286,7 +286,7 @@ class ClinicInformation extends Component {
 
         let initialSelectedClinicId = response.data[0].ClinicId.S
         let initialSelectedClinic = response.data[0].ClinicName.S
-        console.log(initialSelectedClinic);
+
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
           .get(
