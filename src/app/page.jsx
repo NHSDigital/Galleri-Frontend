@@ -15,9 +15,10 @@ export default function Root() {
         <Header />
         {/* <Content /> */}
         <ClinicSummary />
-        {/* <InvitationPlanning /> */}
         {/* <ClinicInformation /> */}
+        {/* <InvitationPlanning /> */}
         {/* <InvitationSummary /> */}
+        <ClinicInformation />
         <Footer />
       </body>
     </div>
