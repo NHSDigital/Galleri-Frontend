@@ -12,7 +12,7 @@ function compileStyles() {
     .pipe(sass())
     .pipe(gulp.dest('src/app/styles/css/'))
     .on('error', (err) => {
-      // console.log(err)
+      console.log(err)
       process.exit(1)
     });
 }
