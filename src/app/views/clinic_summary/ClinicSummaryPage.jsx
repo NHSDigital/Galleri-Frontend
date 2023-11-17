@@ -21,8 +21,9 @@ export default function ClinicSummaryPage(props) {
     <div class="nhsuk-width-container">
       <main class="nhsuk-main-wrapper" id="clinicSummary" role="main">
         <div class="nhsuk-grid-row">
+        <div class="nhsuk-grid-column-full">
           <h1 label="header">Clinic Summary</h1>
-          <div class="nhsuk-u-reading-width">
+          <div class="nhsuk-u-reading-width nhsuk-u-margin-bottom-6">
             <p>
               Summarises how many appointments remain available over the next 6
               weeks, how many invitations have been generated and when.
@@ -46,7 +47,6 @@ export default function ClinicSummaryPage(props) {
                 })}
               </select>
             </div>
-            <br />
           </div>
           {icbSelected === ""
             ? null
@@ -58,6 +58,7 @@ export default function ClinicSummaryPage(props) {
                 onClickClinicHandler={onClickClinicHandler}
               />
             )}
+        </div>
         </div>
       </main>
     </div>

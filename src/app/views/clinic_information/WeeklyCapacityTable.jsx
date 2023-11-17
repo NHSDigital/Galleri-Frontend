@@ -14,25 +14,25 @@ export default function WeeklyCapacityTable(props) {
           </caption>
           <thead role="rowgroup" class="nhsuk-table__head">
             <tr role="row">
-              <th role="columnheader" class="" scope="col">
-                Week
-                <br />
-                commencing
+              <th
+                role="columnheader"
+                class=""
+                scope="col"
+                style={{ whiteSpace: "pre-line" }}
+              >
+                Week commencing
               </th>
               {weeklyCapacity.map((date) => {
                 return (
                   <th
-                    style={{ fontWeight: "normal" }}
+                    style={{ fontWeight: "normal", whiteSpace: "pre" }}
                     role="columnheader"
                     class=""
                     scope="col"
                   >
-                    {date.date.substring(0, date.date.indexOf(" 20"))}
-                    <br />
-                    {date.date.substring(
-                      date.date.length,
-                      date.date.indexOf(" 20")
-                    )}
+                    {`${date.date.substring(0, date.date.indexOf(" 20"))}
+${date.date.substring(date.date.length, date.date.indexOf(" 20"))}
+              `}
                   </th>
                 );
               })}

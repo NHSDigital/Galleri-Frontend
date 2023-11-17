@@ -15,8 +15,7 @@ export default function ClinicInvitationCriteria(props) {
 
   return (
     <div class="nhsuk-grid-column-two-thirds">
-      <h2 label="header">Clinic Invitation Criteria</h2>
-      <br />
+      <h2 label="header" className="nhsuk-u-margin-bottom-8" >Clinic Invitation Criteria</h2>
       <div class="govuk-form-group">
         <h3>
           <label class="govuk-label govuk-label--s" for="weight">
