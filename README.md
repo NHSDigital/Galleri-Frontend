@@ -7,6 +7,10 @@ This repository contains the frontend for the Galleri webapp. It is written in j
 - [Galleri Frontend](#galleri-frontend)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
+    - [Clone the repository](#clone-the-repository)
+    - [Install dependencies](#install-dependencies)
+    - [Start the webserver in dev mode](#start-the-webserver-in-dev-mode)
+    - [Start the webserver in production mode](#start-the-webserver-in-production-mode)
     - [Prerequisites](#prerequisites)
   - [Usage](#usage)
   - [Architecture](#architecture)
@@ -20,26 +24,28 @@ This repository contains the frontend for the Galleri webapp. It is written in j
 
 To get started with this repo follow these steps:
 
-1. Clone the repository
+### Clone the repository
 
 ```shell
 git git@github.com:NHSDigital/Galleri-Frontend.git
 cd cd Galleri-Frontend
 ```
 
-2. Install dependencies
+### Install dependencies
 
 ```shell
 npm install
 ```
 
-3. Start the repository in dev mode
+### Start the webserver in dev mode
 
 ```shell
 npm run dev
 ```
 
-4. When this code is deployed into production it will use a port specified by an environmental variable, but you can run this locally to verify it works correctly:
+### Start the webserver in production mode
+
+When this code is deployed into production it will use a port specified by an environmental variable, but you can run this locally to verify it works correctly:
 
 ```shell
 PORT=8080 npm run start
