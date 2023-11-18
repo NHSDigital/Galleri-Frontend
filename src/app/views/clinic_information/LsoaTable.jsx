@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection } = prop;
+  const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection, handleTotalToInvite } = prop;
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
@@ -12,6 +12,23 @@ export default function LsoaTable(prop) {
       return el
     }
   })
+
+  const calculateTotalToInvite = (arr) => {
+    const total = arr.reduce((acc,curr) => {
+      return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S))
+      },0)
+    // handleTotalToInvite(total)
+  return total
+  }
+
+  const calculateAverageExpectedUptake = (arr) => {
+    const total = arr.reduce((acc,curr) => {
+      return acc + Number(curr?.FORECAST_UPTAKE?.N)
+      },0)
+  return Math.round(total / arr.length)
+  }
+
+  console.log("avg uptake = ", calculateAverageExpectedUptake(lsoaArray))
 
   return (
     <div>
@@ -147,17 +164,15 @@ export default function LsoaTable(prop) {
             <dt class="nhsuk-summary-list__key">
               Total available to invite
             </dt>
-            <dd class="nhsuk-summary-list__value">{
-              lsoaArray.reduce((acc,curr) => {
-                  return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S))
-                }
-              ,0)
-            }</dd>
+            <dd class="nhsuk-summary-list__value">
+            {
+              calculateTotalToInvite(lsoaArray)
+            }
+            </dd>
           </div>
         </dl>
       </div>
     </div>
   );
 }
-
 

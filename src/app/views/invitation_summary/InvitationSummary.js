@@ -11,8 +11,7 @@ class InvitationSummary extends Component {
       "displayConfirmationInvitationSummary": false,
       // Using the mock data (values inside " ") as some of components missing like LSOA Table form where the values are brought over
       "dummySummaryList": {
-        "clinicDistanceHolder": `"+ 5 miles"`, //Context API from Clinic Invitation Page
-        "availableInvitationsHolder": `"4,372"`,//Context API from Clinic Invitation Page
+        "availableInvitationsHolder": `"958"`,//Context API from Clinic Invitation Page
         "remainingAppointmentsHolder": `"240"`, //Context API from Clinic Invitation Page
         "targetFillPercentageHolder": `"50 %"`,//Context API from Clinic Invitation Page
         "targetAppointmentsToFillHolder": `"120"`,//Context API from Clinic Invitation Page
@@ -71,6 +70,9 @@ class InvitationSummary extends Component {
       address2,
       postcode,
       recentInvitationHistory,
+      rangeSelection,
+      targetAppToFill,
+      targetPercentageToFill
     } = this.context.state;
     return (
       <div>
@@ -84,6 +86,9 @@ class InvitationSummary extends Component {
           displayErrorInvitationSummary={displayErrorInvitationSummary}
           displayConfirmationInvitationSummary={displayConfirmationInvitationSummary}
           dummySummaryList={dummySummaryList}
+          rangeSelection={rangeSelection}
+          targetAppToFill={targetAppToFill}
+          targetPercentageToFill={targetPercentageToFill}
           onClickGenerateHandler={this.onClickGenerateHandler}
           onClickGoBackPrevPageLinkHandler={this.onClickGoBackPrevPageLinkHandler}
         />

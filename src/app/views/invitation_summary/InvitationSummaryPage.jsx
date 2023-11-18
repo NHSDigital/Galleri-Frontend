@@ -21,6 +21,9 @@ export default function InvitationSummaryPage(props) {
     onClickGoBackPrevPageLinkHandler,
     recentInvitationHistory,
     dummySummaryList,
+    rangeSelection,
+    targetAppToFill,
+    targetPercentageToFill
   } = props;
 
   return (
@@ -74,6 +77,9 @@ export default function InvitationSummaryPage(props) {
             />
             <SummaryListFirst
               props={recentInvitationHistory}
+              rangeSelection={rangeSelection}
+              targetAppToFill={targetAppToFill}
+              targetPercentageToFill={targetPercentageToFill}
               dummySummaryList={dummySummaryList}
             />
             <SummaryListSecond

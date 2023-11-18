@@ -1,8 +1,10 @@
 import "../../styles/css/sass.css";
 import React from "react";
 
-export default function SummaryListFirst({ props, dummySummaryList }) {
+export default function SummaryListFirst({ props, dummySummaryList, rangeSelection, targetAppToFill, targetPercentageToFill }) {
   const { appsRemaining } = props;
+
+  console.log("targetPercentageToFill value", targetPercentageToFill)
 
   return (
     <dl id="summary-list-1" class="nhsuk-summary-list nhsuk-u-margin-bottom-9">
@@ -18,7 +20,7 @@ export default function SummaryListFirst({ props, dummySummaryList }) {
           id="term1-value"
           class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
-          {dummySummaryList.clinicDistanceHolder}
+          {rangeSelection}
         </dd>
       </div>
       <div class="nhsuk-summary-list__row">
@@ -51,7 +53,7 @@ export default function SummaryListFirst({ props, dummySummaryList }) {
           id="term4-value"
           class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
-          {dummySummaryList.targetFillPercentageHolder}
+          {targetPercentageToFill}
         </dd>
       </div>
       <div class="nhsuk-summary-list__row">
@@ -62,7 +64,7 @@ export default function SummaryListFirst({ props, dummySummaryList }) {
           id="term5-value"
           class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
-          {dummySummaryList.targetAppointmentsToFillHolder}
+          {targetAppToFill}
         </dd>
       </div>
     </dl>

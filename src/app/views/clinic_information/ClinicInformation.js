@@ -15,7 +15,7 @@ class ClinicInformation extends Component {
       "checkAll": true,
       "lsoaInRange": [],
       "selectedLsoa": [],
-      "rangeSelection": 1
+      "rangeSelectionLocal": 1
     }
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
@@ -26,6 +26,7 @@ class ClinicInformation extends Component {
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
+    this.handleTotalToInvite = this.handleTotalToInvite.bind(this)
 
   }
 
@@ -39,6 +40,12 @@ class ClinicInformation extends Component {
     this.context.setState({ "navigateToClinic": false })
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
+  }
+
+  handleTotalToInvite(value){
+    this.context.setState({
+      totalToInvite: value
+    })
   }
 
   checkAllHandler(event) {
@@ -89,6 +96,9 @@ class ClinicInformation extends Component {
 
   handleRangeSelection(value) {
     this.setState({
+      rangeSelectionLocal: Number(value.target.selectedOptions[0].text)
+    })
+    this.context.setState({
       rangeSelection: Number(value.target.selectedOptions[0].text)
     })
   }
@@ -119,6 +129,9 @@ class ClinicInformation extends Component {
     this.setState({
       appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
     });
+    this.context.setState({
+      targetAppToFill: this.state.appsToFill
+    })
   }
 
   // DB actions to PUT target percentage of appointments to fill
@@ -156,6 +169,9 @@ class ClinicInformation extends Component {
     this.setState({
       targetFillToInputValue: e.target.value,
     });
+    this.context.setState({
+      targetPercentageToFill: e.target.value
+    })
   }
 
   onClickChangeClinicHandler() {
@@ -251,6 +267,9 @@ class ClinicInformation extends Component {
             this.setState({
               appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
             });
+            this.context.setState({
+              targetAppToFill: this.state.appsToFill
+            })
           })
         });
       // Scroll to the top of the page every time it renders the page
@@ -341,6 +360,10 @@ class ClinicInformation extends Component {
                       targetFillToInputValue: targetPercentageValue,
                       appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
                     });
+                    this.context.setState({
+                      targetAppToFill: this.state.appsToFill,
+                      targetPercentageToFill: targetPercentageValue
+                    })
                   });
               }
             )
@@ -353,7 +376,7 @@ class ClinicInformation extends Component {
     const postcodeHolder = "SE1 9RT" // const clinicPostcode = this.state.postcode
     axios
       .get(
-        `https://vknseewvml.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+        `https://vknseewvml.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelectionLocal}`
       )
       .then((response) => {
         this.setState({
@@ -364,7 +387,7 @@ class ClinicInformation extends Component {
   }
 
   componentDidUpdate(_, prevState) {
-    if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
+    if (this.state.rangeSelectionLocal !== prevState.rangeSelectionLocal || this.state.postcode !== prevState.postcode) {
       // placeholder postcode as the clinic postcode is generated off of random string
       // TODO: placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
@@ -372,7 +395,7 @@ class ClinicInformation extends Component {
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
-          `https://vknseewvml.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+          `https://vknseewvml.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelectionLocal}`
         )
         .then((response) => {
           this.setState({
@@ -450,6 +473,7 @@ class ClinicInformation extends Component {
                   handleRangeSelection={this.handleRangeSelection}
                   checkRecord={this.checkRecord}
                   checkAllHandler={this.checkAllHandler}
+                  handleTotalToInvite={this.handleTotalToInvite}
                 />
               </div>
             )

@@ -33,7 +33,8 @@ export default function ClinicInformationPage(props) {
     checkAll,
     checkAllHandler,
     checkRecord,
-    handleRangeSelection
+    handleRangeSelection,
+    handleTotalToInvite
   } = props;
 
   return (
@@ -123,6 +124,7 @@ export default function ClinicInformationPage(props) {
               checkAllHandler={checkAllHandler}
               checkRecord={checkRecord}
               handleRangeSelection={handleRangeSelection}
+              handleTotalToInvite={handleTotalToInvite}
             />
           </div>
         </div>
