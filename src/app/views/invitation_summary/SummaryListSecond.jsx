@@ -24,7 +24,7 @@ export default function SummaryListSecond({
               Overall expected uptake
             </dt>
             <dd id="term1-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-1">
-              {avgExpectedUptake}
+              {avgExpectedUptake}%
             </dd>
           </div>
           <div class="nhsuk-summary-list__row">
@@ -54,7 +54,7 @@ export default function SummaryListSecond({
               Overall expected uptake
             </dt>
             <dd id="term1-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-4">
-              {avgExpectedUptake}
+              {avgExpectedUptake}%
             </dd>
           </div>
           <div class="nhsuk-summary-list__row">

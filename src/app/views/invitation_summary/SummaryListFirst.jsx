@@ -55,7 +55,7 @@ export default function SummaryListFirst({ props, dummySummaryList, rangeSelecti
           id="term4-value"
           class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
-          {targetPercentageToFill}
+          {targetPercentageToFill}%
         </dd>
       </div>
       <div class="nhsuk-summary-list__row">

@@ -27,16 +27,15 @@ export default function StartPage(props) {
           <div class="nhsuk-grid-row">
             <div class="nhsuk-grid-column-two-thirds">
               <h1>Galleri Pilot System</h1>
-              <p>Use this service to send out invitations to the Galleri Pilot Systems</p>
-              <p>Participants are eligible to be invited if they meet the following criteria:</p>
+              <p>Use this service to calculate how many eligible people to invite to each clinic</p>
+              <p>You can use this service to:</p>
               <ul>
-                <li>live in England</li>
-                <li>registered to a participating GP Practice</li>
-                <li>aged between 50 and 77</li>
-                <li>have not had a cancer diagnosis in the past 3 years</li>
+                <li>view clinic appointment availability</li>
+                <li>set invitation criteria</li>
+                <li>generate invitations</li>
               </ul>
 
-              <h2>To get started, click button below</h2>
+              <h2>Generate invitations</h2>
 
               <a class="nhsuk-button" href="#" role="button" draggable="false" onClick={onClickStartHandler}>
                 Start now

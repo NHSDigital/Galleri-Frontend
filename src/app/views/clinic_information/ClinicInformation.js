@@ -3,7 +3,6 @@ import ClinicInformationPage from './ClinicInformationPage';
 import InvitationSummary from '../invitation_summary/InvitationSummary';
 import { AppStateContext } from '@/app/context/AppStateContext';
 import axios from 'axios';
-import Header from '@/app/components/Header';
 
 class ClinicInformation extends Component {
   constructor() {
@@ -137,7 +136,7 @@ class ClinicInformation extends Component {
       appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
     });
     this.context.setState({
-      targetAppToFill: this.state.appsToFill
+      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
     })
   }
 
@@ -275,7 +274,7 @@ class ClinicInformation extends Component {
               appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
             });
             this.context.setState({
-              targetAppToFill: this.state.appsToFill
+              targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100))
             })
           })
         });
@@ -368,7 +367,7 @@ class ClinicInformation extends Component {
                       appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
                     });
                     this.context.setState({
-                      targetAppToFill: this.state.appsToFill,
+                      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
                       targetPercentageToFill: targetPercentageValue
                     })
                   });
