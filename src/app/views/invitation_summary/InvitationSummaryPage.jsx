@@ -23,7 +23,9 @@ export default function InvitationSummaryPage(props) {
     dummySummaryList,
     rangeSelection,
     targetAppToFill,
-    targetPercentageToFill
+    targetPercentageToFill,
+    totalToInvite,
+    avgExpectedUptake
   } = props;
 
   return (
@@ -80,10 +82,12 @@ export default function InvitationSummaryPage(props) {
               rangeSelection={rangeSelection}
               targetAppToFill={targetAppToFill}
               targetPercentageToFill={targetPercentageToFill}
+              totalToInvite={totalToInvite}
               dummySummaryList={dummySummaryList}
             />
             <SummaryListSecond
               dummySummaryList={dummySummaryList}
+              avgExpectedUptake={avgExpectedUptake}
               displayErrorInvitationSummary={displayErrorInvitationSummary}
             />
             <Actions

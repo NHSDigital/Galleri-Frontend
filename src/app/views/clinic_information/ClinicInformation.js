@@ -30,8 +30,14 @@ class ClinicInformation extends Component {
 
   }
 
-  onSubmitHandler() {
-    this.context.setState({ "isSubmit": true })
+  onSubmitHandler(totalToInvite, avgExpectedUptake) {
+    console.log("totalToInvite = ", totalToInvite)
+    console.log("avgExpectedUptake = ", avgExpectedUptake )
+    this.context.setState({
+      "isSubmit": true,
+      "totalToInvite": totalToInvite,
+      "avgExpectedUptake": avgExpectedUptake
+    })
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
   }

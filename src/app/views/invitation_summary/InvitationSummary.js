@@ -72,8 +72,11 @@ class InvitationSummary extends Component {
       recentInvitationHistory,
       rangeSelection,
       targetAppToFill,
-      targetPercentageToFill
+      targetPercentageToFill,
+      totalToInvite,
+      avgExpectedUptake,
     } = this.context.state;
+    console.log("checking value of avgExpectedUptake in Invitation Summary = ", avgExpectedUptake)
     return (
       <div>
         <InvitationSummaryPage
@@ -87,6 +90,8 @@ class InvitationSummary extends Component {
           displayConfirmationInvitationSummary={displayConfirmationInvitationSummary}
           dummySummaryList={dummySummaryList}
           rangeSelection={rangeSelection}
+          totalToInvite = {totalToInvite}
+          avgExpectedUptake = {avgExpectedUptake}
           targetAppToFill={targetAppToFill}
           targetPercentageToFill={targetPercentageToFill}
           onClickGenerateHandler={this.onClickGenerateHandler}

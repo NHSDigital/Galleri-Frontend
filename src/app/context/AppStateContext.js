@@ -38,9 +38,10 @@ export class AppStateProvider extends React.Component {
         "isSubmit": false
       },
       "rangeSelection": 1,
-      "totalToInvite": 0,
       "targetAppToFill": 0,
-      "targetPercentageToFill": 0
+      "targetPercentageToFill": 0,
+      "totalToInvite": 0,
+      "avgExpectedUptake": 0
     };
   }
 

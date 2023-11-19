@@ -125,17 +125,10 @@ export default function ClinicInformationPage(props) {
               checkRecord={checkRecord}
               handleRangeSelection={handleRangeSelection}
               handleTotalToInvite={handleTotalToInvite}
+              onSubmitHandler={onSubmitHandler}
             />
           </div>
         </div>
-        <button
-          class="nhsuk-button"
-          data-module="nhsuk-button"
-          type="submit"
-          onClick={() => onSubmitHandler()}
-        >
-          Calculate number to invite
-        </button>
       </main>
     </div>
   );

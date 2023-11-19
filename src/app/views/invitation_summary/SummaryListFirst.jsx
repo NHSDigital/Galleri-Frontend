@@ -1,7 +1,9 @@
 import "../../styles/css/sass.css";
 import React from "react";
 
-export default function SummaryListFirst({ props, dummySummaryList, rangeSelection, targetAppToFill, targetPercentageToFill }) {
+export default function SummaryListFirst({ props, dummySummaryList, rangeSelection, targetAppToFill, targetPercentageToFill,
+  totalToInvite
+ }) {
   const { appsRemaining } = props;
 
   console.log("targetPercentageToFill value", targetPercentageToFill)
@@ -31,7 +33,7 @@ export default function SummaryListFirst({ props, dummySummaryList, rangeSelecti
           id="term2-value"
           class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
-          {dummySummaryList.availableInvitationsHolder}
+          {totalToInvite}
         </dd>
       </div>
       <div class="nhsuk-summary-list__row">
