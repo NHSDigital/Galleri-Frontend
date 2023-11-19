@@ -3,6 +3,7 @@ import ClinicInformationPage from './ClinicInformationPage';
 import InvitationSummary from '../invitation_summary/InvitationSummary';
 import { AppStateContext } from '@/app/context/AppStateContext';
 import axios from 'axios';
+import Header from '@/app/components/Header';
 
 class ClinicInformation extends Component {
   constructor() {

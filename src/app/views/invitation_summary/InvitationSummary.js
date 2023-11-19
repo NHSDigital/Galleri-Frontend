@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import InvitationSummaryPage from './InvitationSummaryPage';
 import { AppStateContext } from '@/app/context/AppStateContext';
+import Header from "@/app/components/Header";
 
 class InvitationSummary extends Component {
   constructor() {

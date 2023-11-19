@@ -9,6 +9,7 @@ import {
   daysSinceLastInvite,
 } from './helper';
 import axios from 'axios';
+import Header from "@/app/components/Header";
 
 // Clinic Summary container
 export default class ClinicSummary extends Component {
@@ -121,6 +122,7 @@ export default class ClinicSummary extends Component {
 
     return (
       <div>
+      <Header/>
         {
           // Check if a clinic link has been clicked
           // If clicked render the clinic information page and pass the props

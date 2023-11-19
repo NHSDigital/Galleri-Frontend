@@ -3,6 +3,7 @@ import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget"
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 import axios from "axios";
+import Header from "@/app/components/Header";
 
 // Invitation Planning container
 class InvitationPlanning extends Component {
@@ -221,6 +222,7 @@ class InvitationPlanning extends Component {
 
     return (
       <div>
+        <Header/>
         <InvitationPlanningPage
           quintileValues={quintileValues}
           quintileValuesAux={quintileValuesAux}
