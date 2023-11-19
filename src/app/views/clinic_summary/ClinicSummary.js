@@ -38,6 +38,7 @@ export default class ClinicSummary extends Component {
       .then((response) => {
         this.context.setState({
           clinicList: response.data,
+          lastUpdated: (new Date((response.data[0].UpdatedDate?.S))).toLocaleDateString('en-GB', {year: 'numeric',month: 'long',day: 'numeric', hour: 'numeric', minute: 'numeric'}).replace(/ at/g, ',')
         });
       });
   }
@@ -82,7 +83,7 @@ export default class ClinicSummary extends Component {
       // Update the state
       this.context.setState({
         icbData: [...response.data],
-        lastUpdated: lastUpdated,
+        // lastUpdated: lastUpdated,
         clinicList: clinicList,
       });
 
