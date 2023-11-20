@@ -47,7 +47,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
+        "https://5ybft6ttw2.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
         { forecastUptake: Number(value) }
       )
       .then((response) => {
