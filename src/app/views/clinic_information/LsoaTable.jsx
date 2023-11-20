@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import Pagination from "@/app/components/pagination";
 import { AppStateContext } from '@/app/context/AppStateContext';
+
+let PageSize = 10;
 
 export default function LsoaTable(prop) {
   const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection, handleTotalToInvite, onSubmitHandler } = prop;
-
+  // Pagination stuff
+  const [currentPage, setCurrentPage] = useState(1);
+  const firstPageIndex = (currentPage - 1) * PageSize;
+  const lastPageIndex = firstPageIndex + PageSize;
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
   mileSelectionOptions.shift()
@@ -28,6 +34,8 @@ export default function LsoaTable(prop) {
       },0)
   return Math.round(total / arr.length)
   }
+
+  const currentTableData =  lsoaInRange.slice(firstPageIndex, lastPageIndex);
 
   console.log("avg uptake = ", calculateAverageExpectedUptake(lsoaArray))
 
@@ -112,7 +120,7 @@ export default function LsoaTable(prop) {
               </tr>
             </thead>
             <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-              {lsoaInRange?.map((e, key) => {
+              {currentTableData?.map((e, key) => {
                 return (
                   <tr role="row" class="nhsuk-table__row">
                     <td role="cell" class="nhsuk-table__cell">
@@ -158,6 +166,13 @@ export default function LsoaTable(prop) {
               })}
             </tbody>
           </table>
+          <br />
+        <Pagination
+          currentPage={currentPage}
+          totalCount={lsoaInRange.length}
+          pageSize={PageSize}
+          onPageChange={page => setCurrentPage(page)}
+        />
         </div>
         <br/>
         <div class="nhsuk-grid-column-one-half" style={{"padding-left": "0px"}}>
@@ -175,10 +190,6 @@ export default function LsoaTable(prop) {
           </dl>
         </div>
       </div>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
       <div class="nhsuk-grid-column-two-thirds" style={{"padding-left": "0px"}}>
           <dl class="nhsuk-summary-list">
             <div class="nhsuk-summary-list__row">
