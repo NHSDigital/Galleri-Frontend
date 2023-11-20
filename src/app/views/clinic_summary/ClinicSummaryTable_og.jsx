@@ -1,20 +1,9 @@
-import React, { useState } from "react";
-import Pagination from "../../components/Pagination";
-
-let PageSize = 10;
+import React from "react";
+import Pagination from "../../components/pagination";
 
 export default function ClinicSummaryTable(props) {
-  const { onCheckHandler, handlePageSize } = props;
-  const [currentPage, setCurrentPage] = useState(1);
-  //const PageSize = props.pageSize;
+  const { onCheckHandler, onClickClinicHandler } = props;
 
-  const firstPageIndex = (currentPage - 1) * PageSize;
-  const lastPageIndex = firstPageIndex + PageSize;
-  const currentTableData =  props.clinicList.slice(firstPageIndex, lastPageIndex);
-
-
-  console.log("props.clinicList = ", props.clinicList);
-  console.log("page size:",props.pageSize);
   return (
     <div>
       <table role="table" class="nhsuk-table-responsive">
@@ -40,17 +29,6 @@ export default function ClinicSummaryTable(props) {
             </label>
           </div>
           <br />
-          <div class="nhsuk-form-group">
-  {/* <label class="nhsuk-label" for="pageSize">
-    Clinics per page
-  </label>
-  <select class="nhsuk-select" id="pageSize" name="select-1" onChange={(e) => handlePageSize(e)}>
-    <option value="5">5</option>
-    <option value="10" selected>10</option>
-    <option value="25">25</option>
-    <option value="50">50</option>
-  </select> */}
-</div>
         </caption>
         <thead role="rowgroup" class="nhsuk-table__head">
           <tr role="row">
@@ -80,36 +58,43 @@ export default function ClinicSummaryTable(props) {
           </tr>
         </thead>
         <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-          {currentTableData?.map((e, key) => {
-            return (
-              <tr role="row" class="nhsuk-table__row">
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.ClinicName?.S}
-                </td>
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.PrevInviteDate?.S}
-                </td>
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.DaySincePrevInvite?.N}
-                </td>
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.InvitesSent?.N}
-                </td>
-                <td role="cell" class="nhsuk-table__cell">
-                  {e.Availability?.N}
-                </td>
-              </tr>
-            );
-          })}
+          {props.clinicList
+            .sort((a, b) => {
+              return (
+                Number(b.DaySincePrevInvite.N) - Number(a.DaySincePrevInvite.N)
+              );
+            })
+            ?.map((e, key) => {
+              return (
+                <tr role="row" class="nhsuk-table__row">
+                  <td role="cell" class="nhsuk-table__cell">
+                    <a
+                      id={e.ClinicName.S}
+                      class="nhsuk-back-link__link"
+                      onClick={(event) => onClickClinicHandler(event, e)}
+                    >
+                      {e.ClinicName?.S ? e.ClinicName?.S : "Not Available"}
+                    </a>
+                  </td>
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.PrevInviteDate?.S ? e.PrevInviteDate?.S : "Not Available"}
+                  </td>
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.DaySincePrevInvite?.N !== 'NaN' ? e.DaySincePrevInvite?.N : 0}
+                  </td>
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.InvitesSent?.N}
+                  </td>
+                  <td role="cell" class="nhsuk-table__cell">
+                    {e.Availability?.N}
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
       <br />
-      <Pagination
-        currentPage={currentPage}
-        totalCount={props.clinicList.length}
-        pageSize={PageSize}
-        onPageChange={page => setCurrentPage(page)}
-      />
+      <Pagination />
     </div>
   );
 }
