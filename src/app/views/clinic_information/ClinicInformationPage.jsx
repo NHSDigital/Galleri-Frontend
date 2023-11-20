@@ -113,7 +113,7 @@ export default function ClinicInformationPage(props) {
           />
           <ClinicInvitationCriteria
             displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
-            targetFillToInputValue={targetFillToPercentage}
+            targetFillToInputValue={targetFillToInputValue}
             appsToFill={appsToFill}
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
             onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}

@@ -23,7 +23,6 @@ class ClinicInformation extends Component {
       "targetFillToInputValue": 0,
       "appsToFill": 0,
       "checkAll": true,
-      "lastSelectedRange": 0,
       "targetFillToPercentage": 0,
       "recentInvitationHistory": {
         "dateOfPrevInv": "Not available",
@@ -41,13 +40,13 @@ class ClinicInformation extends Component {
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
-    this.checkRecord= this.checkRecord.bind(this)
+    this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
   }
 
   checkAllHandler(event) {
     // toggle between setting the value of checked in all elements in lsoaInRange
-    if(event.target.checked) {
+    if (event.target.checked) {
       // set all "checked" fields in lsoaInRange to true
       const selectAll = this.state.lsoaInRange.map(lsoa => {
         lsoa.checked = true
@@ -91,9 +90,9 @@ class ClinicInformation extends Component {
     }
   }
 
-  handleRangeSelection(value){
+  handleRangeSelection(e) {
     this.setState({
-      rangeSelection: Number(value.target.selectedOptions[0].text)
+      rangeSelection: e.target.value
     })
   }
 
@@ -117,13 +116,6 @@ class ClinicInformation extends Component {
     return convertSortedArrayToString
   }
 
-  // Calculating the Target number of appointments to fill
-  calculateTargetAppsToFill(targetFillToInputValue) {
-    this.setState({
-      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
-    });
-  }
-
   // DB actions to PUT target percentage of appointments to fill
   async putTargetPercentageAWSDynamo(value) {
     try {
@@ -144,8 +136,8 @@ class ClinicInformation extends Component {
 
     if ((value) && (value <= 100)) {
       await this.putTargetPercentageAWSDynamo(value);
-      this.calculateTargetAppsToFill(targetFillToInputValue);
       this.setState({
+        appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
         displayUserErrorTargetPercentage: false,
       });
     } else {
@@ -250,8 +242,8 @@ class ClinicInformation extends Component {
             displayClinicSelector: false,
             recentInvitationHistory: clinicInvitationHistory,
             displayViewAllPrevInvitations: displayViewAllPrevInvitations,
-            lastSelectedRange: lastSelectedRange,
-            targetFillToPercentage: targetFillToPercentage
+            rangeSelection: lastSelectedRange,
+            targetFillToInputValue: targetFillToPercentage
           }, () => {
             this.setState({
               appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
@@ -284,8 +276,8 @@ class ClinicInformation extends Component {
           })]
         });
 
-        let initialSelectedClinicId = response.data[0].ClinicId.S
-        let initialSelectedClinic = response.data[0].ClinicName.S
+        let initialSelectedClinicId = response.data[1].ClinicId.S
+        let initialSelectedClinic = response.data[1].ClinicName.S
 
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
@@ -335,31 +327,36 @@ class ClinicInformation extends Component {
               weeklyCapacity: weeklyCapacityList,
               recentInvitationHistory: clinicInvitationHistory,
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
-              lastSelectedRange: lastSelectedRange,
-              targetFillToPercentage: targetFillToPercentage
+              rangeSelection: lastSelectedRange,
+              targetFillToInputValue: targetFillToPercentage
             },
               () => {
-                // This callback will execute after the state has been updated
-
-                if (this.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
-                  this.putTargetPercentageAWSDynamo("50");
-                }
-
-                //Executes GET API call below when page renders - grabs default Target Percentage input value
-                // and displays the target number of appointments to fill
-                // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-                axios
-                  .get(
-                    "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
-                  )
-                  .then((response) => {
-                    const targetPercentageValue = response.data.targetPercentage.N;
-                    this.setState({
-                      targetFillToInputValue: targetPercentageValue,
-                      appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
-                    });
-                  });
+                this.setState({
+                  appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+                });
               }
+              // () => {
+              // This callback will execute after the state has been updated
+
+              // if (this.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
+              //   this.putTargetPercentageAWSDynamo("50");
+              // }
+
+              //Executes GET API call below when page renders - grabs default Target Percentage input value
+              // and displays the target number of appointments to fill
+              // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+              // axios
+              //   .get(
+              //     "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+              //   )
+              //   .then((response) => {
+              //     const targetPercentageValue = response.data.targetPercentage.N;
+              //     this.setState({
+              //       targetFillToInputValue: targetPercentageValue,
+              //       appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+              //     });
+              //   });
+              // }
             )
           });
       });
@@ -374,8 +371,8 @@ class ClinicInformation extends Component {
       )
       .then((response) => {
         this.setState({
-          lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
-          selectedLsoa: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+          lsoaInRange: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+          selectedLsoa: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
         })
       });
   }
@@ -391,8 +388,8 @@ class ClinicInformation extends Component {
         )
         .then((response) => {
           this.setState({
-            lsoaInRange: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
-            selectedLsoa: response.data.sort((a,b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
+            lsoaInRange: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N),
+            selectedLsoa: response.data.sort((a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N)
           })
         })
     }
@@ -415,7 +412,7 @@ class ClinicInformation extends Component {
       targetFillToInputValue,
       appsToFill,
       lsoaInRange,
-      lastSelectedRange,
+      rangeSelection,
       targetFillToPercentage
     } = this.state
     return (
@@ -435,7 +432,7 @@ class ClinicInformation extends Component {
           displayViewAllPrevInvitations={displayViewAllPrevInvitations}
           targetFillToInputValue={targetFillToInputValue}
           appsToFill={appsToFill}
-          lastSelectedRange={lastSelectedRange}
+          lastSelectedRange={rangeSelection}
           targetFillToPercentage={targetFillToPercentage}
           onTargetFillToInputChangeHandler={this.onTargetFillToInputChangeHandler}
           onClickTargetAppsToFillHandler={this.onClickTargetAppsToFillHandler}
