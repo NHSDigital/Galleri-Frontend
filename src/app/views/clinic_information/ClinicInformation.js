@@ -335,28 +335,6 @@ class ClinicInformation extends Component {
                   appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
                 });
               }
-              // () => {
-              // This callback will execute after the state has been updated
-
-              // if (this.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
-              //   this.putTargetPercentageAWSDynamo("50");
-              // }
-
-              //Executes GET API call below when page renders - grabs default Target Percentage input value
-              // and displays the target number of appointments to fill
-              // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-              // axios
-              //   .get(
-              //     "https://7j6zpnvol0.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
-              //   )
-              //   .then((response) => {
-              //     const targetPercentageValue = response.data.targetPercentage.N;
-              //     this.setState({
-              //       targetFillToInputValue: targetPercentageValue,
-              //       appsToFill: Math.floor(this.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
-              //     });
-              //   });
-              // }
             )
           });
       });
