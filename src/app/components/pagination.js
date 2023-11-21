@@ -1,104 +1,94 @@
-import { Component } from "react"
+import React from 'react';
+import { usePagination, DOTS } from './usePagination';
 
-export default class Pagination extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      "list": [{}, {}, {}, {}, {}, {}, {}],
-      "partitionSize": 5, // Default 10
-      "partitions": 0,
-      "indices": [],
-      "currentPage": 1,
-    }
+const Pagination = props => {
+  const {
+    onPageChange,
+    totalCount,
+    siblingCount = 1,
+    currentPage,
+    pageSize,
+    className
+  } = props;
 
-    this.onPrevHandler = this.onPrevHandler.bind();
-    this.onNextHandler = this.onNextHandler.bind();
+  const paginationRange = usePagination({
+    currentPage,
+    totalCount,
+    siblingCount,
+    pageSize
+  });
+
+  if (currentPage === 0) {
+    return null;
   }
-
-  componentDidMount() {
-    const { list, partitionSize } = this.state;
-    const newPartitions = this.getPartitions(list, partitionSize);
-    const newIndices = this.getIndices(newPartitions);
-    this.setState({
-      partitions: newPartitions,
-      indices: newIndices
-    })
+  else if (paginationRange.length < 2){
+    return(
+        <nav class="nhsuk-pagination style_pagination__7B72Z" aria-label="Pagination Navigation">
+    <div class="style_summary__J3_1h">
+          <span index="0" node="[object Object]">
+            {`Showing ${currentPage*pageSize-pageSize+1}-${currentPage*pageSize<totalCount?currentPage*pageSize:totalCount} of ${totalCount} results`}
+          </span>
+        </div>
+        </nav>
+    )
   }
+  let lastPage = paginationRange[paginationRange.length - 1];
 
-  getPartitions(list, partitionSize) {
-    if (list.length < partitionSize) {
-      return 1;
-    } else {
-      if (list.length % partitionSize === 0) {
-        return list.length / partitionSize;
-      } else {
-        return Math.ceil(list.length / partitionSize);
-      }
-    }
-  }
+  const onNext = () => {
+    if(currentPage!==lastPage)
+        onPageChange(currentPage + 1);
+  };
 
-  getIndices(partitions) {
+  const onPrevious = () => {
+    if(currentPage!==1)
+    onPageChange(currentPage - 1);
+  };
 
-  }
-
-  onPrevHandler(e) {
-    console.log('prev');
-  }
-
-  onNextHandler(e) {
-    console.log('next');
-  }
-
-  render() {
-    const { list, partitionSize, partitions, indices, currentPage } = this.state;
-    return (
-      <div class="nhsuk-width-container">
+  return (
+    <nav class="nhsuk-pagination style_pagination__7B72Z" aria-label="Pagination Navigation">
+        <div class="style_summary__J3_1h">
+          <span index="0" node="[object Object]">
+            {`Showing ${currentPage*pageSize-pageSize+1}-${currentPage*pageSize<totalCount?currentPage*pageSize:totalCount} of ${totalCount} results`}
+          </span>
+        </div>
+   
         <h2 class="nhsuk-u-visually-hidden">Support links</h2>
-        <ul class="nhsuk-footer__list">
-          <li class="nhsuk-footer__list-item" id="prevButton">
+        <ul>
+          <li class="style_item__Y9BLA" id="prevButton">
             <a
               aria-label="Previous page"
-              class="style_link__ToZGL style_current__K8c2u"
-              onClick={(e) => this.onPrevHandler(e)}
+              class="style_link__ToZGL"
+              onClick={onPrevious}
             >
               « Previous
             </a>
           </li>
-          <li class="nhsuk-footer__list-item">
-            <a
-              aria-label="Goto Page 1"
-              class="style_link__ToZGL style_current__K8c2u"
-              href="/future-standards?orderBy=name&amp;order=asc&amp;page=1"
-              aria-current="page"
-            >
-              1
-            </a>
-          </li>
-          <li class="nhsuk-footer__list-item">
-            <a
-              aria-label="Goto Page 2"
-              class="style_link__ToZGL"
-              href="/future-standards?orderBy=name&amp;order=asc&amp;page=2"
-            >
-              2
-            </a>
-          </li>
-          <li class="nhsuk-footer__list-item" id="nextButton">
+          {paginationRange.map(pgNumber => (
+                    <li key={pgNumber}
+                        class="style_item__Y9BLA"
+                        /*class= {`style_current__K8c2u ${currentPage == pgNumber ? 'active' : ''} `} */
+                        // className={
+						// 	' style_current__K8c2u' + (pgNumber === currentPage ? 'active' : '')
+						// }
+                        >
+                           <a onClick={() => onPageChange(pgNumber)}  
+                        class = "style_link__ToZGL" >
+                            {pgNumber}
+                            </a>
+                    </li>
+                ))}
+          <li class="style_item__Y9BLA" id="nextButton">
             <a
               aria-label="Next page"
               class="style_link__ToZGL"
-              onClick={(e) => this.onNextHandler(e)}
+              onClick={onNext}
             >
               Next »
             </a>
           </li>
-        </ul>
-        <div class="nhsuk-footer__copyright">
-          <span index="0" node="[object Object]">
-            {`Showing ${currentPage} - ${partitions} of ${list.length} results`}
-          </span>
-        </div>
-      </div>
-    )
-  }
-}
+        </ul>   
+    </nav>
+  );
+};
+
+export default Pagination;

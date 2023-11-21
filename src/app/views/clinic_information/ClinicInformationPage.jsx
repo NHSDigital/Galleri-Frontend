@@ -33,9 +33,10 @@ export default function ClinicInformationPage(props) {
     checkAll,
     checkAllHandler,
     handleRangeSelection,
-    onClickLsoaCodesAppsToFillHandler,
+    lsoaCodesAppsToFill,
     isCheckedLsoaHandler,
-    checkRecord
+    checkRecord,
+    handleTotalToInvite
   } = props;
 
   return (
@@ -125,20 +126,13 @@ export default function ClinicInformationPage(props) {
               checkAllHandler={checkAllHandler}
               checkRecord={checkRecord}
               handleRangeSelection={handleRangeSelection}
-              appsToFill={appsToFill}
-              onClickLsoaCodesAppsToFillHandler={onClickLsoaCodesAppsToFillHandler}
+              lsoaCodesAppsToFill={lsoaCodesAppsToFill}
               isCheckedLsoaHandler={isCheckedLsoaHandler}
+              handleTotalToInvite={handleTotalToInvite}
+              onSubmitHandler={onSubmitHandler}
             />
           </div>
         </div>
-        <button
-          class="nhsuk-button"
-          data-module="nhsuk-button"
-          type="submit"
-          onClick={() => onSubmitHandler()}
-        >
-          Calculate number to invite
-        </button>
       </main>
     </div>
   );

@@ -15,7 +15,7 @@ export default function Root() {
     <div>
       <body className="js-enabled">
         <AppStateProvider>
-          <Header />
+          {/* <Header /> */}
           <Start />
           {/* <Content /> */}
           {/* <ClinicSummary /> */}

@@ -9,6 +9,7 @@ import {
   daysSinceLastInvite,
 } from './helper';
 import axios from 'axios';
+import Header from "@/app/components/Header";
 
 // Clinic Summary container
 export default class ClinicSummary extends Component {
@@ -37,6 +38,7 @@ export default class ClinicSummary extends Component {
       .then((response) => {
         this.context.setState({
           clinicList: response.data,
+          lastUpdated: (new Date((response.data[0].UpdatedDate?.S))).toLocaleDateString('en-GB', {year: 'numeric',month: 'long',day: 'numeric', hour: 'numeric', minute: 'numeric'}).replace(/ at/g, ',')
         });
       });
   }
@@ -81,7 +83,7 @@ export default class ClinicSummary extends Component {
       // Update the state
       this.context.setState({
         icbData: [...response.data],
-        lastUpdated: lastUpdated,
+        // lastUpdated: lastUpdated,
         clinicList: clinicList,
       });
 
@@ -121,6 +123,7 @@ export default class ClinicSummary extends Component {
 
     return (
       <div>
+      <Header/>
         {
           // Check if a clinic link has been clicked
           // If clicked render the clinic information page and pass the props
