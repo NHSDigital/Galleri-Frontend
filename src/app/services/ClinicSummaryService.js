@@ -10,15 +10,15 @@ import mockIcbList from '../services/mockIcbList.json'
 */
 export function getClinicData() {
   return new ClinicList(
-    Date(mockClinicData.lastUpdated).toString(),
+    'last updated date',
     mockClinicData.clinicList.map(e => {
       return new Clinic(
-        e.clinicName,
-        e.dateOfPreviousInvitations,
-        e.daysSincePreviousInvitations,
-        e.numberOfInvitationsSent,
-        e.numberOfAppointmentsAvailable,
-        e.icbId
+        e.Availability,
+        e.ClinicId,
+        e.InvitesSent,
+        e.ICBCode,
+        e.PrevInviteDate,
+        e.ClinicName
       )
     })
   )
@@ -27,7 +27,7 @@ export function getClinicData() {
 export function getIcbData() {
   return mockIcbList.icbList.map(e => {
     return new Icb(
-      e.icbId,
+      e.icbCode,
       e.icbName
     )
   })

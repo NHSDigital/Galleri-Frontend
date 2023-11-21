@@ -8,7 +8,7 @@ import LsoaTable from "./LsoaTable";
 
 export default function ClinicInformationPage(props) {
   const {
-    clinicList,
+    clinicIdNameList,
     clinicName,
     address1,
     address2,
@@ -18,9 +18,13 @@ export default function ClinicInformationPage(props) {
     displayClinicSelector,
     cancelChangeText,
     recentInvitationHistory,
+    currentlySelectedClinic,
     onClickChangeClinicHandler,
     onChangeSelectedClinicHandler,
+    onSubmitHandler,
+    onClickGoBackLinkHandler,
     displayUserErrorTargetPercentage,
+    displayViewAllPrevInvitations,
     targetFillToInputValue,
     appsToFill,
     onClickTargetAppsToFillHandler,
@@ -30,7 +34,8 @@ export default function ClinicInformationPage(props) {
     checkAllHandler,
     handleRangeSelection,
     onClickLsoaCodesAppsToFillHandler,
-    isCheckedLsoaHandler
+    isCheckedLsoaHandler,
+    checkRecord
   } = props;
 
   return (
@@ -38,7 +43,7 @@ export default function ClinicInformationPage(props) {
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
         <div class="nhsuk-grid-row">
           <div class="nhsuk-back-link">
-            <a class="nhsuk-back-link__link" href="#">
+            <a class="nhsuk-back-link__link" href="#" onClick={onClickGoBackLinkHandler}>
               <svg
                 class="nhsuk-icon nhsuk-icon__chevron-left"
                 xmlns="http://www.w3.org/2000/svg"
@@ -79,12 +84,12 @@ export default function ClinicInformationPage(props) {
                 <select
                   class="nhsuk-select"
                   id="clinic-selector"
-                  value={clinicName}
+                  value={currentlySelectedClinic}
                   onChange={(e) => {
                     onChangeSelectedClinicHandler(e);
                   }}
                 >
-                  {clinicList.map((clinic) => {
+                  {clinicIdNameList.map((clinic) => {
                     return (
                       <option value={clinic.clinicName}>
                         {clinic.clinicName}
@@ -103,7 +108,10 @@ export default function ClinicInformationPage(props) {
             />
           </div>
           <br />
-          <RecentInvitationHistory props={recentInvitationHistory} />
+          <RecentInvitationHistory
+            props={recentInvitationHistory}
+            displayViewAllPrevInvitations={displayViewAllPrevInvitations}
+          />
           <ClinicInvitationCriteria
             displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
             targetFillToInputValue={targetFillToInputValue}
@@ -114,8 +122,8 @@ export default function ClinicInformationPage(props) {
           <div class="nhsuk-grid-column-full">
             <LsoaTable
               lsoaInRange={lsoaInRange}
-              checkAll={checkAll}
               checkAllHandler={checkAllHandler}
+              checkRecord={checkRecord}
               handleRangeSelection={handleRangeSelection}
               appsToFill={appsToFill}
               onClickLsoaCodesAppsToFillHandler={onClickLsoaCodesAppsToFillHandler}
@@ -123,6 +131,14 @@ export default function ClinicInformationPage(props) {
             />
           </div>
         </div>
+        <button
+          class="nhsuk-button"
+          data-module="nhsuk-button"
+          type="submit"
+          onClick={() => onSubmitHandler()}
+        >
+          Calculate number to invite
+        </button>
       </main>
     </div>
   );

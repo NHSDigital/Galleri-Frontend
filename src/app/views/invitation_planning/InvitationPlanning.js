@@ -1,8 +1,5 @@
 import { Component } from "react";
-import {
-  getInvitationPlanningData,
-  getNationalForecastData,
-} from "../../services/invitation_planning/InvitationPlanningService";
+import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 import axios from "axios";
@@ -22,7 +19,7 @@ class InvitationPlanning extends Component {
       userName: "",
       isCorrectTotal: true,
       enableUptakeEdit: false,
-      isCorrectUptakeTotal: true,
+      isCorrectUptakeTotal: true
     };
 
     // Handlers
@@ -42,6 +39,7 @@ class InvitationPlanning extends Component {
     this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
   }
 
+
   // DB actions
   async putForecastUptakeAWSDynamo(value) {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
@@ -59,7 +57,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
+        "https://2zuiap5u01.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
         { quintiles: updatedQuintile }
       )
       .then((response) => {
@@ -99,13 +97,15 @@ class InvitationPlanning extends Component {
   }
 
   async onSaveFillHandler() {
-    if (sumQuintiles(this.state.quintileValuesAux) === 100) {
+    const quintileValues = this.state.quintileValuesAux;
+    if (sumQuintiles(quintileValues) === 100) {
       await this.setState({
-        quintileValues: this.state.quintileValuesAux,
-        quintileValuesPrevious: this.state.quintileValuesAux,
+        quintileValues: quintileValues,
+        quintileValuesPrevious: quintileValues,
       });
       this.toggleFillEdit(false);
       this.displayFillError(true);
+      await this.putQuintilesAWSDynamo(quintileValues);
     } else {
       this.displayFillError(false);
     }
@@ -149,13 +149,15 @@ class InvitationPlanning extends Component {
     });
   }
 
-  onSaveForecastHandler(value) {
-    if (value <= 100) {
+  async onSaveForecastHandler(value) {
+    if (value <= 100 && value > 0) {
       this.setState({
         nationalUptakePercentage: value,
       });
+      this.putForecastUptakeAWSDynamo(value);
       this.toggleUptakeEdit(false);
       this.displayUptakeError(true);
+      await this.putForecastUptakeAWSDynamo(value);
     } else {
       this.displayUptakeError(false);
     }
@@ -170,38 +172,38 @@ class InvitationPlanning extends Component {
   }
 
   componentDidMount() {
+    // API call
+    // const { quintile, lastUpdatedQuintile, userName } =
+    //   getInvitationPlanningData();
+
     // Get quintiles and forecast uptake data
-    axios.defaults.headers.post["Content-Type"] =
-      "application/json;charset=utf-8";
-    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://erg78xcxd7.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://yehr3cfrvc.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
-        console.log("response -> " + response.status);
+        console.log('response -> ' + response.data.NATIONAL_FORCAST_UPTAKE.N);
         const quintiles = [
           response.data.QUINTILE_1.N,
           response.data.QUINTILE_2.N,
           response.data.QUINTILE_3.N,
           response.data.QUINTILE_4.N,
           response.data.QUINTILE_5.N,
-        ];
-        const quintileData = new QuintileTarget(
-          quintiles,
-          Date("03/10/2023"),
-          "Username"
-        );
+        ]
+        const quintileData = new QuintileTarget(quintiles, Date('03/10/2023'), 'Username')
         this.setState({
           quintileValues: quintileData.quintile,
           quintileValuesAux: quintileData.quintile,
           quintileValuesPrevious: quintileData.quintile,
           lastUpdatedQuintile: quintileData.lastUpdatedQuintile,
           userName: quintileData.userName,
-          nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
+          nationalUptakePercentage: response.data.NATIONAL_FORCAST_UPTAKE.N,
         });
       });
+
   }
 
   render() {

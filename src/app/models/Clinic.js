@@ -1,18 +1,20 @@
 // Clinic Summary model
 export class Clinic {
   constructor(
+    availability,
+    clinicId,
+    invitesSent,
+    icbCode,
+    prevInviteDate,
     clinicName,
-    dateOfPreviousInvitations,
-    daysSincePreviousInvitations,
-    numberOfInvitationsSent,
-    numberOfAppointmentsAvailable,
-    icbId
+    DaysSincePrevInvite
   ) {
-    this.clinicName = clinicName,
-      this.dateOfPreviousInvitations = dateOfPreviousInvitations,
-      this.daysSincePreviousInvitations = daysSincePreviousInvitations,
-      this.numberOfInvitationsSent = numberOfInvitationsSent,
-      this.numberOfAppointmentsAvailable = numberOfAppointmentsAvailable,
-      this.icbId = icbId
+    this.availability = availability,
+      this.clinicId = clinicId,
+      this.invitesSent = invitesSent,
+      this.icbCode = icbCode,
+      this.prevInviteDate = prevInviteDate,
+      this.clinicName = clinicName,
+      this.DaysSincePrevInvite = DaysSincePrevInvite;
   }
 }

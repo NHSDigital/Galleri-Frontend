@@ -4345,6 +4345,8 @@ COMPONENTS/ #ERROR-SUMMARY
 	/* 1 */
 	margin-bottom: 0;
 	margin-top: 0;
+	padding-left: 16px;
+	border-left: 4px solid #d5281b
 }
 
 .nhsuk-error-summary__list a {
@@ -12236,7 +12238,7 @@ COMPONENTS / #WARNING-CALLOUT
 
 .govuk-panel--confirmation {
 	color: #ffffff;
-	background: #00703c;
+	background: #005EB8;
 }
 @media print {
 	.govuk-panel--confirmation {
@@ -12296,8 +12298,7 @@ COMPONENTS / #WARNING-CALLOUT
 }
 @media (min-width: 40.0625em) {
 	.govuk-panel__body {
-		font-size: 36px;
-		font-size: 2.25rem;
+		font-size: 26px;
 		line-height: 1.1111111111;
 	}
 }
