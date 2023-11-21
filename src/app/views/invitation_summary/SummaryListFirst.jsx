@@ -22,7 +22,7 @@ export default function SummaryListFirst({ props, dummySummaryList, rangeSelecti
           id="term1-value"
           class="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
-          {rangeSelection}
+          + {rangeSelection} miles
         </dd>
       </div>
       <div class="nhsuk-summary-list__row">

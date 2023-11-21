@@ -113,7 +113,6 @@ export default function ClinicSummaryTable(props) {
           })}
         </tbody>
       </table>
-      <br />
       <Pagination
         currentPage={currentPage}
         totalCount={props.clinicList.length}

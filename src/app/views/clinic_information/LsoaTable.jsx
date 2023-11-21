@@ -147,7 +147,7 @@ export default function LsoaTable(prop) {
                       {e.DISTANCE_TO_SITE?.N}
                     </td>
                     <td role="cell" class="nhsuk-table__cell">
-                      {e.FORECAST_UPTAKE?.N}
+                      {e.FORECAST_UPTAKE?.N}%
                     </td>
                     <td role="cell" class="nhsuk-table__cell">
                       {e.IMD_DECILE?.N}
@@ -166,7 +166,6 @@ export default function LsoaTable(prop) {
               })}
             </tbody>
           </table>
-          <br />
         <Pagination
           currentPage={currentPage}
           totalCount={lsoaInRange.length}
