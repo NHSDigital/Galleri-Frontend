@@ -151,7 +151,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://3seozz1pi5.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
+        "https://ud9eg89ue3.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
         {
           targetAppsToFill: this.state.appsToFill,
           lsoaCodes: this.state.selectedLsoa
