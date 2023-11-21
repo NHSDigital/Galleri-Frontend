@@ -12,6 +12,9 @@ This repository contains the frontend for the Galleri webapp. It is written in j
     - [Start the webserver in dev mode](#start-the-webserver-in-dev-mode)
     - [Start the webserver in production mode](#start-the-webserver-in-production-mode)
     - [Prerequisites](#prerequisites)
+  - [makefile](#makefile)
+    - [Install and configure toolchain dependencies](#install-and-configure-toolchain-dependencies)
+    - [Prerequisites](#prerequisites-1)
   - [Usage](#usage)
   - [Architecture](#architecture)
     - [Diagrams](#diagrams)
@@ -54,6 +57,28 @@ PORT=8080 npm run start
 ### Prerequisites
 
 nodejs - 16.20.0
+
+## makefile
+
+To use the makefile follow these instructions:
+
+```shell
+git git@github.com:NHSDigital/Galleri-Frontend.git
+cd cd Galleri-Frontend
+```
+
+### Install and configure toolchain dependencies
+
+```shell
+make config
+```
+
+### Prerequisites
+
+The following software packages or their equivalents are expected to be installed
+
+- [GNU make](https://www.gnu.org/software/make/)
+- [Docker](https://www.docker.com/)
 
 ## Usage
 
