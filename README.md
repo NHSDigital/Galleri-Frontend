@@ -31,7 +31,7 @@ To get started with this repo follow these steps:
 
 ```shell
 git git@github.com:NHSDigital/Galleri-Frontend.git
-cd cd Galleri-Frontend
+cd Galleri-Frontend
 ```
 
 ### Install dependencies
@@ -63,8 +63,7 @@ nodejs - 16.20.0
 To use the makefile follow these instructions:
 
 ```shell
-git git@github.com:NHSDigital/Galleri-Frontend.git
-cd cd Galleri-Frontend
+cd Galleri-Frontend
 ```
 
 ### Install and configure toolchain dependencies
