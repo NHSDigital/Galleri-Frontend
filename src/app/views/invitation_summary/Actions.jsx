@@ -5,17 +5,20 @@ const Actions = ({
   onClickGenerateHandler,
   displayConfirmationInvitationSummary,
   displayErrorInvitationSummary,
+  onClickGoBackPrevPageLinkHandler
 }) => (
   <>
-    <div className="nhsuk-u-margin-bottom-8">
-      <a
-        id="returnToClinicInvitations-link"
-        style={{ textDecorationLine: "underline" }}
-        onClick={() => {}} // Will have to come back and add a path to previous page after Router is implemented
-      >
-        Return to clinic invitations
-      </a>
-    </div>
+    {displayConfirmationInvitationSummary && (
+      <div className="nhsuk-u-margin-bottom-8">
+        <a
+          id="returnToClinicInvitations-link"
+          style={{ textDecorationLine: "underline" }}
+          onClick={onClickGoBackPrevPageLinkHandler} // Will have to come back and add a path to previous page after Router is implemented
+        >
+          Return to clinic invitations
+        </a>
+      </div>
+    )}
     {!displayConfirmationInvitationSummary && (
       <button
         data-testid="generate-button"

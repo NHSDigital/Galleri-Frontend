@@ -2,7 +2,8 @@ import React from "react";
 import Pagination from "../../components/pagination";
 
 export default function ClinicSummaryTable(props) {
-  const { onCheckHandler } = props;
+  const { onCheckHandler, onClickClinicHandler } = props;
+
   return (
     <div>
       <table role="table" class="nhsuk-table-responsive">
@@ -67,13 +68,19 @@ export default function ClinicSummaryTable(props) {
               return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.ClinicName?.S}
+                    <a
+                      id={e.ClinicName.S}
+                      class="nhsuk-back-link__link"
+                      onClick={(event) => onClickClinicHandler(event, e)}
+                    >
+                      {e.ClinicName?.S ? e.ClinicName?.S : "Not Available"}
+                    </a>
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.PrevInviteDate?.S}
+                    {e.PrevInviteDate?.S ? e.PrevInviteDate?.S : "Not Available"}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.DaySincePrevInvite?.N}
+                    {e.DaySincePrevInvite?.N !== 'NaN' ? e.DaySincePrevInvite?.N : 0}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
                     {e.InvitesSent?.N}
