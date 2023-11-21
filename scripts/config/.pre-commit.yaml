@@ -1,18 +1,18 @@
 repos:
-# - repo: local
-#   hooks:
-#   - id: scan-secrets
-#     name: Scan Secrets
-#     entry: ./scripts/githooks/secret-scan-pre-commit.sh
-#     language: script
-#     pass_filenames: false
-# - repo: local
-#   hooks:
-#   - id: check-file-format
-#     name: Check File Format
-#     entry: ./scripts/githooks/check-file-format.sh
-#     language: script
-#     pass_filenames: false
+- repo: local
+  hooks:
+  - id: scan-secrets
+    name: Scan Secrets
+    entry: ./scripts/githooks/secret-scan-pre-commit.sh
+    language: script
+    pass_filenames: false
+- repo: local
+  hooks:
+  - id: check-file-format
+    name: Check File Format
+    entry: ./scripts/githooks/check-file-format.sh
+    language: script
+    pass_filenames: false
 - repo: local
   hooks:
   - id: check-markdown-format
@@ -20,10 +20,10 @@ repos:
     entry: ./scripts/githooks/markdown-pre-commit.sh
     language: script
     pass_filenames: false
-# - repo: local
-#   hooks:
-#   - id: check-terraform-format
-#     name: Check Terraform Format
-#     entry: ./scripts/githooks/terraform-pre-commit.sh
-#     language: script
-#     pass_filenames: false
+- repo: local
+  hooks:
+  - id: check-terraform-format
+    name: Check Terraform Format
+    entry: ./scripts/githooks/terraform-pre-commit.sh
+    language: script
+    pass_filenames: false

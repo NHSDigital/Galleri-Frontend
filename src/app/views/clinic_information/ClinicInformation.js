@@ -69,24 +69,6 @@ class ClinicInformation extends Component {
       this.setState({
         lsoaInRange: selectAll
       })
-      // // Code from isCheckedLsoaHandler
-      // for (let i = 0; i < lsoaInRange.length; i++) {
-      //   console.log(lsoaInRange[i]);
-      //   let eachLSOA_2011 = lsoaInRange[i].LSOA_2011.S;
-      //   // console.log(eachLSOA_2011);
-      //   let eachIMD_DECILE = lsoaInRange[i].IMD_DECILE.N;
-      //   // console.log(eachIMD_DECILE);
-      //   let eachFORECAST_UPTAKE = lsoaInRange[i].FORECAST_UPTAKE.N;
-      //   // console.log(eachFORECAST_UPTAKE);
-      //   lsoaInfo[eachLSOA_2011] = {
-      //     "IMD_DECILE": eachIMD_DECILE,
-      //     "FORECAST_UPTAKE": eachFORECAST_UPTAKE
-      //   }
-      //   lsoaInRange[i].CHECKED = "true";
-      // }
-      // console.log('lsoaInfo below:');
-      // console.log(lsoaInfo);
-
     } else {
       const deselectAll = this.state.lsoaInRange.map(lsoa => {
         lsoa.checked = false
@@ -95,13 +77,6 @@ class ClinicInformation extends Component {
       this.setState({
         lsoaInRange: deselectAll
       })
-    //   // Code from isCheckedLsoaHandler
-    //   for (let i = 1; i < lsoaInRange.length; i++) {
-    //     lsoaInRange[i].CHECKED = "false";
-    //     console.log(lsoaInRange);
-    //   }
-    // }
-    // this.setState({ "selectedLsoa": lsoaInfo });
     }
   }
   //example
@@ -232,22 +207,9 @@ class ClinicInformation extends Component {
         "FORECAST_UPTAKE": eachFORECAST_UPTAKE
       }
     })
-    // for (let i = 0; i < lsoaArray.length; i++) {
-    //   console.log(lsoaArray[i]);
-    //   let eachLSOA_2011 = lsoaArray[i].LSOA_2011.S;
-    //   let eachIMD_DECILE = lsoaArray[i].IMD_DECILE.N;
-    //   let eachFORECAST_UPTAKE = lsoaArray[i].FORECAST_UPTAKE.N;
-
-    //   lsoaInfo[eachLSOA_2011] = {
-    //     "IMD_DECILE": eachIMD_DECILE,
-    //     "FORECAST_UPTAKE": eachFORECAST_UPTAKE
-    //   }
-    //   // lsoaArray[i].CHECKED = "true";
-    // }
     console.log(lsoaArray);
     this.setState({ "selectedLsoaPayload": lsoaInfo });
     return lsoaInfo;
-
   }
 
   // POST lsoa codes and appsToFill (send to lambda)
@@ -256,8 +218,6 @@ class ClinicInformation extends Component {
     // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     console.log(this.state.appsToFill);
-    // console.log(this.state.selectedLsoa);
-
     console.log("payload = ", JSON.stringify( {
       targetAppsToFill: this.state.appsToFill,
       lsoaCodes: payloadObject
