@@ -5,7 +5,8 @@ export default function SummaryListSecond({
   dummySummaryList,
   displayErrorInvitationSummary,
   targetAppToFill,
-  avgExpectedUptake
+  avgExpectedUptake,
+  noInviteToGenerate
 }) {
   return (
     <>
@@ -62,7 +63,7 @@ export default function SummaryListSecond({
               Number of invitations to generate
             </dt>
             <dd id="term2-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-4">
-              {Math.round(targetAppToFill/(avgExpectedUptake/100))}
+              {noInviteToGenerate}
             </dd>
           </div>
         </dl>

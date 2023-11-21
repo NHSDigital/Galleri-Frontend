@@ -76,6 +76,7 @@ class InvitationSummary extends Component {
       targetPercentageToFill,
       totalToInvite,
       avgExpectedUptake,
+      noInviteToGenerate
     } = this.context.state;
     console.log("checking value of avgExpectedUptake in Invitation Summary = ", avgExpectedUptake)
     return (
@@ -95,6 +96,7 @@ class InvitationSummary extends Component {
           avgExpectedUptake = {avgExpectedUptake}
           targetAppToFill={targetAppToFill}
           targetPercentageToFill={targetPercentageToFill}
+          noInviteToGenerate={noInviteToGenerate}
           onClickGenerateHandler={this.onClickGenerateHandler}
           onClickGoBackPrevPageLinkHandler={this.onClickGoBackPrevPageLinkHandler}
         />

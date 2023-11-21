@@ -25,7 +25,8 @@ export default function InvitationSummaryPage(props) {
     targetAppToFill,
     targetPercentageToFill,
     totalToInvite,
-    avgExpectedUptake
+    avgExpectedUptake,
+    noInviteToGenerate
   } = props;
 
   return (
@@ -90,6 +91,7 @@ export default function InvitationSummaryPage(props) {
               targetAppToFill={targetAppToFill}
               avgExpectedUptake={avgExpectedUptake}
               displayErrorInvitationSummary={displayErrorInvitationSummary}
+              noInviteToGenerate={noInviteToGenerate}
             />
             <Actions
               onClickGenerateHandler={onClickGenerateHandler}

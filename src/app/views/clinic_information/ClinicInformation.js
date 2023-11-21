@@ -231,6 +231,10 @@ class ClinicInformation extends Component {
           lsoaCodes: payloadObject
         }
       );
+      console.log("logging response = ", response.data)
+      this.context.setState({
+        "noInviteToGenerate": response.data.numberOfPeopleToInvite
+      })
       return response.data;
     } catch (error) {
       console.error("Request failed: " + error.message);
@@ -637,6 +641,7 @@ class ClinicInformation extends Component {
       recentInvitationHistory,
       currentlySelectedClinic,
       displayViewAllPrevInvitations,
+      noInviteToGenerate
     } = this.context.state
 
     const {
@@ -681,6 +686,7 @@ class ClinicInformation extends Component {
                   targetFillToInputValue={targetFillToInputValue}
                   appsToFill={appsToFill}
                   lsoaInRange={lsoaInRange}
+                  noInviteToGenerate={noInviteToGenerate}
                   onClickChangeClinicHandler={this.onClickChangeClinicHandler}
                   onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
                   onSubmitHandler={this.onSubmitHandler}

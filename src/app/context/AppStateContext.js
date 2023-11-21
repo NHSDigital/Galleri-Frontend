@@ -41,7 +41,8 @@ export class AppStateProvider extends React.Component {
       "targetAppToFill": 0,
       "targetPercentageToFill": 0,
       "totalToInvite": 0,
-      "avgExpectedUptake": 0
+      "avgExpectedUptake": 0,
+      "noInviteToGenerate": 0
     };
   }
 
