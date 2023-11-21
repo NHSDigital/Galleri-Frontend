@@ -11,10 +11,10 @@ This repository contains the frontend for the Galleri webapp. It is written in j
     - [Install dependencies](#install-dependencies)
     - [Start the webserver in dev mode](#start-the-webserver-in-dev-mode)
     - [Start the webserver in production mode](#start-the-webserver-in-production-mode)
-    - [Prerequisites](#prerequisites)
+    - [NPM Prerequisites](#npm-prerequisites)
   - [makefile](#makefile)
     - [Install and configure toolchain dependencies](#install-and-configure-toolchain-dependencies)
-    - [Prerequisites](#prerequisites-1)
+    - [Make Prerequisites](#make-prerequisites)
   - [Usage](#usage)
   - [Architecture](#architecture)
     - [Diagrams](#diagrams)
@@ -54,7 +54,7 @@ When this code is deployed into production it will use a port specified by an en
 PORT=8080 npm run start
 ```
 
-### Prerequisites
+### NPM Prerequisites
 
 nodejs - 16.20.0
 
@@ -72,7 +72,7 @@ cd Galleri-Frontend
 make config
 ```
 
-### Prerequisites
+### Make Prerequisites
 
 The following software packages or their equivalents are expected to be installed
 
