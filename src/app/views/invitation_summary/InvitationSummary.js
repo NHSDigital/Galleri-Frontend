@@ -78,7 +78,6 @@ class InvitationSummary extends Component {
       avgExpectedUptake,
       noInviteToGenerate
     } = this.context.state;
-    console.log("checking value of avgExpectedUptake in Invitation Summary = ", avgExpectedUptake)
     return (
       <div>
         <InvitationSummaryPage

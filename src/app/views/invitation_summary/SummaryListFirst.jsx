@@ -6,8 +6,6 @@ export default function SummaryListFirst({ props, dummySummaryList, rangeSelecti
  }) {
   const { appsRemaining } = props;
 
-  console.log("targetPercentageToFill value", targetPercentageToFill)
-
   return (
     <dl id="summary-list-1" class="nhsuk-summary-list nhsuk-u-margin-bottom-9">
       <div class="nhsuk-summary-list__row">
