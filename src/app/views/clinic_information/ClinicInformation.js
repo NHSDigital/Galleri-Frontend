@@ -137,7 +137,6 @@ class ClinicInformation extends Component {
 
   // Handler Function for user errors and calculating target number of appointments to fill
   async onClickTargetAppsToFillHandler(targetFillToInputValue) {
-    console.log('target fill ' + targetFillToInputValue);
     let value = Number(targetFillToInputValue);
 
     if ((value) && (value <= 100)) {
@@ -154,7 +153,6 @@ class ClinicInformation extends Component {
   }
 
   onTargetFillToInputChangeHandler(e) {
-    console.log('check -> ' + e.target.value);
     this.setState({
       targetFillToInputValue: e.target.value,
     });
