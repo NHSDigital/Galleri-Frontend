@@ -36,7 +36,7 @@ class ClinicInformation extends Component {
 
   onSubmitHandler(totalToInvite, avgExpectedUptake, lsoaCodesAppsToFill) {
     console.log("totalToInvite = ", totalToInvite)
-    console.log("avgExpectedUptake = ", avgExpectedUptake )
+    console.log("avgExpectedUptake = ", avgExpectedUptake)
     this.context.setState({
       "isSubmit": true,
       "totalToInvite": totalToInvite,
@@ -52,7 +52,7 @@ class ClinicInformation extends Component {
     window.scrollTo(0, 0);
   }
 
-  handleTotalToInvite(value){
+  handleTotalToInvite(value) {
     this.context.setState({
       totalToInvite: value
     })
@@ -197,7 +197,7 @@ class ClinicInformation extends Component {
   createLsoaCodePayload(lsoaArray) {
     // create object payload for the incoming lsoaArray
     const lsoaInfo = {};
-    lsoaArray.forEach(lsoa =>{
+    lsoaArray.forEach(lsoa => {
       let eachLSOA_2011 = lsoa.LSOA_2011.S;
       let eachIMD_DECILE = lsoa.IMD_DECILE.N;
       let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
@@ -218,7 +218,7 @@ class ClinicInformation extends Component {
     // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     console.log(this.state.appsToFill);
-    console.log("payload = ", JSON.stringify( {
+    console.log("payload = ", JSON.stringify({
       targetAppsToFill: this.state.appsToFill,
       lsoaCodes: payloadObject
     }, null, 2))
@@ -625,6 +625,8 @@ class ClinicInformation extends Component {
           })
         })
     }
+
+    // lsoaDataError(lsoa)
   }
 
   render() {
