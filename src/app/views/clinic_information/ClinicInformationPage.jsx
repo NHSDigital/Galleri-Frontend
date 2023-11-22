@@ -30,13 +30,10 @@ export default function ClinicInformationPage(props) {
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
     lsoaInRange,
-    checkAll,
     checkAllHandler,
     handleRangeSelection,
     lsoaCodesAppsToFill,
-    isCheckedLsoaHandler,
     checkRecord,
-    handleTotalToInvite
   } = props;
 
   return (
@@ -127,8 +124,6 @@ export default function ClinicInformationPage(props) {
               checkRecord={checkRecord}
               handleRangeSelection={handleRangeSelection}
               lsoaCodesAppsToFill={lsoaCodesAppsToFill}
-              isCheckedLsoaHandler={isCheckedLsoaHandler}
-              handleTotalToInvite={handleTotalToInvite}
               onSubmitHandler={onSubmitHandler}
             />
           </div>

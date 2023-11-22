@@ -5,7 +5,7 @@ import { AppStateContext } from '@/app/context/AppStateContext';
 let PageSize = 10;
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection, lsoaCodesAppsToFill, isCheckedLsoaHandler, handleTotalToInvite, onSubmitHandler } = prop;
+  const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection, lsoaCodesAppsToFill, onSubmitHandler } = prop;
   // Pagination stuff
   const [currentPage, setCurrentPage] = useState(1);
   const firstPageIndex = (currentPage - 1) * PageSize;
@@ -24,7 +24,6 @@ export default function LsoaTable(prop) {
     const total = arr.reduce((acc,curr) => {
       return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S))
       },0)
-    // handleTotalToInvite(total)
   return total
   }
 
@@ -38,6 +37,8 @@ export default function LsoaTable(prop) {
   const currentTableData =  lsoaInRange.slice(firstPageIndex, lastPageIndex);
 
   console.log("avg uptake = ", calculateAverageExpectedUptake(lsoaArray))
+
+  console.log(lsoaArray.length)
 
   return (
     <div>
@@ -82,7 +83,6 @@ export default function LsoaTable(prop) {
                       type="checkbox"
                       value=""
                       onChange={(e) => checkAllHandler(e)}
-                      // onClick={(e) => isCheckedLsoaHandler(e, lsoaInRange)}
                     />
                     <label
                       class="nhsuk-label nhsuk-checkboxes__label"
@@ -198,7 +198,6 @@ export default function LsoaTable(prop) {
                 data-module="nhsuk-button"
                 type="submit"
                 onClick={() => onSubmitHandler(calculateTotalToInvite(lsoaArray), calculateAverageExpectedUptake(lsoaArray), lsoaCodesAppsToFill(lsoaArray))}
-                // lsoaCodesAppsToFill(e)
               >
               Calculate number to invite
               </button>

@@ -29,14 +29,9 @@ class ClinicInformation extends Component {
     this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
     this.lsoaCodesAppsToFill = this.lsoaCodesAppsToFill.bind(this);
-    this.isCheckedLsoaHandler = this.isCheckedLsoaHandler.bind(this);
-    this.handleTotalToInvite = this.handleTotalToInvite.bind(this)
-
   }
 
   onSubmitHandler(totalToInvite, avgExpectedUptake, lsoaCodesAppsToFill) {
-    console.log("totalToInvite = ", totalToInvite)
-    console.log("avgExpectedUptake = ", avgExpectedUptake )
     this.context.setState({
       "isSubmit": true,
       "totalToInvite": totalToInvite,
@@ -50,12 +45,6 @@ class ClinicInformation extends Component {
     this.context.setState({ "navigateToClinic": false })
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
-  }
-
-  handleTotalToInvite(value){
-    this.context.setState({
-      totalToInvite: value
-    })
   }
 
   checkAllHandler(event) {
@@ -78,42 +67,6 @@ class ClinicInformation extends Component {
         lsoaInRange: deselectAll
       })
     }
-  }
-  //example
-  // { "E01022970": {
-  //                 "IMD_DECILE": 2,
-  //                 "FORECAST_UPTAKE": 13
-  //                }
-  // }
-  isCheckedLsoaHandler(event, lsoaInRange) {
-    const lsoaInfo = {};
-    if (event.target.checked === true) {
-      for (let i = 0; i < lsoaInRange.length; i++) {
-        console.log(lsoaInRange[i]);
-        let eachLSOA_2011 = lsoaInRange[i].LSOA_2011.S;
-        // console.log(eachLSOA_2011);
-        let eachIMD_DECILE = lsoaInRange[i].IMD_DECILE.N;
-        // console.log(eachIMD_DECILE);
-        let eachFORECAST_UPTAKE = lsoaInRange[i].FORECAST_UPTAKE.N;
-        // console.log(eachFORECAST_UPTAKE);
-        lsoaInfo[eachLSOA_2011] = {
-          "IMD_DECILE": eachIMD_DECILE,
-          "FORECAST_UPTAKE": eachFORECAST_UPTAKE
-        }
-        lsoaInRange[i].CHECKED = "true";
-      }
-      console.log('lsoaInfo below:');
-      console.log(lsoaInfo);
-    } else {
-      for (let i = 1; i < lsoaInRange.length; i++) {
-        lsoaInRange[i].CHECKED = "false";
-        console.log(lsoaInRange);
-      }
-    }
-    console.log(lsoaInRange);
-    console.log(event);
-    this.setState({ "selectedLsoa": lsoaInfo });
-    return lsoaInfo;
   }
 
   checkRecord(event, el) {
@@ -695,8 +648,6 @@ class ClinicInformation extends Component {
                   checkRecord={this.checkRecord}
                   checkAllHandler={this.checkAllHandler}
                   lsoaCodesAppsToFill={this.lsoaCodesAppsToFill}
-                  isCheckedLsoaHandler={this.isCheckedLsoaHandler}
-                  handleTotalToInvite={this.handleTotalToInvite}
                 />
               </div>
             )
