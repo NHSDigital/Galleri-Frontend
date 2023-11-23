@@ -12,7 +12,6 @@ export default function LsoaTable(prop) {
   const lastPageIndex = firstPageIndex + PageSize;
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
-
   mileSelectionOptions.shift()
   const lsoaArray = lsoaInRange.filter(el => {
     if (el.checked) {

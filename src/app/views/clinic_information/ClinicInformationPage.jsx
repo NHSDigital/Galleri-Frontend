@@ -39,18 +39,6 @@ export default function ClinicInformationPage(props) {
     handleTotalToInvite
   } = props;
 
-  // let arr = lsoaInRange;
-  // arr = [];
-
-  // const lsoaDataError = (lsoa) => {
-  //   setTimeout(() => { }, 1000);
-  //   return (lsoa.length === 0 &&
-  //     <div className="nhsuk-grid-column-two-thirds" style={{ "color": "#d5281b", "border": "5px solid", "text-align": "center", }}>
-  //       <h2>No LSOA data is available</h2>
-  //     </div>
-  //   )
-  // };
-
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
@@ -70,9 +58,13 @@ export default function ClinicInformationPage(props) {
               Go back
             </a>
           </div>
-          {/* <div>
-            {lsoaDataError(lsoaInRange)}
-          </div> */}
+          <div>
+            {lsoaInRange.length === 0 ? (
+              <div className="nhsuk-grid-column-two-thirds" style={{ "color": "#d5281b", "border": "5px solid", "text-align": "center", }}>
+                <h2>No LSOA data is available</h2>
+              </div>
+            ) : ("")}
+          </div>
           <div className="nhsuk-grid-column-two-thirds">
             <br />
             <h1 label="header">Clinic Invitations</h1>
