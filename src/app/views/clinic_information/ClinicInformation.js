@@ -150,7 +150,7 @@ class ClinicInformation extends Component {
   createLsoaCodePayload(lsoaArray) {
     // create object payload for the incoming lsoaArray
     const lsoaInfo = {};
-    lsoaArray.forEach(lsoa =>{
+    lsoaArray.forEach(lsoa => {
       let eachLSOA_2011 = lsoa.LSOA_2011.S;
       let eachIMD_DECILE = lsoa.IMD_DECILE.N;
       let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
@@ -449,6 +449,8 @@ class ClinicInformation extends Component {
           })
         })
     }
+
+    // lsoaDataError(lsoa)
   }
 
   render() {
