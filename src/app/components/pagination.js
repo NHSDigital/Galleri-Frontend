@@ -65,10 +65,6 @@ const Pagination = props => {
           {paginationRange.map(pgNumber => (
                     <li key={pgNumber}
                         class="style_item__Y9BLA"
-                        /*class= {`style_current__K8c2u ${currentPage == pgNumber ? 'active' : ''} `} */
-                        // className={
-                        // 'style_current__K8c2u' + (pgNumber === currentPage ? 'active' : '')
-                        // }
                         >
                         <a onClick={() => onPageChange(pgNumber)}
                           class = "style_link__ToZGL">
