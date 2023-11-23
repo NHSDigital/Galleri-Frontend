@@ -13,7 +13,7 @@ class ClinicInformation extends Component {
       "targetFillToInputValue": 0,
       "appsToFill": 0,
       "checkAll": true,
-      "lsoaInRange": [],
+      "lsoaInRange": [""],
       "rangeSelection": 1,
       "selectedLsoa": [],
       "rangeSelectionLocal": 1,
