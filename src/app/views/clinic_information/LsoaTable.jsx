@@ -57,7 +57,7 @@ export default function LsoaTable(prop) {
             onChange={(e) => handleRangeSelection(e)}
           >
             {mileSelectionOptions.map((e, key) => {
-              return (<option value="">+{e}</option>)
+              return (<option id={e} value="">+{e}</option>)
             })}
           </select>
           <div
