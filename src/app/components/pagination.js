@@ -42,11 +42,11 @@ export default class Pagination extends Component {
   }
 
   onPrevHandler(e) {
-    console.log('prev');
+
   }
 
   onNextHandler(e) {
-    console.log('next');
+
   }
 
   render() {

@@ -27,6 +27,8 @@ export default function ClinicInformationPage(props) {
     displayViewAllPrevInvitations,
     targetFillToInputValue,
     appsToFill,
+    lastSelectedRange,
+    targetFillToPercentage,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
     lsoaInRange,
@@ -123,6 +125,7 @@ export default function ClinicInformationPage(props) {
               checkAllHandler={checkAllHandler}
               checkRecord={checkRecord}
               handleRangeSelection={handleRangeSelection}
+              lastSelectedRange={lastSelectedRange}
             />
           </div>
         </div>
