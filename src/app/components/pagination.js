@@ -51,7 +51,6 @@ const Pagination = props => {
             {`Showing ${currentPage*pageSize-pageSize+1}-${currentPage*pageSize<totalCount?currentPage*pageSize:totalCount} of ${totalCount} results`}
           </span>
         </div>
-   
         <h2 class="nhsuk-u-visually-hidden">Support links</h2>
         <ul>
           <li class="style_item__Y9BLA" id="prevButton">
@@ -68,13 +67,13 @@ const Pagination = props => {
                         class="style_item__Y9BLA"
                         /*class= {`style_current__K8c2u ${currentPage == pgNumber ? 'active' : ''} `} */
                         // className={
-						// 	' style_current__K8c2u' + (pgNumber === currentPage ? 'active' : '')
-						// }
+				    //  '  style_current__K8c2u' + (pgNumber === currentPage ? 'active' : '')
+						//  }
                         >
-                           <a onClick={() => onPageChange(pgNumber)}  
-                        class = "style_link__ToZGL" >
-                            {pgNumber}
-                            </a>
+                        <a onClick={() => onPageChange(pgNumber)}
+                          class = "style_link__ToZGL">
+                          {pgNumber}
+                        </a>
                     </li>
                 ))}
           <li class="style_item__Y9BLA" id="nextButton">
@@ -86,7 +85,7 @@ const Pagination = props => {
               Next »
             </a>
           </li>
-        </ul>   
+        </ul>
     </nav>
   );
 };
