@@ -1,5 +1,13 @@
-import React from 'react';
-import { usePagination, DOTS } from './usePagination';
+const range = (from, to, step = 1) => {
+  let i = from;
+  const range = [];
+
+  while (i <= to) {
+    range.push(i);
+    i += step;
+  }
+    return range;
+};
 
 const Pagination = props => {
   const {
@@ -7,16 +15,55 @@ const Pagination = props => {
     totalCount,
     siblingCount = 1,
     currentPage,
-    pageSize,
-    className
+    pageSize
   } = props;
 
-  const paginationRange = usePagination({
-    currentPage,
-    totalCount,
-    siblingCount,
-    pageSize
-  });
+  const fetchPageNumbers = () => {
+    const totalPages = Math.ceil(props.totalCount / props.pageSize);
+    const currentPage = props.currentPage;
+    const pageNeighbours = props.siblingCount;
+
+    const totalNumbers = pageNeighbours * 2 + 3;
+    const totalBlocks = totalNumbers + 2;
+
+    if (totalPages > totalBlocks) {
+      let pages = [];
+
+      const leftBound = currentPage - pageNeighbours;
+      const rightBound = currentPage + pageNeighbours;
+      const beforeLastPage = totalPages - 1;
+
+      const startPage = leftBound > 2 ? leftBound : 2;
+      const endPage = rightBound < beforeLastPage ? rightBound : beforeLastPage;
+
+      pages = range(startPage, endPage);
+
+      const pagesCount = pages.length;
+      const singleSpillOffset = totalNumbers - pagesCount - 1;
+
+      const leftSpill = startPage > 2;
+      const rightSpill = endPage < beforeLastPage;
+
+      const leftSpillPage = LEFT_PAGE;
+      const rightSpillPage = RIGHT_PAGE;
+
+      if (leftSpill && !rightSpill) {
+        const extraPages = range(startPage - singleSpillOffset, startPage - 1);
+        pages = [leftSpillPage, ...extraPages, ...pages];
+      } else if (!leftSpill && rightSpill) {
+        const extraPages = range(endPage + 1, endPage + singleSpillOffset);
+        pages = [...pages, ...extraPages, rightSpillPage];
+      } else if (leftSpill && rightSpill) {
+        pages = [leftSpillPage, ...pages, rightSpillPage];
+      }
+
+      return [1, ...pages, totalPages];
+    }
+
+    return range(1, totalPages);
+  };
+
+  const paginationRange = fetchPageNumbers();
 
   if (currentPage === 0) {
     return null;
@@ -72,7 +119,7 @@ const Pagination = props => {
 						// }
                         >
                            <a onClick={() => onPageChange(pgNumber)}  
-                        class = "style_link__ToZGL" >
+                              class = "style_link__ToZGL" >
                             {pgNumber}
                             </a>
                     </li>

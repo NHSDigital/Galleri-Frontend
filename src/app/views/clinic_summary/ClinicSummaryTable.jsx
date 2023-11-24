@@ -4,21 +4,21 @@ import Pagination from "../../components/Pagination";
 let PageSize = 10;
 
 export default function ClinicSummaryTable(props) {
-  const { onCheckHandler, handlePageSize, onClickClinicHandler } = props;
-  const [currentPage, setCurrentPage] = useState(1);
-  //const PageSize = props.pageSize;
+  const {
+    onCheckHandler,
+    onClickClinicHandler,
+    onPageSizeChange,
+    onCurrentPageChange, } = props;
 
-  const firstPageIndex = (currentPage - 1) * PageSize;
-  const lastPageIndex = firstPageIndex + PageSize;
+  const currentPage = props.currentPage;
+  const firstPageIndex = (currentPage - 1) * props.pageSize;
+  const lastPageIndex = Number(firstPageIndex) + Number(props.pageSize);
   const currentTableData =  props.clinicList.sort((a, b) => {
     return (
       Number(b.DaySincePrevInvite.N) - Number(a.DaySincePrevInvite.N)
     );
   }).slice(firstPageIndex, lastPageIndex);
 
-
-  console.log("props.clinicList = ", props.clinicList);
-  console.log("page size:",props.pageSize);
   return (
     <div>
       <table role="table" class="nhsuk-table-responsive">
@@ -45,16 +45,16 @@ export default function ClinicSummaryTable(props) {
           </div>
           <br />
           <div class="nhsuk-form-group">
-  {/* <label class="nhsuk-label" for="pageSize">
-    Clinics per page
-  </label>
-  <select class="nhsuk-select" id="pageSize" name="select-1" onChange={(e) => handlePageSize(e)}>
-    <option value="5">5</option>
-    <option value="10" selected>10</option>
-    <option value="25">25</option>
-    <option value="50">50</option>
-  </select> */}
-</div>
+            <label class="nhsuk-label" for="pageSize">
+              Clinics per page
+            </label>
+            <select class="nhsuk-select" id="pageSize" name="select-1" onChange={(e) => onPageSizeChange(e)}>
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+            </select>
+          </div>
         </caption>
         <thead role="rowgroup" class="nhsuk-table__head">
           <tr role="row">
@@ -97,7 +97,7 @@ export default function ClinicSummaryTable(props) {
                     </a>
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.PrevInviteDate?.S ? e.PrevInviteDate?.S : "Not Available"}
+                    {(e.PrevInviteDate?.S.trim().length!==0) ? e.PrevInviteDate?.S : "Not Available"}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
                     {e.DaySincePrevInvite?.N !== 'NaN' ? e.DaySincePrevInvite?.N : 0}
@@ -116,8 +116,8 @@ export default function ClinicSummaryTable(props) {
       <Pagination
         currentPage={currentPage}
         totalCount={props.clinicList.length}
-        pageSize={PageSize}
-        onPageChange={page => setCurrentPage(page)}
+        pageSize={props.pageSize}
+        onPageChange={page => onCurrentPageChange(page)}
       />
     </div>
   );
