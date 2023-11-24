@@ -31,10 +31,14 @@ export default function ClinicInformationPage(props) {
     onTargetFillToInputChangeHandler,
     lsoaInRange,
     checkAll,
+    pageSize,
+    currentPage,
     checkAllHandler,
     checkRecord,
     handleRangeSelection,
-    handleTotalToInvite
+    handleTotalToInvite,
+    onPageSizeChange,
+    onCurrentPageChange,
   } = props;
 
   return (
@@ -123,9 +127,13 @@ export default function ClinicInformationPage(props) {
               lsoaInRange={lsoaInRange}
               checkAllHandler={checkAllHandler}
               checkRecord={checkRecord}
+              pageSize={pageSize}
+              currentPage={currentPage}
               handleRangeSelection={handleRangeSelection}
               handleTotalToInvite={handleTotalToInvite}
               onSubmitHandler={onSubmitHandler}
+              onPageSizeChange={onPageSizeChange}
+              onCurrentPageChange={onCurrentPageChange}
             />
           </div>
         </div>

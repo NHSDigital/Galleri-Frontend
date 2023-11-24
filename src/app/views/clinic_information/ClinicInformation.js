@@ -26,6 +26,8 @@ class ClinicInformation extends Component {
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
+    this.onCurrentPageChange = this.onCurrentPageChange.bind(this);
+    this.onPageSizeChange = this.onPageSizeChange.bind(this);
   }
 
   onSubmitHandler(totalToInvite, avgExpectedUptake) {
@@ -99,6 +101,18 @@ class ClinicInformation extends Component {
     })
   }
 
+  onCurrentPageChange(page) {
+    this.context.setState({
+      currentPage: page
+    });
+  }
+
+  onPageSizeChange(e) {
+    this.context.setState({
+      pageSize: e.target.value,
+      currentPage: 1
+    })
+  }
 
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
@@ -187,7 +201,7 @@ class ClinicInformation extends Component {
   async onClickTargetAppsToFillHandler(targetFillToInputValue) {
     let value = Number(targetFillToInputValue);
 
-    if ((value) && (value <= 100)) {
+    if ((value) && (value <= 10000)) {
       await this.putTargetPercentageAWSDynamo(value);
       this.calculateTargetAppsToFill(targetFillToInputValue);
       this.setState({
@@ -455,6 +469,8 @@ class ClinicInformation extends Component {
       recentInvitationHistory,
       currentlySelectedClinic,
       displayViewAllPrevInvitations,
+      pageSize,
+      currentPage,
     } = this.context.state
 
     const {
@@ -499,6 +515,8 @@ class ClinicInformation extends Component {
                   targetFillToInputValue={targetFillToInputValue}
                   appsToFill={appsToFill}
                   lsoaInRange={lsoaInRange}
+                  pageSize={pageSize}
+                  currentPage={currentPage}
                   onClickChangeClinicHandler={this.onClickChangeClinicHandler}
                   onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
                   onSubmitHandler={this.onSubmitHandler}
@@ -508,6 +526,8 @@ class ClinicInformation extends Component {
                   handleRangeSelection={this.handleRangeSelection}
                   checkRecord={this.checkRecord}
                   checkAllHandler={this.checkAllHandler}
+                  onPageSizeChange={this.onPageSizeChange}
+                  onCurrentPageChange={this.onCurrentPageChange}
                 />
               </div>
             )
