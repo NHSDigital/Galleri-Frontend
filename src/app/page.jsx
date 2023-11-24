@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import Content from "./components/content";
 import Footer from "./components/Footer";
 import Start from "./views/start_page/Start";
-import ClinicSummary from "./views/clinic_summary/ClinicSummary";
+import ClinicSummary from "./views/clinic_summary/ClinicSummary_og";
 import InvitationPlanning from "./views/invitation_planning/InvitationPlanning";
 import ClinicInformation from "./views/clinic_information/ClinicInformation";
 import InvitationSummary from "./views/invitation_summary/InvitationSummary";

@@ -26,8 +26,6 @@ class ClinicInformation extends Component {
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
-    this.handleTotalToInvite = this.handleTotalToInvite.bind(this)
-
   }
 
   onSubmitHandler(totalToInvite, avgExpectedUptake) {
@@ -44,12 +42,6 @@ class ClinicInformation extends Component {
     this.context.setState({ "navigateToClinic": false })
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
-  }
-
-  handleTotalToInvite(value){
-    this.context.setState({
-      totalToInvite: value
-    })
   }
 
   checkAllHandler(event) {
@@ -516,7 +508,6 @@ class ClinicInformation extends Component {
                   handleRangeSelection={this.handleRangeSelection}
                   checkRecord={this.checkRecord}
                   checkAllHandler={this.checkAllHandler}
-                  handleTotalToInvite={this.handleTotalToInvite}
                 />
               </div>
             )

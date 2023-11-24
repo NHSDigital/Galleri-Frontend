@@ -5,7 +5,7 @@ import { AppStateContext } from '@/app/context/AppStateContext';
 let PageSize = 10;
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection, handleTotalToInvite, onSubmitHandler } = prop;
+  const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection, onSubmitHandler } = prop;
   // Pagination stuff
   const [currentPage, setCurrentPage] = useState(1);
   const firstPageIndex = (currentPage - 1) * PageSize;
@@ -24,7 +24,6 @@ export default function LsoaTable(prop) {
     const total = arr.reduce((acc,curr) => {
       return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S))
       },0)
-    // handleTotalToInvite(total)
   return total
   }
 
