@@ -3,7 +3,7 @@ import React from "react";
 
 export default function SummaryListFirst({ props, dummySummaryList, rangeSelection, targetAppToFill, targetPercentageToFill,
   totalToInvite
- }) {
+}) {
   const { appsRemaining } = props;
 
   return (

@@ -38,7 +38,7 @@ export default class ClinicSummary extends Component {
       .then((response) => {
         this.context.setState({
           clinicList: response.data,
-          lastUpdated: (new Date((response.data[0].UpdatedDate?.S))).toLocaleDateString('en-GB', {year: 'numeric',month: 'long',day: 'numeric', hour: 'numeric', minute: 'numeric'}).replace(/ at/g, ',')
+          lastUpdated: (new Date((response.data[0].UpdatedDate?.S))).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }).replace(/ at/g, ',')
         });
       });
   }
@@ -123,7 +123,7 @@ export default class ClinicSummary extends Component {
 
     return (
       <div>
-      <Header/>
+        <Header/>
         {
           // Check if a clinic link has been clicked
           // If clicked render the clinic information page and pass the props
