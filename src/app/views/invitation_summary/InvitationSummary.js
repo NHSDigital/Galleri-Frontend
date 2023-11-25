@@ -38,12 +38,19 @@ class InvitationSummary extends Component {
     }
   }
 
-  onClickGenerateHandler() {
+  async onClickGenerateHandler() {
     this.setState({
       displayConfirmationInvitationSummary: true,
       displayCheckDetailsBanner: false
     });
     this.scrollToMainContent();
+    // fire off lambda here
+    // selectedParticipants -> array
+    // clinicInfo -> object = {
+    //   clinicId: id,
+    //   rangeSelected: range,
+    //   targetPercentage: percent
+    // }
 
   }
 

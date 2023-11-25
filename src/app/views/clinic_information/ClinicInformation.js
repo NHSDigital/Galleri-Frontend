@@ -178,7 +178,8 @@ class ClinicInformation extends Component {
       );
       console.log("logging response = ", response.data)
       this.context.setState({
-        "noInviteToGenerate": response.data.numberOfPeopleToInvite
+        "noInviteToGenerate": response.data.numberOfPeopleToInvite,
+        "personIdentifiedToInvite": response.data.selectedParticipants
       })
       return response.data;
     } catch (error) {
