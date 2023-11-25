@@ -68,8 +68,12 @@ export default function InvitationSummaryPage(props) {
             id="main-content"
             className="nhsuk-grid-column-two-thirds"
           >
-            {displayErrorInvitationSummary && (
-              <ErrorBanner dummySummaryList={dummySummaryList} />
+            {displayErrorInvitationSummary || (noInviteToGenerate > totalToInvite) && (
+              <ErrorBanner
+                dummySummaryList={dummySummaryList}
+                totalToInvite={totalToInvite}
+                noInviteToGenerate={noInviteToGenerate}
+              />
             )}
             {displayConfirmationInvitationSummary && <ConfirmationBanner />}
             <ClinicInfo
