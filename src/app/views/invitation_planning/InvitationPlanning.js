@@ -5,6 +5,13 @@ import InvitationPlanningPage from "./InvitationPlanningPage";
 import axios from "axios";
 import Header from "@/app/components/Header";
 
+const INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE =
+  process.env.NEXT_PUBLIC_INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE;
+const INVITATION_PARAMETERS_PUT_QUINTILES =
+  process.env.NEXT_PUBLIC_INVITATION_PARAMETERS_PUT_QUINTILES;
+const INVITATION_PARAMETERS = process.env.NEXT_PUBLIC_INVITATION_PARAMETERS;
+const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
+
 // Invitation Planning container
 class InvitationPlanning extends Component {
   constructor(props) {
@@ -20,7 +27,7 @@ class InvitationPlanning extends Component {
       userName: "",
       isCorrectTotal: true,
       enableUptakeEdit: false,
-      isCorrectUptakeTotal: true
+      isCorrectUptakeTotal: true,
     };
 
     // Handlers
@@ -40,30 +47,25 @@ class InvitationPlanning extends Component {
     this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
   }
 
-
   // DB actions
   async putForecastUptakeAWSDynamo(value) {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://g6sm9hj08c.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
+        `https://${INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/invitation-parameters-put-forecast-uptake`,
         { forecastUptake: Number(value) }
       )
-      .then((response) => {
-
-      });
+      .then((response) => {});
   }
 
   async putQuintilesAWSDynamo(updatedQuintile) {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://b4zytwb51d.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
+        `https://${INVITATION_PARAMETERS_PUT_QUINTILES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/invitation-parameters-put-quintiles`,
         { quintiles: updatedQuintile }
       )
-      .then((response) => {
-
-      });
+      .then((response) => {});
   }
 
   // toggle edit mode
@@ -178,12 +180,13 @@ class InvitationPlanning extends Component {
     //   getInvitationPlanningData();
 
     // Get quintiles and forecast uptake data
-    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.defaults.headers.post["Content-Type"] =
+      "application/json;charset=utf-8";
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://j6eicxfzde.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        `https://${INVITATION_PARAMETERS}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/invitation-parameters`
       )
       .then((response) => {
         const quintiles = [
@@ -192,8 +195,12 @@ class InvitationPlanning extends Component {
           response.data.QUINTILE_3.N,
           response.data.QUINTILE_4.N,
           response.data.QUINTILE_5.N,
-        ]
-        const quintileData = new QuintileTarget(quintiles, Date('03/10/2023'), 'Username')
+        ];
+        const quintileData = new QuintileTarget(
+          quintiles,
+          Date("03/10/2023"),
+          "Username"
+        );
         this.setState({
           quintileValues: quintileData.quintile,
           quintileValuesAux: quintileData.quintile,
@@ -203,7 +210,6 @@ class InvitationPlanning extends Component {
           nationalUptakePercentage: response.data.NATIONAL_FORCAST_UPTAKE.N,
         });
       });
-
   }
 
   render() {
