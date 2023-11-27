@@ -48,7 +48,7 @@ class InvitationSummary extends Component {
   }
 
   componentDidMount() {
-    if (this.state.dummySummaryList.invitationsToGenerateHolder === "0") {
+    if (this.context.state.totalToInvite === 0) {
       this.setState({
         displayErrorInvitationSummary: true,
         displayCheckDetailsBanner: false
@@ -77,7 +77,6 @@ class InvitationSummary extends Component {
       totalToInvite,
       avgExpectedUptake,
     } = this.context.state;
-    console.log("checking value of avgExpectedUptake in Invitation Summary = ", avgExpectedUptake)
     return (
       <div>
         <InvitationSummaryPage

@@ -201,7 +201,7 @@ class ClinicInformation extends Component {
   async onClickTargetAppsToFillHandler(targetFillToInputValue) {
     let value = Number(targetFillToInputValue);
 
-    if ((value) && (value <= 10000)) {
+    if ((value) && (value <= 100)) {
       await this.putTargetPercentageAWSDynamo(value);
       this.calculateTargetAppsToFill(targetFillToInputValue);
       this.setState({

@@ -1,7 +1,11 @@
 import "../../styles/css/sass.css";
 import React from "react";
 
-export default function SummaryListFirst({ props, dummySummaryList, rangeSelection, targetAppToFill, targetPercentageToFill,
+export default function SummaryListFirst({
+  props,
+  rangeSelection,
+  targetAppToFill,
+  targetPercentageToFill,
   totalToInvite
  }) {
   const { appsRemaining } = props;
