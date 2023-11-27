@@ -1,14 +1,18 @@
 import { Component } from "react";
-import ClinicSummaryPage from './ClinicSummaryPage';
+import ClinicSummaryPage from "./ClinicSummaryPage";
 import ClinicInformation from "../clinic_information/ClinicInformation";
-import { getClinicData } from '../../services/ClinicSummaryService';
+import { getClinicData } from "../../services/ClinicSummaryService";
 import { AppStateContext } from "@/app/context/AppStateContext";
 import {
   filterClinicsByIcb,
   filterClinicsNoAppointments,
   daysSinceLastInvite,
-} from './helper';
-import axios from 'axios';
+} from "./helper";
+import axios from "axios";
+
+const CLINIC_SUMMARY_LIST = process.env.NEXT_PUBLIC_CLINIC_SUMMARY_LIST;
+const PARTICIPATING_ICB_LIST = process.env.NEXT_PUBLIC_PARTICIPATING_ICB_LIST;
+const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 // Clinic Summary container
 export default class ClinicSummary extends Component {
@@ -27,12 +31,13 @@ export default class ClinicSummary extends Component {
   }
 
   getClinicsFromIcbCode() {
-    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.defaults.headers.post["Content-Type"] =
+      "application/json;charset=utf-8";
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://yuvf0jcaql.execute-api.eu-west-2.amazonaws.com/dev/clinic-summary-list?participatingIcb=${this.context.state.icbSelected}`
+        `https://${CLINIC_SUMMARY_LIST}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-summary-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
         this.context.setState({
@@ -43,8 +48,8 @@ export default class ClinicSummary extends Component {
 
   async onIcbChangeHandler(e) {
     await this.context.setState({
-      icbSelected: e.target.value.replace('Participating ICB ', ''),
-      participatingICBSelected: e.target.value
+      icbSelected: e.target.value.replace("Participating ICB ", ""),
+      participatingICBSelected: e.target.value,
     });
     this.getClinicsFromIcbCode();
     this.setState({ loading: false });
@@ -58,25 +63,27 @@ export default class ClinicSummary extends Component {
 
   onClickClinicHandler(event, e) {
     this.context.setState({
-      "navigateToClinic": true,
+      navigateToClinic: true,
       clinicIdSelected: e.ClinicId.S,
       clinicNameSelected: e.ClinicName.S,
-      currentlySelectedClinic: e.ClinicName.S
-    })
+      currentlySelectedClinic: e.ClinicName.S,
+    });
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
   }
-
 
   async componentDidMount() {
     try {
       // API call
       const { lastUpdated, clinicList } = getClinicData();
 
-      axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      axios.defaults.headers.post["Content-Type"] =
+        "application/json;charset=utf-8";
+      axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      const response = await axios.get(`https://8nzraul823.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`);
+      const response = await axios.get(
+        `https://${PARTICIPATING_ICB_LIST}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/participating-icb-list`
+      );
 
       // Update the state
       this.context.setState({
@@ -99,12 +106,11 @@ export default class ClinicSummary extends Component {
       clinicList,
       lastUpdated,
       displayClinicsNoApp,
-      participatingICBSelected
+      participatingICBSelected,
     } = this.context.state;
 
     // Check if the context state variables are available
-    const isContextLoaded =
-      icbData.length > 1;
+    const isContextLoaded = icbData.length > 1;
 
     let addDaysSinceLastInvite = daysSinceLastInvite(clinicList);
 
