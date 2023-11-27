@@ -9,6 +9,8 @@ const range = (from, to, step = 1) => {
     return range;
 };
 
+const DOTS = '...';
+
 const Pagination = props => {
   const {
     onPageChange,
@@ -19,51 +21,61 @@ const Pagination = props => {
   } = props;
 
   const fetchPageNumbers = () => {
-    const totalPages = Math.ceil(props.totalCount / props.pageSize);
-    const currentPage = props.currentPage;
-    const pageNeighbours = props.siblingCount;
+    const totalPageCount = Math.ceil(totalCount / pageSize);
 
-    const totalNumbers = pageNeighbours * 2 + 3;
-    const totalBlocks = totalNumbers + 2;
+    // Pages count is determined as siblingCount + firstPage + lastPage + currentPage + 2*DOTS
+    const totalPageNumbers = siblingCount + 5;
 
-    if (totalPages > totalBlocks) {
-      let pages = [];
-
-      const leftBound = currentPage - pageNeighbours;
-      const rightBound = currentPage + pageNeighbours;
-      const beforeLastPage = totalPages - 1;
-
-      const startPage = leftBound > 2 ? leftBound : 2;
-      const endPage = rightBound < beforeLastPage ? rightBound : beforeLastPage;
-
-      pages = range(startPage, endPage);
-
-      const pagesCount = pages.length;
-      const singleSpillOffset = totalNumbers - pagesCount - 1;
-
-      const leftSpill = startPage > 2;
-      const rightSpill = endPage < beforeLastPage;
-
-      const leftSpillPage = LEFT_PAGE;
-      const rightSpillPage = RIGHT_PAGE;
-
-      if (leftSpill && !rightSpill) {
-        const extraPages = range(startPage - singleSpillOffset, startPage - 1);
-        pages = [leftSpillPage, ...extraPages, ...pages];
-      } else if (!leftSpill && rightSpill) {
-        const extraPages = range(endPage + 1, endPage + singleSpillOffset);
-        pages = [...pages, ...extraPages, rightSpillPage];
-      } else if (leftSpill && rightSpill) {
-        pages = [leftSpillPage, ...pages, rightSpillPage];
-      }
-
-      return [1, ...pages, totalPages];
+    /*
+      If the number of pages is less than the page numbers we want to show in our
+      paginationComponent, we return the range [1..totalPageCount]
+    */
+    if (totalPageNumbers >= totalPageCount) {
+      return range(1, totalPageCount);
     }
 
-    return range(1, totalPages);
+    const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+    const rightSiblingIndex = Math.min(
+      currentPage + siblingCount,
+      totalPageCount
+    );
+
+    /*
+      We do not want to show dots if there is only one position left
+      after/before the left/right page count as that would lead to a change if our Pagination
+      component size which we do not want
+    */
+    const shouldShowLeftDots = leftSiblingIndex > 2;
+    const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2;
+
+    const firstPageIndex = 1;
+    const lastPageIndex = totalPageCount;
+
+    if (!shouldShowLeftDots && shouldShowRightDots) {
+      let leftItemCount = 3 + 2 * siblingCount;
+      let leftRange = range(1, leftItemCount);
+
+      return [...leftRange, DOTS, totalPageCount];
+    }
+
+    if (shouldShowLeftDots && !shouldShowRightDots) {
+      let rightItemCount = 3 + 2 * siblingCount;
+      let rightRange = range(
+        totalPageCount - rightItemCount + 1,
+        totalPageCount
+      );
+      return [firstPageIndex, DOTS, ...rightRange];
+    }
+
+    if (shouldShowLeftDots && shouldShowRightDots) {
+      let middleRange = range(leftSiblingIndex, rightSiblingIndex);
+      return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
+    }
   };
 
   const paginationRange = fetchPageNumbers();
+
+  console.log("paginationRange",paginationRange);
 
   if (currentPage === 0) {
     return null;
@@ -71,11 +83,11 @@ const Pagination = props => {
   else if (paginationRange.length < 2){
     return(
         <nav class="nhsuk-pagination style_pagination__7B72Z" aria-label="Pagination Navigation">
-    <div class="style_summary__J3_1h">
-          <span index="0" node="[object Object]">
-            {`Showing ${currentPage*pageSize-pageSize+1}-${currentPage*pageSize<totalCount?currentPage*pageSize:totalCount} of ${totalCount} results`}
-          </span>
-        </div>
+          <div class="style_summary__J3_1h">
+            <span index="0" node="[object Object]">
+              {`Showing ${currentPage*pageSize-pageSize+1}-${currentPage*pageSize<totalCount?currentPage*pageSize:totalCount} of ${totalCount} results`}
+            </span>
+          </div>
         </nav>
     )
   }
@@ -83,12 +95,12 @@ const Pagination = props => {
 
   const onNext = () => {
     if(currentPage!==lastPage)
-        onPageChange(currentPage + 1);
+      onPageChange(currentPage + 1);
   };
 
   const onPrevious = () => {
     if(currentPage!==1)
-    onPageChange(currentPage - 1);
+      onPageChange(currentPage - 1);
   };
 
   return (
@@ -98,13 +110,13 @@ const Pagination = props => {
             {`Showing ${currentPage*pageSize-pageSize+1}-${currentPage*pageSize<totalCount?currentPage*pageSize:totalCount} of ${totalCount} results`}
           </span>
         </div>
-   
+
         <h2 class="nhsuk-u-visually-hidden">Support links</h2>
         <ul>
           <li class="style_item__Y9BLA" id="prevButton">
             <a
               aria-label="Previous page"
-              class="style_link__ToZGL"
+              class={`style_link__ToZGL ${currentPage == 1 ? 'style_current__K8c2u' : ''} `}
               onClick={onPrevious}
             >
               « Previous
@@ -113,27 +125,24 @@ const Pagination = props => {
           {paginationRange.map(pgNumber => (
                     <li key={pgNumber}
                         class="style_item__Y9BLA"
-                        /*class= {`style_current__K8c2u ${currentPage == pgNumber ? 'active' : ''} `} */
-                        // className={
-						// 	' style_current__K8c2u' + (pgNumber === currentPage ? 'active' : '')
-						// }
-                        >
-                           <a onClick={() => onPageChange(pgNumber)}  
-                              class = "style_link__ToZGL" >
-                            {pgNumber}
-                            </a>
+                    >
+                      <a onClick={() => onPageChange(pgNumber)}
+                          aria-label={`Go to Page ${pgNumber}`}
+                          class= {`style_link__ToZGL ${currentPage == pgNumber ? 'style_current__K8c2u' : ''} `}>
+                          {pgNumber}
+                      </a>
                     </li>
                 ))}
           <li class="style_item__Y9BLA" id="nextButton">
             <a
               aria-label="Next page"
-              class="style_link__ToZGL"
+              class={`style_link__ToZGL ${currentPage == lastPage ? 'style_current__K8c2u' : ''} `}
               onClick={onNext}
             >
               Next »
             </a>
           </li>
-        </ul>   
+        </ul>
     </nav>
   );
 };

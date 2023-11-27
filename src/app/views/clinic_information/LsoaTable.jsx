@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Pagination from "@/app/components/Pagination";
+import Pagination from "../../components/pagination";
 import { AppStateContext } from '@/app/context/AppStateContext';
 
-let PageSize = 10;
 
 export default function LsoaTable(prop) {
   const {
@@ -10,13 +9,16 @@ export default function LsoaTable(prop) {
     checkAllHandler,
     checkRecord,
     handleRangeSelection,
+    pageSize,
+    currentPage,
     onSubmitHandler,
     onPageSizeChange,
     onCurrentPageChange, } = prop;
-  // Pagination stuff
-  const currentPage = prop.currentPage;
-  const firstPageIndex = (currentPage - 1) * prop.pageSize;
-  const lastPageIndex = Number(firstPageIndex) + Number(prop.pageSize);
+
+    // Pagination stuff
+  const firstPageIndex = (currentPage - 1) * pageSize;
+  const lastPageIndex = Number(firstPageIndex) + Number(pageSize);
+  const currentTableData =  lsoaInRange.slice(firstPageIndex, lastPageIndex);
 
   const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
 
@@ -42,7 +44,6 @@ export default function LsoaTable(prop) {
   return Math.round(total / arr.length)
   }
 
-  const currentTableData =  lsoaInRange.slice(firstPageIndex, lastPageIndex);
 
   return (
     <div>
@@ -186,7 +187,7 @@ export default function LsoaTable(prop) {
         <Pagination
           currentPage={currentPage}
           totalCount={lsoaInRange.length}
-          pageSize={prop.pageSize}
+          pageSize={pageSize}
           onPageChange={page => onCurrentPageChange(page)}
         />
         </div>
