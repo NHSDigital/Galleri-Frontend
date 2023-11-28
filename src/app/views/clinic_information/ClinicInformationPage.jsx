@@ -27,6 +27,8 @@ export default function ClinicInformationPage(props) {
     displayViewAllPrevInvitations,
     targetFillToInputValue,
     appsToFill,
+    lastSelectedRange,
+    targetFillToPercentage,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
     lsoaInRange,
@@ -134,6 +136,7 @@ export default function ClinicInformationPage(props) {
               onSubmitHandler={onSubmitHandler}
               onPageSizeChange={onPageSizeChange}
               onCurrentPageChange={onCurrentPageChange}
+              lastSelectedRange={lastSelectedRange}
             />
           </div>
         </div>

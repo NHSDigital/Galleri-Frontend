@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pagination from "../../components/pagination";
 import { AppStateContext } from '@/app/context/AppStateContext';
+import config from "./config/milesOptions";
 
 
 export default function LsoaTable(prop) {
@@ -13,6 +14,7 @@ export default function LsoaTable(prop) {
     currentPage,
     onSubmitHandler,
     onPageSizeChange,
+    lastSelectedRange,
     onCurrentPageChange, } = prop;
 
     // Pagination stuff
@@ -20,15 +22,14 @@ export default function LsoaTable(prop) {
   const lastPageIndex = Number(firstPageIndex) + Number(pageSize);
   const currentTableData =  lsoaInRange.slice(firstPageIndex, lastPageIndex);
 
-  const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
+  const milesOptions = config.milesOptions;
 
-  mileSelectionOptions.shift()
-
-  const lsoaArray = lsoaInRange.filter(el => {
-    if (el.checked){
-      return el
+  const lsoaArray = lsoaInRange.filter((el) => {
+    if (el.checked) {
+      return el;
     }
-  })
+  });
+
 
   const calculateTotalToInvite = (arr) => {
     const total = arr.reduce((acc,curr) => {
@@ -55,26 +56,28 @@ export default function LsoaTable(prop) {
             </label>
           </h3>
         </div>
-        <div class="govuk-input__wrapper" id="distance">
-          <select
-            class={
-              "nhsuk-select"
-            }
-            id="milesFromSite"
-            name="miles"
-            onChange={(e) => handleRangeSelection(e)}
-          >
-            {mileSelectionOptions.map((e, key) => {
-              return(<option value="">+{e}</option>)
-            })}
-          </select>
-          <div
-            class={ "govuk-input__suffix" }
-            aria-hidden="true"
-          >
-            miles
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}class="govuk-input__wrapper" id="distance">
+          <div>
+            <select
+              class={
+                "nhsuk-select"
+              }
+              id="milesFromSite"
+              name="milesSelector"
+              onChange={(e) => handleRangeSelection(e)}
+            >
+              {milesOptions.map((e, key) => {
+                return <option value={e.value}>{e.label}</option>
+              })}
+            </select>
+            <div
+              class={ "govuk-input__suffix" }
+              aria-hidden="true"
+            >
+              miles
           </div>
-          <div class="nhsuk-form-group" style={{"justify-content": "center"}}>
+        </div>
+        <div class="nhsuk-form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "center"}}>
             <label class="nhsuk-label" for="pageSize">
               LSOAs per page
             </label>
@@ -223,5 +226,3 @@ export default function LsoaTable(prop) {
     </div>
   );
 }
-
-LsoaTable.contextType = AppStateContext;

@@ -88,19 +88,27 @@ export default function ClinicSummaryTable(props) {
             return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
-                    <a
-                      id={e.ClinicName.S}
-                      class="nhsuk-back-link__link"
-                      onClick={(event) => onClickClinicHandler(event, e)}
-                    >
-                      {e.ClinicName?.S ? e.ClinicName?.S : "Not Available"}
-                    </a>
+                    {e.Availability.N !== "0" ? (
+                      <a
+                        id={e.ClinicName.S}
+                        class="nhsuk-back-link"
+                        onClick={(event) => onClickClinicHandler(event, e)}
+                      >
+                        {e.ClinicName?.S ? e.ClinicName?.S : "Not Available"}
+                      </a>
+                    ) : e.ClinicName?.S ? (
+                      e.ClinicName?.S
+                    ) : (
+                      "Not Available"
+                    )}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
                     {(e.PrevInviteDate?.S.trim().length!==0) ? e.PrevInviteDate?.S : "Not Available"}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.DaySincePrevInvite?.N !== 'NaN' ? e.DaySincePrevInvite?.N : 0}
+                    {e.DaySincePrevInvite?.N !== "NaN"
+                      ? e.DaySincePrevInvite?.N
+                      : 0}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
                     {e.InvitesSent?.N}

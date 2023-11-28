@@ -10,12 +10,12 @@ class ClinicInformation extends Component {
     this.state = {
       "displayUserErrorTargetPercentage": false,
       "displayViewAllPrevInvitations": false,
-      "targetFillToInputValue": 0,
-      "appsToFill": 0,
       "checkAll": true,
       "lsoaInRange": [],
       "selectedLsoa": [],
-      "rangeSelectionLocal": 1
+      "targetFillToInputValue": 0,
+      "rangeSelection": 1,
+      "appsToFill": 0,
     }
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
@@ -92,12 +92,12 @@ class ClinicInformation extends Component {
     }
   }
 
-  handleRangeSelection(value) {
+  handleRangeSelection(e) {
     this.setState({
-      rangeSelectionLocal: Number(value.target.selectedOptions[0].text)
+      rangeSelection: Number(e.target.selectedOptions[0].text)
     })
     this.context.setState({
-      rangeSelection: Number(value.target.selectedOptions[0].text)
+      rangeSelection: Number(e.target.selectedOptions[0].text)
     })
   }
 
@@ -203,8 +203,8 @@ class ClinicInformation extends Component {
 
     if ((value) && (value <= 100)) {
       await this.putTargetPercentageAWSDynamo(value);
-      this.calculateTargetAppsToFill(targetFillToInputValue);
       this.setState({
+        appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
         displayUserErrorTargetPercentage: false,
       });
     } else {
@@ -300,6 +300,22 @@ class ClinicInformation extends Component {
           const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
           const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
+          const lastSelectedRange = response.data.LastSelectedRange.N;
+          const targetFillToPercentage = response.data.TargetFillToPercentage.N;
+
+          // Set component state
+          this.setState({
+            rangeSelection: lastSelectedRange,
+            targetFillToInputValue: targetFillToPercentage
+          },
+            () => {
+              this.setState({
+                appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+              });
+            }
+          )
+
+          // Set global state
           this.context.setState({
             clinicId: response.data.ClinicId.S,
             clinicName: response.data.ClinicName.S,
@@ -380,6 +396,22 @@ class ClinicInformation extends Component {
             const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
             const displayViewAllPrevInvitations = prevInviteDate ? true : false;
 
+            const lastSelectedRange = response.data.LastSelectedRange.N;
+            const targetFillToPercentage = response.data.TargetFillToPercentage.N;
+
+            // Set component state
+            this.setState({
+              rangeSelection: lastSelectedRange,
+              targetFillToInputValue: targetFillToPercentage
+            },
+              () => {
+                this.setState({
+                  appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+                });
+              }
+            )
+
+            // Set global state
             this.context.setState({
               clinicId: response.data.ClinicId.S,
               clinicName: response.data.ClinicName.S,
@@ -390,9 +422,7 @@ class ClinicInformation extends Component {
               weeklyCapacity: weeklyCapacityList,
               recentInvitationHistory: clinicInvitationHistory,
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
-            },
-              () => {
-                // This callback will execute after the state has been updated
+            })
 
                 if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
                   this.putTargetPercentageAWSDynamo("50");
@@ -419,7 +449,7 @@ class ClinicInformation extends Component {
               }
             )
           });
-      });
+
 
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
@@ -438,7 +468,7 @@ class ClinicInformation extends Component {
   }
 
   componentDidUpdate(_, prevState) {
-    if (this.state.rangeSelectionLocal !== prevState.rangeSelectionLocal || this.state.postcode !== prevState.postcode) {
+    if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
       // placeholder postcode as the clinic postcode is generated off of random string
       // TODO: placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
@@ -477,9 +507,10 @@ class ClinicInformation extends Component {
 
     const {
       displayUserErrorTargetPercentage,
-      targetFillToInputValue,
-      appsToFill,
       lsoaInRange,
+      targetFillToInputValue,
+      rangeSelection,
+      appsToFill
     } = this.state
 
     // Check if all the listed context state variables are available
@@ -519,6 +550,7 @@ class ClinicInformation extends Component {
                   lsoaInRange={lsoaInRange}
                   pageSize={pageSize}
                   currentPage={currentPage}
+                  lastSelectedRange={rangeSelection}
                   onClickChangeClinicHandler={this.onClickChangeClinicHandler}
                   onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
                   onSubmitHandler={this.onSubmitHandler}
