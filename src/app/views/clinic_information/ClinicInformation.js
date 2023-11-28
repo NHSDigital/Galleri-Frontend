@@ -185,7 +185,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://a7bpn8xlwk.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
+        "https://va85kduxwg.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
         {
           targetAppsToFill: this.state.appsToFill,
           lsoaCodes: payloadObject
@@ -207,11 +207,13 @@ class ClinicInformation extends Component {
     let value = Number(targetFillToInputValue);
 
     if ((value) && (value <= 100)) {
-      await this.putTargetPercentageAWSDynamo(value);
       this.setState({
         appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
         displayUserErrorTargetPercentage: false,
       });
+      this.context.setState({
+        targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
+      })
     } else {
       this.setState({
         displayUserErrorTargetPercentage: true,
