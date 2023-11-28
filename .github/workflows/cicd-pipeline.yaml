@@ -39,8 +39,6 @@ jobs:
     uses: ./.github/workflows/cloc-repository.yaml
   scan-dependencies:
     uses: ./.github/workflows/scan-dependencies.yaml
-  #sonarcloud-scan:
-  #  uses: ./.github/workflows/sonarcloud-scan.yaml
   perform-static-analysis:
     runs-on: ubuntu-latest
     permissions:
