@@ -1,6 +1,5 @@
 import React from "react";
-import Pagination from "../../components/pagination";
-import { AppStateContext } from '@/app/context/AppStateContext';
+import Pagination from "../../components/Pagination";
 import config from "./config/milesOptions";
 
 
@@ -14,7 +13,6 @@ export default function LsoaTable(prop) {
     currentPage,
     onSubmitHandler,
     onPageSizeChange,
-    lastSelectedRange,
     onCurrentPageChange,
     lsoaCodesAppsToFill } = prop;
 
@@ -45,8 +43,6 @@ export default function LsoaTable(prop) {
     }, 0)
     return Math.round(total / arr.length)
   }
-
-  // const currentTableData = lsoaInRange.slice(firstPageIndex, lastPageIndex);
 
   return (
     <div>

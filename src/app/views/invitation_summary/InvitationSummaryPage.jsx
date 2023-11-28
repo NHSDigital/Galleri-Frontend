@@ -20,7 +20,6 @@ export default function InvitationSummaryPage(props) {
     onClickGenerateHandler,
     onClickGoBackPrevPageLinkHandler,
     recentInvitationHistory,
-    dummySummaryList,
     rangeSelection,
     targetAppToFill,
     targetPercentageToFill,
@@ -70,7 +69,6 @@ export default function InvitationSummaryPage(props) {
           >
             {displayErrorInvitationSummary || (noInviteToGenerate > totalToInvite) && (
               <ErrorBanner
-                dummySummaryList={dummySummaryList}
                 totalToInvite={totalToInvite}
                 noInviteToGenerate={noInviteToGenerate}
               />

@@ -3,7 +3,6 @@ import React from "react";
 
 export default function SummaryListSecond({
   displayErrorInvitationSummary,
-  targetAppToFill,
   avgExpectedUptake,
   noInviteToGenerate
 }) {

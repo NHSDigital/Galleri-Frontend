@@ -444,7 +444,6 @@ class ClinicInformation extends Component {
             )
           });
 
-
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
     // therefore there is no guarentee that the postcode actually exists
