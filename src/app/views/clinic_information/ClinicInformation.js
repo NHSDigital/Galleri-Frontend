@@ -140,7 +140,6 @@ class ClinicInformation extends Component {
     let value = Number(targetFillToInputValue);
 
     if ((value) && (value <= 100)) {
-      await this.putTargetPercentageAWSDynamo(value);
       this.setState({
         appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
         displayUserErrorTargetPercentage: false,
