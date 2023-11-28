@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import InvitationSummaryPage from './InvitationSummaryPage';
 import { AppStateContext } from '@/app/context/AppStateContext';
 import Header from "@/app/components/Header";
+import axios from 'axios';
 
 class InvitationSummary extends Component {
   constructor() {
@@ -38,13 +39,26 @@ class InvitationSummary extends Component {
     }
   }
 
-  onClickGenerateHandler() {
+  async onClickGenerateHandler() {
     this.setState({
       displayConfirmationInvitationSummary: true,
       displayCheckDetailsBanner: false
     });
     this.scrollToMainContent();
 
+    const response = await axios.post(
+      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+      "https://556k6nbh5b.execute-api.eu-west-2.amazonaws.com/dev/generate-invites",
+      { selectedParticipants: this.context.state.personIdentifiedToInvite,
+        clinicInfo: {
+          clinicId: this.context.state.clinicId,
+          clinicName: this.context.state.clinicName,
+          rangeSelected: this.context.state.rangeSelection,
+          targetPercentage: this.context.state.targetPercentageToFill
+        }
+      }
+    );
+    console.log("logging response = ", response.data)
   }
 
   componentDidMount() {

@@ -43,6 +43,7 @@ export class AppStateProvider extends React.Component {
       "totalToInvite": 0,
       "avgExpectedUptake": 0,
       "noInviteToGenerate": 0,
+      "personIdentifiedToInvite": [],
       "pageSize": 0,
       "currentPage": 0
     };

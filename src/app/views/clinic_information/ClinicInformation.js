@@ -185,7 +185,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://ptnga5orpe.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
+        "https://a7bpn8xlwk.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
         {
           targetAppsToFill: this.state.appsToFill,
           lsoaCodes: payloadObject
@@ -193,7 +193,8 @@ class ClinicInformation extends Component {
       );
       console.log("logging response = ", response.data)
       this.context.setState({
-        "noInviteToGenerate": response.data.numberOfPeopleToInvite
+        "noInviteToGenerate": response.data.numberOfPeopleToInvite,
+        "personIdentifiedToInvite": response.data.selectedParticipants
       })
       return response.data;
     } catch (error) {
@@ -482,9 +483,8 @@ class ClinicInformation extends Component {
   componentDidUpdate(_, prevState) {
     if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
       // placeholder postcode as the clinic postcode is generated off of random string
-      // TODO: placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
-      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+      // TODO: placeholder postcode as the clinic postcode is generated off of random string
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
