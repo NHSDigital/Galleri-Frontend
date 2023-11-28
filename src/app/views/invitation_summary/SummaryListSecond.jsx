@@ -2,8 +2,9 @@ import "../../styles/css/sass.css";
 import React from "react";
 
 export default function SummaryListSecond({
-  dummySummaryList,
   displayErrorInvitationSummary,
+  targetAppToFill,
+  avgExpectedUptake
 }) {
   return (
     <>
@@ -22,7 +23,7 @@ export default function SummaryListSecond({
               Overall expected uptake
             </dt>
             <dd id="term1-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-1">
-              {dummySummaryList.expectedUptakeRateHolder}
+              {avgExpectedUptake}%
             </dd>
           </div>
           <div class="nhsuk-summary-list__row">
@@ -52,7 +53,7 @@ export default function SummaryListSecond({
               Overall expected uptake
             </dt>
             <dd id="term1-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-4">
-              {dummySummaryList.expectedUptakeRateHolder}
+              {avgExpectedUptake}%
             </dd>
           </div>
           <div class="nhsuk-summary-list__row">
@@ -60,7 +61,7 @@ export default function SummaryListSecond({
               Number of invitations to generate
             </dt>
             <dd id="term2-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-4">
-              {dummySummaryList.invitationsToGenerateHolder}
+              {Math.round(targetAppToFill/(avgExpectedUptake/100))}
             </dd>
           </div>
         </dl>

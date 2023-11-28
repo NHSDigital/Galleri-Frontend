@@ -9,6 +9,7 @@ import {
   daysSinceLastInvite,
 } from './helper';
 import axios from 'axios';
+import Header from "@/app/components/Header";
 
 // Clinic Summary container
 export default class ClinicSummary extends Component {
@@ -24,6 +25,8 @@ export default class ClinicSummary extends Component {
     this.onIcbChangeHandler = this.onIcbChangeHandler.bind(this);
     this.onCheckHandler = this.onCheckHandler.bind(this);
     this.onClickClinicHandler = this.onClickClinicHandler.bind(this);
+    this.onCurrentPageChange = this.onCurrentPageChange.bind(this);
+    this.onPageSizeChange = this.onPageSizeChange.bind(this);
   }
 
   getClinicsFromIcbCode() {
@@ -32,11 +35,12 @@ export default class ClinicSummary extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://yuvf0jcaql.execute-api.eu-west-2.amazonaws.com/dev/clinic-summary-list?participatingIcb=${this.context.state.icbSelected}`
+        `https://z5ks8p0buh.execute-api.eu-west-2.amazonaws.com/dev/clinic-summary-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
         this.context.setState({
           clinicList: response.data,
+          lastUpdated: (new Date((response.data[0].UpdatedDate?.S))).toLocaleDateString('en-GB', {year: 'numeric',month: 'long',day: 'numeric', hour: 'numeric', minute: 'numeric'}).replace(/ at/g, ',')
         });
       });
   }
@@ -67,22 +71,36 @@ export default class ClinicSummary extends Component {
     window.scrollTo(0, 0);
   }
 
+  onCurrentPageChange(page) {
+    this.context.setState({
+      currentPage: page
+    });
+  }
+
+  onPageSizeChange(e) {
+    this.context.setState({
+      pageSize: e.target.value,
+      currentPage: 1
+    })
+  }
+
 
   async componentDidMount() {
     try {
       // API call
-      const { lastUpdated, clinicList } = getClinicData();
+      const { clinicList } = getClinicData();
 
       axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
       axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      const response = await axios.get(`https://8nzraul823.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`);
+      const response = await axios.get(`https://mxtf0w9wq9.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`);
 
       // Update the state
       this.context.setState({
         icbData: [...response.data],
-        lastUpdated: lastUpdated,
         clinicList: clinicList,
+        pageSize: 10,
+        currentPage:1,
       });
 
       this.setState({ isInitialLoad: false });
@@ -99,7 +117,9 @@ export default class ClinicSummary extends Component {
       clinicList,
       lastUpdated,
       displayClinicsNoApp,
-      participatingICBSelected
+      participatingICBSelected,
+      pageSize,
+      currentPage,
     } = this.context.state;
 
     // Check if the context state variables are available
@@ -121,6 +141,7 @@ export default class ClinicSummary extends Component {
 
     return (
       <div>
+      <Header/>
         {
           // Check if a clinic link has been clicked
           // If clicked render the clinic information page and pass the props
@@ -134,9 +155,13 @@ export default class ClinicSummary extends Component {
                 clinicList={filterClinicListApps}
                 lastUpdated={lastUpdated}
                 displayClinicsNoApp={displayClinicsNoApp}
+                pageSize={pageSize}
+                currentPage={currentPage}
                 onIcbChangeHandler={this.onIcbChangeHandler}
                 onCheckHandler={this.onCheckHandler}
                 onClickClinicHandler={this.onClickClinicHandler}
+                onPageSizeChange={this.onPageSizeChange}
+                onCurrentPageChange={this.onCurrentPageChange}
               />
             )
           ) : (

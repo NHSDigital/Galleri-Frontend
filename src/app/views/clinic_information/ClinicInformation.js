@@ -26,11 +26,16 @@ class ClinicInformation extends Component {
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
-
+    this.onCurrentPageChange = this.onCurrentPageChange.bind(this);
+    this.onPageSizeChange = this.onPageSizeChange.bind(this);
   }
 
-  onSubmitHandler() {
-    this.context.setState({ "isSubmit": true })
+  onSubmitHandler(totalToInvite, avgExpectedUptake) {
+    this.context.setState({
+      "isSubmit": true,
+      "totalToInvite": totalToInvite,
+      "avgExpectedUptake": avgExpectedUptake
+    })
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
   }
@@ -89,10 +94,25 @@ class ClinicInformation extends Component {
 
   handleRangeSelection(e) {
     this.setState({
-      rangeSelection: e.target.value
+      rangeSelection: Number(e.target.selectedOptions[0].text)
+    })
+    this.context.setState({
+      rangeSelection: Number(e.target.selectedOptions[0].text)
     })
   }
 
+  onCurrentPageChange(page) {
+    this.context.setState({
+      currentPage: page
+    });
+  }
+
+  onPageSizeChange(e) {
+    this.context.setState({
+      pageSize: e.target.value,
+      currentPage: 1
+    })
+  }
 
   calculateDaysSince(date) {
     const unixTime = Date.parse(date);
@@ -119,6 +139,9 @@ class ClinicInformation extends Component {
     this.setState({
       appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
     });
+    this.context.setState({
+      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
+    })
   }
 
   // DB actions to PUT target percentage of appointments to fill
@@ -126,7 +149,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.put(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://smfnc2fytd.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        "https://vk0v8v0yab.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
       return response.data;
@@ -156,6 +179,9 @@ class ClinicInformation extends Component {
     this.setState({
       targetFillToInputValue: e.target.value,
     });
+    this.context.setState({
+      targetPercentageToFill: e.target.value
+    })
   }
 
   onClickChangeClinicHandler() {
@@ -203,7 +229,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://mbz93pl6qf.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://jwkj3d6h80.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -263,6 +289,15 @@ class ClinicInformation extends Component {
             displayClinicSelector: false,
             recentInvitationHistory: clinicInvitationHistory,
             displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+            currentPage: 1,
+            pageSize: 10,
+          }, () => {
+            this.setState({
+              appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+            });
+            this.context.setState({
+              targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100))
+            })
           })
         });
       // Scroll to the top of the page every time it renders the page
@@ -276,7 +311,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://0b3ufricbb.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
+        `https://7e8phq43zc.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
         this.context.setState({
@@ -290,7 +325,7 @@ class ClinicInformation extends Component {
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
           .get(
-            `https://mbz93pl6qf.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+            `https://jwkj3d6h80.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {
             const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -350,8 +385,32 @@ class ClinicInformation extends Component {
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
             })
 
+                if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
+                  this.putTargetPercentageAWSDynamo("50");
+                }
+
+                //Executes GET API call below when page renders - grabs default Target Percentage input value
+                // and displays the target number of appointments to fill
+                // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+                axios
+                  .get(
+                    "https://zorbuadmlg.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+                  )
+                  .then((response) => {
+                    const targetPercentageValue = response.data.targetPercentage.N;
+                    this.setState({
+                      targetFillToInputValue: targetPercentageValue,
+                      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                    });
+                    this.context.setState({
+                      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                      targetPercentageToFill: targetPercentageValue
+                    })
+                  });
+              }
+            )
           });
-      });
+
 
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
@@ -359,7 +418,7 @@ class ClinicInformation extends Component {
     const postcodeHolder = "SE1 9RT" // const clinicPostcode = this.state.postcode
     axios
       .get(
-        `https://f4yfc111wh.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+        `https://visaf17cq4.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
@@ -378,7 +437,7 @@ class ClinicInformation extends Component {
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
-          `https://f4yfc111wh.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelection}`
+          `https://visaf17cq4.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
         )
         .then((response) => {
           this.setState({
@@ -402,7 +461,9 @@ class ClinicInformation extends Component {
       displayClinicSelector,
       recentInvitationHistory,
       currentlySelectedClinic,
-      displayViewAllPrevInvitations
+      displayViewAllPrevInvitations,
+      pageSize,
+      currentPage,
     } = this.context.state
 
     const {
@@ -448,6 +509,8 @@ class ClinicInformation extends Component {
                   targetFillToInputValue={targetFillToInputValue}
                   appsToFill={appsToFill}
                   lsoaInRange={lsoaInRange}
+                  pageSize={pageSize}
+                  currentPage={currentPage}
                   lastSelectedRange={rangeSelection}
                   onClickChangeClinicHandler={this.onClickChangeClinicHandler}
                   onChangeSelectedClinicHandler={this.onChangeSelectedClinicHandler}
@@ -458,6 +521,8 @@ class ClinicInformation extends Component {
                   handleRangeSelection={this.handleRangeSelection}
                   checkRecord={this.checkRecord}
                   checkAllHandler={this.checkAllHandler}
+                  onPageSizeChange={this.onPageSizeChange}
+                  onCurrentPageChange={this.onCurrentPageChange}
                 />
               </div>
             )

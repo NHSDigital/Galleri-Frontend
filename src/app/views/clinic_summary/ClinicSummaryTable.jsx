@@ -1,8 +1,23 @@
 import React from "react";
-import Pagination from "../../components/pagination";
+import Pagination from "../../components/Pagination";
+
+let PageSize = 10;
 
 export default function ClinicSummaryTable(props) {
-  const { onCheckHandler, onClickClinicHandler } = props;
+  const {
+    onCheckHandler,
+    onClickClinicHandler,
+    onPageSizeChange,
+    onCurrentPageChange, } = props;
+
+  const currentPage = props.currentPage;
+  const firstPageIndex = (currentPage - 1) * props.pageSize;
+  const lastPageIndex = Number(firstPageIndex) + Number(props.pageSize);
+  const currentTableData =  props.clinicList.sort((a, b) => {
+    return (
+      Number(b.DaySincePrevInvite.N) - Number(a.DaySincePrevInvite.N)
+    );
+  }).slice(firstPageIndex, lastPageIndex);
 
   return (
     <div>
@@ -29,6 +44,17 @@ export default function ClinicSummaryTable(props) {
             </label>
           </div>
           <br />
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label" for="pageSize">
+              Clinics per page
+            </label>
+            <select class="nhsuk-select" id="pageSize" name="select-1" onChange={(e) => onPageSizeChange(e)}>
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+            </select>
+          </div>
         </caption>
         <thead role="rowgroup" class="nhsuk-table__head">
           <tr role="row">
@@ -58,14 +84,8 @@ export default function ClinicSummaryTable(props) {
           </tr>
         </thead>
         <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-          {props.clinicList
-            .sort((a, b) => {
-              return (
-                Number(b.DaySincePrevInvite.N) - Number(a.DaySincePrevInvite.N)
-              );
-            })
-            ?.map((e, key) => {
-              return (
+          {currentTableData?.map((e, key) => {
+            return (
                 <tr role="row" class="nhsuk-table__row">
                   <td role="cell" class="nhsuk-table__cell">
                     {e.Availability.N !== "0" ? (
@@ -83,9 +103,7 @@ export default function ClinicSummaryTable(props) {
                     )}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
-                    {e.PrevInviteDate?.S
-                      ? e.PrevInviteDate?.S
-                      : "Not Available"}
+                    {(e.PrevInviteDate?.S.trim().length!==0) ? e.PrevInviteDate?.S : "Not Available"}
                   </td>
                   <td role="cell" class="nhsuk-table__cell">
                     {e.DaySincePrevInvite?.N !== "NaN"
@@ -100,11 +118,15 @@ export default function ClinicSummaryTable(props) {
                   </td>
                 </tr>
               );
-            })}
+          })}
         </tbody>
       </table>
-      <br />
-      <Pagination />
+      <Pagination
+        currentPage={currentPage}
+        totalCount={props.clinicList.length}
+        pageSize={props.pageSize}
+        onPageChange={page => onCurrentPageChange(page)}
+      />
     </div>
   );
 }
