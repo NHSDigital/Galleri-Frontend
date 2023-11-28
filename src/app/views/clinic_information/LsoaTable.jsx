@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Pagination from "../../components/pagination";
 import { AppStateContext } from '@/app/context/AppStateContext';
 import config from "./config/milesOptions";

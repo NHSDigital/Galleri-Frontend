@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Pagination from "../../components/Pagination";
 
 let PageSize = 10;
