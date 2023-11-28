@@ -53,8 +53,7 @@ class InvitationSummary extends Component {
     //   targetPercentage: this.context.state.targetPercentageToFill,
     //   selectedParticipants: this.context.state.personIdentifiedToInvite,
     // }))
-    // fire off lambda here
-    // https://pi1v7nahxb.execute-api.eu-west-2.amazonaws.com/dev/generate-invites
+
     const response = await axios.post(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       "https://pi1v7nahxb.execute-api.eu-west-2.amazonaws.com/dev/generate-invites",
