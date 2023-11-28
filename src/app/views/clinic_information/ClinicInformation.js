@@ -10,12 +10,9 @@ class ClinicInformation extends Component {
     this.state = {
       "displayUserErrorTargetPercentage": false,
       "displayViewAllPrevInvitations": false,
-      "checkAll": true,
       "lsoaInRange": [""],
       "rangeSelection": 1,
       "selectedLsoa": [],
-      "rangeSelectionLocal": 1,
-      "selectedLsoaPayload": {},
       "targetFillToInputValue": 0,
       "rangeSelection": 1,
       "appsToFill": 0,
@@ -175,7 +172,6 @@ class ClinicInformation extends Component {
         "FORECAST_UPTAKE": eachFORECAST_UPTAKE
       }
     })
-    this.setState({ "selectedLsoaPayload": lsoaInfo });
     return lsoaInfo;
   }
 
@@ -191,7 +187,6 @@ class ClinicInformation extends Component {
           lsoaCodes: payloadObject
         }
       );
-      console.log("logging response = ", response.data)
       this.context.setState({
         "noInviteToGenerate": response.data.numberOfPeopleToInvite,
         "personIdentifiedToInvite": response.data.selectedParticipants
@@ -313,14 +308,9 @@ class ClinicInformation extends Component {
           // Set component state
           this.setState({
             rangeSelection: lastSelectedRange,
-            targetFillToInputValue: targetFillToPercentage
-          },
-            () => {
-              this.setState({
-                appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
-              });
-            }
-          )
+            targetFillToInputValue: targetFillToPercentage,
+            appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+          });
 
           // Set global state
           this.context.setState({
@@ -337,13 +327,8 @@ class ClinicInformation extends Component {
             displayViewAllPrevInvitations: displayViewAllPrevInvitations,
             currentPage: 1,
             pageSize: 10,
-          }, () => {
-            this.setState({
-              appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
-            });
-            this.context.setState({
-              targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100))
-            })
+            appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+            targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100))
           })
         });
       // Scroll to the top of the page every time it renders the page
@@ -416,14 +401,9 @@ class ClinicInformation extends Component {
             // Set component state
             this.setState({
               rangeSelection: lastSelectedRange,
-              targetFillToInputValue: targetFillToPercentage
-            },
-              () => {
-                this.setState({
-                  appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
-                });
-              }
-            )
+              targetFillToInputValue: targetFillToPercentage,
+              appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+            })
 
             // Set global state
             this.context.setState({
@@ -471,7 +451,6 @@ class ClinicInformation extends Component {
     const postcodeHolder = "SE1 9RT" // const clinicPostcode = this.state.postcode
     axios
       .get(
-        // `https://visaf17cq4.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelectionLocal}`
         `https://visaf17cq4.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
       )
       .then((response) => {
@@ -490,7 +469,6 @@ class ClinicInformation extends Component {
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
-          // `https://visaf17cq4.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.state.rangeSelectionLocal}`
           `https://visaf17cq4.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
         )
         .then((response) => {
@@ -501,7 +479,6 @@ class ClinicInformation extends Component {
         })
     }
 
-    // lsoaDataError(lsoa)
   }
 
   render() {
