@@ -2,7 +2,6 @@ import "../../styles/css/sass.css";
 import React from "react";
 
 export default function SummaryListSecond({
-  dummySummaryList,
   displayErrorInvitationSummary,
   targetAppToFill,
   avgExpectedUptake,

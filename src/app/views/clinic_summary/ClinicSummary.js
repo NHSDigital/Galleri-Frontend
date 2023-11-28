@@ -25,6 +25,8 @@ export default class ClinicSummary extends Component {
     this.onIcbChangeHandler = this.onIcbChangeHandler.bind(this);
     this.onCheckHandler = this.onCheckHandler.bind(this);
     this.onClickClinicHandler = this.onClickClinicHandler.bind(this);
+    this.onCurrentPageChange = this.onCurrentPageChange.bind(this);
+    this.onPageSizeChange = this.onPageSizeChange.bind(this);
   }
 
   getClinicsFromIcbCode() {
@@ -69,11 +71,24 @@ export default class ClinicSummary extends Component {
     window.scrollTo(0, 0);
   }
 
+  onCurrentPageChange(page) {
+    this.context.setState({
+      currentPage: page
+    });
+  }
+
+  onPageSizeChange(e) {
+    this.context.setState({
+      pageSize: e.target.value,
+      currentPage: 1
+    })
+  }
+
 
   async componentDidMount() {
     try {
       // API call
-      const { lastUpdated, clinicList } = getClinicData();
+      const { clinicList } = getClinicData();
 
       axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
       axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
@@ -83,8 +98,9 @@ export default class ClinicSummary extends Component {
       // Update the state
       this.context.setState({
         icbData: [...response.data],
-        // lastUpdated: lastUpdated,
         clinicList: clinicList,
+        pageSize: 10,
+        currentPage:1,
       });
 
       this.setState({ isInitialLoad: false });
@@ -101,7 +117,9 @@ export default class ClinicSummary extends Component {
       clinicList,
       lastUpdated,
       displayClinicsNoApp,
-      participatingICBSelected
+      participatingICBSelected,
+      pageSize,
+      currentPage,
     } = this.context.state;
 
     // Check if the context state variables are available
@@ -137,9 +155,13 @@ export default class ClinicSummary extends Component {
                 clinicList={filterClinicListApps}
                 lastUpdated={lastUpdated}
                 displayClinicsNoApp={displayClinicsNoApp}
+                pageSize={pageSize}
+                currentPage={currentPage}
                 onIcbChangeHandler={this.onIcbChangeHandler}
                 onCheckHandler={this.onCheckHandler}
                 onClickClinicHandler={this.onClickClinicHandler}
+                onPageSizeChange={this.onPageSizeChange}
+                onCurrentPageChange={this.onCurrentPageChange}
               />
             )
           ) : (
