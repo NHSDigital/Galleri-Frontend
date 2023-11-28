@@ -158,45 +158,6 @@ class ClinicInformation extends Component {
     }
   }
 
-  createLsoaCodePayload(lsoaArray) {
-    // create object payload for the incoming lsoaArray
-    const lsoaInfo = {};
-    lsoaArray.forEach(lsoa =>{
-      let eachLSOA_2011 = lsoa.LSOA_2011.S;
-      let eachIMD_DECILE = lsoa.IMD_DECILE.N;
-      let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
-
-      lsoaInfo[eachLSOA_2011] = {
-        "IMD_DECILE": eachIMD_DECILE,
-        "FORECAST_UPTAKE": eachFORECAST_UPTAKE
-      }
-    })
-    this.setState({ "selectedLsoaPayload": lsoaInfo });
-    return lsoaInfo;
-  }
-
-  // POST lsoa codes and appsToFill (send to lambda)
-  async lsoaCodesAppsToFill(lsoaArray) {
-    const payloadObject = this.createLsoaCodePayload(lsoaArray)
-
-    try {
-      const response = await axios.post(
-        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://pyb9bj3z25.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
-        {
-          targetAppsToFill: this.state.appsToFill,
-          lsoaCodes: payloadObject
-        }
-      );
-      this.context.setState({
-        "noInviteToGenerate": response.data.numberOfPeopleToInvite
-      })
-      return response.data;
-    } catch (error) {
-      console.error("Request failed: " + error.message);
-    }
-  }
-
   // Handler Function for user errors and calculating target number of appointments to fill
   async onClickTargetAppsToFillHandler(targetFillToInputValue) {
     let value = Number(targetFillToInputValue);
