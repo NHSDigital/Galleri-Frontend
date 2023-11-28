@@ -55,6 +55,7 @@ jobs:
         cloc-repository,
         # deploy-app,
         scan-dependencies,
+        sonarcloud-scan
       ]
     timeout-minutes: 10
     steps:
