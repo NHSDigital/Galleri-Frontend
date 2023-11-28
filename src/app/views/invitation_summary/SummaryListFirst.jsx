@@ -7,10 +7,10 @@ export default function SummaryListFirst({
   targetAppToFill,
   targetPercentageToFill,
   totalToInvite
- }) {
-  const { appsRemaining } = props;
+  })
 
-  console.log("targetPercentageToFill value", targetPercentageToFill)
+ {
+  const { appsRemaining } = props;
 
   return (
     <dl id="summary-list-1" class="nhsuk-summary-list nhsuk-u-margin-bottom-9">
