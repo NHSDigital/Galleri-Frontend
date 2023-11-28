@@ -39,8 +39,26 @@ jobs:
     uses: ./.github/workflows/cloc-repository.yaml
   scan-dependencies:
     uses: ./.github/workflows/scan-dependencies.yaml
-  sonarcloud-scan:
-    uses: ./.github/workflows/sonarcloud-scan.yaml
+  #sonarcloud-scan:
+  #  uses: ./.github/workflows/sonarcloud-scan.yaml
+  perform-static-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    timeout-minutes: 5
+    name: "Perform static analysis"
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history is needed to improving relevancy of reporting
+      - name: "Perform static analysis"
+        uses: ./.github/actions/perform-static-analysis
+        with:
+          sonar_organisation_key: "${{ vars.SONAR_ORGANISATION_KEY }}"
+          sonar_project_key: "${{ vars.SONAR_PROJECT_KEY }}"
+          sonar_token: "${{ secrets.SONAR_TOKEN }}"
   # deploy-app:
   #   uses: ./.github/workflows/deploy-to-s3.yaml
   cicd-pipeline-test:
@@ -55,7 +73,7 @@ jobs:
         cloc-repository,
         # deploy-app,
         scan-dependencies,
-        sonarcloud-scan
+        perform-static-analysis
       ]
     timeout-minutes: 10
     steps:
