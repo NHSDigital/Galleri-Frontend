@@ -46,19 +46,10 @@ class InvitationSummary extends Component {
     });
     this.scrollToMainContent();
 
-    // console.log(JSON.stringify({
-    //   clinicId: this.context.state.clinicId,
-    //   clinicName: this.context.state.clinicName,
-    //   rangeSelected: this.context.state.rangeSelection,
-    //   targetPercentage: this.context.state.targetPercentageToFill,
-    //   selectedParticipants: this.context.state.personIdentifiedToInvite,
-    // }))
-
     const response = await axios.post(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      "https://pi1v7nahxb.execute-api.eu-west-2.amazonaws.com/dev/generate-invites",
-      {
-        selectedParticipants: this.context.state.personIdentifiedToInvite,
+      "https://tk7fs7l2k8.execute-api.eu-west-2.amazonaws.com/dev/generate-invites",
+      { selectedParticipants: this.context.state.personIdentifiedToInvite,
         clinicInfo: {
           clinicId: this.context.state.clinicId,
           clinicName: this.context.state.clinicName,
