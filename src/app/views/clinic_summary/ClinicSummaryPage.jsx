@@ -9,9 +9,13 @@ export default function ClinicSummaryPage(props) {
     participatingICBSelected,
     lastUpdated,
     clinicList,
+    pageSize,
+    currentPage,
     onIcbChangeHandler,
     onCheckHandler,
     onClickClinicHandler,
+    onPageSizeChange,
+    onCurrentPageChange,
   } = props;
 
   // Check if all the listed context state variables are available
@@ -54,8 +58,12 @@ export default function ClinicSummaryPage(props) {
               <ClinicSummaryTable
                 lastUpdated={lastUpdated}
                 clinicList={clinicList}
+                pageSize={pageSize}
+                currentPage={currentPage}
                 onCheckHandler={onCheckHandler}
                 onClickClinicHandler={onClickClinicHandler}
+                onPageSizeChange={onPageSizeChange}
+                onCurrentPageChange={onCurrentPageChange}
               />
             )}
         </div>

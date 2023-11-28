@@ -48,7 +48,7 @@ class InvitationSummary extends Component {
   }
 
   componentDidMount() {
-    if (this.state.dummySummaryList.invitationsToGenerateHolder === "0") {
+    if (this.context.state.totalToInvite === 0) {
       this.setState({
         displayErrorInvitationSummary: true,
         displayCheckDetailsBanner: false

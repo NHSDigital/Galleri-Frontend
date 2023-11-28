@@ -1,23 +1,36 @@
-import React, { useState } from "react";
-import Pagination from "@/app/components/pagination";
+import React from "react";
+import Pagination from "../../components/pagination";
 import { AppStateContext } from '@/app/context/AppStateContext';
+import config from "./config/milesOptions";
 
-let PageSize = 10;
 
 export default function LsoaTable(prop) {
-  const { lsoaInRange, checkAllHandler, checkRecord, handleRangeSelection, lsoaCodesAppsToFill, onSubmitHandler } = prop;
-  // Pagination stuff
-  const [currentPage, setCurrentPage] = useState(1);
-  const firstPageIndex = (currentPage - 1) * PageSize;
-  const lastPageIndex = firstPageIndex + PageSize;
-  const mileSelectionOptions = [[...Array(21).keys()], 25, 30, 35, 40, 45, 50, 100].flat()
+  const {
+    lsoaInRange,
+    checkAllHandler,
+    checkRecord,
+    handleRangeSelection,
+    pageSize,
+    currentPage,
+    onSubmitHandler,
+    onPageSizeChange,
+    lastSelectedRange,
+    onCurrentPageChange,
+    lsoaCodesAppsToFill } = prop;
 
-  mileSelectionOptions.shift()
-  const lsoaArray = lsoaInRange.filter(el => {
+    // Pagination stuff
+  const firstPageIndex = (currentPage - 1) * pageSize;
+  const lastPageIndex = Number(firstPageIndex) + Number(pageSize);
+  const currentTableData =  lsoaInRange.slice(firstPageIndex, lastPageIndex);
+
+  const milesOptions = config.milesOptions;
+
+  const lsoaArray = lsoaInRange.filter((el) => {
     if (el.checked) {
-      return el
+      return el;
     }
-  })
+  });
+
 
   const calculateTotalToInvite = (arr) => {
     const total = arr.reduce((acc, curr) => {
@@ -33,7 +46,7 @@ export default function LsoaTable(prop) {
     return Math.round(total / arr.length)
   }
 
-  const currentTableData = lsoaInRange.slice(firstPageIndex, lastPageIndex);
+  // const currentTableData = lsoaInRange.slice(firstPageIndex, lastPageIndex);
 
   return (
     <div>
@@ -45,24 +58,37 @@ export default function LsoaTable(prop) {
             </label>
           </h3>
         </div>
-        <div class="govuk-input__wrapper" id="distance">
-          <select
-            class={
-              "nhsuk-select"
-            }
-            id="milesFromSite"
-            name="miles"
-            onChange={(e) => handleRangeSelection(e)}
-          >
-            {mileSelectionOptions.map((e, key) => {
-              return (<option id={e} value="">+{e}</option>)
-            })}
-          </select>
-          <div
-            class={"govuk-input__suffix"}
-            aria-hidden="true"
-          >
-            miles
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}class="govuk-input__wrapper" id="distance">
+          <div>
+            <select
+              class={
+                "nhsuk-select"
+              }
+              id="milesFromSite"
+              name="milesSelector"
+              onChange={(e) => handleRangeSelection(e)}
+            >
+              {milesOptions.map((e, key) => {
+                return <option value={e.value}>{e.label}</option>
+              })}
+            </select>
+            <div
+              class={ "govuk-input__suffix" }
+              aria-hidden="true"
+            >
+              miles
+          </div>
+        </div>
+        <div class="nhsuk-form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "center"}}>
+            <label class="nhsuk-label" for="pageSize">
+              LSOAs per page
+            </label>
+            <select class="nhsuk-select" id="pageSize" name="select-1" onChange={(e) => onPageSizeChange(e)}>
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+            </select>
           </div>
         </div>
         <div id="lsoaTable">
@@ -170,12 +196,12 @@ export default function LsoaTable(prop) {
               )
             }
           </table>
-          <Pagination
-            currentPage={currentPage}
-            totalCount={lsoaInRange.length}
-            pageSize={PageSize}
-            onPageChange={page => setCurrentPage(page)}
-          />
+        <Pagination
+          currentPage={currentPage}
+          totalCount={lsoaInRange.length}
+          pageSize={pageSize}
+          onPageChange={page => onCurrentPageChange(page)}
+        />
         </div>
         <br />
         <div class="nhsuk-grid-column-one-half" style={{ "padding-left": "0px" }}>
@@ -217,5 +243,3 @@ export default function LsoaTable(prop) {
     </div>
   );
 }
-
-LsoaTable.contextType = AppStateContext;
