@@ -75,6 +75,8 @@ const Pagination = props => {
 
   const paginationRange = fetchPageNumbers();
 
+  console.log("paginationRange",paginationRange);
+
   if (currentPage === 0) {
     return null;
   }
@@ -120,7 +122,12 @@ const Pagination = props => {
               « Previous
             </a>
           </li>
-          {paginationRange.map(pgNumber => (
+          {paginationRange.map(pgNumber => {
+            if (pgNumber === DOTS) {
+              return <li class="style_item__Y9BLA dots">&#8230;</li>;
+            }
+
+            return (
                     <li key={pgNumber}
                         class="style_item__Y9BLA"
                     >
@@ -130,7 +137,7 @@ const Pagination = props => {
                           {pgNumber}
                       </a>
                     </li>
-                ))}
+                  )})}
           <li class="style_item__Y9BLA" id="nextButton">
             <a
               aria-label="Next page"
