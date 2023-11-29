@@ -54,6 +54,8 @@ class InvitationSummary extends Component {
         displayCheckDetailsBanner: false
       })
     }
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
   }
 
   render() {

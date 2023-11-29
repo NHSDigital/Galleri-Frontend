@@ -27,8 +27,11 @@ ${postcode}`;
           <dd class="nhsuk-summary-list__actions" style={{ whiteSpace: "pre" }}>
             <a
               id="changeCancelButtonId"
-              style={{ textDecorationLine: "underline" }}
-              onClick={() => {
+              className="nhsuk-link--no-visited-state"
+              href=""
+              // style={{ textDecorationLine: "underline" }}
+              onClick={(event) => {
+                event.preventDefault();
                 onClickChangeClinicHandler();
               }}
             >

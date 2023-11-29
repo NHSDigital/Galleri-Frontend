@@ -7,7 +7,10 @@ export default function ClinicSummaryTable(props) {
 
   return (
     <div>
-      <table role="table" class="nhsuk-table-responsive nhsuk-u-margin-bottom-6">
+      <table
+        role="table"
+        class="nhsuk-table-responsive nhsuk-u-margin-bottom-6"
+      >
         <caption class="nhsuk-table__caption nhsuk-u-margin-bottom-4">
           Clinic List
           <div class="nhsuk-hint" id="last-updated-hint">
@@ -94,7 +97,11 @@ export default function ClinicSummaryTable(props) {
                     </span>
                     <a
                       id={e.ClinicName.S}
-                      onClick={(event) => onClickClinicHandler(event, e)}
+                      className="nhsuk-link--no-visited-state"
+                      href="#"
+                      onClick={(event) => {
+                        onClickClinicHandler(event, e);
+                      }}
                     >
                       {e.ClinicName?.S ? e.ClinicName?.S : "Not Available"}
                     </a>

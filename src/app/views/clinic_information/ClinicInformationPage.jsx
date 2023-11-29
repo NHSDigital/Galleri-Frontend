@@ -109,10 +109,10 @@ export default function ClinicInformationPage(props) {
             />
           </div>
           <div class="nhsuk-grid-column-full  nhsuk-u-margin-bottom-3">
-          <RecentInvitationHistory
-            props={recentInvitationHistory}
-            displayViewAllPrevInvitations={displayViewAllPrevInvitations}
-          />
+            <RecentInvitationHistory
+              props={recentInvitationHistory}
+              displayViewAllPrevInvitations={displayViewAllPrevInvitations}
+            />
           </div>
           <ClinicInvitationCriteria
             displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
@@ -133,8 +133,12 @@ export default function ClinicInformationPage(props) {
         <button
           class="nhsuk-button"
           data-module="nhsuk-button"
-          type="submit"
-          onClick={() => onSubmitHandler()}
+          type="button"
+          onClick={() => {
+            onSubmitHandler();
+            window.scrollTo(0, 0);
+            document.getElementById("skip-to-main").focus();
+          }}
         >
           Calculate number to invite
         </button>

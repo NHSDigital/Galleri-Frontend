@@ -45,7 +45,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://5ybft6ttw2.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
+        "https://loohur6mfg.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
         { forecastUptake: Number(value) }
       )
       .then((response) => {
@@ -57,7 +57,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://2zuiap5u01.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
+        "https://4wu1u8ygjf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
         { quintiles: updatedQuintile }
       )
       .then((response) => {
@@ -182,7 +182,7 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://yehr3cfrvc.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://89xfgrj6x9.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
         console.log('response -> ' + response.data.NATIONAL_FORCAST_UPTAKE.N);
