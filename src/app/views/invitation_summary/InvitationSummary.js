@@ -38,7 +38,7 @@ class InvitationSummary extends Component {
 
     const response = await axios.post(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      "https://rznf4a3flh.execute-api.eu-west-2.amazonaws.com/dev/generate-invites",
+      "https://zfehfqawp6.execute-api.eu-west-2.amazonaws.com/dev/generate-invites",
       { selectedParticipants: this.context.state.personIdentifiedToInvite,
         clinicInfo: {
           clinicId: this.context.state.clinicId,
