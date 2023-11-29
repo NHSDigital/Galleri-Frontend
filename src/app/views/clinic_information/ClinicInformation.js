@@ -337,13 +337,6 @@ class ClinicInformation extends Component {
   }
 
   componentDidMount() {
-    //Mocked the data below which is supposed to be retrieved from previous page - "Clinic Summary"
-    const icb = {
-      code: "QJK",
-      board: "NHS DEVON INTEGRATED CARE BOARD",
-      id: "NHS DEVON INTEGRATED CARE BOARD"
-    };
-
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up

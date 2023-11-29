@@ -218,24 +218,19 @@ export default function LsoaTable(prop) {
       <div class="nhsuk-grid-column-two-thirds" style={{ "padding-left": "0px" }}>
         <dl class="nhsuk-summary-list">
           <div class="nhsuk-summary-list__row">
-            {lsoaInRange.length === 0 ? (
-              <button
-                class="nhsuk-button"
-                data-module="nhsuk-button"
-                disabled="disabled"
-              >Calculate number to invite</button>
-            ) : (
               <button
                 class="nhsuk-button"
                 data-module="nhsuk-button"
                 type="submit"
+                disabled={lsoaInRange.length === 0}
                 onClick={() => onSubmitHandler(calculateTotalToInvite(lsoaArray), calculateAverageExpectedUptake(lsoaArray), lsoaCodesAppsToFill(lsoaArray))}
               >
                 Calculate number to invite
-              </button>)}
+              </button>
           </div>
         </dl>
       </div>
     </div>
   );
 }
+
