@@ -10,8 +10,8 @@ class ClinicInformation extends Component {
     this.state = {
       "displayUserErrorTargetPercentage": false,
       "displayViewAllPrevInvitations": false,
-      "checkAll": true,
-      "lsoaInRange": [],
+      "lsoaInRange": [""],
+      "rangeSelection": 1,
       "selectedLsoa": [],
       "targetFillToInputValue": 0,
       "rangeSelection": 1,
@@ -26,11 +26,12 @@ class ClinicInformation extends Component {
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
+    this.lsoaCodesAppsToFill = this.lsoaCodesAppsToFill.bind(this);
     this.onCurrentPageChange = this.onCurrentPageChange.bind(this);
     this.onPageSizeChange = this.onPageSizeChange.bind(this);
   }
 
-  onSubmitHandler(totalToInvite, avgExpectedUptake) {
+  onSubmitHandler(totalToInvite, avgExpectedUptake, lsoaCodesAppsToFill) {
     this.context.setState({
       "isSubmit": true,
       "totalToInvite": totalToInvite,
@@ -158,16 +159,56 @@ class ClinicInformation extends Component {
     }
   }
 
+  createLsoaCodePayload(lsoaArray) {
+    // create object payload for the incoming lsoaArray
+    const lsoaInfo = {};
+    lsoaArray.forEach(lsoa => {
+      let eachLSOA_2011 = lsoa.LSOA_2011.S;
+      let eachIMD_DECILE = lsoa.IMD_DECILE.N;
+      let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
+
+      lsoaInfo[eachLSOA_2011] = {
+        "IMD_DECILE": eachIMD_DECILE,
+        "FORECAST_UPTAKE": eachFORECAST_UPTAKE
+      }
+    })
+    return lsoaInfo;
+  }
+
+  // POST lsoa codes and appsToFill (send to lambda)
+  async lsoaCodesAppsToFill(lsoaArray) {
+    const payloadObject = this.createLsoaCodePayload(lsoaArray)
+    try {
+      const response = await axios.post(
+        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+        "https://uudvu0o6k1.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
+        {
+          targetAppsToFill: this.state.appsToFill,
+          lsoaCodes: payloadObject
+        }
+      );
+      this.context.setState({
+        "noInviteToGenerate": response.data.numberOfPeopleToInvite,
+        "personIdentifiedToInvite": response.data.selectedParticipants
+      })
+      return response.data;
+    } catch (error) {
+      console.error("Request failed: " + error.message);
+    }
+  }
+
   // Handler Function for user errors and calculating target number of appointments to fill
   async onClickTargetAppsToFillHandler(targetFillToInputValue) {
     let value = Number(targetFillToInputValue);
 
     if ((value) && (value <= 100)) {
-      await this.putTargetPercentageAWSDynamo(value);
       this.setState({
         appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
         displayUserErrorTargetPercentage: false,
       });
+      this.context.setState({
+        targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
+      })
     } else {
       this.setState({
         displayUserErrorTargetPercentage: true,
@@ -267,14 +308,9 @@ class ClinicInformation extends Component {
           // Set component state
           this.setState({
             rangeSelection: lastSelectedRange,
-            targetFillToInputValue: targetFillToPercentage
-          },
-            () => {
-              this.setState({
-                appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
-              });
-            }
-          )
+            targetFillToInputValue: targetFillToPercentage,
+            appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+          });
 
           // Set global state
           this.context.setState({
@@ -291,13 +327,8 @@ class ClinicInformation extends Component {
             displayViewAllPrevInvitations: displayViewAllPrevInvitations,
             currentPage: 1,
             pageSize: 10,
-          }, () => {
-            this.setState({
-              appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
-            });
-            this.context.setState({
-              targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100))
-            })
+            appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+            targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100))
           })
         });
       // Scroll to the top of the page every time it renders the page
@@ -363,14 +394,9 @@ class ClinicInformation extends Component {
             // Set component state
             this.setState({
               rangeSelection: lastSelectedRange,
-              targetFillToInputValue: targetFillToPercentage
-            },
-              () => {
-                this.setState({
-                  appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
-                });
-              }
-            )
+              targetFillToInputValue: targetFillToPercentage,
+              appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+            })
 
             // Set global state
             this.context.setState({
@@ -411,7 +437,6 @@ class ClinicInformation extends Component {
             )
           });
 
-
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
     // therefore there is no guarentee that the postcode actually exists
@@ -431,9 +456,8 @@ class ClinicInformation extends Component {
   componentDidUpdate(_, prevState) {
     if (this.state.rangeSelection !== prevState.rangeSelection || this.state.postcode !== prevState.postcode) {
       // placeholder postcode as the clinic postcode is generated off of random string
-      // TODO: placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
-      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+      // TODO: placeholder postcode as the clinic postcode is generated off of random string
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
@@ -446,6 +470,7 @@ class ClinicInformation extends Component {
           })
         })
     }
+
   }
 
   render() {
@@ -521,6 +546,7 @@ class ClinicInformation extends Component {
                   handleRangeSelection={this.handleRangeSelection}
                   checkRecord={this.checkRecord}
                   checkAllHandler={this.checkAllHandler}
+                  lsoaCodesAppsToFill={this.lsoaCodesAppsToFill}
                   onPageSizeChange={this.onPageSizeChange}
                   onCurrentPageChange={this.onCurrentPageChange}
                 />

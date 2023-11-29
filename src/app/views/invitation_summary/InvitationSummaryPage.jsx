@@ -20,12 +20,12 @@ export default function InvitationSummaryPage(props) {
     onClickGenerateHandler,
     onClickGoBackPrevPageLinkHandler,
     recentInvitationHistory,
-    dummySummaryList,
     rangeSelection,
     targetAppToFill,
     targetPercentageToFill,
     totalToInvite,
-    avgExpectedUptake
+    avgExpectedUptake,
+    noInviteToGenerate
   } = props;
 
   return (
@@ -67,8 +67,11 @@ export default function InvitationSummaryPage(props) {
             id="main-content"
             className="nhsuk-grid-column-two-thirds"
           >
-            {displayErrorInvitationSummary && (
-              <ErrorBanner dummySummaryList={dummySummaryList} />
+            {displayErrorInvitationSummary || (noInviteToGenerate > totalToInvite) && (
+              <ErrorBanner
+                totalToInvite={totalToInvite}
+                noInviteToGenerate={noInviteToGenerate}
+              />
             )}
             {displayConfirmationInvitationSummary && <ConfirmationBanner />}
             <ClinicInfo
@@ -88,6 +91,7 @@ export default function InvitationSummaryPage(props) {
               targetAppToFill={targetAppToFill}
               avgExpectedUptake={avgExpectedUptake}
               displayErrorInvitationSummary={displayErrorInvitationSummary}
+              noInviteToGenerate={noInviteToGenerate}
             />
             <Actions
               onClickGenerateHandler={onClickGenerateHandler}

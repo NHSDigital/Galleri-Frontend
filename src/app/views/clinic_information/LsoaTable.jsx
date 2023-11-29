@@ -1,6 +1,5 @@
 import React from "react";
-import Pagination from "../../components/pagination";
-import { AppStateContext } from '@/app/context/AppStateContext';
+import Pagination from "../../components/Pagination";
 import config from "./config/milesOptions";
 
 
@@ -14,8 +13,8 @@ export default function LsoaTable(prop) {
     currentPage,
     onSubmitHandler,
     onPageSizeChange,
-    lastSelectedRange,
-    onCurrentPageChange, } = prop;
+    onCurrentPageChange,
+    lsoaCodesAppsToFill } = prop;
 
     // Pagination stuff
   const firstPageIndex = (currentPage - 1) * pageSize;
@@ -32,19 +31,18 @@ export default function LsoaTable(prop) {
 
 
   const calculateTotalToInvite = (arr) => {
-    const total = arr.reduce((acc,curr) => {
+    const total = arr.reduce((acc, curr) => {
       return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S))
       },0)
   return total
   }
 
   const calculateAverageExpectedUptake = (arr) => {
-    const total = arr.reduce((acc,curr) => {
+    const total = arr.reduce((acc, curr) => {
       return acc + Number(curr?.FORECAST_UPTAKE?.N)
-      },0)
-  return Math.round(total / arr.length)
+    }, 0)
+    return Math.round(total / arr.length)
   }
-
 
   return (
     <div>
@@ -52,7 +50,7 @@ export default function LsoaTable(prop) {
         <div class="govuk-form-group" id="lsoaText">
           <h3>
             <label class="govuk-label govuk-label--s" for="selectDistanceText">
-            Select a distance from the clinic to find eligible people per lower layer super output area (LSOA)
+              Select a distance from the clinic to find eligible people per lower layer super output area (LSOA)
             </label>
           </h3>
         </div>
@@ -93,7 +91,7 @@ export default function LsoaTable(prop) {
           <table role="table" class="nhsuk-table-responsive">
             <thead role="rowgroup" class="nhsuk-table__head">
               <tr role="row">
-                <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+                <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                   <div class="nhsuk-checkboxes__item">
                     <input
                       class="nhsuk-checkboxes__input"
@@ -110,81 +108,89 @@ export default function LsoaTable(prop) {
                     </label>
                   </div>
                 </th>
-                <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+                <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                   LSOA name
                 </th>
-                <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+                <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                   Distance
                 </th>
                 <th role="columnheader" class="" scope="col">
                   Forecast
-                  <br/>
+                  <br />
                   uptake
                 </th>
                 <th role="columnheader" class="" scope="col">
                   IMD
-                  <br/>
+                  <br />
                   decile
                 </th>
-                <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+                <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                   Eligible
                 </th>
-                <th role="columnheader" class="" scope="col" style={{"vertical-align": "bottom"}}>
+                <th role="columnheader" class="" scope="col" style={{ "vertical-align": "bottom" }}>
                   Invited
                 </th>
                 <th role="columnheader" class="" scope="col">
                   Available
-                  <br/>
+                  <br />
                   to invite
                 </th>
               </tr>
             </thead>
-            <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-              {currentTableData?.map((e, key) => {
-                return (
-                  <tr role="row" class="nhsuk-table__row">
-                    <td role="cell" class="nhsuk-table__cell">
-                        <div class="nhsuk-checkboxes__item">
-                          <input
-                            class="nhsuk-checkboxes__input"
-                            id="selectALsoa"
-                            name="SelectALsoaInList"
-                            type="checkbox"
-                            onChange={(event) => checkRecord(event, e)}
-                            checked={e.checked}
-                          />
-                          <label
-                            class="nhsuk-label nhsuk-checkboxes__label"
-                            for="selectALsoa"
-                          >
-                          </label>
-                        </div>
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                      {e.LSOA_2011?.S}
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                      {e.DISTANCE_TO_SITE?.N}
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                      {e.FORECAST_UPTAKE?.N}%
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                      {e.IMD_DECILE?.N}
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                      {e.ELIGIBLE_POPULATION?.S}
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                      {e.INVITED_POPULATION?.S}
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                      {Number(e.ELIGIBLE_POPULATION?.S) - Number(e.INVITED_POPULATION?.S)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+            {
+              lsoaInRange.length === 0 ? (
+                <tbody>
+                  <div>No LSOA data is available</div>
+                </tbody>
+              ) : (
+                <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
+                  {currentTableData?.map((e, key) => {
+                    return (
+                      <tr role="row" class="nhsuk-table__row">
+                        <td role="cell" class="nhsuk-table__cell">
+                          <div class="nhsuk-checkboxes__item">
+                            <input
+                              class="nhsuk-checkboxes__input"
+                              id="selectALsoa"
+                              name="SelectALsoaInList"
+                              type="checkbox"
+                              onChange={(event) => checkRecord(event, e)}
+                              checked={e.checked}
+                            />
+                            <label
+                              class="nhsuk-label nhsuk-checkboxes__label"
+                              for="selectALsoa"
+                            >
+                            </label>
+                          </div>
+                        </td>
+                        <td role="cell" class="nhsuk-table__cell">
+                          {e.LSOA_2011?.S}
+                        </td>
+                        <td role="cell" class="nhsuk-table__cell">
+                          {e.DISTANCE_TO_SITE?.N}
+                        </td>
+                        <td role="cell" class="nhsuk-table__cell">
+                          {e.FORECAST_UPTAKE?.N}%
+                        </td>
+                        <td role="cell" class="nhsuk-table__cell">
+                          {e.IMD_DECILE?.N}
+                        </td>
+                        <td role="cell" class="nhsuk-table__cell">
+                          {e.ELIGIBLE_POPULATION?.S}
+                        </td>
+                        <td role="cell" class="nhsuk-table__cell">
+                          {e.INVITED_POPULATION?.S}
+                        </td>
+                        <td role="cell" class="nhsuk-table__cell">
+                          {Number(e.ELIGIBLE_POPULATION?.S) - Number(e.INVITED_POPULATION?.S)}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              )
+            }
           </table>
         <Pagination
           currentPage={currentPage}
@@ -193,36 +199,38 @@ export default function LsoaTable(prop) {
           onPageChange={page => onCurrentPageChange(page)}
         />
         </div>
-        <br/>
-        <div class="nhsuk-grid-column-one-half" style={{"padding-left": "0px"}}>
+        <br />
+        <div class="nhsuk-grid-column-one-half" style={{ "padding-left": "0px" }}>
           <dl class="nhsuk-summary-list">
             <div class="nhsuk-summary-list__row">
               <dt class="nhsuk-summary-list__key">
                 Total available to invite
               </dt>
               <dd class="nhsuk-summary-list__value">
-              {
-                calculateTotalToInvite(lsoaArray)
-              }
+                {
+                  calculateTotalToInvite(lsoaArray)
+                }
               </dd>
             </div>
           </dl>
         </div>
       </div>
-      <div class="nhsuk-grid-column-two-thirds" style={{"padding-left": "0px"}}>
-          <dl class="nhsuk-summary-list">
-            <div class="nhsuk-summary-list__row">
+      <div class="nhsuk-grid-column-two-thirds" style={{ "padding-left": "0px" }}>
+        <dl class="nhsuk-summary-list">
+          <div class="nhsuk-summary-list__row">
               <button
                 class="nhsuk-button"
                 data-module="nhsuk-button"
                 type="submit"
-                onClick={() => onSubmitHandler(calculateTotalToInvite(lsoaArray), calculateAverageExpectedUptake(lsoaArray))}
+                disabled={lsoaInRange.length === 0}
+                onClick={() => onSubmitHandler(calculateTotalToInvite(lsoaArray), calculateAverageExpectedUptake(lsoaArray), lsoaCodesAppsToFill(lsoaArray))}
               >
-              Calculate number to invite
+                Calculate number to invite
               </button>
-            </div>
-          </dl>
-        </div>
+          </div>
+        </dl>
+      </div>
     </div>
   );
 }
+

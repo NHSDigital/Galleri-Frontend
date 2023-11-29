@@ -110,7 +110,6 @@ const Pagination = props => {
             {`Showing ${currentPage*pageSize-pageSize+1}-${currentPage*pageSize<totalCount?currentPage*pageSize:totalCount} of ${totalCount} results`}
           </span>
         </div>
-
         <h2 class="nhsuk-u-visually-hidden">Support links</h2>
         <ul>
           <li class="style_item__Y9BLA" id="prevButton">

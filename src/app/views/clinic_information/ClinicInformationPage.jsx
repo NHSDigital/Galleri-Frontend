@@ -28,17 +28,15 @@ export default function ClinicInformationPage(props) {
     targetFillToInputValue,
     appsToFill,
     lastSelectedRange,
-    targetFillToPercentage,
+    lsoaInRange,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
-    lsoaInRange,
-    checkAll,
     pageSize,
     currentPage,
     checkAllHandler,
-    checkRecord,
     handleRangeSelection,
-    handleTotalToInvite,
+    lsoaCodesAppsToFill,
+    checkRecord,
     onPageSizeChange,
     onCurrentPageChange,
   } = props;
@@ -62,12 +60,22 @@ export default function ClinicInformationPage(props) {
               Go back
             </a>
           </div>
-          <h1 label="header">Clinic Invitations</h1>
-          <p>
-            View appointment availability, and set criteria to generate new
-            invitations for a clinic.
-          </p>
-          <br />
+          <div>
+            {lsoaInRange.length === 0 ? (
+              <div className="nhsuk-grid-column-two-thirds" style={{ "color": "#d5281b", "border": "5px solid", "text-align": "center", }}>
+                <h2>No LSOA data is available</h2>
+              </div>
+            ) : ("")}
+          </div>
+          <div className="nhsuk-grid-column-two-thirds">
+            <br />
+            <h1 label="header">Clinic Invitations</h1>
+            <p>
+              View appointment availability, and set criteria to generate new
+              invitations for a clinic.
+            </p>
+            <br />
+          </div>
           <div class="nhsuk-grid-column-two-thirds">
             <h2 id="maincontent" label="header">
               Clinic Information
@@ -132,7 +140,7 @@ export default function ClinicInformationPage(props) {
               pageSize={pageSize}
               currentPage={currentPage}
               handleRangeSelection={handleRangeSelection}
-              handleTotalToInvite={handleTotalToInvite}
+              lsoaCodesAppsToFill={lsoaCodesAppsToFill}
               onSubmitHandler={onSubmitHandler}
               onPageSizeChange={onPageSizeChange}
               onCurrentPageChange={onCurrentPageChange}

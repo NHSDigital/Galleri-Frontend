@@ -8,7 +8,6 @@ export default function SummaryListFirst({
   targetPercentageToFill,
   totalToInvite
   })
-
   {
     const { appsRemaining } = props;
 
