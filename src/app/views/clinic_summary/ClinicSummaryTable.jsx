@@ -7,6 +7,7 @@ export default function ClinicSummaryTable(props) {
 
   return (
     <section>
+      {/* <h2 className="nhsuk-heading no-margin-bottom">Clinic List</h2> */}
       <table
         className="nhsuk-table-responsive nhsuk-u-margin-bottom-6"
         aria-labelledby="clinicTableCaption"
@@ -16,9 +17,9 @@ export default function ClinicSummaryTable(props) {
           className="nhsuk-table__caption nhsuk-u-margin-bottom-4"
         >
           Clinic List
-          <div className="nhsuk-hint" id="last-updated-hint">
+          <span className="nhsuk-hint" id="last-updated-hint">
             Last Updated: {props.lastUpdated}
-          </div>
+          </span>
           <div className="nhsuk-checkboxes__item">
             <input
               className="nhsuk-checkboxes__input"
@@ -40,43 +41,38 @@ export default function ClinicSummaryTable(props) {
           <tr role="row">
             <th
               role="columnheader"
-              className=""
+              className="custom-th"
               scope="col"
-              style={{ verticalAlign: "bottom" }}
             >
               Clinic name
             </th>
             <th
               role="columnheader"
-              className=""
+              className="custom-th custom-th__whitespace"
               scope="col"
-              style={{ whiteSpace: "pre-line", verticalAlign: "bottom" }}
             >
               Date of previous invitations
             </th>
             <th
               role="columnheader"
-              className=""
+              className="custom-th custom-th__whitespace"
               scope="col"
-              style={{ whiteSpace: "pre-line", verticalAlign: "bottom" }}
             >
               Days since previous invitations
             </th>
             <th
               role="columnheader"
-              className=""
+              className="custom-th"
               scope="col"
-              style={{ whiteSpace: "pre-line" }}
             >
               Invitations sent
             </th>
             <th
               role="columnheader"
-              className=""
+              className="custom-th custom-th__whitespace"
               scope="col"
-              style={{ whiteSpace: "pre-line" }}
             >
-              Appointments available
+              Appointments remaining
             </th>
           </tr>
         </thead>
@@ -92,8 +88,7 @@ export default function ClinicSummaryTable(props) {
                 <tr key={key} role="row" className="nhsuk-table__row">
                   <td
                     role="cell"
-                    className="nhsuk-table__cell"
-                    style={{ whiteSpace: "pre" }}
+                    className="nhsuk-table__cell custom-td__whitespace"
                   >
                     <span className="nhsuk-table-responsive__heading">
                       Clinic name{" "}
@@ -109,7 +104,7 @@ export default function ClinicSummaryTable(props) {
                       {e.ClinicName?.S ? e.ClinicName?.S : "Not Available"}
                     </a>
                   </td>
-                  <td role="cell" className="nhsuk-table__cell" >
+                  <td role="cell" className="nhsuk-table__cell">
                     <span className="nhsuk-table-responsive__heading">
                       Date of previous invitations{" "}
                     </span>

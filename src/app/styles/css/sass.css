@@ -252,6 +252,18 @@ th {
 	font-weight: 600;
 }
 
+.custom-th {
+	vertical-align: bottom;
+}
+
+.custom-th__whitespace {
+	white-space: pre-line;
+}
+
+.custom-td__whitespace {
+	white-space: pre;
+}
+
 caption {
 	font-weight: 600;
 	font-size: 18px;
@@ -793,6 +805,12 @@ h2,
 	margin-top: 0;
 	margin-bottom: 16px;
 }
+
+/* Additional class with custom styling */
+.no-margin-bottom {
+	margin-bottom: 0;
+}
+
 @media (min-width: 40.0625em) {
 	h2,
 	.nhsuk-heading-l {
@@ -4346,7 +4364,7 @@ COMPONENTS/ #ERROR-SUMMARY
 	margin-bottom: 0;
 	margin-top: 0;
 	padding-left: 16px;
-	border-left: 4px solid #d5281b
+	border-left: 4px solid #d5281b;
 }
 
 .nhsuk-error-summary__list a {
@@ -5242,22 +5260,23 @@ COMPONENTS / #HEADER
 }
 
 .nhsuk-header__navigation-list {
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
 	list-style: none;
+	display: flex;
 	margin: 0;
 	padding-left: 0;
+	max-width: 960px;
+	width: 100%;
 }
-@media (min-width: 61.875em) {
+@media (min-width: 48.0625em) {
 	.nhsuk-header__navigation-list {
 		border-top: 1px solid rgba(255, 255, 255, 0.2);
 		display: flex;
-		justify-content: space-between;
-		padding: 0;
-		width: 100%;
+		justify-content: flex-start;
 	}
 }
 
 .nhsuk-header__navigation-item {
-	border-top: 1px solid #f0f4f5;
 	margin-bottom: 0;
 	position: relative;
 }
@@ -5310,7 +5329,7 @@ COMPONENTS / #HEADER
 	top: 11px;
 }
 .nhsuk-header__navigation-link:visited {
-	color: #005eb8;
+	color: #ffffff;
 }
 @media (min-width: 61.875em) {
 	.nhsuk-header__navigation-link:visited {
@@ -6862,6 +6881,10 @@ COMPONENTS/ #SUMMARY-LIST
 	.nhsuk-summary-list__key {
 		width: 30%;
 	}
+}
+
+.nhsuk-summary-list-custom__key {
+	width: 350px;
 }
 
 @media (max-width: 40.0525em) {
@@ -10513,7 +10536,6 @@ COMPONENTS / #WARNING-CALLOUT
 }
 
 .govuk-input__prefix,
-
 .govuk-input__suffix {
 	font-family: "GDS Transport", arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -12238,7 +12260,7 @@ COMPONENTS / #WARNING-CALLOUT
 
 .govuk-panel--confirmation {
 	color: #ffffff;
-	background: #005EB8;
+	background: #005eb8;
 }
 @media print {
 	.govuk-panel--confirmation {
