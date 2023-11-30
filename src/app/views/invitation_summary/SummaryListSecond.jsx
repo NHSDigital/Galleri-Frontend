@@ -81,7 +81,7 @@ export default function SummaryListSecond({
               Estimated appointments that will be filled
             </dt>
             <dd id="term3-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-4 nhsuk-summary-list__value_custom__value">
-              {noInviteToGenerate * avgExpectedUptake / 100}
+              {Math.floor(noInviteToGenerate * avgExpectedUptake / 100)}
             </dd>
           </div>
         </dl>
