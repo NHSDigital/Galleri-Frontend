@@ -16,7 +16,7 @@ export default function LsoaTable(prop) {
     onCurrentPageChange,
     lsoaCodesAppsToFill } = prop;
 
-    // Pagination stuff
+  // Pagination stuff
   const firstPageIndex = (currentPage - 1) * pageSize;
   const lastPageIndex = Number(firstPageIndex) + Number(pageSize);
   const currentTableData =  lsoaInRange.slice(firstPageIndex, lastPageIndex);
@@ -33,8 +33,8 @@ export default function LsoaTable(prop) {
   const calculateTotalToInvite = (arr) => {
     const total = arr.reduce((acc, curr) => {
       return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S))
-      },0)
-  return total
+    },0)
+    return total
   }
 
   const calculateAverageExpectedUptake = (arr) => {
@@ -73,9 +73,9 @@ export default function LsoaTable(prop) {
               aria-hidden="true"
             >
               miles
+            </div>
           </div>
-        </div>
-        <div class="nhsuk-form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "center"}}>
+          <div class="nhsuk-form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "center"}}>
             <label class="nhsuk-label" for="pageSize">
               LSOAs per page
             </label>
@@ -165,7 +165,7 @@ export default function LsoaTable(prop) {
                           </div>
                         </td>
                         <td role="cell" class="nhsuk-table__cell">
-                          {e.LSOA_2011?.S}
+                          {e.LSOA_NAME?.S}
                         </td>
                         <td role="cell" class="nhsuk-table__cell">
                           {e.DISTANCE_TO_SITE?.N}
@@ -192,12 +192,12 @@ export default function LsoaTable(prop) {
               )
             }
           </table>
-        <Pagination
-          currentPage={currentPage}
-          totalCount={lsoaInRange.length}
-          pageSize={pageSize}
-          onPageChange={page => onCurrentPageChange(page)}
-        />
+          <Pagination
+            currentPage={currentPage}
+            totalCount={lsoaInRange.length}
+            pageSize={pageSize}
+            onPageChange={page => onCurrentPageChange(page)}
+          />
         </div>
         <br />
         <div class="nhsuk-grid-column-one-half" style={{ "padding-left": "0px" }}>
@@ -218,15 +218,15 @@ export default function LsoaTable(prop) {
       <div class="nhsuk-grid-column-two-thirds" style={{ "padding-left": "0px" }}>
         <dl class="nhsuk-summary-list">
           <div class="nhsuk-summary-list__row">
-              <button
-                class="nhsuk-button"
-                data-module="nhsuk-button"
-                type="submit"
-                disabled={lsoaInRange.length === 0}
-                onClick={() => onSubmitHandler(calculateTotalToInvite(lsoaArray), calculateAverageExpectedUptake(lsoaArray), lsoaCodesAppsToFill(lsoaArray))}
-              >
-                Calculate number to invite
-              </button>
+            <button
+              class="nhsuk-button"
+              data-module="nhsuk-button"
+              type="submit"
+              disabled={lsoaInRange.length === 0}
+              onClick={() => onSubmitHandler(calculateTotalToInvite(lsoaArray), calculateAverageExpectedUptake(lsoaArray), lsoaCodesAppsToFill(lsoaArray))}
+            >
+              Calculate number to invite
+            </button>
           </div>
         </dl>
       </div>

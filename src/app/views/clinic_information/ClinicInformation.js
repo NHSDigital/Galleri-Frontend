@@ -150,7 +150,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.put(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://vk0v8v0yab.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
+        "https://3qwp33xpah.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage",
         { targetPercentage: Number(value) }
       );
       return response.data;
@@ -181,7 +181,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        "https://uudvu0o6k1.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
+        "https://t0roc51vb5.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
         {
           targetAppsToFill: this.state.appsToFill,
           lsoaCodes: payloadObject
@@ -270,7 +270,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://jwkj3d6h80.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://nuw7pl0ajk.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -342,7 +342,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://7e8phq43zc.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
+        `https://uvewcaxa9d.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
         this.context.setState({
@@ -356,7 +356,7 @@ class ClinicInformation extends Component {
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
           .get(
-            `https://jwkj3d6h80.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+            `https://nuw7pl0ajk.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {
             const weeklyCapacityData = response.data.WeekCommencingDate.M;
@@ -411,31 +411,31 @@ class ClinicInformation extends Component {
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
             })
 
-                if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
-                  this.putTargetPercentageAWSDynamo("50");
-                }
+            if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
+              this.putTargetPercentageAWSDynamo("50");
+            }
 
-                //Executes GET API call below when page renders - grabs default Target Percentage input value
-                // and displays the target number of appointments to fill
-                // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-                axios
-                  .get(
-                    "https://zorbuadmlg.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
-                  )
-                  .then((response) => {
-                    const targetPercentageValue = response.data.targetPercentage.N;
-                    this.setState({
-                      targetFillToInputValue: targetPercentageValue,
-                      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
-                    });
-                    this.context.setState({
-                      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
-                      targetPercentageToFill: targetPercentageValue
-                    })
-                  });
-              }
-            )
-          });
+            //Executes GET API call below when page renders - grabs default Target Percentage input value
+            // and displays the target number of appointments to fill
+            // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+            axios
+              .get(
+                "https://8pv80pts90.execute-api.eu-west-2.amazonaws.com/dev/target-percentage"
+              )
+              .then((response) => {
+                const targetPercentageValue = response.data.targetPercentage.N;
+                this.setState({
+                  targetFillToInputValue: targetPercentageValue,
+                  appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                });
+                this.context.setState({
+                  targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                  targetPercentageToFill: targetPercentageValue
+                })
+              });
+          }
+          )
+      });
 
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
@@ -443,7 +443,7 @@ class ClinicInformation extends Component {
     const postcodeHolder = "SE1 9RT" // const clinicPostcode = this.state.postcode
     axios
       .get(
-        `https://visaf17cq4.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
+        `https://43mu01zic7.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
@@ -461,7 +461,7 @@ class ClinicInformation extends Component {
       const postcodeHolder = "SW1A 2AA" // const clinicPostcode = this.state.postcode
       axios
         .get(
-          `https://visaf17cq4.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
+          `https://43mu01zic7.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
         )
         .then((response) => {
           this.setState({

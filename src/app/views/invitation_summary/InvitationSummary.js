@@ -38,8 +38,9 @@ class InvitationSummary extends Component {
 
     const response = await axios.post(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      "https://zfehfqawp6.execute-api.eu-west-2.amazonaws.com/dev/generate-invites",
-      { selectedParticipants: this.context.state.personIdentifiedToInvite,
+      "https://ef78n7akx6.execute-api.eu-west-2.amazonaws.com/dev/generate-invites",
+      {
+        selectedParticipants: this.context.state.personIdentifiedToInvite,
         clinicInfo: {
           clinicId: this.context.state.clinicId,
           clinicName: this.context.state.clinicName,
@@ -93,8 +94,8 @@ class InvitationSummary extends Component {
           displayErrorInvitationSummary={displayErrorInvitationSummary}
           displayConfirmationInvitationSummary={displayConfirmationInvitationSummary}
           rangeSelection={rangeSelection}
-          totalToInvite = {totalToInvite}
-          avgExpectedUptake = {avgExpectedUptake}
+          totalToInvite={totalToInvite}
+          avgExpectedUptake={avgExpectedUptake}
           targetAppToFill={targetAppToFill}
           targetPercentageToFill={targetPercentageToFill}
           noInviteToGenerate={noInviteToGenerate}
