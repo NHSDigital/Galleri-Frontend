@@ -53,12 +53,12 @@ export default class Pagination extends Component {
     const { list, partitionSize, partitions, indices, currentPage } = this.state;
     return (
       <div class="nhsuk-width-container">
-        <h2 class="nhsuk-u-visually-hidden">Support links</h2>
         <ul class="nhsuk-footer__list">
           <li class="nhsuk-footer__list-item" id="prevButton">
             <a
-              aria-label="Previous page"
+              aria-label="Previous page - « Previous"
               class="style_link__ToZGL style_current__K8c2u"
+              href=""
               onClick={(e) => this.onPrevHandler(e)}
             >
               « Previous
@@ -87,6 +87,7 @@ export default class Pagination extends Component {
             <a
               aria-label="Next page"
               class="style_link__ToZGL"
+              href=""
               onClick={(e) => this.onNextHandler(e)}
             >
               Next »
