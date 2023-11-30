@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const CLINIC_SUMMARY_LIST = process.env.NEXT_PUBLIC_CLINIC_SUMMARY_LIST;
 const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION
-const PARTICIPATING_ICB_LIST = process.env.NEXT_PUBLIC_PARTICIPATING_ICB_LIST;
+const CLINIC_ICB_LIST = process.env.NEXT_PUBLIC_CLINIC_ICB_LIST;
 const PUT_TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_PUT_TARGET_PERCENTAGE
 const TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_TARGET_PERCENTAGE
 const CALCULATE_NUM_TO_INVITE = process.env.NEXT_PUBLIC_CALCULATE_NUM_TO_INVITE
@@ -351,7 +351,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://${PARTICIPATING_ICB_LIST}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
+        `https://${CLINIC_ICB_LIST}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
         this.context.setState({
