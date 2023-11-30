@@ -6864,6 +6864,10 @@ COMPONENTS/ #SUMMARY-LIST
 	}
 }
 
+.nhsuk-summary-list-custom__key {
+	width: 350px;
+}
+
 @media (max-width: 40.0525em) {
 	.nhsuk-summary-list__value {
 		margin-bottom: 16px;
@@ -6881,6 +6885,10 @@ COMPONENTS/ #SUMMARY-LIST
 
 .nhsuk-summary-list__value > :last-child {
 	margin-bottom: 0;
+}
+
+.nhsuk-summary-list__value_custom__value {
+	vertical-align: middle;
 }
 
 .nhsuk-summary-list__actions-list {
