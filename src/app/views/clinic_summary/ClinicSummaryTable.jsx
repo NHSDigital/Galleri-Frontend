@@ -1,5 +1,5 @@
 import React from "react";
-import Pagination from "../../components/pagination.js";
+import Pagination from "../../components/Pagination";
 
 export default function ClinicSummaryTable(props) {
   const {

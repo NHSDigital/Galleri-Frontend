@@ -137,8 +137,11 @@ class ClinicInformation extends Component {
       ),
     });
     this.context.setState({
-      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
-    })
+      targetAppToFill: Math.floor(
+        this.context.state.recentInvitationHistory.appsRemaining *
+          (targetFillToInputValue / 100)
+      ),
+    });
   }
 
   // DB actions to PUT target percentage of appointments to fill
@@ -158,35 +161,35 @@ class ClinicInformation extends Component {
   createLsoaCodePayload(lsoaArray) {
     // create object payload for the incoming lsoaArray
     const lsoaInfo = {};
-    lsoaArray.forEach(lsoa => {
+    lsoaArray.forEach((lsoa) => {
       let eachLSOA_2011 = lsoa.LSOA_2011.S;
       let eachIMD_DECILE = lsoa.IMD_DECILE.N;
       let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
 
       lsoaInfo[eachLSOA_2011] = {
-        "IMD_DECILE": eachIMD_DECILE,
-        "FORECAST_UPTAKE": eachFORECAST_UPTAKE
-      }
-    })
+        IMD_DECILE: eachIMD_DECILE,
+        FORECAST_UPTAKE: eachFORECAST_UPTAKE,
+      };
+    });
     return lsoaInfo;
   }
 
   // POST lsoa codes and appsToFill (send to lambda)
   async lsoaCodesAppsToFill(lsoaArray) {
-    const payloadObject = this.createLsoaCodePayload(lsoaArray)
+    const payloadObject = this.createLsoaCodePayload(lsoaArray);
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         "https://uudvu0o6k1.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite",
         {
           targetAppsToFill: this.state.appsToFill,
-          lsoaCodes: payloadObject
+          lsoaCodes: payloadObject,
         }
       );
       this.context.setState({
-        "noInviteToGenerate": response.data.numberOfPeopleToInvite,
-        "personIdentifiedToInvite": response.data.selectedParticipants
-      })
+        noInviteToGenerate: response.data.numberOfPeopleToInvite,
+        personIdentifiedToInvite: response.data.selectedParticipants,
+      });
       return response.data;
     } catch (error) {
       console.error("Request failed: " + error.message);
@@ -207,8 +210,11 @@ class ClinicInformation extends Component {
         displayUserErrorTargetPercentage: false,
       });
       this.context.setState({
-        targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
-      })
+        targetAppToFill: Math.floor(
+          this.context.state.recentInvitationHistory.appsRemaining *
+            (targetFillToInputValue / 100)
+        ),
+      });
     } else {
       this.setState({
         displayUserErrorTargetPercentage: true,
@@ -221,8 +227,8 @@ class ClinicInformation extends Component {
       targetFillToInputValue: e.target.value,
     });
     this.context.setState({
-      targetPercentageToFill: e.target.value
-    })
+      targetPercentageToFill: e.target.value,
+    });
   }
 
   onClickChangeClinicHandler() {
@@ -366,81 +372,79 @@ class ClinicInformation extends Component {
             }),
           ],
         });
+      });
 
-        let initialSelectedClinicId = this.context.state.clinicIdSelected;
-        let initialSelectedClinic = this.context.state.clinicNameSelected;
-        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        axios
-          .get(
-            `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
-          )
-          .then((response) => {
-            const weeklyCapacityData = response.data.WeekCommencingDate.M;
-            const weeklyCapacityKeys = this.sortDate(
-              Object.keys(response.data.WeekCommencingDate.M)
-            );
-            let weeklyCapacityValue = 0;
-            let weeklyCapacityList = [];
-            weeklyCapacityKeys.forEach((key) => {
-              weeklyCapacityList.push({
-                date: key,
-                value: weeklyCapacityData[key].N,
-              });
-              weeklyCapacityValue += Number(weeklyCapacityData[key].N);
-            });
-
-            const prevInviteDate = response.data.PrevInviteDate.S;
-            const dateOfPrevInv = prevInviteDate
-              ? prevInviteDate
-              : "Not Available";
-            const daysSincePrevInv = prevInviteDate
-              ? this.calculateDaysSince(prevInviteDate)
-              : "Not Available";
-
-            const clinicInvitationHistory = {
-              dateOfPrevInv,
-              daysSincePrevInv,
-              invSent: response.data.InvitesSent.N,
-              appsRemaining: weeklyCapacityValue,
-            };
-
-            const addressParts = response.data.Address.S.split(",");
-            const [firstWordAfterComma] = addressParts[1].trim().split(" ");
-            const displayViewAllPrevInvitations = prevInviteDate ? true : false;
-
-            const lastSelectedRange = response.data.LastSelectedRange.N;
-            const targetFillToPercentage =
-              response.data.TargetFillToPercentage.N;
-
-            // Set component state
-            this.setState(
-              {
-                rangeSelection: lastSelectedRange,
-                targetFillToInputValue: targetFillToPercentage,
-              },
-              () => {
-                this.setState({
-                  appsToFill: Math.floor(
-                    this.context.state.recentInvitationHistory.appsRemaining *
-                      (this.state.targetFillToInputValue / 100)
-                  ),
-                });
-              }
-            );
-
-            // Set global state
-            this.context.setState({
-              clinicId: response.data.ClinicId.S,
-              clinicName: response.data.ClinicName.S,
-              address1: response.data.Address.S,
-              address1: addressParts[0].trim(),
-              address2: firstWordAfterComma,
-              postcode: response.data.PostCode.S,
-              weeklyCapacity: weeklyCapacityList,
-              recentInvitationHistory: clinicInvitationHistory,
-              displayViewAllPrevInvitations: displayViewAllPrevInvitations,
-            });
+    let initialSelectedClinicId = this.context.state.clinicIdSelected;
+    let initialSelectedClinic = this.context.state.clinicNameSelected;
+    // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    axios
+      .get(
+        `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+      )
+      .then((response) => {
+        const weeklyCapacityData = response.data.WeekCommencingDate.M;
+        const weeklyCapacityKeys = this.sortDate(
+          Object.keys(response.data.WeekCommencingDate.M)
+        );
+        let weeklyCapacityValue = 0;
+        let weeklyCapacityList = [];
+        weeklyCapacityKeys.forEach((key) => {
+          weeklyCapacityList.push({
+            date: key,
+            value: weeklyCapacityData[key].N,
           });
+          weeklyCapacityValue += Number(weeklyCapacityData[key].N);
+        });
+
+        const prevInviteDate = response.data.PrevInviteDate.S;
+        const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
+        const daysSincePrevInv = prevInviteDate
+          ? this.calculateDaysSince(prevInviteDate)
+          : "Not Available";
+
+        const clinicInvitationHistory = {
+          dateOfPrevInv,
+          daysSincePrevInv,
+          invSent: response.data.InvitesSent.N,
+          appsRemaining: weeklyCapacityValue,
+        };
+
+        const addressParts = response.data.Address.S.split(",");
+        const [firstWordAfterComma] = addressParts[1].trim().split(" ");
+        const displayViewAllPrevInvitations = prevInviteDate ? true : false;
+
+        const lastSelectedRange = response.data.LastSelectedRange.N;
+        const targetFillToPercentage = response.data.TargetFillToPercentage.N;
+
+        // Set component state
+        this.setState(
+          {
+            rangeSelection: lastSelectedRange,
+            targetFillToInputValue: targetFillToPercentage,
+          },
+          () => {
+            this.setState({
+              appsToFill: Math.floor(
+                this.context.state.recentInvitationHistory.appsRemaining *
+                  (this.state.targetFillToInputValue / 100)
+              ),
+            });
+          }
+        );
+
+        // Set global state
+        this.context.setState({
+          clinicId: response.data.ClinicId.S,
+          clinicName: response.data.ClinicName.S,
+          address1: response.data.Address.S,
+          address1: addressParts[0].trim(),
+          address2: firstWordAfterComma,
+          postcode: response.data.PostCode.S,
+          weeklyCapacity: weeklyCapacityList,
+          recentInvitationHistory: clinicInvitationHistory,
+          displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+        });
+      });
 
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
@@ -486,7 +490,6 @@ class ClinicInformation extends Component {
           });
         });
     }
-
   }
 
   render() {
