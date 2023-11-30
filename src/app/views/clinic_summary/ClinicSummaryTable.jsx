@@ -1,5 +1,5 @@
 import React from "react";
-import Pagination from "../../components/pagination";
+import Pagination from "../../components/pagination.js";
 
 export default function ClinicSummaryTable(props) {
   const { onCheckHandler, onClickClinicHandler } = props;
