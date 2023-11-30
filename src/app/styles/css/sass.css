@@ -5298,13 +5298,14 @@ COMPONENTS / #HEADER
 	line-height: 1.71429;
 	border-bottom: 4px solid transparent;
 	border-top: 4px solid transparent;
-	color: #005eb8;
+	color: #ffffff;
 	display: block;
 	padding: 12px 16px;
 	text-decoration: none;
 }
 @media (min-width: 40.0625em) {
 	.nhsuk-header__navigation-link {
+		color: #ffffff;
 		font-size: 16px;
 		font-size: 1rem;
 		line-height: 1.5;

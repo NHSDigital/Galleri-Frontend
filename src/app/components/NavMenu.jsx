@@ -8,7 +8,6 @@ export default function NavMenu() {
       id="header-navigation"
       role="navigation"
       aria-label="Primary navigation"
-      aria-labelledby="label-navigation"
     >
         <ul class="nhsuk-header__navigation-list">
           <li class="nhsuk-header__navigation-item">
