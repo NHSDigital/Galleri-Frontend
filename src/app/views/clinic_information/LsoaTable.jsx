@@ -212,7 +212,7 @@ export default function LsoaTable(prop) {
                         <span class="nhsuk-table-responsive__heading">
                           LSOA name{" "}
                         </span>
-                        {e.LSOA_2011?.S}
+                        {e.LSOA_NAME?.S}
                       </td>
                       <td role="cell" class="nhsuk-table__cell">
                         <span class="nhsuk-table-responsive__heading">
@@ -255,7 +255,6 @@ export default function LsoaTable(prop) {
                   );
                 })}
               </tbody>
-            )}
           </table>
           <Pagination
             currentPage={currentPage}

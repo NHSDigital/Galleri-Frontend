@@ -98,8 +98,8 @@ class InvitationSummary extends Component {
           displayErrorInvitationSummary={displayErrorInvitationSummary}
           displayConfirmationInvitationSummary={displayConfirmationInvitationSummary}
           rangeSelection={rangeSelection}
-          totalToInvite = {totalToInvite}
-          avgExpectedUptake = {avgExpectedUptake}
+          totalToInvite={totalToInvite}
+          avgExpectedUptake={avgExpectedUptake}
           targetAppToFill={targetAppToFill}
           targetPercentageToFill={targetPercentageToFill}
           noInviteToGenerate={noInviteToGenerate}
