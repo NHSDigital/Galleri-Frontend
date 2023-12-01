@@ -252,6 +252,60 @@ class ClinicInformation extends Component {
     }
   }
 
+  setClinicDetails(response) {
+    const weeklyCapacityData = response.data.WeekCommencingDate.M;
+    const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
+    let weeklyCapacityValue = 0
+    let weeklyCapacityList = [];
+    weeklyCapacityKeys.forEach((key) => {
+      weeklyCapacityList.push({
+        date: key,
+        value: weeklyCapacityData[key].N,
+      });
+      weeklyCapacityValue += Number(weeklyCapacityData[key].N)
+    });
+
+    const prevInviteDate = response.data.PrevInviteDate.S;
+    const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
+    const daysSincePrevInv = prevInviteDate
+      ? this.calculateDaysSince(prevInviteDate)
+      : "Not Available";
+
+    const clinicInvitationHistory = {
+      dateOfPrevInv,
+      daysSincePrevInv,
+      invSent: response.data.InvitesSent.N,
+      appsRemaining: weeklyCapacityValue,
+    };
+
+    const addressParts = (response.data.Address.S).split(',');
+    const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
+    const displayViewAllPrevInvitations = prevInviteDate ? true : false;
+
+    const lastSelectedRange = response.data.LastSelectedRange.N;
+    const targetFillToPercentage = response.data.TargetFillToPercentage.N;
+
+    // Set component state
+    this.setState({
+      rangeSelection: lastSelectedRange,
+      targetFillToInputValue: targetFillToPercentage,
+      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
+    })
+
+    // Set global state
+    this.context.setState({
+      clinicId: response.data.ClinicId.S,
+      clinicName: response.data.ClinicName.S,
+      // address1: response.data.Address.S,
+      address1: addressParts[0].trim(),
+      address2: firstWordAfterComma,
+      postcode: response.data.PostCode.S,
+      weeklyCapacity: weeklyCapacityList,
+      recentInvitationHistory: clinicInvitationHistory,
+      displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+    })
+  }
+
   onChangeSelectedClinicHandler(e) {
     let currentlySelectedClinicId = "";
     let currentlySelectedClinic = "";
@@ -282,53 +336,10 @@ class ClinicInformation extends Component {
           `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
-          const weeklyCapacityData = response.data.WeekCommencingDate.M;
-          const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
-          let weeklyCapacityValue = 0
-          let weeklyCapacityList = [];
-          weeklyCapacityKeys.forEach((key) => {
-            weeklyCapacityList.push({
-              date: key,
-              value: weeklyCapacityData[key].N,
-            });
-            weeklyCapacityValue += Number(weeklyCapacityData[key].N)
-          });
+          this.setClinicDetails(response)
 
-          const prevInviteDate = response.data.PrevInviteDate.S;
-          const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
-          const daysSincePrevInv = prevInviteDate
-            ? this.calculateDaysSince(prevInviteDate)
-            : "Not Available";
-
-          const clinicInvitationHistory = {
-            dateOfPrevInv,
-            daysSincePrevInv,
-            invSent: response.data.InvitesSent.N,
-            appsRemaining: weeklyCapacityValue,
-          };
-
-          const addressParts = (response.data.Address.S).split(',');
-          const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
-          const displayViewAllPrevInvitations = prevInviteDate ? true : false;
-
-          const lastSelectedRange = response.data.LastSelectedRange.N;
-          const targetFillToPercentage = response.data.TargetFillToPercentage.N;
-
-          // Set component state
-          this.setState({
-            rangeSelection: lastSelectedRange,
-            targetFillToInputValue: targetFillToPercentage,
-            appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
-          });
-
-          // Set global state
+          // Set specific global state
           this.context.setState({
-            clinicId: response.data.ClinicId.S,
-            clinicName: response.data.ClinicName.S,
-            address1: addressParts[0].trim(),
-            address2: firstWordAfterComma,
-            postcode: response.data.PostCode.S,
-            weeklyCapacity: weeklyCapacityList,
             currentlySelectedClinic: e.target.value,
             cancelChangeText: "Change clinic",
             displayClinicSelector: false,
@@ -368,82 +379,32 @@ class ClinicInformation extends Component {
             `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {
-            const weeklyCapacityData = response.data.WeekCommencingDate.M;
-            const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
-            let weeklyCapacityValue = 0
-            let weeklyCapacityList = [];
-            weeklyCapacityKeys.forEach((key) => {
-              weeklyCapacityList.push({
-                date: key,
-                value: weeklyCapacityData[key].N,
+            this.setClinicDetails(response)
+
+            if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
+              this.putTargetPercentageAWSDynamo("50");
+            }
+
+            //Executes GET API call below when page renders - grabs default Target Percentage input value
+            // and displays the target number of appointments to fill
+            // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+            axios
+              .get(
+                `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
+              )
+              .then((response) => {
+                const targetPercentageValue = response.data.targetPercentage.N;
+                this.setState({
+                  targetFillToInputValue: targetPercentageValue,
+                  appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                });
+                this.context.setState({
+                  targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
+                  targetPercentageToFill: targetPercentageValue
+                })
               });
-              weeklyCapacityValue += Number(weeklyCapacityData[key].N)
-            });
-
-            const prevInviteDate = response.data.PrevInviteDate.S;
-            const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
-            const daysSincePrevInv = prevInviteDate
-              ? this.calculateDaysSince(prevInviteDate)
-              : "Not Available";
-
-            const clinicInvitationHistory = {
-              dateOfPrevInv,
-              daysSincePrevInv,
-              invSent: response.data.InvitesSent.N,
-              appsRemaining: weeklyCapacityValue,
-            };
-
-            const addressParts = (response.data.Address.S).split(',');
-            const [firstWordAfterComma] = (addressParts[1].trim()).split(' ');
-            const displayViewAllPrevInvitations = prevInviteDate ? true : false;
-
-            const lastSelectedRange = response.data.LastSelectedRange.N;
-            const targetFillToPercentage = response.data.TargetFillToPercentage.N;
-
-            // Set component state
-            this.setState({
-              rangeSelection: lastSelectedRange,
-              targetFillToInputValue: targetFillToPercentage,
-              appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (this.state.targetFillToInputValue / 100)),
-            })
-
-            // Set global state
-            this.context.setState({
-              clinicId: response.data.ClinicId.S,
-              clinicName: response.data.ClinicName.S,
-              address1: response.data.Address.S,
-              address1: addressParts[0].trim(),
-              address2: firstWordAfterComma,
-              postcode: response.data.PostCode.S,
-              weeklyCapacity: weeklyCapacityList,
-              recentInvitationHistory: clinicInvitationHistory,
-              displayViewAllPrevInvitations: displayViewAllPrevInvitations,
-            })
-                if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
-                  this.putTargetPercentageAWSDynamo("50");
-                }
-
-                //Executes GET API call below when page renders - grabs default Target Percentage input value
-                // and displays the target number of appointments to fill
-                // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-                axios
-                  .get(
-                    `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
-                  )
-                  .then((response) => {
-                    const targetPercentageValue = response.data.targetPercentage.N;
-                    this.setState({
-                      targetFillToInputValue: targetPercentageValue,
-                      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
-                    });
-                    this.context.setState({
-                      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetPercentageValue / 100)),
-                      targetPercentageToFill: targetPercentageValue
-                    })
-                  });
-              }
-            )
-          });
+          })
+      });
 
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
