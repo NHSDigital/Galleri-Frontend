@@ -7,7 +7,7 @@ export default function WeeklyCapacityTable(props) {
       <div class="nhsuk-grid-column-full">
         <table role="table" class="nhsuk-table-responsive">
           <caption class="nhsuk-table__caption">
-            Clinic Weekly Capacity
+            Current Clinic Weekly Capacity
             <div class="nhsuk-hint" id="last-updated-hint">
               Last Updated: {lastUpdated}
             </div>
