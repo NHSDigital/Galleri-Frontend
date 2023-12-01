@@ -53,7 +53,7 @@ class ClinicInformation extends Component {
   onClickGoBackLinkHandler() {
     this.context.setState({ "navigateToClinic": false })
     // Scroll to the top of the page every time it renders the page
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }
 
   checkAllHandler(event) {
@@ -158,7 +158,6 @@ class ClinicInformation extends Component {
   async putTargetPercentageAWSDynamo(value) {
     try {
       const response = await axios.put(
-        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         `https://${PUT_TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/put-target-percentage`,
         { targetPercentage: Number(value) }
       );
@@ -364,7 +363,6 @@ class ClinicInformation extends Component {
         let initialSelectedClinic = this.context.state.clinicNameSelected;
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
-          .get(
             `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {

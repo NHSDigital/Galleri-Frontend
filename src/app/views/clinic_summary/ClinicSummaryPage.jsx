@@ -22,24 +22,26 @@ export default function ClinicSummaryPage(props) {
   const isContextLoaded = clinicList.length > 0;
 
   return (
-    <div class="nhsuk-width-container">
-      <main class="nhsuk-main-wrapper" id="clinicSummary" role="main">
-        <div class="nhsuk-grid-row">
-          <h1 label="header">Clinic Summary</h1>
-          <div class="nhsuk-u-reading-width">
+    <div className="nhsuk-width-container">
+      <main className="nhsuk-main-wrapper" id="main-content" role="main">
+        <div className="nhsuk-grid-row">
+        <div className="nhsuk-grid-column-full">
+          <h1 aria-label="Clinic Summary">Clinic Summary</h1>
+          <div className="nhsuk-u-reading-width nhsuk-u-margin-bottom-6">
             <p>
               Summarises how many appointments remain available over the next 6
               weeks, how many invitations have been generated and when.
             </p>
-            <div class="nhsuk-form-group">
-              <label class="nhsuk-label" for="select-1">
+            <div className="nhsuk-form-group">
+              <label className="nhsuk-label" for="select-icb">
                 Select the participating integrated care board (ICB)
               </label>
               <select
-                class="nhsuk-select"
+                className="nhsuk-select"
                 id="select-icb"
                 name="select-icb"
                 value={participatingICBSelected}
+                autoComplete="off"
                 onChange={(e) => onIcbChangeHandler(e)}
               >
                 <option></option>
@@ -50,8 +52,8 @@ export default function ClinicSummaryPage(props) {
                 })}
               </select>
             </div>
-            <br />
           </div>
+          <div aria-live="polite" id="dynamic-update-region">
           {icbSelected === ""
             ? null
             : isContextLoaded && (
@@ -66,6 +68,8 @@ export default function ClinicSummaryPage(props) {
                 onCurrentPageChange={onCurrentPageChange}
               />
             )}
+            </div>
+        </div>
         </div>
       </main>
     </div>

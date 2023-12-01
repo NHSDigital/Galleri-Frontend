@@ -37,8 +37,10 @@ export default function RecentInvitationHistory(props) {
           <div style={{marginTop:"20px"}} className=".nhsuk-main-wrapper--l">
             <a
               id="changeCancelButtonId"
+              className="nhsuk-link--no-visited-state"
+              href=""
               style={{ textDecorationLine: "underline" }}
-              onClick={() => {}}
+              onClick={(event) => {event.preventDefault();}}
             >
               View all previous invitations
             </a>
