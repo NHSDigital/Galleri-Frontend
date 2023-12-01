@@ -419,7 +419,6 @@ class ClinicInformation extends Component {
               recentInvitationHistory: clinicInvitationHistory,
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
             })
-
                 if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
                   this.putTargetPercentageAWSDynamo("50");
                 }
