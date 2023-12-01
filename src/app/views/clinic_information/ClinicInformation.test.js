@@ -5,7 +5,7 @@ import ClinicInformation from "./ClinicInformation";
 
 describe('Clinic Information render', () => {
 
-  const clinicInformation = <ClinicInformation/>;
+  const clinicInformation = <ClinicInformation />;
 
   test('Page header renders', () => {
     render(clinicInformation)
@@ -85,4 +85,10 @@ describe('Clinic Information render', () => {
     expect(button).toBeInTheDocument();
   })
 
+  test('Calculate number to invite button renders', () => {
+    render(clinicInformation)
+    let button = screen.getByText(/Calculate number to invite/);
+    expect(button.innerHTML).toBe('Calculate number to invite');
+    expect(button).toBeInTheDocument();
+  })
 });

@@ -9,35 +9,39 @@ export default function ClinicSummaryPage(props) {
     participatingICBSelected,
     lastUpdated,
     clinicList,
+    pageSize,
+    currentPage,
     onIcbChangeHandler,
     onCheckHandler,
     onClickClinicHandler,
+    onPageSizeChange,
+    onCurrentPageChange,
   } = props;
 
   // Check if all the listed context state variables are available
   const isContextLoaded = clinicList.length > 0;
 
   return (
-    <div class="nhsuk-width-container">
-      <main class="nhsuk-main-wrapper" id="main-content" role="main">
-        <div class="nhsuk-grid-row">
-        <div class="nhsuk-grid-column-full">
+    <div className="nhsuk-width-container">
+      <main className="nhsuk-main-wrapper" id="main-content" role="main">
+        <div className="nhsuk-grid-row">
+        <div className="nhsuk-grid-column-full">
           <h1 aria-label="Clinic Summary">Clinic Summary</h1>
-          <div class="nhsuk-u-reading-width nhsuk-u-margin-bottom-6">
+          <div className="nhsuk-u-reading-width nhsuk-u-margin-bottom-6">
             <p>
               Summarises how many appointments remain available over the next 6
               weeks, how many invitations have been generated and when.
             </p>
-            <div class="nhsuk-form-group">
-              <label class="nhsuk-label" for="select-icb">
+            <div className="nhsuk-form-group">
+              <label className="nhsuk-label" for="select-icb">
                 Select the participating integrated care board (ICB)
               </label>
               <select
-                class="nhsuk-select"
+                className="nhsuk-select"
                 id="select-icb"
                 name="select-icb"
                 value={participatingICBSelected}
-                autocomplete="off"
+                autoComplete="off"
                 onChange={(e) => onIcbChangeHandler(e)}
               >
                 <option></option>
@@ -56,8 +60,12 @@ export default function ClinicSummaryPage(props) {
               <ClinicSummaryTable
                 lastUpdated={lastUpdated}
                 clinicList={clinicList}
+                pageSize={pageSize}
+                currentPage={currentPage}
                 onCheckHandler={onCheckHandler}
                 onClickClinicHandler={onClickClinicHandler}
+                onPageSizeChange={onPageSizeChange}
+                onCurrentPageChange={onCurrentPageChange}
               />
             )}
             </div>

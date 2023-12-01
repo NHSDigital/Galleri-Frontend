@@ -537,6 +537,8 @@ STYLES / #ICONS
 
 .nhsuk-icon__arrow-right {
 	fill: #005eb8;
+	right: -33px;
+
 }
 
 .nhsuk-icon__arrow-left {
@@ -6403,7 +6405,6 @@ COMPONENTS / #PAGINATION
 .nhsuk-pagination-item--previous {
 	float: left;
 	text-align: left;
-	width: 50%;
 }
 .nhsuk-pagination-item--previous .nhsuk-icon {
 	left: -6px;
@@ -6437,7 +6438,7 @@ COMPONENTS / #PAGINATION
 }
 .nhsuk-pagination__link .nhsuk-icon {
 	position: absolute;
-	top: -2px;
+	top: 1.5px;
 }
 @media print {
 	.nhsuk-pagination__link .nhsuk-icon {
@@ -6470,7 +6471,9 @@ COMPONENTS / #PAGINATION
 	fill: #212b32;
 }
 .nhsuk-pagination__link:visited .nhsuk-icon {
-	fill: #330072;
+	/* fill: #330072; */
+	fill: #005eb8;
+
 }
 .nhsuk-pagination__link:visited:hover .nhsuk-icon {
 	fill: #7c2855;
@@ -6484,11 +6487,12 @@ COMPONENTS / #PAGINATION
 	font-size: 1.25rem;
 	line-height: 1.4;
 	display: block;
+	padding-left: 32px;
 }
 @media (min-width: 40.0625em) {
 	.nhsuk-pagination__title {
-		font-size: 24px;
-		font-size: 1.5rem;
+		font-size: 19px;
+		/* font-size: 1.5rem; */
 		line-height: 1.33333;
 	}
 }
@@ -6502,6 +6506,10 @@ COMPONENTS / #PAGINATION
 	.nhsuk-pagination__title:after {
 		content: " page"; /* [2] */
 	}
+}
+
+.custom-padding-left-0 {
+	padding-left: 0;
 }
 
 .nhsuk-pagination__page {
@@ -15268,4 +15276,45 @@ COMPONENTS / #WARNING-CALLOUT
 	.govuk-\!-width-one-quarter {
 		width: 25% !important;
 	}
+}
+.style_pagination__7B72Z ul {
+	padding:0;
+	margin:0
+}
+.style_pagination__7B72Z .style_summary__J3_1h {
+	float:right;
+	padding-bottom:6px;
+	padding-top:6px
+}
+.style_pagination__7B72Z .style_item__Y9BLA {
+	display:inline-block
+}
+.style_pagination__7B72Z .style_item__Y9BLA .dots{
+	background-color: transparent;
+	cursor: default;
+}
+.style_pagination__7B72Z .style_item__Y9BLA:first-of-type .style_link__ToZGL {
+	padding-left:0
+}
+.style_pagination__7B72Z .style_item__Y9BLA:last-of-type .style_link__ToZGL {
+	padding-right:0
+}
+.style_pagination__7B72Z .style_link__ToZGL {
+	text-decoration:none;
+	padding:6px 12px
+}
+.style_pagination__7B72Z .style_link__ToZGL:focus,
+.style_pagination__7B72Z .style_link__ToZGL:hover {
+	outline:3px solid #ffeb3b;
+	cursor:pointer
+}
+.style_pagination__7B72Z .style_link__ToZGL.style_current__K8c2u {
+	font-weight:700;
+	border:none;
+	pointer-events:none;
+	cursor:default
+}
+.style_pagination__7B72Z .style_link__ToZGL.style_current__K8c2u:link,
+.style_pagination__7B72Z .style_link__ToZGL.style_current__K8c2u:visited {
+	color:#005eb8
 }

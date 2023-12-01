@@ -27,13 +27,18 @@ export default function ClinicInformationPage(props) {
     displayViewAllPrevInvitations,
     targetFillToInputValue,
     appsToFill,
+    lastSelectedRange,
+    lsoaInRange,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
-    lsoaInRange,
-    checkAll,
+    pageSize,
+    currentPage,
     checkAllHandler,
-    checkRecord,
     handleRangeSelection,
+    lsoaCodesAppsToFill,
+    checkRecord,
+    onPageSizeChange,
+    onCurrentPageChange,
   } = props;
 
   return (
@@ -60,13 +65,24 @@ export default function ClinicInformationPage(props) {
                 Go back
               </a>
             </div>
+          </div>
+          <div>
+            {lsoaInRange.length === 0 ? (
+              <div className="nhsuk-grid-column-two-thirds" style={{ "color": "#d5281b", "border": "5px solid", "text-align": "center", }}>
+                <h2>No LSOA data is available</h2>
+              </div>
+            ) : ("")}
+          </div>
+          <div className="nhsuk-grid-column-two-thirds">
+            <br />
             <h1 label="header">Clinic Invitations</h1>
-            <p className="nhsuk-u-margin-bottom-8">
+            <p>
               View appointment availability, and set criteria to generate new
               invitations for a clinic.
             </p>
+            <br />
           </div>
-          <div class="nhsuk-grid-column-two-thirds nhsuk-u-margin-bottom-3">
+          <div class="nhsuk-grid-column-two-thirds">
             <h2 id="maincontent" label="header">
               Clinic Information
             </h2>
@@ -126,22 +142,17 @@ export default function ClinicInformationPage(props) {
               lsoaInRange={lsoaInRange}
               checkAllHandler={checkAllHandler}
               checkRecord={checkRecord}
+              pageSize={pageSize}
+              currentPage={currentPage}
               handleRangeSelection={handleRangeSelection}
+              lsoaCodesAppsToFill={lsoaCodesAppsToFill}
+              onSubmitHandler={onSubmitHandler}
+              onPageSizeChange={onPageSizeChange}
+              onCurrentPageChange={onCurrentPageChange}
+              lastSelectedRange={lastSelectedRange}
             />
           </div>
         </div>
-        <button
-          class="nhsuk-button"
-          data-module="nhsuk-button"
-          type="button"
-          onClick={() => {
-            onSubmitHandler();
-            window.scrollTo(0, 0);
-            document.getElementById("skip-to-main").focus();
-          }}
-        >
-          Calculate number to invite
-        </button>
       </main>
     </div>
   );

@@ -3,6 +3,7 @@ import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget"
 import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 import axios from "axios";
+import Header from "@/app/components/Header";
 
 // Invitation Planning container
 class InvitationPlanning extends Component {
@@ -45,11 +46,11 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://loohur6mfg.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
+        "https://dwp8e23bsc.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-forecast-uptake",
         { forecastUptake: Number(value) }
       )
       .then((response) => {
-        console.log("response -> " + response.status);
+
       });
   }
 
@@ -57,11 +58,11 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     await axios
       .put(
-        "https://4wu1u8ygjf.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
+        "https://uzczctxs84.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters-put-quintiles",
         { quintiles: updatedQuintile }
       )
       .then((response) => {
-        console.log("response -> " + response.status);
+
       });
   }
 
@@ -182,10 +183,9 @@ class InvitationPlanning extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        "https://89xfgrj6x9.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
+        "https://0vo019d3jg.execute-api.eu-west-2.amazonaws.com/dev/invitation-parameters"
       )
       .then((response) => {
-        console.log('response -> ' + response.data.NATIONAL_FORCAST_UPTAKE.N);
         const quintiles = [
           response.data.QUINTILE_1.N,
           response.data.QUINTILE_2.N,
@@ -221,6 +221,7 @@ class InvitationPlanning extends Component {
 
     return (
       <div>
+        <Header/>
         <InvitationPlanningPage
           quintileValues={quintileValues}
           quintileValuesAux={quintileValuesAux}

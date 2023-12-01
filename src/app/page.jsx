@@ -18,7 +18,7 @@ export default function Root() {
           Skip to main content
         </a>
         <AppStateProvider>
-          <Header />
+          {/* <Header /> */}
           <Start />
           {/* <Content /> */}
           {/* <ClinicSummary /> */}
