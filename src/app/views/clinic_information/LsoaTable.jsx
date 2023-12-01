@@ -254,7 +254,7 @@ export default function LsoaTable(prop) {
                     </tr>
                   );
                 })}
-              </tbody>
+              </tbody>)}
           </table>
           <Pagination
             currentPage={currentPage}
