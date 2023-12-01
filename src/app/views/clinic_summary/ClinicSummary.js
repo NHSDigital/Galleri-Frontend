@@ -11,6 +11,10 @@ import {
 import axios from 'axios';
 import Header from "@/app/components/Header";
 
+const CLINIC_SUMMARY_LIST = process.env.NEXT_PUBLIC_CLINIC_SUMMARY_LIST
+const PARTICIPATING_ICB_LIST = process.env.NEXT_PUBLIC_PARTICIPATING_ICB_LIST
+const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT
+
 // Clinic Summary container
 export default class ClinicSummary extends Component {
   constructor(props) {
@@ -35,7 +39,7 @@ export default class ClinicSummary extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://6g44rqgy82.execute-api.eu-west-2.amazonaws.com/dev/clinic-summary-list?participatingIcb=${this.context.state.icbSelected}`
+        `https://${CLINIC_SUMMARY_LIST}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-summary-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
         this.context.setState({
@@ -93,7 +97,7 @@ export default class ClinicSummary extends Component {
       axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
       axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      const response = await axios.get(`https://fzmobdpc1d.execute-api.eu-west-2.amazonaws.com/dev/participating-icb-list`);
+      const response = await axios.get(`https://${PARTICIPATING_ICB_LIST}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/participating-icb-list`);
 
       // Update the state
       this.context.setState({
