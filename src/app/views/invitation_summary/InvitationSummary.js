@@ -6,6 +6,7 @@ import axios from "axios";
 
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GENERATE_INVITES = process.env.NEXT_PUBLIC_GENERATE_INVITES;
+const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION;
 
 class InvitationSummary extends Component {
   constructor() {
@@ -26,7 +27,7 @@ class InvitationSummary extends Component {
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     const response = await axios.get(
-      `https://nuw7pl0ajk.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${clinicId}&clinicName=${clinicName}`
+      `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${clinicId}&clinicName=${clinicName}`
     );
     return response;
   }
@@ -92,7 +93,7 @@ class InvitationSummary extends Component {
 
     const response = await axios.post(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      `https://ef78n7akx6.execute-api.eu-west-2.amazonaws.com/dev/generate-invites`,
+      `https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
       {
         selectedParticipants: this.context.state.personIdentifiedToInvite,
         clinicInfo: {
@@ -100,6 +101,9 @@ class InvitationSummary extends Component {
           clinicName: this.context.state.clinicName,
           rangeSelected: this.context.state.rangeSelection,
           targetPercentage: this.context.state.targetPercentageToFill,
+          targetNoAppsToFill: this.context.state.targetAppToFill,
+          appRemaining:
+            this.context.state.recentInvitationHistory.appsRemaining,
         },
       }
     );
