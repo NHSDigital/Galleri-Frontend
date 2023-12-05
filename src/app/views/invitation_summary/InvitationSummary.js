@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import InvitationSummaryPage from "./InvitationSummaryPage";
 import { AppStateContext } from "@/app/context/AppStateContext";
-import { sortDate, calculateDaysSince } from "../../helper/helperMethods";
+import { setClinicDetails } from "../../helper/helperMethods";
 import axios from "axios";
 
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
@@ -31,40 +31,20 @@ class InvitationSummary extends Component {
     return response;
   }
 
-  setClinicDetails(response) {
-    const weeklyCapacityData = response.data.WeekCommencingDate.M;
-    const weeklyCapacityKeys = sortDate(
-      Object.keys(response.data.WeekCommencingDate.M)
+  async onClickGoBackPrevPageLinkHandler() {
+    const response = await this.fetchClinicInvitationHistory(
+      this.context.state.clinicName,
+      this.context.state.clinicId
     );
-    let weeklyCapacityValue = 0;
-    let weeklyCapacityList = [];
-    weeklyCapacityKeys.forEach((key) => {
-      weeklyCapacityList.push({
-        date: key,
-        value: weeklyCapacityData[key].N,
-      });
-      weeklyCapacityValue += Number(weeklyCapacityData[key].N);
-    });
-
-    const prevInviteDate = response.data.PrevInviteDate.S;
-    const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
-    const daysSincePrevInv = prevInviteDate
-      ? calculateDaysSince(prevInviteDate)
-      : "Not Available";
-
-    const clinicInvitationHistory = {
-      dateOfPrevInv,
-      daysSincePrevInv,
-      invSent: response.data.InvitesSent.N,
-      appsRemaining: weeklyCapacityValue,
-    };
-
-    const addressParts = response.data.Address.S.split(",");
-    const [firstWordAfterComma] = addressParts[1].trim().split(" ");
-    const displayViewAllPrevInvitations = prevInviteDate ? true : false;
-
-    const lastSelectedRange = response.data.LastSelectedRange.N;
-    const targetFillToPercentage = response.data.TargetFillToPercentage.N;
+    const {
+      lastSelectedRange,
+      targetFillToPercentage,
+      addressParts,
+      firstWordAfterComma,
+      weeklyCapacityList,
+      clinicInvitationHistory,
+      displayViewAllPrevInvitations,
+    } = setClinicDetails(response);
 
     // Set component state
     this.setState({
@@ -80,7 +60,6 @@ class InvitationSummary extends Component {
     this.context.setState({
       clinicId: response.data.ClinicId.S,
       clinicName: response.data.ClinicName.S,
-      // address1: response.data.Address.S,
       address1: addressParts[0].trim(),
       address2: firstWordAfterComma,
       postcode: response.data.PostCode.S,
@@ -88,15 +67,6 @@ class InvitationSummary extends Component {
       recentInvitationHistory: clinicInvitationHistory,
       displayViewAllPrevInvitations: displayViewAllPrevInvitations,
     });
-  }
-
-  async onClickGoBackPrevPageLinkHandler() {
-    this.context.state.clinicName, this.context.state.clinicId;
-    const response = await this.fetchClinicInvitationHistory(
-      this.context.state.clinicName,
-      this.context.state.clinicId
-    );
-    this.setClinicDetails(response);
 
     this.context.setState({
       isSubmit: false,

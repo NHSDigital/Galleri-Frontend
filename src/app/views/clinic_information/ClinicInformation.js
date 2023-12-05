@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ClinicInformationPage from "./ClinicInformationPage";
 import InvitationSummary from "../invitation_summary/InvitationSummary";
 import { AppStateContext } from "@/app/context/AppStateContext";
-import { sortDate, calculateDaysSince } from "../../helper/helperMethods";
+import { setClinicDetails } from "../../helper/helperMethods";
 import axios from "axios";
 
 const CLINIC_SUMMARY_LIST = process.env.NEXT_PUBLIC_CLINIC_SUMMARY_LIST;
@@ -249,64 +249,6 @@ class ClinicInformation extends Component {
     }
   }
 
-  setClinicDetails(response) {
-    const weeklyCapacityData = response.data.WeekCommencingDate.M;
-    const weeklyCapacityKeys = sortDate(
-      Object.keys(response.data.WeekCommencingDate.M)
-    );
-    let weeklyCapacityValue = 0;
-    let weeklyCapacityList = [];
-    weeklyCapacityKeys.forEach((key) => {
-      weeklyCapacityList.push({
-        date: key,
-        value: weeklyCapacityData[key].N,
-      });
-      weeklyCapacityValue += Number(weeklyCapacityData[key].N);
-    });
-
-    const prevInviteDate = response.data.PrevInviteDate.S;
-    const dateOfPrevInv = prevInviteDate ? prevInviteDate : "Not Available";
-    const daysSincePrevInv = prevInviteDate
-      ? calculateDaysSince(prevInviteDate)
-      : "Not Available";
-
-    const clinicInvitationHistory = {
-      dateOfPrevInv,
-      daysSincePrevInv,
-      invSent: response.data.InvitesSent.N,
-      appsRemaining: weeklyCapacityValue,
-    };
-
-    const addressParts = response.data.Address.S.split(",");
-    const [firstWordAfterComma] = addressParts[1].trim().split(" ");
-    const displayViewAllPrevInvitations = prevInviteDate ? true : false;
-
-    const lastSelectedRange = response.data.LastSelectedRange.N;
-    const targetFillToPercentage = response.data.TargetFillToPercentage.N;
-
-    // Set component state
-    this.setState({
-      rangeSelection: lastSelectedRange,
-      targetFillToInputValue: targetFillToPercentage,
-      appsToFill: Math.floor(
-        this.context.state.recentInvitationHistory.appsRemaining *
-          (this.state.targetFillToInputValue / 100)
-      ),
-    });
-
-    // Set global state
-    this.context.setState({
-      clinicId: response.data.ClinicId.S,
-      clinicName: response.data.ClinicName.S,
-      address1: addressParts[0].trim(),
-      address2: firstWordAfterComma,
-      postcode: response.data.PostCode.S,
-      weeklyCapacity: weeklyCapacityList,
-      recentInvitationHistory: clinicInvitationHistory,
-      displayViewAllPrevInvitations: displayViewAllPrevInvitations,
-    });
-  }
-
   fetchClinicInvitationHistory(clinicName, clinicId) {
     axios.defaults.headers.post["Content-Type"] =
       "application/json;charset=utf-8";
@@ -348,10 +290,36 @@ class ClinicInformation extends Component {
           `https://nuw7pl0ajk.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
-          this.setClinicDetails(response);
+          const {
+            lastSelectedRange,
+            targetFillToPercentage,
+            addressParts,
+            firstWordAfterComma,
+            weeklyCapacityList,
+            clinicInvitationHistory,
+            displayViewAllPrevInvitations,
+          } = setClinicDetails(response);
 
-          // Set specific global state
+          // Set component state
+          this.setState({
+            rangeSelection: lastSelectedRange,
+            targetFillToInputValue: targetFillToPercentage,
+            appsToFill: Math.floor(
+              this.context.state.recentInvitationHistory.appsRemaining *
+                (this.state.targetFillToInputValue / 100)
+            ),
+          });
+
+          // Set global state
           this.context.setState({
+            clinicId: response.data.ClinicId.S,
+            clinicName: response.data.ClinicName.S,
+            address1: addressParts[0].trim(),
+            address2: firstWordAfterComma,
+            postcode: response.data.PostCode.S,
+            weeklyCapacity: weeklyCapacityList,
+            recentInvitationHistory: clinicInvitationHistory,
+            displayViewAllPrevInvitations: displayViewAllPrevInvitations,
             currentlySelectedClinic: e.target.value,
             cancelChangeText: "Change clinic",
             displayClinicSelector: false,
@@ -401,7 +369,37 @@ class ClinicInformation extends Component {
             `https://nuw7pl0ajk.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {
-            this.setClinicDetails(response);
+            const {
+              lastSelectedRange,
+              targetFillToPercentage,
+              addressParts,
+              firstWordAfterComma,
+              weeklyCapacityList,
+              clinicInvitationHistory,
+              displayViewAllPrevInvitations,
+            } = setClinicDetails(response);
+
+            // Set component state
+            this.setState({
+              rangeSelection: lastSelectedRange,
+              targetFillToInputValue: targetFillToPercentage,
+              appsToFill: Math.floor(
+                this.context.state.recentInvitationHistory.appsRemaining *
+                  (this.state.targetFillToInputValue / 100)
+              ),
+            });
+
+            // Set global state
+            this.context.setState({
+              clinicId: response.data.ClinicId.S,
+              clinicName: response.data.ClinicName.S,
+              address1: addressParts[0].trim(),
+              address2: firstWordAfterComma,
+              postcode: response.data.PostCode.S,
+              weeklyCapacity: weeklyCapacityList,
+              recentInvitationHistory: clinicInvitationHistory,
+              displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+            });
 
             if (
               this.context.state.recentInvitationHistory.dateOfPrevInv ===
@@ -499,7 +497,6 @@ class ClinicInformation extends Component {
       displayViewAllPrevInvitations,
       pageSize,
       currentPage,
-      updateClinicRecentHistory,
     } = this.context.state;
 
     const {
@@ -518,12 +515,6 @@ class ClinicInformation extends Component {
       address2 !== "" &&
       postcode !== "" &&
       weeklyCapacity.length > 0;
-
-    // console.trace("recentInvitationHistory = ", recentInvitationHistory);
-    // "dateOfPrevInv": "Not available",
-    // "daysSincePrevInv": "Not available",
-    // "invSent": 0,
-    // "appsRemaining": 0,
 
     return (
       <div>
