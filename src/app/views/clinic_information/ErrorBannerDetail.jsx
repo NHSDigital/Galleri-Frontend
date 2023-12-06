@@ -4,7 +4,9 @@ export default function ErrorBannerDetail(props) {
   const {
     targetErrorMessage,
     onKeyUp,
+    hrefErrorMessage,
   } = props;
+
   return (
     <div
       data-testid="error-banner"
