@@ -5,6 +5,7 @@ import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
 import ClinicInvitationCriteria from "./clinic_invitation_criteria/ClinicInvitationCriteria";
 import LsoaTable from "./LsoaTable";
+import ErrorBannerDetail from "./ErrorBannerDetail";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -39,6 +40,8 @@ export default function ClinicInformationPage(props) {
     checkRecord,
     onPageSizeChange,
     onCurrentPageChange,
+    targetErrorMessage,
+    onKeyUp,
   } = props;
 
   return (
@@ -65,16 +68,14 @@ export default function ClinicInformationPage(props) {
                 Go back
               </a>
             </div>
-          </div>
-          <div>
-            {lsoaInRange.length === 0 ? (
-              <div className="nhsuk-grid-column-two-thirds" style={{ "color": "#d5281b", "border": "5px solid", "text-align": "center", }}>
-                <h2>No LSOA data is available</h2>
-              </div>
-            ) : ("")}
-          </div>
-          <div className="nhsuk-grid-column-two-thirds">
-            <br />
+            <div id="error-summary">
+              {displayUserErrorTargetPercentage && (
+                <ErrorBannerDetail
+                  targetErrorMessage={targetErrorMessage}
+                  onKeyUp={onKeyUp}
+                />
+              )}
+            </div>
             <h1 label="header">Clinic Invitations</h1>
             <p>
               View appointment availability, and set criteria to generate new
@@ -136,6 +137,7 @@ export default function ClinicInformationPage(props) {
             appsToFill={appsToFill}
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
             onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
+            targetErrorMessage={targetErrorMessage}
           />
           <div class="nhsuk-grid-column-full">
             <LsoaTable
@@ -153,6 +155,14 @@ export default function ClinicInformationPage(props) {
             />
           </div>
         </div>
+        <button
+          class="nhsuk-button"
+          data-module="nhsuk-button"
+          type="submit"
+          onClick={() => onSubmitHandler()}
+        >
+          Calculate number to invite
+        </button>
       </main>
     </div>
   );
