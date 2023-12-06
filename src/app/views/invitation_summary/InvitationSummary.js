@@ -1,3 +1,4 @@
+"use client";
 import React, { Component } from 'react';
 import InvitationSummaryPage from './InvitationSummaryPage';
 import { AppStateContext } from '@/app/context/AppStateContext';
@@ -42,7 +43,8 @@ class InvitationSummary extends Component {
     const response = await axios.post(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       `https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
-      { selectedParticipants: this.context.state.personIdentifiedToInvite,
+      {
+        selectedParticipants: this.context.state.personIdentifiedToInvite,
         clinicInfo: {
           clinicId: this.context.state.clinicId,
           clinicName: this.context.state.clinicName,

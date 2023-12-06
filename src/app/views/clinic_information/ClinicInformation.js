@@ -1,3 +1,4 @@
+"use client";
 import React, { Component } from 'react';
 import ClinicInformationPage from './ClinicInformationPage';
 import InvitationSummary from '../invitation_summary/InvitationSummary';

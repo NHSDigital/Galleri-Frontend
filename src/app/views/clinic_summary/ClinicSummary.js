@@ -1,3 +1,4 @@
+"use client";
 import { Component } from "react";
 import ClinicSummaryPage from './ClinicSummaryPage';
 import ClinicInformation from "../clinic_information/ClinicInformation";
@@ -104,7 +105,7 @@ export default class ClinicSummary extends Component {
         icbData: [...response.data],
         clinicList: clinicList,
         pageSize: 10,
-        currentPage:1,
+        currentPage: 1,
       });
 
       this.setState({ isInitialLoad: false });
@@ -145,7 +146,7 @@ export default class ClinicSummary extends Component {
 
     return (
       <div>
-        <Header/>
+        <Header />
         {
           // Check if a clinic link has been clicked
           // If clicked render the clinic information page and pass the props
