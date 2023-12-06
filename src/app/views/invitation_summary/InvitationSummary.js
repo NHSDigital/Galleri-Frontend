@@ -23,6 +23,10 @@ class InvitationSummary extends Component {
     this.context.setState({ "isSubmit": false })
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
+    this.context.setState({
+      pageSize: 10,
+      currentPage: 1,
+    });
   }
 
   scrollToMainContent() {
@@ -42,7 +46,8 @@ class InvitationSummary extends Component {
     const response = await axios.post(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       `https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
-      { selectedParticipants: this.context.state.personIdentifiedToInvite,
+      {
+        selectedParticipants: this.context.state.personIdentifiedToInvite,
         clinicInfo: {
           clinicId: this.context.state.clinicId,
           clinicName: this.context.state.clinicName,
