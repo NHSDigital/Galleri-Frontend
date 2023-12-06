@@ -14,6 +14,9 @@ export default function LsoaTable(prop) {
     onPageSizeChange,
     onCurrentPageChange,
     lsoaCodesAppsToFill,
+    targetErrorMessage,
+    displayUserErrorTargetPercentage,
+    lsoaTableError,
   } = prop;
 
   // Pagination stuff
@@ -109,7 +112,18 @@ export default function LsoaTable(prop) {
             </select>
           </div>
         </div>
-        <div id="lsoaTable">
+        {(displayUserErrorTargetPercentage && lsoaTableError) && (
+          <div id="lsoa-error-message" class="nhsuk-error-message">
+            {targetErrorMessage}
+          </div>
+        )}
+        <div id="lsoaTable"
+          class={(displayUserErrorTargetPercentage && lsoaTableError)
+            ? "nhsuk-form-group--error"
+            : ""
+          }
+
+        >
           <table role="table" class="nhsuk-table-responsive">
             <thead role="rowgroup" class="nhsuk-table__head">
               <tr role="row">
