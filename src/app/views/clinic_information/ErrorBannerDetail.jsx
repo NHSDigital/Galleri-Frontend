@@ -27,7 +27,7 @@ export default function ErrorBannerDetail(props) {
         <ul class="nhsuk-list nhsuk-error-summary__list" role="list">
           <li>
             <a
-              href="#error-message"
+              href={`${hrefErrorMessage}`}
             >
               {targetErrorMessage}
             </a>
