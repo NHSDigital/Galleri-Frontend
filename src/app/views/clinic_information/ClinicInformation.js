@@ -1,42 +1,37 @@
-import React, { Component } from "react";
-import ClinicInformationPage from "./ClinicInformationPage";
-import InvitationSummary from "../invitation_summary/InvitationSummary";
-import { AppStateContext } from "@/app/context/AppStateContext";
-import { setClinicDetails } from "../../helper/helperMethods";
-import axios from "axios";
+import React, { Component } from 'react';
+import ClinicInformationPage from './ClinicInformationPage';
+import InvitationSummary from '../invitation_summary/InvitationSummary';
+import { AppStateContext } from '@/app/context/AppStateContext';
+import { setClinicDetails } from '../../helper/helperMethods';
+import axios from 'axios';
 
 const CLINIC_SUMMARY_LIST = process.env.NEXT_PUBLIC_CLINIC_SUMMARY_LIST;
-const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION;
+const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION
 const CLINIC_ICB_LIST = process.env.NEXT_PUBLIC_CLINIC_ICB_LIST;
-const PUT_TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_PUT_TARGET_PERCENTAGE;
-const TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_TARGET_PERCENTAGE;
-const CALCULATE_NUM_TO_INVITE = process.env.NEXT_PUBLIC_CALCULATE_NUM_TO_INVITE;
-const GET_LSOA_IN_RANGE = process.env.NEXT_PUBLIC_GET_LSOA_IN_RANGE;
+const PUT_TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_PUT_TARGET_PERCENTAGE
+const TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_TARGET_PERCENTAGE
+const CALCULATE_NUM_TO_INVITE = process.env.NEXT_PUBLIC_CALCULATE_NUM_TO_INVITE
+const GET_LSOA_IN_RANGE = process.env.NEXT_PUBLIC_GET_LSOA_IN_RANGE
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 class ClinicInformation extends Component {
   constructor() {
     super();
     this.state = {
-      displayUserErrorTargetPercentage: false,
-      displayViewAllPrevInvitations: false,
-      lsoaInRange: [""],
-      rangeSelection: 1,
-      selectedLsoa: [],
-      targetFillToInputValue: 0,
-      rangeSelection: 1,
-      appsToFill: 0,
+      "displayUserErrorTargetPercentage": false,
+      "displayViewAllPrevInvitations": false,
+      "lsoaInRange": [""],
+      "rangeSelection": 1,
+      "selectedLsoa": [],
+      "targetFillToInputValue": 0,
+      "appsToFill": 0,
     };
-    this.onClickChangeClinicHandler =
-      this.onClickChangeClinicHandler.bind(this);
-    this.onChangeSelectedClinicHandler =
-      this.onChangeSelectedClinicHandler.bind(this);
+    this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
+    this.onChangeSelectedClinicHandler =this.onChangeSelectedClinicHandler.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
     this.onClickGoBackLinkHandler = this.onClickGoBackLinkHandler.bind(this);
-    this.onClickTargetAppsToFillHandler =
-      this.onClickTargetAppsToFillHandler.bind(this);
-    this.onTargetFillToInputChangeHandler =
-      this.onTargetFillToInputChangeHandler.bind(this);
+    this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
+    this.onTargetFillToInputChangeHandler =this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.checkRecord = this.checkRecord.bind(this);
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
@@ -47,16 +42,16 @@ class ClinicInformation extends Component {
 
   onSubmitHandler(totalToInvite, avgExpectedUptake, lsoaCodesAppsToFill) {
     this.context.setState({
-      isSubmit: true,
-      totalToInvite: totalToInvite,
-      avgExpectedUptake: avgExpectedUptake,
-    });
+      "isSubmit": true,
+      "totalToInvite": totalToInvite,
+      "avgExpectedUptake": avgExpectedUptake,
+    })
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
   }
 
   onClickGoBackLinkHandler() {
-    this.context.setState({ navigateToClinic: false });
+    this.context.setState({ "navigateToClinic": false })
     // Scroll to the top of the page every time it renders the page
     // window.scrollTo(0, 0);
   }
@@ -65,84 +60,78 @@ class ClinicInformation extends Component {
     // toggle between setting the value of checked in all elements in lsoaInRange
     if (event.target.checked) {
       // set all "checked" fields in lsoaInRange to true
-      const selectAll = this.state.lsoaInRange.map((lsoa) => {
-        lsoa.checked = true;
-        return lsoa;
+      const selectAll = this.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = true
+        return lsoa
       });
       this.setState({
-        lsoaInRange: selectAll,
-      });
+        lsoaInRange: selectAll
+      })
     } else {
-      const deselectAll = this.state.lsoaInRange.map((lsoa) => {
-        lsoa.checked = false;
-        return lsoa;
+      const deselectAll = this.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = false
+        return lsoa
       });
       this.setState({
-        lsoaInRange: deselectAll,
-      });
+        lsoaInRange: deselectAll
+      })
     }
   }
 
   checkRecord(event, el) {
-    let selectedLsoaCopy = [...this.state.selectedLsoa];
-    const lsoaItemIndex = this.state.selectedLsoa.findIndex((lsoa) => {
-      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S;
-    });
+    let selectedLsoaCopy = [...this.state.selectedLsoa]
+    const lsoaItemIndex = this.state.selectedLsoa.findIndex(lsoa => {
+      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S
+    })
 
     const item = selectedLsoaCopy[lsoaItemIndex];
     if (event.target.checked) {
-      item.checked = true;
-      selectedLsoaCopy[lsoaItemIndex] = item;
+      item.checked = true
+      selectedLsoaCopy[lsoaItemIndex] = item
 
       this.setState({
-        lsoaInRange: selectedLsoaCopy,
-      });
+        lsoaInRange: selectedLsoaCopy
+      })
     } else {
-      item.checked = false;
-      selectedLsoaCopy[lsoaItemIndex] = item;
+      item.checked = false
+      selectedLsoaCopy[lsoaItemIndex] = item
 
       this.setState({
-        lsoaInRange: selectedLsoaCopy,
-      });
+        lsoaInRange: selectedLsoaCopy
+      })
     }
   }
 
   handleRangeSelection(e) {
     this.setState({
-      rangeSelection: Number(e.target.selectedOptions[0].text),
-    });
+      rangeSelection: Number(e.target.selectedOptions[0].text)
+    })
     this.context.setState({
-      rangeSelection: Number(e.target.selectedOptions[0].text),
-    });
+      rangeSelection: Number(e.target.selectedOptions[0].text)
+    })
   }
 
   onCurrentPageChange(page) {
     this.context.setState({
-      currentPage: page,
-    });
+      currentPage: page
+    })
   }
 
   onPageSizeChange(e) {
     this.context.setState({
       pageSize: e.target.value,
-      currentPage: 1,
-    });
+      currentPage: 1
+    })
   }
 
   // Calculating the Target number of appointments to fill
   calculateTargetAppsToFill(targetFillToInputValue) {
     this.setState({
-      appsToFill: Math.floor(
-        this.context.state.recentInvitationHistory.appsRemaining *
-          (targetFillToInputValue / 100)
-      ),
-    });
+      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
+    })
     this.context.setState({
-      targetAppToFill: Math.floor(
-        this.context.state.recentInvitationHistory.appsRemaining *
-          (targetFillToInputValue / 100)
-      ),
-    });
+      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining *(targetFillToInputValue / 100)),
+    })
   }
 
   // DB actions to PUT target percentage of appointments to fill
@@ -167,29 +156,29 @@ class ClinicInformation extends Component {
       let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
 
       lsoaInfo[eachLSOA_2011] = {
-        IMD_DECILE: eachIMD_DECILE,
-        FORECAST_UPTAKE: eachFORECAST_UPTAKE,
-      };
-    });
+        "IMD_DECILE": eachIMD_DECILE,
+        "FORECAST_UPTAKE": eachFORECAST_UPTAKE
+      }
+    })
     return lsoaInfo;
   }
 
   // POST lsoa codes and appsToFill (send to lambda)
   async lsoaCodesAppsToFill(lsoaArray) {
-    const payloadObject = this.createLsoaCodePayload(lsoaArray);
+    const payloadObject = this.createLsoaCodePayload(lsoaArray)
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         `https://${CALCULATE_NUM_TO_INVITE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/calculate-num-to-invite`,
         {
-          targetAppsToFill: this.state.appsToFill,
-          lsoaCodes: payloadObject,
+          "targetAppsToFill": this.state.appsToFill,
+          "lsoaCodes": payloadObject
         }
       );
       this.context.setState({
-        noInviteToGenerate: response.data.numberOfPeopleToInvite,
-        personIdentifiedToInvite: response.data.selectedParticipants,
-      });
+        "noInviteToGenerate": response.data.numberOfPeopleToInvite,
+        "personIdentifiedToInvite": response.data.selectedParticipants
+      })
       return response.data;
     } catch (error) {
       console.error("Request failed: " + error.message);
