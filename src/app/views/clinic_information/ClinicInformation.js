@@ -33,7 +33,7 @@ class ClinicInformation extends Component {
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
     this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
-    this.checkRecord = this.checkRecord.bind(this);
+    this.checkRecord = this.checkRecord.bind(this)
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
     this.lsoaCodesAppsToFill = this.lsoaCodesAppsToFill.bind(this);
     this.onCurrentPageChange = this.onCurrentPageChange.bind(this);
@@ -128,9 +128,9 @@ class ClinicInformation extends Component {
   calculateTargetAppsToFill(targetFillToInputValue) {
     this.setState({
       appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
-    })
+    });
     this.context.setState({
-      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining *(targetFillToInputValue / 100)),
+      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
     })
   }
 
@@ -150,7 +150,7 @@ class ClinicInformation extends Component {
   createLsoaCodePayload(lsoaArray) {
     // create object payload for the incoming lsoaArray
     const lsoaInfo = {};
-    lsoaArray.forEach((lsoa) => {
+    lsoaArray.forEach(lsoa => {
       let eachLSOA_2011 = lsoa.LSOA_2011.S;
       let eachIMD_DECILE = lsoa.IMD_DECILE.N;
       let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
@@ -171,8 +171,8 @@ class ClinicInformation extends Component {
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         `https://${CALCULATE_NUM_TO_INVITE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/calculate-num-to-invite`,
         {
-          "targetAppsToFill": this.state.appsToFill,
-          "lsoaCodes": payloadObject
+          targetAppsToFill: this.state.appsToFill,
+          lsoaCodes: payloadObject
         }
       );
       this.context.setState({
@@ -189,20 +189,14 @@ class ClinicInformation extends Component {
   async onClickTargetAppsToFillHandler(targetFillToInputValue) {
     let value = Number(targetFillToInputValue);
 
-    if (value && value <= 100) {
+    if ((value) && (value <= 100)) {
       this.setState({
-        appsToFill: Math.floor(
-          this.context.state.recentInvitationHistory.appsRemaining *
-            (targetFillToInputValue / 100)
-        ),
+        appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
         displayUserErrorTargetPercentage: false,
       });
       this.context.setState({
-        targetAppToFill: Math.floor(
-          this.context.state.recentInvitationHistory.appsRemaining *
-            (targetFillToInputValue / 100)
-        ),
-      });
+        targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
+      })
     } else {
       this.setState({
         displayUserErrorTargetPercentage: true,
