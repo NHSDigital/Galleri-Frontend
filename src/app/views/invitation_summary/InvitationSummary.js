@@ -75,6 +75,10 @@ class InvitationSummary extends Component {
 
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
+    this.context.setState({
+      pageSize: 10,
+      currentPage: 1,
+    });
   }
 
   scrollToMainContent() {
