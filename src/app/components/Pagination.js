@@ -83,7 +83,7 @@ const Pagination = props => {
       <nav class="nhsuk-pagination style_pagination__7B72Z" aria-label="Pagination Navigation">
         <div class="style_summary__J3_1h">
           <span index="0" node="[object Object]">
-            {`Showing ${currentPage * pageSize - pageSize + 1}-${ currentPage * pageSize < totalCount ? currentPage * pageSize : totalCount} of ${totalCount} results`}
+            {`Showing ${currentPage * pageSize - pageSize + 1}-${currentPage * pageSize < totalCount ? currentPage * pageSize : totalCount} of ${totalCount} results`}
           </span>
         </div>
       </nav>
@@ -102,12 +102,10 @@ const Pagination = props => {
   };
 
   return (
-    <nav
-      class="nhsuk-pagination style_pagination__7B72Z" role="navigation" aria-label="Pagination Navigation"
-    >
+    <nav class="nhsuk-pagination style_pagination__7B72Z" role="navigation" aria-label="Pagination Navigation">
       <div class="style_summary__J3_1h" role="status" aria-live="polite">
         <span index="0" node="[object Object]">
-          {`Showing ${currentPage * pageSize - pageSize + 1}-${ currentPage * pageSize < totalCount ? currentPage * pageSize : totalCount} of ${totalCount} results`}
+          {`Showing ${currentPage * pageSize - pageSize + 1}-${currentPage * pageSize < totalCount ? currentPage * pageSize : totalCount} of ${totalCount} results`}
         </span>
       </div>
       <h2 class="nhsuk-u-visually-hidden">Pagination Support links</h2>
@@ -115,7 +113,7 @@ const Pagination = props => {
         <li class="style_item__Y9BLA" id="prevButton">
           <a
             aria-label="Previous page: « Previous"
-            class={`nhsuk-pagination__link style_link__ToZGL ${currentPage == 1 ? "style_current__K8c2u" : ""} `}
+            class={`nhsuk-pagination__link style_link__ToZGL ${currentPage == 1 ? 'style_current__K8c2u' : ''} `}
             href="#"
             onClick={onPrevious}
           >
@@ -134,8 +132,7 @@ const Pagination = props => {
               <a onClick={() => onPageChange(pgNumber)}
                 href="#"
                 aria-label={`Go to Page ${pgNumber}`}
-                class={`style_link__ToZGL ${currentPage == pgNumber ? "style_current__K8c2u" : ""} `}
-              >
+                class={`style_link__ToZGL ${currentPage == pgNumber ? 'style_current__K8c2u' : ''} `}>
                 {pgNumber}
               </a>
             </li>
@@ -145,7 +142,7 @@ const Pagination = props => {
           <a
             aria-label="Next page: Next »"
             href="#"
-            class={`nhsuk-pagination__link style_link__ToZGL ${currentPage == lastPage ? "style_current__K8c2u" : ""} `}
+            class={`nhsuk-pagination__link style_link__ToZGL ${currentPage == lastPage ? 'style_current__K8c2u' : ''} `}
             onClick={onNext}
           >
             Next »
