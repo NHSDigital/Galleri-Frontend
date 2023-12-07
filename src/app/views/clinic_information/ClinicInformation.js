@@ -27,11 +27,11 @@ class ClinicInformation extends Component {
       "appsToFill": 0,
     };
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
-    this.onChangeSelectedClinicHandler =this.onChangeSelectedClinicHandler.bind(this);
+    this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
     this.onClickGoBackLinkHandler = this.onClickGoBackLinkHandler.bind(this);
     this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
-    this.onTargetFillToInputChangeHandler =this.onTargetFillToInputChangeHandler.bind(this);
+    this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
     this.checkRecord = this.checkRecord.bind(this);
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
@@ -44,7 +44,7 @@ class ClinicInformation extends Component {
     this.context.setState({
       "isSubmit": true,
       "totalToInvite": totalToInvite,
-      "avgExpectedUptake": avgExpectedUptake,
+      "avgExpectedUptake": avgExpectedUptake
     })
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
@@ -63,7 +63,7 @@ class ClinicInformation extends Component {
       const selectAll = this.state.lsoaInRange.map(lsoa => {
         lsoa.checked = true
         return lsoa
-      });
+      })
       this.setState({
         lsoaInRange: selectAll
       })
@@ -71,7 +71,7 @@ class ClinicInformation extends Component {
       const deselectAll = this.state.lsoaInRange.map(lsoa => {
         lsoa.checked = false
         return lsoa
-      });
+      })
       this.setState({
         lsoaInRange: deselectAll
       })
@@ -80,11 +80,11 @@ class ClinicInformation extends Component {
 
   checkRecord(event, el) {
     let selectedLsoaCopy = [...this.state.selectedLsoa]
-    const lsoaItemIndex = this.state.selectedLsoa.findIndex(lsoa => {
+    const lsoaItemIndex = this.state.selectedLsoa.findIndex((lsoa) => {
       return lsoa.LSOA_2011?.S == el.LSOA_2011?.S
     })
 
-    const item = selectedLsoaCopy[lsoaItemIndex];
+    const item = selectedLsoaCopy[lsoaItemIndex]
     if (event.target.checked) {
       item.checked = true
       selectedLsoaCopy[lsoaItemIndex] = item
@@ -114,7 +114,7 @@ class ClinicInformation extends Component {
   onCurrentPageChange(page) {
     this.context.setState({
       currentPage: page
-    })
+    });
   }
 
   onPageSizeChange(e) {
