@@ -24,11 +24,8 @@ class ClinicInformation extends Component {
       "selectedLsoa": [],
       "targetFillToInputValue": 0,
       "appsToFill": 0,
-      "checkAll": true,
-      "rangeSelection": 1,
       "targetErrorMessage": ""
     }
-
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
