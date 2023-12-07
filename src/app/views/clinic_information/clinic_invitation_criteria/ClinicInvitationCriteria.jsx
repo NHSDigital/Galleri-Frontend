@@ -11,6 +11,8 @@ export default function ClinicInvitationCriteria(props) {
     lsoaTableError,
   } = props;
 
+  const targetPercentageValueError = displayUserErrorTargetPercentage && !lsoaTableError;
+
   return (
     <div
       id="clinic-invitation-criteria-section"
@@ -21,7 +23,7 @@ export default function ClinicInvitationCriteria(props) {
       </h2>
       <div id="section-content"
         class={
-          (displayUserErrorTargetPercentage && !lsoaTableError)
+          (targetPercentageValueError)
             ? "govuk-form-group nhsuk-form-group--error"
             : "govuk-form-group"
         }
@@ -31,7 +33,7 @@ export default function ClinicInvitationCriteria(props) {
             Set the target percentage of appointments to fill
           </label>
         </h3>
-        {(displayUserErrorTargetPercentage && !lsoaTableError) && (
+        {(targetPercentageValueError) && (
           <div id="error-message" class="nhsuk-error-message">
             {targetErrorMessage}
           </div>
@@ -39,7 +41,7 @@ export default function ClinicInvitationCriteria(props) {
         <div id="user-input-container" class="govuk-input__wrapper">
           <input
             class={
-              (displayUserErrorTargetPercentage && !lsoaTableError)
+              (targetPercentageValueError)
                 ? "govuk-input govuk-input--width-5 govuk-input--error"
                 : "govuk-input govuk-input--width-5"
             }
@@ -58,7 +60,7 @@ export default function ClinicInvitationCriteria(props) {
           <div
             id="input-suffix-percentage"
             class={
-              (displayUserErrorTargetPercentage && !lsoaTableError)
+              (targetPercentageValueError)
                 ? "govuk-input__suffix govuk-input__suffix--error"
                 : "govuk-input__suffix"
             }
