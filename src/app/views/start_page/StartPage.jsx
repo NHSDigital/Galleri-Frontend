@@ -1,21 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/css/sass.css";
 import { useSession, getSession } from "next-auth/react"
 import { redirect } from 'next/navigation'
 
 
 export default function StartPage(props) {
+  const [timer, setTimer] = useState(null);
   // Block below is used to get session data for client components since the
   // class component this component is imported is client component
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect("/api/auth/signin?callbackUrl=/")
+      redirect("/signin?callbackUrl=/")
     }
   })
+
   const {
     onClickStartHandler
   } = props;
+
+  // // Reset the timer when the user interacts with the page
+  // const resetTimer = () => {
+  //   clearTimeout(timer);
+  //   setTimer(setTimeout(() => handleSignOut(), 60000)); // 1 minute in milliseconds
+  // };
+
+  // // Handle sign-out logic
+  // const handleSignOut = async () => {
+  //   // Perform sign-out logic here
+  //   // For example, redirect to the sign-out endpoint
+  //   window.location.href = "/api/auth/signin?callbackUrl=/";
+  // };
+
+  // useEffect(() => {
+  //   // Set up initial timer on component mount
+  //   setTimer(setTimeout(() => handleSignOut(), 60000)); // 1 minute in milliseconds
+
+  //   // Clear the timer on component unmount
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, []); // Empty dependency array ensures the effect runs only on mount and unmount
+
+
   return (
     <>
       <header class="nhsuk-header nhsuk-header--transactional" role="banner">
@@ -34,6 +61,7 @@ export default function StartPage(props) {
         </div>
       </header>
       <div class="nhsuk-width-container">
+        {/* add these attribute inside main element if not using autosignout Provider---> onMouseMove={resetTimer} onClick={resetTimer} onTouchStart={resetTimer} */}
         <main class="nhsuk-main-wrapper" id="maincontent" role="main">
           <div class="nhsuk-grid-row">
             <div>{session?.user.name}</div>

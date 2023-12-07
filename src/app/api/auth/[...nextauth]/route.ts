@@ -12,8 +12,8 @@ export const authOptions: NextAuthOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "Email", placeholder: "Enter Email" },
-        password: { label: "Password" },
+        email: { label: "Email", type: "text", placeholder: "Enter Email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
         if (!credentials || !credentials.email || !credentials.password) {
@@ -28,6 +28,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/auth/signin",
+  },
   session: {
     // Choose how you want to save the user session.
     // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.

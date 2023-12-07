@@ -9,6 +9,7 @@ import InvitationSummary from "./views/invitation_summary/InvitationSummary";
 import { AppStateProvider } from "./context/AppStateContext";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import AutoSignOutProvider from "./context/AutoSignOutProvider";
 
 // The root page of Galleri
 export default async function Root() {
@@ -20,16 +21,18 @@ export default async function Root() {
           Skip to main content
         </a>
         <div>{JSON.stringify(data)}</div>
-        <AppStateProvider>
-          {/* <Header /> */}
-          <Start />
-          {/* <Content /> */}
-          {/* <ClinicSummary /> */}
-          {/* <InvitationPlanning /> */}
-          {/* <ClinicInformation /> */}
-          {/* <InvitationSummary /> */}
-          <Footer />
-        </AppStateProvider>
+        <AutoSignOutProvider>
+          <AppStateProvider>
+            {/* <Header /> */}
+            <Start />
+            {/* <Content /> */}
+            {/* <ClinicSummary /> */}
+            {/* <InvitationPlanning /> */}
+            {/* <ClinicInformation /> */}
+            {/* <InvitationSummary /> */}
+            <Footer />
+          </AppStateProvider>
+        </AutoSignOutProvider>
       </body>
     </div>
   );

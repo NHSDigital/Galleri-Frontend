@@ -21,6 +21,13 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/app/context/AutoLogoutProvider.jsx",
+    "src/app/context/AutoLogoutProvider.jsx"
+  ],
   "exclude": ["node_modules"]
 }
