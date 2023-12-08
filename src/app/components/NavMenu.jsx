@@ -22,7 +22,13 @@ export default function NavMenu() {
           </a>
         </li>
         <li class="nhsuk-header__navigation-item" style={{ marginLeft: "auto" }}>
-          <a class="nhsuk-header__navigation-link" style={{cursor: 'pointer'}} onClick={signOut}>
+          <a class="nhsuk-header__navigation-link" style={{ cursor: 'pointer' }} onClick={signOut} onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === 'Space') {
+              // Handle the keyboard interaction, e.g., trigger the same action as onClick
+              signOut();
+            }
+          }}tabIndex="0" // Ensure the element is focusable
+          >
             Sign Out
           </a>
         </li>
