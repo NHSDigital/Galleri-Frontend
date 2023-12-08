@@ -11,7 +11,7 @@
  * This is important for creating features like protected pages
  * that require users to be logged in to access them.
  *
- * */
+ **/
 
 "use client";
 
