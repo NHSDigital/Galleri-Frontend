@@ -57,6 +57,10 @@ export default class ClinicSummary extends Component {
     });
     this.getClinicsFromIcbCode();
     this.setState({ loading: false });
+    this.context.setState({
+      pageSize: 10,
+      currentPage: 1
+    })
   }
 
   onCheckHandler(e) {
