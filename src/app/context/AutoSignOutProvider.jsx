@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 
+const timeout = 60000; // 1 minute in milliseconds
 
 const AutoSignOutProvider = ({ children }) => {
   const [timer, setTimer] = useState(null);
@@ -9,7 +10,7 @@ const AutoSignOutProvider = ({ children }) => {
 
   const resetTimer = useCallback(() => {
     clearTimeout(timer);
-    setTimer(setTimeout(() => handleSignOut(), 60000)); // 1 minute in milliseconds
+    setTimer(setTimeout(() => handleSignOut(), timeout));
   }, [timer]);
 
   const handleSignOut = async () => {
@@ -17,7 +18,7 @@ const AutoSignOutProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setTimer(setTimeout(() => handleSignOut(), 60000));
+    setTimer(setTimeout(() => handleSignOut(), timeout));
 
     return () => {
       clearTimeout(timer);

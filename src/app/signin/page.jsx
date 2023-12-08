@@ -1,26 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { signIn, useSession } from 'next-auth/react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React, { useState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import Footer from "../components/Footer";
 import "../styles/css/sass.css";
 
 const SignIn = () => {
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const { data: session } = useSession();
 
   useEffect(() => {
     // Redirect to the homepage if the user is already logged in
     if (session) {
-      window.location.href = '/';
+      window.location.href = "/";
     }
   }, [session]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await signIn('credentials', {
+    const result = await signIn("credentials", {
       ...credentials,
       redirect: false, // Don't redirect, handle the result in the component
     });
@@ -30,56 +29,86 @@ const SignIn = () => {
       console.error(result.error);
     } else {
       // Redirect to home or any other page after successful sign-in
-      window.location.href = '/';
+      window.location.href = "/";
     }
   };
 
   return (
     <>
-      <Header />
+      <a id="skip-to-main" href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">
+        Skip to main content
+      </a>
+      <header class="nhsuk-header nhsuk-header--transactional" role="banner">
+        <div class="nhsuk-width-container nhsuk-header__container">
+          <div class="nhsuk-header__logo nhsuk-header__logo--only"><a class="nhsuk-header__link" href="/" aria-label="NHS homepage">
+            <svg class="nhsuk-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 16" height="40" width="100">
+              <path class="nhsuk-logo__background" fill="#005eb8" d="M0 0h40v16H0z"></path>
+              <path class="nhsuk-logo__text" fill="#fff" d="M3.9 1.5h4.4l2.6 9h.1l1.8-9h3.3l-2.8 13H9l-2.7-9h-.1l-1.8 9H1.1M17.3 1.5h3.6l-1 4.9h4L25 1.5h3.5l-2.7 13h-3.5l1.1-5.6h-4.1l-1.2 5.6h-3.4M37.7 4.4c-.7-.3-1.6-.6-2.9-.6-1.4 0-2.5.2-2.5 1.3 0 1.8 5.1 1.2 5.1 5.1 0 3.6-3.3 4.5-6.4 4.5-1.3 0-2.9-.3-4-.7l.8-2.7c.7.4 2.1.7 3.2.7s2.8-.2 2.8-1.5c0-2.1-5.1-1.3-5.1-5 0-3.4 2.9-4.4 5.8-4.4 1.6 0 3.1.2 4 .6"></path>
+            </svg>
+          </a>
+          </div>
+        </div>
+      </header>
       <div className="nhsuk-width-container">
         <main className="nhsuk-main-wrapper" id="main-content" role="main">
           <div className="nhsuk-grid-row">
             <div className="nhsuk-grid-column-full">
-              <h1>Custom Sign-In Page</h1>
+              <h1>GPS Sign-In Page</h1>
               <div className="nhsuk-grid-column-two-third">
-                <form onSubmit={handleSubmit}>
-                  <div className="nhsuk-form-group" style={{ marginBottom: '10px' }}>
-                    <label className="nhsuk-label" htmlFor="email">
-                      Email
-                      <input
-                        className="nhsuk-input nhsuk-u-width-one-half"
-                        id="email"
-                        name="email"
-                        type="text"
-                        value={credentials.email}
-                        onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-                      />
-                    </label>
+                <div
+                  className="nhsuk-form-group"
+                  style={{ marginBottom: "10px" }}
+                >
+                  <label className="nhsuk-label" htmlFor="email">
+                    Email
+                  </label>
+                  <input
+                    className="nhsuk-input nhsuk-u-width-one-half"
+                    id="email"
+                    name="email"
+                    type="text"
+                    value={credentials.email}
+                    onChange={(e) =>
+                      setCredentials({
+                        ...credentials,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="nhsuk-form-group">
+                  <label className="nhsuk-label" htmlFor="password">
+                    Password
+                  </label>
+                  <input
+                    className="nhsuk-input nhsuk-u-width-one-half"
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={credentials.password}
+                    onChange={(e) =>
+                      setCredentials({
+                        ...credentials,
+                        password: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div class="nhsuk-grid-row">
+                  <div class="nhsuk-grid-column-one-half">
+                    <button type="submit" onClick={handleSubmit}>Sign In</button>
                   </div>
-                  <div className="nhsuk-form-group">
-                    <label className="nhsuk-label" htmlFor="password">
-                      Password
-                      <input
-                        className="nhsuk-input nhsuk-u-width-one-half"
-                        id="password"
-                        name="password"
-                        type="password"
-                        value={credentials.password}
-                        onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-                      />
-                    </label>
+                  <div class="nhsuk-grid-column-one-half">
+                    <button onClick={() => signIn("github")}>
+                      Sign In with GitHub
+                    </button>
                   </div>
-                  <button type="submit">Sign In</button>
-                </form>
+                </div>
               </div>
             </div>
-            <div>
-              <button onClick={() => signIn('github')}>Sign In with GitHub</button>
-            </div>
           </div>
-        </main>
-      </div>
+        </main >
+      </div >
       <Footer />
     </>
   );
