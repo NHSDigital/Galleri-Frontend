@@ -5,9 +5,12 @@ import { useSession } from "next-auth/react"
 
 // Header container
 export default function Header() {
+  // Block below is used to Fetching user session data for client components since the
+  // class component this component is imported is client component
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
+      // Redirect to sign-in page if user is not authenticated
       redirect("/signin?callbackUrl=/")
     }
   })

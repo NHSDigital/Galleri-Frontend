@@ -7,17 +7,12 @@ export const metadata = {
 };
 
 // Root layout of Galleri
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="">
-        {" "}
         {/* Wrapped with AuthProvider for all the client components to access the session data */}
-        <AuthProvider>{children}</AuthProvider>{" "}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

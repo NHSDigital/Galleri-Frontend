@@ -7,20 +7,17 @@ import InvitationPlanning from "./views/invitation_planning/InvitationPlanning";
 import ClinicInformation from "./views/clinic_information/ClinicInformation";
 import InvitationSummary from "./views/invitation_summary/InvitationSummary";
 import { AppStateProvider } from "./context/AppStateContext";
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import AutoSignOutProvider from "./context/AutoSignOutProvider";
 
 // The root page of Galleri
 export default async function Root() {
-  const data = await getServerSession(authOptions);
   return (
     <div>
       <body className="js-enabled">
-        <a id="skip-to-main" href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">
+        <a id="skip-to-main" href="#main-content" className="govuk-skip-link" data-module="govuk-skip-link">
           Skip to main content
         </a>
-        {/* <div>{JSON.stringify(data)}</div> */}
+
         <AutoSignOutProvider>
           <AppStateProvider>
             {/* <Header /> */}

@@ -32,8 +32,8 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/app/context/AutoLogoutProvider.jsx",
-    "src/app/context/AutoLogoutProvider.jsx"
+    "src/app/context/AutoSignOutProvider.jsx",
+    "src/app/layout.jsx"
   ],
   "exclude": [
     "node_modules"
