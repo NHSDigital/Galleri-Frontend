@@ -20,7 +20,7 @@ export default async function Root() {
         <a id="skip-to-main" href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">
           Skip to main content
         </a>
-        <div>{JSON.stringify(data)}</div>
+        {/* <div>{JSON.stringify(data)}</div> */}
         <AutoSignOutProvider>
           <AppStateProvider>
             {/* <Header /> */}

@@ -1,8 +1,16 @@
+import React from "react";
 import "../styles/css/sass.css";
 import NavMenu from "./NavMenu";
+import { useSession } from "next-auth/react"
 
 // Header container
 export default function Header() {
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/signin?callbackUrl=/")
+    }
+  })
   return (
     <header class="nhsuk-header" role="banner">
       <div className="nhsuk-width-container">
@@ -34,6 +42,7 @@ export default function Header() {
           <div class="nhsuk-header__transactional-service-name">
             {/* <a class="nhsuk-header__transactional-service-name--link" href="#">Galleri</a> */}
           </div>
+          <div style={{ position: "relative", display: "flex" }}> <div style={{ marginLeft: "auto", marginRight: "2%", color: 'white', fontSize: '25px' }}>Hi, {session?.user.name}</div></div>
         </div>
         <div class="nhsuk-navigation-container">
           <NavMenu />

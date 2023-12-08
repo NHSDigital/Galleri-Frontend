@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../../styles/css/sass.css";
-import { useSession, getSession } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import { redirect } from 'next/navigation'
 
 
 export default function StartPage(props) {
-  const [timer, setTimer] = useState(null);
   // Block below is used to get session data for client components since the
   // class component this component is imported is client component
   const { data: session } = useSession({
@@ -19,30 +18,6 @@ export default function StartPage(props) {
     onClickStartHandler
   } = props;
 
-  // // Reset the timer when the user interacts with the page
-  // const resetTimer = () => {
-  //   clearTimeout(timer);
-  //   setTimer(setTimeout(() => handleSignOut(), 60000)); // 1 minute in milliseconds
-  // };
-
-  // // Handle sign-out logic
-  // const handleSignOut = async () => {
-  //   // Perform sign-out logic here
-  //   // For example, redirect to the sign-out endpoint
-  //   window.location.href = "/api/auth/signin?callbackUrl=/";
-  // };
-
-  // useEffect(() => {
-  //   // Set up initial timer on component mount
-  //   setTimer(setTimeout(() => handleSignOut(), 60000)); // 1 minute in milliseconds
-
-  //   // Clear the timer on component unmount
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, []); // Empty dependency array ensures the effect runs only on mount and unmount
-
-
   return (
     <>
       <header class="nhsuk-header nhsuk-header--transactional" role="banner">
@@ -55,16 +30,15 @@ export default function StartPage(props) {
           </a>
           </div>
           <div class="nhsuk-header__transactional-service-name">
-            <a class="nhsuk-header__transactional-service-name--link" href="#">Galleri</a>
+            <a class="nhsuk-header__transactional-service-name--link" href="#">Galleri Pilot System</a>
             <a class="nhsuk-skip-link" href="#maincontent">Skip to main content</a>
           </div>
         </div>
       </header>
       <div class="nhsuk-width-container">
-        {/* add these attribute inside main element if not using autosignout Provider---> onMouseMove={resetTimer} onClick={resetTimer} onTouchStart={resetTimer} */}
         <main class="nhsuk-main-wrapper" id="maincontent" role="main">
+          <p>Hi, {session?.user.name}</p>
           <div class="nhsuk-grid-row">
-            <div>{session?.user.name}</div>
             <div class="nhsuk-grid-column-two-thirds">
               <h1>Galleri Pilot System</h1>
               <p>Use this service to calculate how many eligible people to invite to each clinic</p>

@@ -5341,7 +5341,7 @@ COMPONENTS / #HEADER
 }
 .nhsuk-header__navigation-link:hover {
 	box-shadow: none;
-	color: #005eb8;
+	color: #ffffff;
 	text-decoration: underline;
 }
 @media (min-width: 61.875em) {
