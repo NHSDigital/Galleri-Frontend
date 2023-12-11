@@ -92,6 +92,11 @@ a:active {
 	}
 }
 
+/* custom pseudo-class for to hide the link until the reference page is complete */
+.unfinished-link {
+  display: none;
+}
+
 .nhsuk-link--no-visited-state:link {
 	color: #005eb8;
 }
