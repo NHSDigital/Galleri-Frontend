@@ -94,7 +94,7 @@ a:active {
 
 /* custom pseudo-class for to hide the link until the reference page is complete */
 .unfinished-link {
-  display: none;
+	display: none;
 }
 
 .nhsuk-link--no-visited-state:link {
