@@ -1,3 +1,4 @@
+"use client";
 import React, { Component } from 'react';
 import InvitationSummaryPage from './InvitationSummaryPage';
 import { AppStateContext } from '@/app/context/AppStateContext';
