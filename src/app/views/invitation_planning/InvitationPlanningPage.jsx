@@ -2,6 +2,7 @@ import "../../styles/css/sass.css";
 import React from "react";
 import NationalForecastUptakeTable from "./NationalForecastUptakeTable";
 import QuintileTargetTable from "./QuintileTargetTable";
+import Errorinvitations from "./ErrorInvitations";
 
 export default function InvitationPlanningPage(props) {
   const {
@@ -23,11 +24,21 @@ export default function InvitationPlanningPage(props) {
     onCancelSaveForecastHandler,
     onSaveForecastHandler,
     sumQuintiles,
+    onKeyUp,
   } = props;
 
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="invitationsParameters" role="main">
+        <div id="error-summary">
+            {(!isCorrectUptakeTotal||!isCorrectTotal) && (
+              <Errorinvitations
+                onKeyUp={onKeyUp}
+                isCorrectTotal={isCorrectTotal}
+                isCorrectUptakeTotal={isCorrectUptakeTotal}
+              />
+            )}
+        </div>
         <div class="nhsuk-grid-row">
           <div class="nhsuk-grid-column-full">
             <h1>Invitation variables</h1>
@@ -44,10 +55,12 @@ export default function InvitationPlanningPage(props) {
                     "padding-right": "40px",
                   }}
                 >
+                  
                   <NationalForecastUptakeTable
                     nationalUptakePercentage={nationalUptakePercentage}
                     onUptakeChangeHandler={onUptakeChangeHandler}
                     enableUptakeEdit={enableUptakeEdit}
+                    isCorrectUptakeTotal={isCorrectUptakeTotal}
                   />
                   <br />
                   <div
@@ -64,11 +77,7 @@ export default function InvitationPlanningPage(props) {
                   >
                     {userName}
                   </div>
-                  {!isCorrectUptakeTotal && (
-                    <div class="nhsuk-error-summary">
-                      The uptake percentage must be between 1% and 100%
-                    </div>
-                  )}
+                  
                   {enableUptakeEdit ? (
                     <div>
                       <button
@@ -120,6 +129,7 @@ export default function InvitationPlanningPage(props) {
                     onQuintileChangeHandler={onQuintileChangeHandler}
                     enableFillEdit={enableFillEdit}
                     sumQuintiles={sumQuintiles}
+                    isCorrectTotal={isCorrectTotal}
                   />
                   <br />
                   <div
@@ -136,11 +146,7 @@ export default function InvitationPlanningPage(props) {
                   >
                     {userName}
                   </div>
-                  {!isCorrectTotal && (
-                    <div class="nhsuk-error-summary">
-                      The fill targets must add up to 100%
-                    </div>
-                  )}
+                  
                   {enableFillEdit ? (
                     <div>
                       <button
