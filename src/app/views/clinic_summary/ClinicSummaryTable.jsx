@@ -23,7 +23,6 @@ export default function ClinicSummaryTable(props) {
 
   return (
     <section>
-      {/* <h2 className="nhsuk-heading no-margin-bottom">Clinic List</h2> */}
       <table
         className="nhsuk-table-responsive nhsuk-u-margin-bottom-6"
         aria-labelledby="clinicTableCaption"
