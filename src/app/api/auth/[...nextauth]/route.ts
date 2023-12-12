@@ -1,6 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GithubProvider from "next-auth/providers/github";
 import { users } from "../../../../../helpers/user_database";
+
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -27,6 +29,11 @@ export const authOptions: NextAuthOptions = {
         return null;
       },
     }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+    // ...add more providers here
   ],
   pages: {
     signIn: "/auth/signin",
@@ -41,7 +48,7 @@ export const authOptions: NextAuthOptions = {
     // strategy: "database",
 
     // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 60 * 10, // 10 min
+    maxAge: 60, // 10 min
 
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.

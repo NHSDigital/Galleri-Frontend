@@ -14,6 +14,8 @@ export default function StartPage(props) {
     }
   })
 
+  console.log(session)
+
   const {
     onClickStartHandler
   } = props;
