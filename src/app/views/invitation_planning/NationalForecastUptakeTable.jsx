@@ -35,6 +35,7 @@ export default function NationalForecastUptakeTable(props) {
               style={{ "padding-right": "2px", width: "100px" }}
             >
               <input
+                id="national-forecast-uptake"
                 class="nhsuk-input"
                 style={{
                   textAlign: "right",
