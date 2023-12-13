@@ -82,8 +82,8 @@ export default function NationalForecastUptakeTable(props) {
   );
 }
 NationalForecastUptakeTable.propTypes = {
-  nationalUptakePercentage: PropTypes.number.isRequired, 
+  nationalUptakePercentage: PropTypes.number.isRequired,
   enableUptakeEdit: PropTypes.bool.isRequired,
   onUptakeChangeHandler: PropTypes.func.isRequired,
   isCorrectUptakeTotal: PropTypes.bool.isRequired,
-};
+}
