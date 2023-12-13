@@ -55,7 +55,6 @@ export default function InvitationPlanningPage(props) {
                     "padding-right": "40px",
                   }}
                 >
-                  
                   <NationalForecastUptakeTable
                     nationalUptakePercentage={nationalUptakePercentage}
                     onUptakeChangeHandler={onUptakeChangeHandler}
@@ -77,7 +76,6 @@ export default function InvitationPlanningPage(props) {
                   >
                     {userName}
                   </div>
-                  
                   {enableUptakeEdit ? (
                     <div>
                       <button
@@ -146,7 +144,6 @@ export default function InvitationPlanningPage(props) {
                   >
                     {userName}
                   </div>
-                  
                   {enableFillEdit ? (
                     <div>
                       <button
