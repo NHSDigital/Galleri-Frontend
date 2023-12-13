@@ -43,4 +43,4 @@ Errorinvitations.propTypes = {
   onKeyUp: PropTypes.func.isRequired,
   isCorrectTotal: PropTypes.bool.isRequired,
   isCorrectUptakeTotal: PropTypes.bool.isRequired,
-};
+}
