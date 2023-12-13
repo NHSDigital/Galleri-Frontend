@@ -1,5 +1,6 @@
 import React from "react";
 import { quintileHintText } from "./helper";
+import PropTypes from "prop-types";
 
 export default function QuintileTargetTable(props) {
   const {
@@ -117,3 +118,11 @@ export default function QuintileTargetTable(props) {
     </table>
   );
 }
+QuintileTargetTable.propTypes = {
+  quintileValuesAux: PropTypes.number.isRequired,
+  quintileValues: PropTypes.number.isRequired, 
+  enableFillEdit: PropTypes.bool.isRequired,
+  sumQuintiles: PropTypes.func.isRequired,
+  onQuintileChangeHandler: PropTypes.func.isRequired,
+  isCorrectTotal: PropTypes.bool.isRequired,
+};

@@ -1,5 +1,6 @@
 import "../../styles/css/sass.css";
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function Errorinvitations(props) {
     const {
@@ -13,7 +14,7 @@ export default function Errorinvitations(props) {
       class="nhsuk-error-summary nhsuk-u-padding-bottom-0"
       aria-labelledby="error-summary-title"
       role="alert"
-      tabindex="-1"
+      tabIndex="-1"
       onKeyDown={e => onKeyUp(e)}
     >
       <h2
@@ -38,3 +39,8 @@ export default function Errorinvitations(props) {
     </div>
   );
 }
+Errorinvitations.propTypes = {
+  onKeyUp: PropTypes.func.isRequired,
+  isCorrectTotal: PropTypes.bool.isRequired,
+  isCorrectUptakeTotal: PropTypes.bool.isRequired,
+};
