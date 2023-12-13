@@ -81,7 +81,6 @@ describe("Error Scenarios", () => {
     const { container } = render(<InvitationPlanning />);
     const button = screen.getByText('Amend forecast uptake');
     expect(button.innerHTML).toBe('Amend forecast uptake');
-    
     fireEvent.click(button);
     const myInputElement = container.querySelector(`input[id="national-forecast-uptake"]`);
     expect(myInputElement).toBeInTheDocument();
@@ -91,7 +90,6 @@ describe("Error Scenarios", () => {
     expect(savebutton.innerHTML).toBe("Save changes");
 
     fireEvent.click(savebutton);
-    
     let error = screen.getAllByText("The uptake percentage must be between 1% and 100%");
     expect(error[0].innerHTML).toBe('The uptake percentage must be between 1% and 100%');
   });
@@ -108,8 +106,6 @@ describe("Error Scenarios", () => {
   );
 
   test("Quintile fill target error when values dont add to 100", () => {
-    
-
     render(quintileTable);
     let error = screen.getAllByText("The fill targets must add up to 100%");
     expect(error[0].innerHTML).toBe('The fill targets must add up to 100%');
