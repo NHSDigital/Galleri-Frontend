@@ -75,8 +75,6 @@ const Pagination = props => {
 
   const paginationRange = fetchPageNumbers();
 
-  console.log("paginationRange", paginationRange);
-
   if (currentPage === 0) {
     return null;
   }

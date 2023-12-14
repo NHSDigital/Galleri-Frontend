@@ -6920,6 +6920,10 @@ COMPONENTS/ #SUMMARY-LIST
 	margin-bottom: 0;
 }
 
+.nhsuk-summary-list__value_custom__value {
+	vertical-align: middle;
+}
+
 .nhsuk-summary-list__actions-list {
 	margin: 0; /* [2] */
 	padding: 0; /* [2] */

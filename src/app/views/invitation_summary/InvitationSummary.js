@@ -1,22 +1,24 @@
-import React, { Component } from 'react';
-import InvitationSummaryPage from './InvitationSummaryPage';
-import { AppStateContext } from '@/app/context/AppStateContext';
-import Header from "@/app/components/Header";
-import axios from 'axios';
+import React, { Component } from "react";
+import InvitationSummaryPage from "./InvitationSummaryPage";
+import { AppStateContext } from "@/app/context/AppStateContext";
+import { setClinicDetails } from "../../helper/helperMethods";
+import axios from "axios";
 
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GENERATE_INVITES = process.env.NEXT_PUBLIC_GENERATE_INVITES;
+const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION;
 
 class InvitationSummary extends Component {
   constructor() {
     super();
     this.state = {
-      "displayCheckDetailsBanner": true,
-      "displayErrorInvitationSummary": false,
-      "displayConfirmationInvitationSummary": false,
-    }
+      displayCheckDetailsBanner: true,
+      displayErrorInvitationSummary: false,
+      displayConfirmationInvitationSummary: false,
+    };
     this.onClickGenerateHandler = this.onClickGenerateHandler.bind(this);
-    this.onClickGoBackPrevPageLinkHandler = this.onClickGoBackPrevPageLinkHandler.bind(this);
+    this.onClickGoBackPrevPageLinkHandler =
+      this.onClickGoBackPrevPageLinkHandler.bind(this);
   }
 
   async fetchClinicInvitationHistory(clinicName, clinicId) {
@@ -80,16 +82,16 @@ class InvitationSummary extends Component {
   }
 
   scrollToMainContent() {
-    const mainContent = document.getElementById('header');
+    const mainContent = document.getElementById("header");
     if (mainContent) {
-      mainContent.scrollIntoView({ behavior: 'smooth' });
+      mainContent.scrollIntoView({ behavior: "smooth" });
     }
   }
 
   async onClickGenerateHandler() {
     this.setState({
       displayConfirmationInvitationSummary: true,
-      displayCheckDetailsBanner: false
+      displayCheckDetailsBanner: false,
     });
     this.scrollToMainContent();
 
@@ -102,19 +104,22 @@ class InvitationSummary extends Component {
           clinicId: this.context.state.clinicId,
           clinicName: this.context.state.clinicName,
           rangeSelected: this.context.state.rangeSelection,
-          targetPercentage: this.context.state.targetPercentageToFill
-        }
+          targetPercentage: this.context.state.targetPercentageToFill,
+          targetNoAppsToFill: this.context.state.targetAppToFill,
+          appRemaining:
+            this.context.state.recentInvitationHistory.appsRemaining,
+        },
       }
     );
-    console.log("logging response = ", response.data)
+    console.log("logging response = ", response.data);
   }
 
   componentDidMount() {
     if (this.context.state.totalToInvite === 0) {
       this.setState({
         displayErrorInvitationSummary: true,
-        displayCheckDetailsBanner: false
-      })
+        displayCheckDetailsBanner: false,
+      });
     }
     // Scroll to the top of the page
     window.scrollTo(0, 0);
@@ -125,7 +130,7 @@ class InvitationSummary extends Component {
       displayCheckDetailsBanner,
       displayErrorInvitationSummary,
       displayConfirmationInvitationSummary,
-    } = this.state
+    } = this.state;
 
     // Add the context state variables you want to pass onto this page, and pass it as props on Return block below
     const {
@@ -139,7 +144,7 @@ class InvitationSummary extends Component {
       targetPercentageToFill,
       totalToInvite,
       avgExpectedUptake,
-      noInviteToGenerate
+      noInviteToGenerate,
     } = this.context.state;
     return (
       <div>
@@ -151,7 +156,9 @@ class InvitationSummary extends Component {
           recentInvitationHistory={recentInvitationHistory}
           displayCheckDetailsBanner={displayCheckDetailsBanner}
           displayErrorInvitationSummary={displayErrorInvitationSummary}
-          displayConfirmationInvitationSummary={displayConfirmationInvitationSummary}
+          displayConfirmationInvitationSummary={
+            displayConfirmationInvitationSummary
+          }
           rangeSelection={rangeSelection}
           totalToInvite={totalToInvite}
           avgExpectedUptake={avgExpectedUptake}
@@ -159,7 +166,9 @@ class InvitationSummary extends Component {
           targetPercentageToFill={targetPercentageToFill}
           noInviteToGenerate={noInviteToGenerate}
           onClickGenerateHandler={this.onClickGenerateHandler}
-          onClickGoBackPrevPageLinkHandler={this.onClickGoBackPrevPageLinkHandler}
+          onClickGoBackPrevPageLinkHandler={
+            this.onClickGoBackPrevPageLinkHandler
+          }
         />
       </div>
     );
