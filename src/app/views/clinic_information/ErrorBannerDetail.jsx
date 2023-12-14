@@ -21,11 +21,15 @@ export default function ErrorBannerDetail(props) {
         There is a problem
       </h2>
       <div class="nhsuk-error-summary__body">
-        <a
-          href="#error-message"
-        >
-          {targetErrorMessage}
-        </a>
+        <ul class="nhsuk-list nhsuk-error-summary__list" role="list">
+          <li>
+            <a
+              href="#error-message"
+            >
+              {targetErrorMessage}
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );
