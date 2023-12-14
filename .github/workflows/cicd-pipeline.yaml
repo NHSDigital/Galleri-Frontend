@@ -39,6 +39,8 @@ jobs:
     uses: ./.github/workflows/cloc-repository.yaml
   scan-dependencies:
     uses: ./.github/workflows/scan-dependencies.yaml
+  check-coverage:
+    uses: ./.github/workflows/check-test-coverage.yaml
   perform-static-analysis:
     runs-on: ubuntu-latest
     permissions:
