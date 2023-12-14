@@ -12,6 +12,9 @@ sbom-spdx*.json
 # testing
 /coverage
 
+# helpers
+/helpers
+
 # next.js
 /.next/
 /out/
