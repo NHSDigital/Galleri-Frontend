@@ -24,6 +24,8 @@ export default function Errorinvitations(props) {
         There is a problem
       </h2>
       <div class="nhsuk-error-summary__body">
+        <ul class="nhsuk-list nhsuk-error-summary__list" role="list">
+          <li>
             {!isCorrectUptakeTotal && (
                 <a href="#uptake-error-message">
                     The uptake percentage must be between 1% and 100%
@@ -35,7 +37,9 @@ export default function Errorinvitations(props) {
                     The fill targets must add up to 100%
                 </a>
             )}
-        </div>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
