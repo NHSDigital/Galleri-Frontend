@@ -58,7 +58,6 @@ class ClinicInformation extends Component {
   }
 
   onKeyUp(e) {
-    console.log("enter is pressed", e);
     if (e.key === "Enter" || e.keyCode === 32) {
       const errorContent = document.getElementById('error-message');
       if (errorContent) {
