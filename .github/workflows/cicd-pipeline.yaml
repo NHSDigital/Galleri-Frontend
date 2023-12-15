@@ -47,14 +47,14 @@ jobs:
       id-token: write
       contents: read
     timeout-minutes: 5
-    name: "Perform static analysis"
+    name: "Perform unit tests and static analysis"
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Full history is needed to improving relevancy of reporting
       - name: run unit tests
-        uses: ./.github/actions/perform-unit-tests.yaml
+        uses: ./.github/actions/perform-unit-tests
       - name: "Perform static analysis"
         uses: ./.github/actions/perform-static-analysis
         with:
