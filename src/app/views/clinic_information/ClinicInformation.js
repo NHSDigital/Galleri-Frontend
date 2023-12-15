@@ -23,8 +23,8 @@ class ClinicInformation extends Component {
       "rangeSelection": 1,
       "selectedLsoa": [],
       "targetFillToInputValue": 0,
-      "rangeSelection": 1,
       "appsToFill": 0,
+      "targetErrorMessage": ""
     }
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
@@ -38,6 +38,7 @@ class ClinicInformation extends Component {
     this.lsoaCodesAppsToFill = this.lsoaCodesAppsToFill.bind(this);
     this.onCurrentPageChange = this.onCurrentPageChange.bind(this);
     this.onPageSizeChange = this.onPageSizeChange.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
   }
 
   onSubmitHandler(totalToInvite, avgExpectedUptake, lsoaCodesAppsToFill) {
@@ -53,7 +54,19 @@ class ClinicInformation extends Component {
   onClickGoBackLinkHandler() {
     this.context.setState({ "navigateToClinic": false })
     // Scroll to the top of the page every time it renders the page
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+  }
+
+  onKeyUp(e) {
+    if (e.key === "Enter" || e.keyCode === 32) {
+      const errorContent = document.getElementById('error-message');
+      if (errorContent) {
+        errorContent.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
   }
 
   checkAllHandler(event) {
@@ -221,6 +234,17 @@ class ClinicInformation extends Component {
       this.setState({
         displayUserErrorTargetPercentage: true,
       });
+      this.scrollToErrorContent();
+      if (!value) {
+        this.setState({
+          targetErrorMessage: "Enter a target percentage between 1% and 100%",
+        })
+      }
+      else {
+        this.setState({
+          targetErrorMessage: "The target percentage must be between 1% and 100%"
+        })
+      }
     }
   }
 
@@ -231,6 +255,17 @@ class ClinicInformation extends Component {
     this.context.setState({
       targetPercentageToFill: e.target.value
     })
+  }
+
+  scrollToErrorContent() {
+    const errorContent = document.getElementById('error-summary');
+    if (errorContent) {
+      errorContent.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+    errorContent.focus();
   }
 
   onClickChangeClinicHandler() {
@@ -417,6 +452,8 @@ class ClinicInformation extends Component {
               weeklyCapacity: weeklyCapacityList,
               recentInvitationHistory: clinicInvitationHistory,
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+              currentPage: 1,
+              pageSize: 10,
             })
             if (this.context.state.recentInvitationHistory.dateOfPrevInv === "Not Available") {
               this.putTargetPercentageAWSDynamo("50");
@@ -503,7 +540,8 @@ class ClinicInformation extends Component {
       lsoaInRange,
       targetFillToInputValue,
       rangeSelection,
-      appsToFill
+      appsToFill,
+      targetErrorMessage,
     } = this.state
 
     // Check if all the listed context state variables are available
@@ -537,6 +575,7 @@ class ClinicInformation extends Component {
                   recentInvitationHistory={recentInvitationHistory}
                   currentlySelectedClinic={currentlySelectedClinic}
                   displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+                  targetErrorMessage={targetErrorMessage}
                   displayViewAllPrevInvitations={displayViewAllPrevInvitations}
                   targetFillToInputValue={targetFillToInputValue}
                   appsToFill={appsToFill}
@@ -556,6 +595,7 @@ class ClinicInformation extends Component {
                   lsoaCodesAppsToFill={this.lsoaCodesAppsToFill}
                   onPageSizeChange={this.onPageSizeChange}
                   onCurrentPageChange={this.onCurrentPageChange}
+                  onKeyUp={this.onKeyUp}
                 />
               </div>
             )

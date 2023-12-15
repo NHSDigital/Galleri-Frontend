@@ -7,6 +7,7 @@ export default function ClinicInvitationCriteria(props) {
     appsToFill,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
+    targetErrorMessage,
   } = props;
 
   return (
@@ -24,8 +25,8 @@ export default function ClinicInvitationCriteria(props) {
           </label>
         </h3>
         {displayUserErrorTargetPercentage && (
-          <div id="error-message" class="nhsuk-error-message">
-            The target percentage must be between 1% and 100%
+          <div id="error-message" tabIndex="0" class="nhsuk-error-message">
+            {targetErrorMessage}
           </div>
         )}
         <div id="user-input-container" class="govuk-input__wrapper">
