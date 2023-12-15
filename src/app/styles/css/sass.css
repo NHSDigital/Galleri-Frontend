@@ -3648,6 +3648,9 @@ COMPONENTS/ #CHECKBOXES
 	padding: 0 0 0 40px;
 	position: relative;
 }
+.nhsuk-checkboxes-custom__item {
+	padding-right: 0;
+}
 @media (min-width: 40.0625em) {
 	.nhsuk-checkboxes__item {
 		font-size: 19px;
@@ -6517,6 +6520,10 @@ COMPONENTS / #PAGINATION
 	padding-left: 0;
 }
 
+.custom-padding-right-20 {
+	padding: 0 0 0 20px;
+}
+
 .nhsuk-pagination__page {
 	font-size: 14px;
 	font-size: 0.875rem;
@@ -6740,6 +6747,22 @@ COMPONENTS/ #SELECT
 	max-width: 100%;
 	padding: 4px;
 }
+
+.nhsuk-select--custom {
+	font-weight: 400;
+	font-size: 16px;
+	font-size: 1rem;
+	line-height: 1.5;
+	border: 2px solid #4c6272;
+	box-sizing: border-box;
+	height: 40px;
+	width: 100%;
+	padding: 4px;
+}
+
+.nhsuk-select--width-5 {
+	max-width: 5.5em;
+}
 @media (min-width: 40.0625em) {
 	.nhsuk-select {
 		font-size: 19px;
@@ -6754,6 +6777,12 @@ COMPONENTS/ #SELECT
 	}
 }
 .nhsuk-select:focus {
+	border: 2px solid #212b32;
+	box-shadow: inset 0 0 0 2px;
+	outline: 4px solid #ffeb3b; /* 1 */
+	outline-offset: 0;
+}
+.nhsuk-select--custom:focus {
 	border: 2px solid #212b32;
 	box-shadow: inset 0 0 0 2px;
 	outline: 4px solid #ffeb3b; /* 1 */
@@ -10537,6 +10566,10 @@ COMPONENTS / #WARNING-CALLOUT
 	-ms-flex: 0 1 auto;
 	flex: 0 1 auto;
 }
+.govuk-input__wrapper .nhsuk-select--custom {
+	-ms-flex: 0 1 auto;
+	flex: 0 1 auto;
+}
 .govuk-input__wrapper .govuk-input:focus {
 	z-index: 1;
 }
@@ -10545,6 +10578,9 @@ COMPONENTS / #WARNING-CALLOUT
 		display: block;
 	}
 	.govuk-input__wrapper .govuk-input {
+		max-width: 100%;
+	}
+	.govuk-input__wrapper .nhsuk-select--custom {
 		max-width: 100%;
 	}
 }

@@ -3,20 +3,20 @@ import React from "react";
 export default function WeeklyCapacityTable(props) {
   const { weeklyCapacity, lastUpdated } = props;
   return (
-    <div class="nhsuk-grid-row">
-      <div class="nhsuk-grid-column-full">
-        <table role="table" class="nhsuk-table-responsive">
-          <caption class="nhsuk-table__caption">
+    <div className="nhsuk-grid-row">
+      <div className="nhsuk-grid-column-full">
+        <table role="table" className="nhsuk-table-responsive">
+          <caption className="nhsuk-table__caption">
             Clinic Weekly Capacity
-            <div class="nhsuk-hint" id="last-updated-hint">
+            <div className="nhsuk-hint" id="last-updated-hint">
               Last Updated: {lastUpdated}
             </div>
           </caption>
-          <thead role="rowgroup" class="nhsuk-table__head">
+          <thead role="rowgroup" className="nhsuk-table__head">
             <tr role="row">
               <th
                 role="columnheader"
-                class=""
+                className=""
                 scope="col"
                 style={{ whiteSpace: "pre-line" }}
               >
@@ -27,7 +27,7 @@ export default function WeeklyCapacityTable(props) {
                   <th
                     style={{ fontWeight: "normal", whiteSpace: "pre" }}
                     role="columnheader"
-                    class=""
+                    className=""
                     scope="col"
                   >
                     {`${date.date.substring(0, date.date.indexOf(" 20"))}
@@ -38,24 +38,24 @@ ${date.date.substring(date.date.length, date.date.indexOf(" 20"))}
               })}
             </tr>
           </thead>
-          <tbody class="nhsuk-table__body">
-            <tr role="row" class="nhsuk-table__row">
+          <tbody className="nhsuk-table__body">
+            <tr role="row" className="nhsuk-table__row">
               <td
                 style={{ fontWeight: "bold" }}
                 role="cell"
-                class="nhsuk-table__cell"
+                className="nhsuk-table__cell"
               >
-                <span class="nhsuk-table-responsive__heading">
+                <span className="nhsuk-table-responsive__heading">
                   Week commencing{" "}
                 </span>
                 Appointments remaining
               </td>
               {weeklyCapacity.map((date) => {
                 return (
-                  <td role="cell" class="nhsuk-table__cell">
+                  <td role="cell" className="nhsuk-table__cell">
                     <span
                       style={{ fontWeight: "normal" }}
-                      class="nhsuk-table-responsive__heading"
+                      className="nhsuk-table-responsive__heading"
                     >
                       {date.date}{" "}
                     </span>
