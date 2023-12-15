@@ -10,22 +10,21 @@ export default function Errorinvitations(props) {
   } = props;
   return (
     <div
-      data-testid="error-banner"
-      class="nhsuk-error-summary nhsuk-u-padding-bottom-0"
+      class="nhsuk-error-summary"
       aria-labelledby="error-summary-title"
       role="alert"
-      tabIndex="-1"
+      aria-live="polite"
+      tabIndex="0"
       onKeyDown={e => onKeyUp(e)}
     >
       <h2
-        class="nhsuk-error-summary__title nhsuk-u-margin-bottom-2"
+        class="nhsuk-error-summary__title"
         id="error-target-title"
       >
         There is a problem
       </h2>
       <div class="nhsuk-error-summary__body">
-        <ul class="nhsuk-list nhsuk-error-summary__list" role="list">
-          <li>
+        <ul> 
             {!isCorrectUptakeTotal && (
                 <a href="#uptake-error-message">
                     The uptake percentage must be between 1% and 100%
@@ -37,7 +36,6 @@ export default function Errorinvitations(props) {
                     The fill targets must add up to 100%
                 </a>
             )}
-          </li>
         </ul>
       </div>
     </div>
