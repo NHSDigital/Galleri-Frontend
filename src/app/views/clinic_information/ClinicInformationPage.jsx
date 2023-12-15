@@ -42,6 +42,8 @@ export default function ClinicInformationPage(props) {
     onCurrentPageChange,
     targetErrorMessage,
     onKeyUp,
+    hrefErrorMessage,
+    lsoaTableError,
   } = props;
 
   return (
@@ -73,6 +75,7 @@ export default function ClinicInformationPage(props) {
                 <ErrorBannerDetail
                   targetErrorMessage={targetErrorMessage}
                   onKeyUp={onKeyUp}
+                  hrefErrorMessage={hrefErrorMessage}
                 />
               )}
             </div>
@@ -138,6 +141,7 @@ export default function ClinicInformationPage(props) {
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
             onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
             targetErrorMessage={targetErrorMessage}
+            lsoaTableError={lsoaTableError}
           />
           <div class="nhsuk-grid-column-full">
             <LsoaTable
@@ -152,6 +156,9 @@ export default function ClinicInformationPage(props) {
               onPageSizeChange={onPageSizeChange}
               onCurrentPageChange={onCurrentPageChange}
               lastSelectedRange={lastSelectedRange}
+              displayUserErrorTargetPercentage={displayUserErrorTargetPercentage}
+              targetErrorMessage={targetErrorMessage}
+              lsoaTableError={lsoaTableError}
             />
           </div>
         </div>

@@ -8,7 +8,10 @@ export default function ClinicInvitationCriteria(props) {
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
     targetErrorMessage,
+    lsoaTableError,
   } = props;
+
+  const targetPercentageValueError = displayUserErrorTargetPercentage && !lsoaTableError;
 
   return (
     <div
@@ -18,21 +21,27 @@ export default function ClinicInvitationCriteria(props) {
       <h2 id="section-heading" label="header">
         Clinic Invitation Criteria
       </h2>
-      <div id="section-content" class="govuk-form-group">
+      <div id="section-content"
+        class={
+          (targetPercentageValueError)
+            ? "govuk-form-group nhsuk-form-group--error"
+            : "govuk-form-group"
+        }
+      >
         <h3 id="input-label">
           <label class="govuk-label govuk-label--s" for="weight">
             Set the target percentage of appointments to fill
           </label>
         </h3>
-        {displayUserErrorTargetPercentage && (
-          <div id="error-message" tabIndex="0" class="nhsuk-error-message">
+        {(targetPercentageValueError) && (
+          <div id="error-message" class="nhsuk-error-message">
             {targetErrorMessage}
           </div>
         )}
         <div id="user-input-container" class="govuk-input__wrapper">
           <input
             class={
-              displayUserErrorTargetPercentage
+              (targetPercentageValueError)
                 ? "govuk-input govuk-input--width-5 govuk-input--error"
                 : "govuk-input govuk-input--width-5"
             }
@@ -51,7 +60,7 @@ export default function ClinicInvitationCriteria(props) {
           <div
             id="input-suffix-percentage"
             class={
-              displayUserErrorTargetPercentage
+              (targetPercentageValueError)
                 ? "govuk-input__suffix govuk-input__suffix--error"
                 : "govuk-input__suffix"
             }
