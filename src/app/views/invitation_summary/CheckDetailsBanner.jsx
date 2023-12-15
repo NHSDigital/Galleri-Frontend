@@ -26,7 +26,7 @@ export default function CheckDetailsBanner(props) {
           (<div>
             <div class="nhsuk-inset-text">
               <span class="nhsuk-u-visually-hidden">Information: </span>
-              <p>To ensure you fill the target number of appointments, <a onClick={onClickGoBackPrevPageLinkHandler} href="#lsoaTable">select more people to invite</a>.</p>
+              <h3>To ensure you fill the target number of appointments, <a onClick={onClickGoBackPrevPageLinkHandler} href="#lsoaTable">select more people to invite</a>.</h3>
             </div>
           </div>)}
     </div>)
