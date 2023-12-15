@@ -54,7 +54,7 @@ jobs:
         with:
           fetch-depth: 0 # Full history is needed to improving relevancy of reporting
       - name: run unit tests
-        uses: ./.github/workflows/check-test-coverage.yaml
+        uses: ./.github/actions/perform-unit-tests.yaml
       - name: "Perform static analysis"
         uses: ./.github/actions/perform-static-analysis
         with:
