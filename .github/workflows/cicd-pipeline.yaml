@@ -39,8 +39,8 @@ jobs:
     uses: ./.github/workflows/cloc-repository.yaml
   scan-dependencies:
     uses: ./.github/workflows/scan-dependencies.yaml
-  check-coverage:
-    uses: ./.github/workflows/check-test-coverage.yaml
+  # check-coverage:
+  #   uses: ./.github/workflows/check-test-coverage.yaml
   perform-static-analysis:
     runs-on: ubuntu-latest
     permissions:
@@ -53,6 +53,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Full history is needed to improving relevancy of reporting
+      - name: run unit tests
+        uses: ./.github/workflows/check-test-coverage.yaml
       - name: "Perform static analysis"
         uses: ./.github/actions/perform-static-analysis
         with:

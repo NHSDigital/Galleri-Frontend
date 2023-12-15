@@ -16,3 +16,4 @@ jobs:
           pwd
           ls -l
           ls -l coverage
+          ./scripts/reports/perform-static-analysis.sh
