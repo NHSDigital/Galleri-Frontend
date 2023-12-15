@@ -68,7 +68,7 @@ export default function ClinicInformationPage(props) {
                 Go back
               </a>
             </div>
-            <div id="error-summary">
+            <div id="error-summary" tabIndex="0">
               {displayUserErrorTargetPercentage && (
                 <ErrorBannerDetail
                   targetErrorMessage={targetErrorMessage}

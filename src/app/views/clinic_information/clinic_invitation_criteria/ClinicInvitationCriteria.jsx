@@ -25,7 +25,7 @@ export default function ClinicInvitationCriteria(props) {
           </label>
         </h3>
         {displayUserErrorTargetPercentage && (
-          <div id="error-message" class="nhsuk-error-message">
+          <div id="error-message" tabIndex="0" class="nhsuk-error-message">
             {targetErrorMessage}
           </div>
         )}

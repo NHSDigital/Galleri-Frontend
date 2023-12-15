@@ -265,6 +265,7 @@ class ClinicInformation extends Component {
         block: "center",
       });
     }
+    errorContent.focus();
   }
 
   onClickChangeClinicHandler() {

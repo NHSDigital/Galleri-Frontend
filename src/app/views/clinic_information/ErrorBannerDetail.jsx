@@ -11,7 +11,8 @@ export default function ErrorBannerDetail(props) {
       class="nhsuk-error-summary nhsuk-u-padding-bottom-0"
       aria-labelledby="error-summary-title"
       role="alert"
-      tabindex="-1"
+      aria-live="polite"
+      tabindex="0"
       onKeyDown={e => onKeyUp(e)}
     >
       <h2
