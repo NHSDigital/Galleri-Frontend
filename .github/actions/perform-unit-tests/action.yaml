@@ -5,9 +5,7 @@ runs:
   steps:
     - name: "Check prerequisites for performing static analysis"
       shell: bash
-      id: check
       run: npm i
     - name: "Perform static analysis"
       shell: bash
-      if: steps.check.outputs.secret_exist == 'true'
       run: npm run coverage
