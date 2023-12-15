@@ -3,9 +3,9 @@ description: "Perform static analysis"
 runs:
   using: "composite"
   steps:
-    - name: "Check prerequisites for performing static analysis"
+    - name: "Install npm dependencies"
       shell: bash
       run: npm i
-    - name: "Perform static analysis"
+    - name: "Perform unit tests with coverage"
       shell: bash
       run: npm run coverage
