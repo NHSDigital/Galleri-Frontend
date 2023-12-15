@@ -38,7 +38,7 @@ function create-report() {
       -Dsonar.organization="$(echo $SONAR_ORGANISATION_KEY)" \
       -Dsonar.projectKey="$(echo $SONAR_PROJECT_KEY)" \
       -Dsonar.token="$(echo $SONAR_TOKEN)" \
-      -Dsonar.javascript.lcov.reportPaths="../coverage/lcov.info"
+      -Dsonar.javascript.lcov.reportPaths="coverage/lcov.info"
 }
 
 function is_arg_true() {
