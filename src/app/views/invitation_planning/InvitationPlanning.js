@@ -99,7 +99,11 @@ class InvitationPlanning extends Component {
   onKeyUp(e) {
     console.log("enter is pressed", e);
     if (e.key === "Enter" || e.keyCode === 32) {
-      const errorContent = document.getElementById('error-message');
+      let errorContent = "";
+      if(!this.state.isCorrectUptakeTotal)
+        errorContent = document.getElementById('uptake-error-message');
+      else
+        errorContent = document.getElementById('quintile-error-message');
       if (errorContent) {
         errorContent.scrollIntoView({
           behavior: "smooth",
@@ -193,6 +197,7 @@ class InvitationPlanning extends Component {
         behavior: "smooth",
         block: "center",
       });
+      errorContent.focus();
     }
   }
 

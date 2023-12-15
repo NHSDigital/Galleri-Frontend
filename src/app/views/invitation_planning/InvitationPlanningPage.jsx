@@ -30,7 +30,10 @@ export default function InvitationPlanningPage(props) {
   return (
     <div class="nhsuk-width-container ">
       <main class="nhsuk-main-wrapper " id="invitationsParameters" role="main">
-        <div id="error-summary">
+        <div 
+          id="error-summary" 
+          tabIndex="0"
+          >
             {(!isCorrectUptakeTotal||!isCorrectTotal) && (
               <Errorinvitations
                 onKeyUp={onKeyUp}
