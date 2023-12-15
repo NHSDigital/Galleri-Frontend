@@ -4,19 +4,19 @@ import "../styles/css/sass.css";
 export default function NavMenu() {
   return (
     <nav
-      class="nhsuk-navigation"
+      className="nhsuk-navigation"
       id="header-navigation"
       role="navigation"
       aria-label="Primary navigation"
     >
-        <ul class="nhsuk-header__navigation-list">
-          <li class="nhsuk-header__navigation-item">
-            <a class="nhsuk-header__navigation-link" href="/">
+        <ul className="nhsuk-header__navigation-list">
+          <li className="nhsuk-header__navigation-item">
+            <a className="nhsuk-header__navigation-link" href="/">
               Clinic Summary
             </a>
           </li>
-          <li class="nhsuk-header__navigation-item">
-            <a class="nhsuk-header__navigation-link" href="#">
+          <li className="nhsuk-header__navigation-item">
+            <a className="nhsuk-header__navigation-link" href="#">
               Invitation Variables
             </a>
           </li>

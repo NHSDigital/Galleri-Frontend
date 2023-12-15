@@ -50,9 +50,9 @@ export default function LsoaTable(prop) {
   return (
     <div>
       <div>
-        <div class="govuk-form-group" id="lsoaText">
+        <div className="govuk-form-group" id="lsoaText">
           <h3>
-            <label class="govuk-label govuk-label--s" for="selectDistanceText">
+            <label className="govuk-label govuk-label--s" for="selectDistanceText">
               Select a distance from the clinic to find eligible people per
               lower layer super output area (LSOA)
             </label>
@@ -64,12 +64,12 @@ export default function LsoaTable(prop) {
             flexDirection: "row",
             justifyContent: "space-between",
           }}
-          class="govuk-input__wrapper"
+          className="govuk-input__wrapper"
           id="distance"
         >
           <div>
             <select
-              class={"nhsuk-select"}
+              className={"nhsuk-select"}
               id="milesFromSite"
               name="milesSelector"
               onChange={(e) => handleRangeSelection(e)}
@@ -78,23 +78,23 @@ export default function LsoaTable(prop) {
                 return <option value={e.value}>{e.label}</option>;
               })}
             </select>
-            <div class={"govuk-input__suffix"} aria-hidden="true">
+            <div className={"govuk-input__suffix"} aria-hidden="true">
               miles
             </div>
           </div>
           <div
-            class="nhsuk-form-group"
+            className="nhsuk-form-group"
             style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
             }}
           >
-            <label class="nhsuk-label" for="pageSize">
+            <label className="nhsuk-label" for="pageSize">
               LSOAs per page
             </label>
             <select
-              class="nhsuk-select"
+              className="nhsuk-select"
               id="pageSize"
               name="select-1"
               autoComplete="off"
@@ -110,18 +110,18 @@ export default function LsoaTable(prop) {
           </div>
         </div>
         <div id="lsoaTable">
-          <table role="table" class="nhsuk-table-responsive">
-            <thead role="rowgroup" class="nhsuk-table__head">
+          <table role="table" className="nhsuk-table-responsive">
+            <thead role="rowgroup" className="nhsuk-table__head">
               <tr role="row">
                 <th
                   role="columnheader"
-                  class=""
+                  className=""
                   scope="col"
                   style={{ "vertical-align": "bottom" }}
                 >
-                  <div class="nhsuk-checkboxes__item">
+                  <div className="nhsuk-checkboxes__item">
                     <input
-                      class="nhsuk-checkboxes__input"
+                      className="nhsuk-checkboxes__input"
                       id="selectAllLsoa"
                       name="SelectAllLsoaInList"
                       type="checkbox"
@@ -129,14 +129,14 @@ export default function LsoaTable(prop) {
                       onChange={(e) => checkAllHandler(e)}
                     />
                     <label
-                      class="nhsuk-label nhsuk-checkboxes__label"
+                      className="nhsuk-label nhsuk-checkboxes__label"
                       for="selectAllLsoa"
                     ></label>
                   </div>
                 </th>
                 <th
                   role="columnheader"
-                  class=""
+                  className=""
                   scope="col"
                   style={{ "vertical-align": "bottom" }}
                 >
@@ -144,25 +144,25 @@ export default function LsoaTable(prop) {
                 </th>
                 <th
                   role="columnheader"
-                  class=""
+                  className=""
                   scope="col"
                   style={{ "vertical-align": "bottom" }}
                 >
                   Distance
                 </th>
-                <th role="columnheader" class="" scope="col">
+                <th role="columnheader" className="" scope="col">
                   Forecast
                   <br />
                   uptake
                 </th>
-                <th role="columnheader" class="" scope="col">
+                <th role="columnheader" className="" scope="col">
                   IMD
                   <br />
                   decile
                 </th>
                 <th
                   role="columnheader"
-                  class=""
+                  className=""
                   scope="col"
                   style={{ "vertical-align": "bottom" }}
                 >
@@ -170,13 +170,13 @@ export default function LsoaTable(prop) {
                 </th>
                 <th
                   role="columnheader"
-                  class=""
+                  className=""
                   scope="col"
                   style={{ "vertical-align": "bottom" }}
                 >
                   Invited
                 </th>
-                <th role="columnheader" class="" scope="col">
+                <th role="columnheader" className="" scope="col">
                   Available
                   <br />
                   to invite
@@ -188,14 +188,14 @@ export default function LsoaTable(prop) {
                 <div>No LSOA data is available</div>
               </tbody>
             ) : (
-              <tbody class="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
+              <tbody className="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
                 {currentTableData?.map((e, key) => {
                   return (
-                    <tr role="row" class="nhsuk-table__row">
-                      <td role="cell" class="nhsuk-table__cell">
-                        <div class="nhsuk-checkboxes__item">
+                    <tr role="row" className="nhsuk-table__row">
+                      <td role="cell" className="nhsuk-table__cell">
+                        <div className="nhsuk-checkboxes__item">
                           <input
-                            class="nhsuk-checkboxes__input"
+                            className="nhsuk-checkboxes__input"
                             id="selectALsoa"
                             name="SelectALsoaInList"
                             type="checkbox"
@@ -203,49 +203,49 @@ export default function LsoaTable(prop) {
                             checked={e.checked}
                           />
                           <label
-                            class="nhsuk-label nhsuk-checkboxes__label"
+                            className="nhsuk-label nhsuk-checkboxes__label"
                             for="selectALsoa"
                           ></label>
                         </div>
                       </td>
-                      <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">
+                      <td role="cell" className="nhsuk-table__cell">
+                        <span className="nhsuk-table-responsive__heading">
                           LSOA name{" "}
                         </span>
                         {e.LSOA_NAME?.S}
                       </td>
-                      <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">
+                      <td role="cell" className="nhsuk-table__cell">
+                        <span className="nhsuk-table-responsive__heading">
                           Distance{" "}
                         </span>
                         {e.DISTANCE_TO_SITE?.N}
                       </td>
-                      <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">
+                      <td role="cell" className="nhsuk-table__cell">
+                        <span className="nhsuk-table-responsive__heading">
                           Forecast uptake{" "}
                         </span>
                         {e.FORECAST_UPTAKE?.N}%
                       </td>
-                      <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">
+                      <td role="cell" className="nhsuk-table__cell">
+                        <span className="nhsuk-table-responsive__heading">
                           IMD decile{" "}
                         </span>
                         {e.IMD_DECILE?.N}
                       </td>
-                      <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">
+                      <td role="cell" className="nhsuk-table__cell">
+                        <span className="nhsuk-table-responsive__heading">
                           Eligible{" "}
                         </span>
                         {e.ELIGIBLE_POPULATION?.S}
                       </td>
-                      <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">
+                      <td role="cell" className="nhsuk-table__cell">
+                        <span className="nhsuk-table-responsive__heading">
                           Invited{" "}
                         </span>
                         {e.INVITED_POPULATION?.S}
                       </td>
-                      <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">
+                      <td role="cell" className="nhsuk-table__cell">
+                        <span className="nhsuk-table-responsive__heading">
                           Available to invite{" "}
                         </span>
                         {Number(e.ELIGIBLE_POPULATION?.S) -
@@ -265,13 +265,13 @@ export default function LsoaTable(prop) {
         </div>
         <br />
         <div
-          class="nhsuk-grid-column-one-half"
+          className="nhsuk-grid-column-one-half"
           style={{ "padding-left": "0px" }}
         >
-          <dl class="nhsuk-summary-list">
-            <div class="nhsuk-summary-list__row">
-              <dt class="nhsuk-summary-list__key">Total available to invite</dt>
-              <dd class="nhsuk-summary-list__value">
+          <dl className="nhsuk-summary-list">
+            <div className="nhsuk-summary-list__row">
+              <dt className="nhsuk-summary-list__key">Total available to invite</dt>
+              <dd className="nhsuk-summary-list__value">
                 {calculateTotalToInvite(lsoaArray)}
               </dd>
             </div>
@@ -279,13 +279,13 @@ export default function LsoaTable(prop) {
         </div>
       </div>
       <div
-        class="nhsuk-grid-column-two-thirds"
+        className="nhsuk-grid-column-two-thirds"
         style={{ "padding-left": "0px" }}
       >
-        <dl class="nhsuk-summary-list">
-          <div class="nhsuk-summary-list__row">
+        <dl className="nhsuk-summary-list">
+          <div className="nhsuk-summary-list__row">
             <button
-              class="nhsuk-button"
+              className="nhsuk-button"
               data-module="nhsuk-button"
               type="submit"
               disabled={lsoaInRange.length === 0}

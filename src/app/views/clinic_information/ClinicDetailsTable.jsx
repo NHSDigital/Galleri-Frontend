@@ -16,18 +16,18 @@ ${address2}
 ${postcode}`;
   return (
     <div>
-      <dl id="summary-list" class="nhsuk-summary-list">
-        <div id="" class="nhsuk-summary-list__row">
-          <dt id="term1-label" class="nhsuk-summary-list__key">
+      <dl id="summary-list" className="nhsuk-summary-list">
+        <div id="" className="nhsuk-summary-list__row">
+          <dt id="term1-label" className="nhsuk-summary-list__key">
             Clinic Name
           </dt>
-          <dd id="" class="nhsuk-summary-list__value">
+          <dd id="" className="nhsuk-summary-list__value">
             {clinicName}
           </dd>
-          <dd class="nhsuk-summary-list__actions" style={{ whiteSpace: "pre" }}>
+          <dd className="nhsuk-summary-list__actions" style={{ whiteSpace: "pre" }}>
             <a
               id="changeCancelButtonId"
-              className="nhsuk-link--no-visited-state"
+              classNameName="nhsuk-link--no-visited-state"
               href=""
               // style={{ textDecorationLine: "underline" }}
               onClick={(event) => {
@@ -40,18 +40,18 @@ ${postcode}`;
           </dd>
         </div>
 
-        <div id="" class="nhsuk-summary-list__row">
-          <dt id="term2-label" class="nhsuk-summary-list__key">
+        <div id="" className="nhsuk-summary-list__row">
+          <dt id="term2-label" className="nhsuk-summary-list__key">
             Address
           </dt>
           <dd
             id=""
-            class="nhsuk-summary-list__value"
+            className="nhsuk-summary-list__value"
             style={{ whiteSpace: "pre" }}
           >
             {addressHolder}
           </dd>
-          <dd id="" class="nhsuk-summary-list__value"></dd>
+          <dd id="" className="nhsuk-summary-list__value"></dd>
         </div>
       </dl>
     </div>
