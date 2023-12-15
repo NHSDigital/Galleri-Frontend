@@ -60,19 +60,24 @@ export default function InvitationSummaryPage(props) {
             <h1 data-testid="header" id="header">
               Invitation summary
             </h1>
-            {displayCheckDetailsBanner && <CheckDetailsBanner />}
+            {displayCheckDetailsBanner &&
+              <CheckDetailsBanner
+                onClickGoBackPrevPageLinkHandler={onClickGoBackPrevPageLinkHandler}
+                noInviteToGenerate={noInviteToGenerate}
+                totalToInvite={totalToInvite}
+              />}
           </div>
           <div
             data-testid="main-content"
             id="main-content"
             className="nhsuk-grid-column-two-thirds"
           >
-            {displayErrorInvitationSummary || (noInviteToGenerate > totalToInvite) && (
+            {/* {displayErrorInvitationSummary || (noInviteToGenerate > totalToInvite) && (
               <ErrorBanner
                 totalToInvite={totalToInvite}
                 noInviteToGenerate={noInviteToGenerate}
               />
-            )}
+            )} */}
             {displayConfirmationInvitationSummary && <ConfirmationBanner />}
             <ClinicInfo
               clinicName={clinicName}
