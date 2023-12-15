@@ -26,6 +26,7 @@ class ClinicInformation extends Component {
       "appsToFill": 0,
       "targetErrorMessage": ""
     }
+
     this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
     this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);

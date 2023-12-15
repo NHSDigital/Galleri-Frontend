@@ -31,7 +31,7 @@ export default function ErrorBannerDetail(props) {
             </a>
           </li>
         </ul>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
