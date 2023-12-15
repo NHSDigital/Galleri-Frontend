@@ -33,6 +33,7 @@ class InvitationSummary extends Component {
   }
 
   async onClickGoBackPrevPageLinkHandler() {
+    // need to make call to get-lsoa again here too
     const response = await this.fetchClinicInvitationHistory(
       this.context.state.clinicName,
       this.context.state.clinicId
