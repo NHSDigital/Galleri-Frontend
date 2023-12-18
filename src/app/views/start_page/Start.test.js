@@ -38,7 +38,7 @@ jest.mock("axios", () => ({
         "Access-Control-Allow-Headers":
           "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
         "Access-Control-Allow-Methods": "OPTIONS,GET",
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",
         "X-Amzn-Trace-Id":
           "Root=1-657c6e7f-8b7378f1e8552beaf276e159;Sampled=0;lineage=69e1db65:0",
       },
