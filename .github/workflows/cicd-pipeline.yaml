@@ -39,13 +39,15 @@ jobs:
     uses: ./.github/workflows/cloc-repository.yaml
   scan-dependencies:
     uses: ./.github/workflows/scan-dependencies.yaml
+  # check-coverage:
+  #   uses: ./.github/workflows/check-test-coverage.yaml
   perform-static-analysis:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
     timeout-minutes: 5
-    name: "Perform static analysis"
+    name: "Perform unit tests and static analysis"
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
