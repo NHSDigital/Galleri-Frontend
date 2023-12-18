@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function NationalForecastUptakeTable(props) {
-  const { nationalUptakePercentage, enableUptakeEdit, onUptakeChangeHandler } =
+  const { nationalUptakePercentage, enableUptakeEdit, onUptakeChangeHandler, isCorrectUptakeTotal } =
     props;
   return (
     <table role="table" class="nhsuk-table-responsive">
@@ -12,6 +13,17 @@ export default function NationalForecastUptakeTable(props) {
         National forecast uptake
         <br />
       </caption>
+      <div id="national-uptake"
+          class={(!isCorrectUptakeTotal)
+            ? "nhsuk-form-group--error"
+            : ""
+          }
+        >
+        {!isCorrectUptakeTotal && (
+          <div id="uptake-error-message" class="nhsuk-error-message">
+            The uptake percentage must be between 1% and 100%
+          </div>
+        )}
       <tbody class="nhsuk-table__body">
         <tr role="row" class="nhsuk-table__row">
           <td role="cell" class="nhsuk-table__cell">
@@ -24,6 +36,7 @@ export default function NationalForecastUptakeTable(props) {
               style={{ "padding-right": "2px", width: "100px" }}
             >
               <input
+                id="national-forecast-uptake"
                 class="nhsuk-input"
                 style={{
                   textAlign: "right",
@@ -64,6 +77,13 @@ export default function NationalForecastUptakeTable(props) {
           </td>
         </tr>
       </tbody>
+      </div>
     </table>
   );
+}
+NationalForecastUptakeTable.propTypes = {
+  nationalUptakePercentage: PropTypes.number.isRequired,
+  enableUptakeEdit: PropTypes.bool.isRequired,
+  onUptakeChangeHandler: PropTypes.func.isRequired,
+  isCorrectUptakeTotal: PropTypes.bool.isRequired,
 }

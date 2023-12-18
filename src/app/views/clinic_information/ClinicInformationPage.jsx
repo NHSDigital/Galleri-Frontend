@@ -5,6 +5,7 @@ import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
 import ClinicInvitationCriteria from "./clinic_invitation_criteria/ClinicInvitationCriteria";
 import LsoaTable from "./LsoaTable";
+import ErrorBannerDetail from "./ErrorBannerDetail";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -39,6 +40,10 @@ export default function ClinicInformationPage(props) {
     checkRecord,
     onPageSizeChange,
     onCurrentPageChange,
+    targetErrorMessage,
+    onKeyUp,
+    hrefErrorMessage,
+    lsoaTableError,
   } = props;
 
   return (
@@ -67,14 +72,19 @@ export default function ClinicInformationPage(props) {
               </a>
             </div>
           </div>
-          <div>
-            {lsoaInRange.length === 0 ? (
-              <div className="nhsuk-grid-column-two-thirds custom-error-message">
-                <p>No LSOA data is available</p>
-              </div>
-            ) : (null)}
-          </div>
-          <div id="main-content" className="nhsuk-grid-column-full nhsuk-u-margin-bottom-4">
+          <div
+            id="main-content"
+            className="nhsuk-grid-column-full nhsuk-u-margin-bottom-4"
+          >
+            <div id="error-summary" tabIndex="0" role="alert">
+              {displayUserErrorTargetPercentage && (
+                <ErrorBannerDetail
+                  targetErrorMessage={targetErrorMessage}
+                  onKeyUp={onKeyUp}
+                  hrefErrorMessage={hrefErrorMessage}
+                />
+              )}
+            </div>
             <h1 aria-label="Clinic Invitations">Clinic Invitations</h1>
             <p>
               View appointment availability, and set criteria to generate new
@@ -82,9 +92,7 @@ export default function ClinicInformationPage(props) {
             </p>
           </div>
           <div className="nhsuk-grid-column-two-thirds">
-            <h2 id="clinic-information">
-              Clinic Information
-            </h2>
+            <h2 id="clinic-information">Clinic Information</h2>
             <ClinicDetailsTable
               clinicName={clinicName}
               address1={address1}
@@ -135,6 +143,8 @@ export default function ClinicInformationPage(props) {
             appsToFill={appsToFill}
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
             onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
+            targetErrorMessage={targetErrorMessage}
+            lsoaTableError={lsoaTableError}
           />
           <div className="nhsuk-grid-column-full">
             <LsoaTable
@@ -149,6 +159,11 @@ export default function ClinicInformationPage(props) {
               onPageSizeChange={onPageSizeChange}
               onCurrentPageChange={onCurrentPageChange}
               lastSelectedRange={lastSelectedRange}
+              displayUserErrorTargetPercentage={
+                displayUserErrorTargetPercentage
+              }
+              targetErrorMessage={targetErrorMessage}
+              lsoaTableError={lsoaTableError}
             />
           </div>
         </div>

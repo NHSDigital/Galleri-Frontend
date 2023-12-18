@@ -571,7 +571,6 @@ STYLES / #ICONS
 .nhsuk-icon__arrow-right {
 	fill: #005eb8;
 	right: -33px;
-
 }
 
 .nhsuk-icon__arrow-left {
@@ -4401,8 +4400,6 @@ COMPONENTS/ #ERROR-SUMMARY
 	/* 1 */
 	margin-bottom: 0;
 	margin-top: 0;
-	padding-left: 16px;
-	border-left: 4px solid #d5281b;
 }
 
 .nhsuk-error-summary__list a {
@@ -6509,7 +6506,6 @@ COMPONENTS / #PAGINATION
 .nhsuk-pagination__link:visited .nhsuk-icon {
 	/* fill: #330072; */
 	fill: #005eb8;
-
 }
 .nhsuk-pagination__link:visited:hover .nhsuk-icon {
 	fill: #7c2855;
@@ -15364,43 +15360,43 @@ COMPONENTS / #WARNING-CALLOUT
 	}
 }
 .style_pagination__7B72Z ul {
-	padding:0;
-	margin:0
+	padding: 0;
+	margin: 0;
 }
 .style_pagination__7B72Z .style_summary__J3_1h {
-	float:right;
-	padding-bottom:6px;
-	padding-top:6px
+	float: right;
+	padding-bottom: 6px;
+	padding-top: 6px;
 }
 .style_pagination__7B72Z .style_item__Y9BLA {
-	display:inline-block
+	display: inline-block;
 }
-.style_pagination__7B72Z .style_item__Y9BLA .dots{
+.style_pagination__7B72Z .style_item__Y9BLA .dots {
 	background-color: transparent;
 	cursor: default;
 }
 .style_pagination__7B72Z .style_item__Y9BLA:first-of-type .style_link__ToZGL {
-	padding-left:0
+	padding-left: 0;
 }
 .style_pagination__7B72Z .style_item__Y9BLA:last-of-type .style_link__ToZGL {
-	padding-right:0
+	padding-right: 0;
 }
 .style_pagination__7B72Z .style_link__ToZGL {
-	text-decoration:none;
-	padding:6px 12px
+	text-decoration: none;
+	padding: 6px 12px;
 }
 .style_pagination__7B72Z .style_link__ToZGL:focus,
 .style_pagination__7B72Z .style_link__ToZGL:hover {
-	outline:3px solid #ffeb3b;
-	cursor:pointer
+	outline: 3px solid #ffeb3b;
+	cursor: pointer;
 }
 .style_pagination__7B72Z .style_link__ToZGL.style_current__K8c2u {
-	font-weight:700;
-	border:none;
-	pointer-events:none;
-	cursor:default
+	font-weight: 700;
+	border: none;
+	pointer-events: none;
+	cursor: default;
 }
 .style_pagination__7B72Z .style_link__ToZGL.style_current__K8c2u:link,
 .style_pagination__7B72Z .style_link__ToZGL.style_current__K8c2u:visited {
-	color:#005eb8
+	color: #005eb8;
 }

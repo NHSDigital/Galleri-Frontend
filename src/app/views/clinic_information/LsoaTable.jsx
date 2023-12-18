@@ -14,6 +14,9 @@ export default function LsoaTable(prop) {
     onPageSizeChange,
     onCurrentPageChange,
     lsoaCodesAppsToFill,
+    targetErrorMessage,
+    displayUserErrorTargetPercentage,
+    lsoaTableError,
   } = prop;
 
   // Pagination stuff
@@ -52,8 +55,8 @@ export default function LsoaTable(prop) {
       <div className="govuk-form-group" id="lsoaText">
         <h3>
           <label className="govuk-label govuk-label--s" htmlFor="milesFromSite">
-            Select a distance from the clinic to find eligible people per
-            lower layer super output area (LSOA)
+            Select a distance from the clinic to find eligible people per lower
+            layer super output area (LSOA)
           </label>
         </h3>
       </div>
@@ -66,16 +69,18 @@ export default function LsoaTable(prop) {
           onChange={(e) => handleRangeSelection(e)}
         >
           {milesOptions.map((e, key) => {
-            return (<option key={key} value={e.value}>{e.label}</option>);
+            return (
+              <option key={key} value={e.value}>
+                {e.label}
+              </option>
+            );
           })}
         </select>
         <div className="govuk-input__suffix" aria-hidden="true">
           miles
         </div>
       </div>
-      <div
-        className="nhsuk-form-group"
-      >
+      <div className="nhsuk-form-group">
         <label className="nhsuk-label" htmlFor="pageSize">
           LSOAs per page
         </label>
@@ -94,15 +99,23 @@ export default function LsoaTable(prop) {
           <option value="50">50</option>
         </select>
       </div>
-      <div id="lsoaTable" className="nhsuk-u-margin-bottom-9">
+      {displayUserErrorTargetPercentage && lsoaTableError && (
+        <div id="lsoa-error-message" className="nhsuk-error-message">
+          {targetErrorMessage}
+        </div>
+      )}
+      <div
+        id="lsoaTable"
+        className={
+          displayUserErrorTargetPercentage && lsoaTableError
+            ? "nhsuk-form-group--error nhsuk-u-margin-bottom-9"
+            : "nhsuk-u-margin-bottom-9"
+        }
+      >
         <table role="table" className="nhsuk-table-responsive">
           <thead role="rowgroup" className="nhsuk-table__head">
             <tr role="row">
-              <th
-                role="columnheader"
-                className="custom-th"
-                scope="col"
-              >
+              <th role="columnheader" className="custom-th" scope="col">
                 <div className="nhsuk-checkboxes__item custom-padding-right-20">
                   <input
                     className="nhsuk-checkboxes__input"
@@ -115,46 +128,46 @@ export default function LsoaTable(prop) {
                   <label
                     className="nhsuk-label nhsuk-checkboxes__label"
                     htmlFor="selectAllLsoa"
-                  ><span className="nhsuk-u-visually-hidden">Select All LSOA below</span></label>
+                  >
+                    <span className="nhsuk-u-visually-hidden">
+                      Select All LSOA below
+                    </span>
+                  </label>
                 </div>
               </th>
-              <th
-                role="columnheader"
-                className="custom-th"
-                scope="col"
-              >
+              <th role="columnheader" className="custom-th" scope="col">
                 LSOA name
               </th>
-              <th
-                role="columnheader"
-                className="custom-th"
-                scope="col"
-              >
+              <th role="columnheader" className="custom-th" scope="col">
                 Distance
               </th>
-              <th role="columnheader" className="custom-th custom-th__whitespace" scope="col">
+              <th
+                role="columnheader"
+                className="custom-th custom-th__whitespace"
+                scope="col"
+              >
                 {`Forecast
                   uptake`}
               </th>
-              <th role="columnheader" className="custom-th__whitespace" scope="col">
+              <th
+                role="columnheader"
+                className="custom-th__whitespace"
+                scope="col"
+              >
                 {`IMD
                   decile`}
               </th>
-              <th
-                role="columnheader"
-                className="custom-th"
-                scope="col"
-              >
+              <th role="columnheader" className="custom-th" scope="col">
                 Eligible
               </th>
-              <th
-                role="columnheader"
-                className="custom-th"
-                scope="col"
-              >
+              <th role="columnheader" className="custom-th" scope="col">
                 Invited
               </th>
-              <th role="columnheader" className="custom-th__whitespace" scope="col">
+              <th
+                role="columnheader"
+                className="custom-th__whitespace"
+                scope="col"
+              >
                 {`Available
                   to invite`}
               </th>
@@ -173,7 +186,7 @@ export default function LsoaTable(prop) {
                       <div className="nhsuk-checkboxes__item custom-padding-right-20">
                         <input
                           className="nhsuk-checkboxes__input"
-                          id={`select-${e.LSOA_NAME?.S.replace(/\s/g, '-')}`}
+                          id={`select-${e.LSOA_NAME?.S.replace(/\s/g, "-")}`}
                           name="SelectALsoaInList"
                           type="checkbox"
                           onChange={(event) => checkRecord(event, e)}
@@ -181,8 +194,15 @@ export default function LsoaTable(prop) {
                         />
                         <label
                           className="nhsuk-label nhsuk-checkboxes__label"
-                          htmlFor={`select-${e.LSOA_NAME?.S.replace(/\s/g, '-')}`}
-                        ><span className="nhsuk-u-visually-hidden">{e.LSOA_NAME?.S.replace(/\s/g, '-')}</span></label>
+                          htmlFor={`select-${e.LSOA_NAME?.S.replace(
+                            /\s/g,
+                            "-"
+                          )}`}
+                        >
+                          <span className="nhsuk-u-visually-hidden">
+                            {e.LSOA_NAME?.S.replace(/\s/g, "-")}
+                          </span>
+                        </label>
                       </div>
                     </td>
                     <td role="cell" className="nhsuk-table__cell">
@@ -231,7 +251,8 @@ export default function LsoaTable(prop) {
                   </tr>
                 );
               })}
-            </tbody>)}
+            </tbody>
+          )}
         </table>
         <Pagination
           currentPage={currentPage}
@@ -240,23 +261,20 @@ export default function LsoaTable(prop) {
           onPageChange={(page) => onCurrentPageChange(page)}
         />
       </div>
-
       <div className="nhsuk-grid-row">
-        <div
-          className="nhsuk-grid-column-one-half"
-        >
+        <div className="nhsuk-grid-column-one-half">
           <dl className="nhsuk-summary-list">
             <div className="nhsuk-summary-list__row">
-              <dt className="nhsuk-summary-list__key custom-border-top-1px-solid">Total available to invite</dt>
+              <dt className="nhsuk-summary-list__key custom-border-top-1px-solid">
+                Total available to invite
+              </dt>
               <dd className="nhsuk-summary-list__value custom-border-top-1px-solid">
                 {calculateTotalToInvite(lsoaArray)}
               </dd>
             </div>
           </dl>
         </div>
-        <div
-          className="nhsuk-grid-column-two-thirds"
-        >
+        <div className="nhsuk-grid-column-two-thirds">
           <button
             className="nhsuk-button"
             data-module="nhsuk-button"
