@@ -51,7 +51,7 @@ export default function LsoaTable(prop) {
     <section>
       <div className="govuk-form-group" id="lsoaText">
         <h3>
-          <label className="govuk-label govuk-label--s" for="selectDistanceText">
+          <label className="govuk-label govuk-label--s" htmlFor="milesFromSite">
             Select a distance from the clinic to find eligible people per
             lower layer super output area (LSOA)
           </label>
@@ -62,6 +62,7 @@ export default function LsoaTable(prop) {
           className="nhsuk-select--custom nhsuk-select--width-5 "
           id="milesFromSite"
           name="milesSelector"
+          autoComplete="off"
           onChange={(e) => handleRangeSelection(e)}
         >
           {milesOptions.map((e, key) => {
@@ -114,7 +115,7 @@ export default function LsoaTable(prop) {
                   <label
                     className="nhsuk-label nhsuk-checkboxes__label"
                     for="selectAllLsoa"
-                  ></label>
+                  ><span className="nhsuk-u-visually-hidden">Select All LSOA below</span></label>
                 </div>
               </th>
               <th
@@ -167,12 +168,12 @@ export default function LsoaTable(prop) {
             <tbody className="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
               {currentTableData?.map((e, key) => {
                 return (
-                  <tr role="row" className="nhsuk-table__row">
+                  <tr key={key} role="row" className="nhsuk-table__row">
                     <td role="cell" className="nhsuk-table__cell">
                       <div className="nhsuk-checkboxes__item custom-padding-right-20">
                         <input
                           className="nhsuk-checkboxes__input"
-                          id="selectALsoa"
+                          id={`select-${e.LSOA_NAME?.S}`}
                           name="SelectALsoaInList"
                           type="checkbox"
                           onChange={(event) => checkRecord(event, e)}
@@ -180,8 +181,8 @@ export default function LsoaTable(prop) {
                         />
                         <label
                           className="nhsuk-label nhsuk-checkboxes__label"
-                          for="selectALsoa"
-                        ></label>
+                          htmlFor={`select-${e.LSOA_NAME?.S}`}
+                        >what</label>
                       </div>
                     </td>
                     <td role="cell" className="nhsuk-table__cell">

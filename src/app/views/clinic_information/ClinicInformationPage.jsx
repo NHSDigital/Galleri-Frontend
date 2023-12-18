@@ -43,7 +43,7 @@ export default function ClinicInformationPage(props) {
 
   return (
     <div className="nhsuk-width-container ">
-      <main className="nhsuk-main-wrapper " id="main-content" role="main">
+      <main className="nhsuk-main-wrapper" role="main">
         <div className="nhsuk-grid-row">
           <div className="nhsuk-grid-column-full">
             <div className="nhsuk-back-link">
@@ -51,6 +51,7 @@ export default function ClinicInformationPage(props) {
                 className="nhsuk-back-link__link"
                 href="#"
                 onClick={onClickGoBackLinkHandler}
+                aria-label="Go back"
               >
                 <svg
                   className="nhsuk-icon nhsuk-icon__chevron-left"
@@ -68,14 +69,14 @@ export default function ClinicInformationPage(props) {
           </div>
           <div>
             {lsoaInRange.length === 0 ? (
-              <div className="nhsuk-grid-column-two-thirds" style={{ "color": "#d5281b", "border": "5px solid", "text-align": "center", }}>
-                <h2>No LSOA data is available</h2>
+              <div className="nhsuk-grid-column-two-thirds custom-error-message">
+                <p>No LSOA data is available</p>
               </div>
-            ) : ("")}
+            ) : (null)}
           </div>
-          <div className="nhsuk-grid-column-two-thirds">
+          <div id="main-content" className="nhsuk-grid-column-two-thirds">
             <br />
-            <h1 label="header">Clinic Invitations</h1>
+            <h1 aria-label="Clinic Invitations">Clinic Invitations</h1>
             <p>
               View appointment availability, and set criteria to generate new
               invitations for a clinic.
@@ -83,7 +84,7 @@ export default function ClinicInformationPage(props) {
             <br />
           </div>
           <div className="nhsuk-grid-column-two-thirds">
-            <h2 id="maincontent" label="header">
+            <h2 id="clinic-information">
               Clinic Information
             </h2>
             <ClinicDetailsTable
@@ -107,9 +108,9 @@ export default function ClinicInformationPage(props) {
                     onChangeSelectedClinicHandler(e);
                   }}
                 >
-                  {clinicIdNameList.map((clinic) => {
+                  {clinicIdNameList.map((clinic, index) => {
                     return (
-                      <option value={clinic.clinicName}>
+                      <option key={index} value={clinic.clinicName}>
                         {clinic.clinicName}
                       </option>
                     );

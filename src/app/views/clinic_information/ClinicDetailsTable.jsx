@@ -15,21 +15,20 @@ export default function ClinicDetailsTable(props) {
 ${address2}
 ${postcode}`;
   return (
-    <div>
-      <dl id="summary-list" className="nhsuk-summary-list">
-        <div id="" className="nhsuk-summary-list__row">
-          <dt id="term1-label" className="nhsuk-summary-list__key">
+    <section>
+      <dl id="clinic-information-summary-list" className="nhsuk-summary-list custom-border-bottom">
+        <div className="nhsuk-summary-list__row">
+          <dt id="clinic-name-label" className="nhsuk-summary-list__key">
             Clinic Name
           </dt>
-          <dd id="" className="nhsuk-summary-list__value">
+          <dd id="clinicName" className="nhsuk-summary-list__value">
             {clinicName}
           </dd>
-          <dd className="nhsuk-summary-list__actions" style={{ whiteSpace: "pre" }}>
+          <dd className="nhsuk-summary-list__actions custom-pre__whitespace">
             <a
               id="changeCancelButtonId"
               className="nhsuk-link--no-visited-state"
               href=""
-              // style={{ textDecorationLine: "underline" }}
               onClick={(event) => {
                 event.preventDefault();
                 onClickChangeClinicHandler();
@@ -40,20 +39,18 @@ ${postcode}`;
           </dd>
         </div>
 
-        <div id="" className="nhsuk-summary-list__row">
-          <dt id="term2-label" className="nhsuk-summary-list__key">
+        <div className="nhsuk-summary-list__row">
+          <dt id="clinic-address-label" className="nhsuk-summary-list__key custom-no-border">
             Address
           </dt>
           <dd
-            id=""
-            className="nhsuk-summary-list__value"
-            style={{ whiteSpace: "pre" }}
+            id="clinic-address"
+            className="nhsuk-summary-list__value custom-pre__whitespace custom-no-border"
           >
             {addressHolder}
           </dd>
-          <dd id="" className="nhsuk-summary-list__value"></dd>
         </div>
       </dl>
-    </div>
+    </section>
   );
 }

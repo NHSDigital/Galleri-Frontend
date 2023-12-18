@@ -257,8 +257,28 @@ th {
 	font-weight: 600;
 }
 
+.custom-underline {
+	text-decoration: underline;
+}
+
+.custom-font-weight-normal {
+	font-weight: normal;
+}
+
+.custom-font-weight-bold {
+	font-weight: bold;
+}
+
 .custom-th {
 	vertical-align: bottom;
+}
+
+.custom-pre__whitespace {
+	white-space: pre;
+}
+
+.custom-pre-line__whitespace {
+	white-space: pre-line;
 }
 
 .custom-th__whitespace {
@@ -267,6 +287,10 @@ th {
 
 .custom-td__whitespace {
 	white-space: pre;
+}
+
+.custom-border-top-1px-solid{
+	border-top: 1px solid #d8dde0;
 }
 
 caption {
@@ -6800,6 +6824,13 @@ COMPONENTS/ #SELECT
 	border: 2px solid #d5281b;
 }
 
+.custom-error-message {
+	color: #d5281b;
+	border: 4px solid #d5281b;
+	text-align: center;
+	font-size: 32px;
+}
+
 /* ==========================================================================
 COMPONENTS / #SKIP-LINK
 ========================================================================== */
@@ -6873,11 +6904,18 @@ COMPONENTS/ #SUMMARY-LIST
 		border-bottom: 1px solid #d8dde0;
 		margin-bottom: 16px;
 	}
+	.custom-nhsuk-summary-list__row {
+		border-top: 1px solid #d8dde0;
+	}
 }
 @media (min-width: 40.0625em) {
 	.nhsuk-summary-list__row {
 		display: table-row;
 	}
+	.custom-border-bottom {
+		border-bottom: 1px solid #d8dde0;
+	}
+
 }
 
 .nhsuk-summary-list__key,
@@ -6895,6 +6933,9 @@ COMPONENTS/ #SUMMARY-LIST
 		padding-bottom: 8px;
 		padding-right: 24px;
 		padding-top: 8px;
+	}
+	.custom-no-border{
+		border-bottom: none;
 	}
 }
 
