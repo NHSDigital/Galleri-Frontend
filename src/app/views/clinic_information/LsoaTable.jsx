@@ -17,6 +17,7 @@ export default function LsoaTable(prop) {
     targetErrorMessage,
     displayUserErrorTargetPercentage,
     lsoaTableError,
+    lastSelectedRange,
   } = prop;
 
   // Pagination stuff
@@ -78,7 +79,7 @@ export default function LsoaTable(prop) {
               onChange={(e) => handleRangeSelection(e)}
             >
               {milesOptions.map((e, key) => {
-                return <option value={e.value}>{e.label}</option>;
+                return <option value={e.value} selected={e.value == lastSelectedRange} >{e.label}</option>;
               })}
             </select>
             <div class={"govuk-input__suffix"} aria-hidden="true">
