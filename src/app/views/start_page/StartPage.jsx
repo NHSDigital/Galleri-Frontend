@@ -37,7 +37,7 @@ export default function StartPage(props) {
 
               <h2>Generate invitations</h2>
 
-              <a class="nhsuk-button" href="#" role="button" draggable="false" onClick={onClickStartHandler}>
+              <a class="nhsuk-button" href="#" role="button" draggable="false" onClick={onClickStartHandler} data-testid="start-button">
                 Start now
               </a>
 
