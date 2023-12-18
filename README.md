@@ -16,6 +16,7 @@ This repository contains the frontend for the Galleri webapp. It is written in j
     - [Install and configure toolchain dependencies](#install-and-configure-toolchain-dependencies)
     - [Make Prerequisites](#make-prerequisites)
   - [Usage](#usage)
+  - [Prettifier](#prettifier)
   - [Architecture](#architecture)
     - [Diagrams](#diagrams)
     - [Configuration](#configuration)
@@ -82,6 +83,16 @@ The following software packages or their equivalents are expected to be installe
 ## Usage
 
 After a successful installation, provide an informative example of how this project can be used. Additional code snippets, screenshots and demos work well in this space. You may also link to the other documentation resources, e.g. the [User Guide](./docs/user-guide.md) to demonstrate more use cases and to show more features.
+
+## Prettifier
+
+For linting we have decided to use [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) Which we have created config files for called `.prettierrc.yaml` This file enforces consistancy between all users.
+
+To set this up you need to install the prettier plugin using the link above.
+
+Once it is installed you can set up the default formatter by opening a file in the repo and using the shortcut `ctrl + p` to open the vscode command interface. Then enter `> Format Document` and select `Format Document` from the dropdown. The first time you do this it will say something like **No default formatter setup for this project** You can click on the `Configure` button and select Prettier from that list.
+
+To make formatting easier you can enable **Format on Save** by going into preferences and searching for `format on save` then check the tickbox to enable it. Now everytime you save your file with `ctrl + s` or `command + s` then it will format the file for you.
 
 ## Architecture
 
