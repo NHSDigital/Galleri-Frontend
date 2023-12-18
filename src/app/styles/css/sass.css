@@ -273,6 +273,10 @@ th {
 	vertical-align: bottom;
 }
 
+.custom-vertical-align-middle {
+	vertical-align: middle;
+}
+
 .custom-pre__whitespace {
 	white-space: pre;
 }
@@ -6414,17 +6418,17 @@ COMPONENTS / #PAGINATION
  *    to understand in print context.
  */
 .nhsuk-pagination {
-	margin-top: 40px;
-	margin-bottom: 40px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 @media (min-width: 40.0625em) {
 	.nhsuk-pagination {
-		margin-top: 48px;
+		margin-top: 20px;
 	}
 }
 @media (min-width: 40.0625em) {
 	.nhsuk-pagination {
-		margin-bottom: 48px;
+		margin-bottom: 20px;
 	}
 }
 

@@ -367,6 +367,7 @@ class ClinicInformation extends Component {
             `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {
+            console.log(response.data);
             const weeklyCapacityData = response.data.WeekCommencingDate.M;
             const weeklyCapacityKeys = this.sortDate(Object.keys(response.data.WeekCommencingDate.M))
             let weeklyCapacityValue = 0

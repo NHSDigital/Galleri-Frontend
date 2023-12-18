@@ -76,7 +76,7 @@ export default function LsoaTable(prop) {
       <div
         className="nhsuk-form-group"
       >
-        <label className="nhsuk-label" for="pageSize">
+        <label className="nhsuk-label" htmlFor="pageSize">
           LSOAs per page
         </label>
         <select
@@ -94,7 +94,7 @@ export default function LsoaTable(prop) {
           <option value="50">50</option>
         </select>
       </div>
-      <div id="lsoaTable">
+      <div id="lsoaTable" className="nhsuk-u-margin-bottom-9">
         <table role="table" className="nhsuk-table-responsive">
           <thead role="rowgroup" className="nhsuk-table__head">
             <tr role="row">
@@ -114,7 +114,7 @@ export default function LsoaTable(prop) {
                   />
                   <label
                     className="nhsuk-label nhsuk-checkboxes__label"
-                    for="selectAllLsoa"
+                    htmlFor="selectAllLsoa"
                   ><span className="nhsuk-u-visually-hidden">Select All LSOA below</span></label>
                 </div>
               </th>
@@ -162,7 +162,7 @@ export default function LsoaTable(prop) {
           </thead>
           {lsoaInRange.length === 0 ? (
             <tbody>
-              <div>No LSOA data is available</div>
+              <p>No LSOA data is available</p>
             </tbody>
           ) : (
             <tbody className="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
@@ -173,7 +173,7 @@ export default function LsoaTable(prop) {
                       <div className="nhsuk-checkboxes__item custom-padding-right-20">
                         <input
                           className="nhsuk-checkboxes__input"
-                          id={`select-${e.LSOA_NAME?.S}`}
+                          id={`select-${e.LSOA_NAME?.S.replace(/\s/g, '-')}`}
                           name="SelectALsoaInList"
                           type="checkbox"
                           onChange={(event) => checkRecord(event, e)}
@@ -181,8 +181,8 @@ export default function LsoaTable(prop) {
                         />
                         <label
                           className="nhsuk-label nhsuk-checkboxes__label"
-                          htmlFor={`select-${e.LSOA_NAME?.S}`}
-                        >what</label>
+                          htmlFor={`select-${e.LSOA_NAME?.S.replace(/\s/g, '-')}`}
+                        ><span className="nhsuk-u-visually-hidden">{e.LSOA_NAME?.S.replace(/\s/g, '-')}</span></label>
                       </div>
                     </td>
                     <td role="cell" className="nhsuk-table__cell">
@@ -240,39 +240,39 @@ export default function LsoaTable(prop) {
           onPageChange={(page) => onCurrentPageChange(page)}
         />
       </div>
-      <br />
+
       <div className="nhsuk-grid-row">
-      <div
-        className="nhsuk-grid-column-one-half"
-      >
-        <dl className="nhsuk-summary-list">
-          <div className="nhsuk-summary-list__row">
-            <dt className="nhsuk-summary-list__key">Total available to invite</dt>
-            <dd className="nhsuk-summary-list__value">
-              {calculateTotalToInvite(lsoaArray)}
-            </dd>
-          </div>
-        </dl>
-      </div>
-      <div
-        className="nhsuk-grid-column-two-thirds"
-      >
-        <button
-          className="nhsuk-button"
-          data-module="nhsuk-button"
-          type="submit"
-          disabled={lsoaInRange.length === 0}
-          onClick={() =>
-            onSubmitHandler(
-              calculateTotalToInvite(lsoaArray),
-              calculateAverageExpectedUptake(lsoaArray),
-              lsoaCodesAppsToFill(lsoaArray)
-            )
-          }
+        <div
+          className="nhsuk-grid-column-one-half"
         >
-          Calculate number to invite
-        </button>
-      </div>
+          <dl className="nhsuk-summary-list">
+            <div className="nhsuk-summary-list__row">
+              <dt className="nhsuk-summary-list__key custom-border-top-1px-solid">Total available to invite</dt>
+              <dd className="nhsuk-summary-list__value custom-border-top-1px-solid">
+                {calculateTotalToInvite(lsoaArray)}
+              </dd>
+            </div>
+          </dl>
+        </div>
+        <div
+          className="nhsuk-grid-column-two-thirds"
+        >
+          <button
+            className="nhsuk-button"
+            data-module="nhsuk-button"
+            type="submit"
+            disabled={lsoaInRange.length === 0}
+            onClick={() =>
+              onSubmitHandler(
+                calculateTotalToInvite(lsoaArray),
+                calculateAverageExpectedUptake(lsoaArray),
+                lsoaCodesAppsToFill(lsoaArray)
+              )
+            }
+          >
+            Calculate number to invite
+          </button>
+        </div>
       </div>
     </section>
   );

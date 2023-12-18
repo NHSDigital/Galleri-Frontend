@@ -74,14 +74,12 @@ export default function ClinicInformationPage(props) {
               </div>
             ) : (null)}
           </div>
-          <div id="main-content" className="nhsuk-grid-column-two-thirds">
-            <br />
+          <div id="main-content" className="nhsuk-grid-column-full nhsuk-u-margin-bottom-4">
             <h1 aria-label="Clinic Invitations">Clinic Invitations</h1>
             <p>
               View appointment availability, and set criteria to generate new
               invitations for a clinic.
             </p>
-            <br />
           </div>
           <div className="nhsuk-grid-column-two-thirds">
             <h2 id="clinic-information">
