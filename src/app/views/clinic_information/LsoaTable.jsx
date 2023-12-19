@@ -14,8 +14,6 @@ export default function LsoaTable(prop) {
     onPageSizeChange,
     onCurrentPageChange,
     lsoaCodesAppsToFill,
-    targetErrorMessage,
-    displayUserErrorTargetPercentage,
     lsoaTableError,
   } = prop;
 
@@ -99,15 +97,15 @@ export default function LsoaTable(prop) {
           <option value="50">50</option>
         </select>
       </div>
-      {displayUserErrorTargetPercentage && lsoaTableError && (
+      {lsoaTableError && (
         <div id="lsoa-error-message" className="nhsuk-error-message">
-          {targetErrorMessage}
+          You must select LSOAs with people to invite
         </div>
       )}
       <div
         id="lsoaTable"
         className={
-          displayUserErrorTargetPercentage && lsoaTableError
+          lsoaTableError
             ? "nhsuk-form-group--error nhsuk-u-margin-bottom-9"
             : "nhsuk-u-margin-bottom-9"
         }
@@ -186,6 +184,10 @@ export default function LsoaTable(prop) {
                       <div className="nhsuk-checkboxes__item custom-padding-right-20">
                         <input
                           className="nhsuk-checkboxes__input"
+                          data-testid={`select-${e.LSOA_NAME?.S.replace(
+                            /\s/g,
+                            "-"
+                          )}`}
                           id={`select-${e.LSOA_NAME?.S.replace(/\s/g, "-")}`}
                           name="SelectALsoaInList"
                           type="checkbox"

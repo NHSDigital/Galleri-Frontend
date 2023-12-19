@@ -77,7 +77,7 @@ export default function ClinicInformationPage(props) {
             className="nhsuk-grid-column-full nhsuk-u-margin-bottom-4"
           >
             <div id="error-summary" tabIndex="0" role="alert">
-              {displayUserErrorTargetPercentage && (
+              {(displayUserErrorTargetPercentage || lsoaTableError) && (
                 <ErrorBannerDetail
                   targetErrorMessage={targetErrorMessage}
                   onKeyUp={onKeyUp}
@@ -143,8 +143,6 @@ export default function ClinicInformationPage(props) {
             appsToFill={appsToFill}
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
             onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
-            targetErrorMessage={targetErrorMessage}
-            lsoaTableError={lsoaTableError}
           />
           <div className="nhsuk-grid-column-full">
             <LsoaTable
@@ -159,10 +157,6 @@ export default function ClinicInformationPage(props) {
               onPageSizeChange={onPageSizeChange}
               onCurrentPageChange={onCurrentPageChange}
               lastSelectedRange={lastSelectedRange}
-              displayUserErrorTargetPercentage={
-                displayUserErrorTargetPercentage
-              }
-              targetErrorMessage={targetErrorMessage}
               lsoaTableError={lsoaTableError}
             />
           </div>

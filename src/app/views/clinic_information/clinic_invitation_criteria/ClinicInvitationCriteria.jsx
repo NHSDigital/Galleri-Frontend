@@ -7,12 +7,7 @@ export default function ClinicInvitationCriteria(props) {
     appsToFill,
     onClickTargetAppsToFillHandler,
     onTargetFillToInputChangeHandler,
-    targetErrorMessage,
-    lsoaTableError,
   } = props;
-
-  const targetPercentageValueError =
-    displayUserErrorTargetPercentage && !lsoaTableError;
 
   return (
     <div
@@ -23,7 +18,7 @@ export default function ClinicInvitationCriteria(props) {
       <div
         id="section-content"
         className={
-          targetPercentageValueError
+          displayUserErrorTargetPercentage
             ? "govuk-form-group nhsuk-form-group--error"
             : "govuk-form-group"
         }
@@ -35,7 +30,7 @@ export default function ClinicInvitationCriteria(props) {
         >
           Set the target percentage of appointments to fill
         </label>
-        {targetPercentageValueError && (
+        {displayUserErrorTargetPercentage && (
           <span
             id="error-message"
             className="nhsuk-error-message"
@@ -43,13 +38,13 @@ export default function ClinicInvitationCriteria(props) {
             aria-labelledby="target-percentage-input-label"
           >
             <span className="nhsuk-u-visually-hidden">Error:</span>
-            {targetErrorMessage}
+            The target percentage must be between 1% and 100%
           </span>
         )}
         <div id="user-input-container" class="govuk-input__wrapper">
           <input
             className={
-              targetPercentageValueError
+              displayUserErrorTargetPercentage
                 ? "govuk-input govuk-input--width-5 govuk-input--error"
                 : "govuk-input govuk-input--width-5"
             }
@@ -64,14 +59,14 @@ export default function ClinicInvitationCriteria(props) {
             }}
             spellCheck="false"
             onChange={(e) => onTargetFillToInputChangeHandler(e)}
-            {...(targetPercentageValueError
+            {...(displayUserErrorTargetPercentage
               ? { "aria-describedby": "error-message" }
               : {})}
           />
           <div
             id="input-suffix-percentage"
             className={
-              targetPercentageValueError
+              displayUserErrorTargetPercentage
                 ? "govuk-input__suffix govuk-input__suffix--error"
                 : "govuk-input__suffix"
             }
