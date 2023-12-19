@@ -8,7 +8,6 @@ export default function ErrorBannerDetail(props) {
       data-testid="error-banner"
       class="nhsuk-error-summary nhsuk-u-padding-bottom-0"
       role="alert"
-      aria-live="polite"
       tabindex="0"
       onKeyDown={(e) => onKeyUp(e)}
     >
