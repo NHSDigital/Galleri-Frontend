@@ -12,7 +12,6 @@ import ClinicSummaryTable from "./ClinicSummaryTable";
 describe("Logger", () => {
   test.todo("please fix the broken tests below");
 });
-
 // describe("Clinic Summary helper tests", () => {
 //   test("daysSinceLastInvite() return correct clinics list", () => {
 //     // Monday 12 September 2023
