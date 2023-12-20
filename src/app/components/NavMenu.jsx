@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "../styles/css/sass.css";
+
 // Navigation Menu
 export default function NavMenu() {
   return (
