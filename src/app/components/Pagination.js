@@ -137,22 +137,17 @@ const Pagination = (props) => {
           </a>
         </li>
         {paginationRange.map((pgNumber, index) => {
-          let key;
-          if (pgNumber === DOTS) {
-            const beforePageNumber = paginationRange[index - 1] || "start";
-            const afterPageNumber = paginationRange[index + 1] || "end";
-            key = `dots-between-${beforePageNumber}-and-${afterPageNumber}`;
-            return (
-              <li key={`dots-${index}`} className="style_item__Y9BLA dots">
-                &#8230;
-              </li>
-            );
-          } else {
-            key = `page-${pgNumber}`;
-          }
-
           return (
-            <li key={key} className="style_item__Y9BLA">
+            <li
+              key={
+                pgNumber === DOTS
+                  ? `dots-between-${
+                      paginationRange[index - 1] || "start"
+                    }-and-${paginationRange[index + 1] || "end"}`
+                  : `page-${pgNumber}`
+              }
+              className="style_item__Y9BLA"
+            >
               <a
                 onClick={() => onPageChange(pgNumber)}
                 href="#"
