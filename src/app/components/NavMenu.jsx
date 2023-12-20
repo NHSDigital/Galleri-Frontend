@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "../styles/css/sass.css";
 
 // Navigation Menu
@@ -11,14 +12,14 @@ export default function NavMenu() {
     >
         <ul class="nhsuk-header__navigation-list">
           <li class="nhsuk-header__navigation-item">
-            <a class="nhsuk-header__navigation-link" href="/">
+            <Link class="nhsuk-header__navigation-link" href="/">
               Clinic Summary
-            </a>
+            </Link>
           </li>
           <li class="nhsuk-header__navigation-item">
-            <a class="nhsuk-header__navigation-link" href="#">
+            <Link class="nhsuk-header__navigation-link" href="/views/invitation_planning">
               Invitation Variables
-            </a>
+            </Link>
           </li>
         </ul>
     </nav>
