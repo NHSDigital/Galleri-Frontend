@@ -1,7 +1,61 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ClinicInformation from "./ClinicInformation";
+import axios from "axios";
+
+window.scrollTo = jest.fn();
+
+// jest.mock("axios");
+
+// jest.mock("../../context/AppStateContext", () => {
+//   const mockContextValue = {
+//     state: {
+//       icbData: [" "],
+//       icbSelected: "",
+//       clinicIdSelected: "",
+//       clinicNameSelected: "",
+//       lastUpdated: "14 July 2024, 1.00am",
+//       clinicList: [],
+//       displayClinicsNoApp: false,
+//       navigateToClinic: false,
+//       clinicIdNameList: [{ clinicId: "", clinicName: "" }],
+//       clinicId: "",
+//       clinicName: "",
+//       address1: "",
+//       address2: "",
+//       postcode: "",
+//       weeklyCapacity: [],
+//       cancelChangeText: "Change clinic",
+//       currentlySelectedClinicId: "",
+//       currentlySelectedClinic: "",
+//       participatingICBSelected: "",
+//       displayClinicSelector: false,
+//       displayViewAllPrevInvitations: false,
+//       recentInvitationHistory: {
+//         dateOfPrevInv: "Not available",
+//         daysSincePrevInv: "Not available",
+//         invSent: 0,
+//         appsRemaining: 0,
+//         isSubmit: false,
+//       },
+//       rangeSelection: 1,
+//       targetAppToFill: 0,
+//       targetPercentageToFill: 0,
+//       totalToInvite: 0,
+//       avgExpectedUptake: 0,
+//       noInviteToGenerate: 0,
+//       personIdentifiedToInvite: [],
+//       pageSize: 0,
+//       currentPage: 0,
+//     },
+//     setState: jest.fn(),
+//   };
+//   return {
+//     __esModule: true,
+//     AppStateContext: React.createContext(mockContextValue),
+//   };
+// });
 
 describe("Logger", () => {
   test.todo("please fix the broken tests below");
@@ -11,11 +65,20 @@ describe("Logger", () => {
 
 //   const clinicInformation = <ClinicInformation />;
 
-//   test('Page header renders', () => {
-//     render(clinicInformation)
-//     let header = screen.getByText(/Clinic Invitations/);
-//     expect(header.innerHTML).toBe('Clinic Invitations');
-//   })
+// test('renders the <ClinicInformation>', async () => {
+//   await act(async () => {
+//     render(clinicInformation);
+//   });
+//   let page = screen.getByTestId("clinic-information-page");
+//   expect(page).toBeInTheDocument();
+// });
+
+// test('Page header renders', () => {
+//   axios.get.mockResolvedValue({ data: {/* your mock data here */ } });
+//   render(clinicInformation)
+//   let header = screen.getByText(/Clinic Invitations/);
+//   expect(header.innerHTML).toBe('Clinic Invitations');
+// })
 
 //   test('Page summary renders', () => {
 //     render(clinicInformation)

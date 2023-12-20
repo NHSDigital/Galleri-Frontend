@@ -52,7 +52,6 @@ class ClinicInformation extends Component {
     if (totalToInvite === 0) {
       this.setState({
         targetErrorMessage: "You must select LSOAs with people to invite",
-        displayUserErrorTargetPercentage: true,
         hrefErrorMessage: "#lsoa-error-message",
         lsoaTableError: true,
       });
@@ -84,7 +83,11 @@ class ClinicInformation extends Component {
 
   onKeyUp(e) {
     if (e.key === "Enter" || e.keyCode === 32) {
-      const errorContent = document.getElementById("error-message");
+      let errorContent;
+      if (this.state.hrefErrorMessage === "#lsoa-error-message")
+        errorContent = document.getElementById("lsoa-error-message");
+      else if (this.state.hrefErrorMessage === "#error-message")
+        errorContent = document.getElementById("error-message");
       if (errorContent) {
         errorContent.scrollIntoView({
           behavior: "smooth",
