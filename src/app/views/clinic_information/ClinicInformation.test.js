@@ -89,7 +89,7 @@ describe("Logger", () => {
 //   test('Clinic weekly capacity table renders', () => {
 //     render(clinicInformation)
 //     let tableHeader = screen.getByText('Clinic Weekly Capacity');
-//     expect(tableHeader.innerHTML).toBe('Clinic Weekly Capacity<div class=\"nhsuk-hint\" id=\"last-updated-hint\">Last Updated: 14 July 2024, 1.00am</div>');
+//     expect(tableHeader.innerHTML).toBe('Clinic Weekly Capacity<div className=\"nhsuk-hint\" id=\"last-updated-hint\">Last Updated: 14 July 2024, 1.00am</div>');
 //   })
 
 //   test('Recent invitation history table renders', () => {

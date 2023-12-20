@@ -28,8 +28,8 @@ export default function InvitationPlanningPage(props) {
   } = props;
 
   return (
-    <div class="nhsuk-width-container ">
-      <main class="nhsuk-main-wrapper " id="invitationsParameters" role="main">
+    <div className="nhsuk-width-container ">
+      <main className="nhsuk-main-wrapper " id="invitationsParameters" role="main">
         <div
           id="error-summary"
           tabIndex="0"
@@ -42,15 +42,15 @@ export default function InvitationPlanningPage(props) {
               />
             )}
         </div>
-        <div class="nhsuk-grid-row">
-          <div class="nhsuk-grid-column-full">
+        <div className="nhsuk-grid-row">
+          <div className="nhsuk-grid-column-full">
             <h1>Invitation variables</h1>
             <h5 style={{ "font-weight": "normal" }}>
               The forecasted national uptake and quintile fill targets can be
               amended if necessary.
             </h5>
-            <div class="nhsuk-grid-column-one-half" style={{ padding: "0px" }}>
-              <div class="nhsuk-card" id="forecastTableContainer">
+            <div className="nhsuk-grid-column-one-half" style={{ padding: "0px" }}>
+              <div className="nhsuk-card" id="forecastTableContainer">
                 <div
                   style={{
                     "padding-top": "24px",
@@ -66,14 +66,14 @@ export default function InvitationPlanningPage(props) {
                   />
                   <br />
                   <div
-                    class="nhsuk-hint"
+                    className="nhsuk-hint"
                     id="last-updated-hint"
                     style={{ textAlign: "right", "margin-bottom": "2px" }}
                   >
                     Last Updated: {lastUpdatedQuintile}
                   </div>
                   <div
-                    class="nhsuk-hint"
+                    className="nhsuk-hint"
                     id="last-updated-hint"
                     style={{ textAlign: "right" }}
                   >
@@ -82,7 +82,7 @@ export default function InvitationPlanningPage(props) {
                   {enableUptakeEdit ? (
                     <div>
                       <button
-                        class="nhsuk-button"
+                        className="nhsuk-button"
                         onClick={() =>
                           onSaveForecastHandler(nationalUptakePercentage)
                         }
@@ -91,7 +91,7 @@ export default function InvitationPlanningPage(props) {
                       </button>
                       <br />
                       <a
-                        class="nhsuk-action-link__link:hover .nhsuk-action-link__text"
+                        className="nhsuk-action-link__link:hover .nhsuk-action-link__text"
                         onClick={() => onCancelSaveForecastHandler()}
                         style={{
                           border: "24px",
@@ -106,7 +106,7 @@ export default function InvitationPlanningPage(props) {
                     </div>
                   ) : (
                     <button
-                      class="nhsuk-button"
+                      className="nhsuk-button"
                       onClick={() =>
                         onAmendForecastHandler(nationalUptakePercentage)
                       }
@@ -116,7 +116,7 @@ export default function InvitationPlanningPage(props) {
                   )}
                 </div>
               </div>
-              <div class="nhsuk-card" id="quintileTableContainer">
+              <div className="nhsuk-card" id="quintileTableContainer">
                 <div
                   style={{
                     "padding-top": "24px",
@@ -134,14 +134,14 @@ export default function InvitationPlanningPage(props) {
                   />
                   <br />
                   <div
-                    class="nhsuk-hint"
+                    className="nhsuk-hint"
                     id="last-updated-hint"
                     style={{ textAlign: "right", "margin-bottom": "2px" }}
                   >
                     Last Updated: {lastUpdatedQuintile}
                   </div>
                   <div
-                    class="nhsuk-hint"
+                    className="nhsuk-hint"
                     id="last-updated-hint"
                     style={{ textAlign: "right" }}
                   >
@@ -150,14 +150,14 @@ export default function InvitationPlanningPage(props) {
                   {enableFillEdit ? (
                     <div>
                       <button
-                        class="nhsuk-button"
+                        className="nhsuk-button"
                         onClick={() => onSaveFillHandler(quintileValues)}
                       >
                         Save changes
                       </button>
                       <br />
                       <a
-                        class="nhsuk-action-link__link:hover .nhsuk-action-link__text"
+                        className="nhsuk-action-link__link:hover .nhsuk-action-link__text"
                         onClick={() => onCancelSaveFillHandler()}
                         style={{
                           border: "24px",
@@ -172,7 +172,7 @@ export default function InvitationPlanningPage(props) {
                     </div>
                   ) : (
                     <button
-                      class="nhsuk-button"
+                      className="nhsuk-button"
                       onClick={() => onAmendFillHandler()}
                     >
                       Amend fill target

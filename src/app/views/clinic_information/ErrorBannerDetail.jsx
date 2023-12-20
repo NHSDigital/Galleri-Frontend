@@ -6,19 +6,19 @@ export default function ErrorBannerDetail(props) {
   return (
     <div
       data-testid="error-banner"
-      class="nhsuk-error-summary nhsuk-u-padding-bottom-0"
+      className="nhsuk-error-summary nhsuk-u-padding-bottom-0"
       role="alert"
       tabindex="0"
       onKeyDown={(e) => onKeyUp(e)}
     >
       <h2
-        class="nhsuk-error-summary__title nhsuk-u-margin-bottom-2"
+        className="nhsuk-error-summary__title nhsuk-u-margin-bottom-2"
         id="error-target-title"
       >
         There is a problem
       </h2>
-      <div class="nhsuk-error-summary__body">
-        <ul class="nhsuk-list nhsuk-error-summary__list">
+      <div className="nhsuk-error-summary__body">
+        <ul className="nhsuk-list nhsuk-error-summary__list">
           <li>
             <a href={`${hrefErrorMessage}`}>{targetErrorMessage}</a>
           </li>
