@@ -571,7 +571,7 @@ class ClinicInformation extends Component {
     const clinicPostcode = this.state.postcode
     axios
       .get(
-        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
+        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${clinicPostcode}&miles=${this.context.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
@@ -597,7 +597,7 @@ class ClinicInformation extends Component {
       const clinicPostcode = this.state.postcode
       axios
         .get(
-          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
+          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${clinicPostcode}&miles=${this.context.state.rangeSelection}`
         )
         .then((response) => {
           this.setState({
