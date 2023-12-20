@@ -568,10 +568,9 @@ class ClinicInformation extends Component {
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
     // therefore there is no guarentee that the postcode actually exists
     // const postcodeHolder = "SE1 9RT";
-    const clinicPostcode = this.state.postcode
     axios
       .get(
-        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${clinicPostcode}&miles=${this.context.state.rangeSelection}`
+        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.context.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
@@ -587,17 +586,16 @@ class ClinicInformation extends Component {
 
   componentDidUpdate(_, prevState) {
     if (
-      this.state.rangeSelection !== prevState.rangeSelection ||
-      this.state.postcode !== prevState.postcode
+      this.context.state.rangeSelection !== prevState.rangeSelection ||
+      this.context.state.postcode !== prevState.postcode
     ) {
       // placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
       // TODO: placeholder postcode as the clinic postcode is generated off of random string
       // const postcodeHolder = "SW1A 2AA";
-      const clinicPostcode = this.state.postcode
       axios
         .get(
-          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${clinicPostcode}&miles=${this.context.state.rangeSelection}`
+          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.context.state.rangeSelection}`
         )
         .then((response) => {
           this.setState({
