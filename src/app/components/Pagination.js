@@ -148,7 +148,7 @@ const Pagination = (props) => {
               }
               className="style_item__Y9BLA"
             >
-              <a
+              <button
                 onClick={() => onPageChange(pgNumber)}
                 href="#"
                 aria-label={`Go to Page ${pgNumber}`}
@@ -157,7 +157,7 @@ const Pagination = (props) => {
                 } `}
               >
                 {pgNumber}
-              </a>
+              </button>
             </li>
           );
         })}
