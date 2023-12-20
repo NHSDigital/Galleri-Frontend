@@ -11,7 +11,7 @@ export default function ErrorBanner(props) {
         className="nhsuk-error-summary nhsuk-u-padding-bottom-0"
         aria-labelledby="error-summary-title"
         role="alert"
-        tabindex="-1"
+        tabIndex="-1"
       >
         <h2
           className="nhsuk-error-summary__title nhsuk-u-margin-bottom-2"
@@ -29,7 +29,7 @@ export default function ErrorBanner(props) {
         className="nhsuk-error-summary nhsuk-u-padding-bottom-0"
         aria-labelledby="error-summary-title"
         role="alert"
-        tabindex="-1"
+        tabIndex="-1"
       >
         <h2
           className="nhsuk-error-summary__title nhsuk-u-margin-bottom-2"

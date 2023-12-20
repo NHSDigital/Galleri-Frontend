@@ -8,7 +8,7 @@ export default function ErrorBannerDetail(props) {
       data-testid="error-banner"
       className="nhsuk-error-summary nhsuk-u-padding-bottom-0"
       role="alert"
-      tabindex="0"
+      tabIndex="0"
       onKeyDown={(e) => onKeyUp(e)}
     >
       <h2
