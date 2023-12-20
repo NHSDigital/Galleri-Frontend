@@ -113,7 +113,7 @@ const Pagination = (props) => {
       role="navigation"
       aria-label="Pagination Navigation"
     >
-      <div className="style_summary__J3_1h" role="status" aria-live="polite">
+      <output className="style_summary__J3_1h" aria-live="polite">
         <span index="0" node="[object Object]">
           {`Showing ${currentPage * pageSize - pageSize + 1}-${
             currentPage * pageSize < totalCount
@@ -121,7 +121,7 @@ const Pagination = (props) => {
               : totalCount
           } of ${totalCount} results`}
         </span>
-      </div>
+      </output>
       <h2 className="nhsuk-u-visually-hidden">Pagination Support links</h2>
       <ul>
         <li className="style_item__Y9BLA" id="prevButton">
