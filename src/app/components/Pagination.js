@@ -135,10 +135,13 @@ const Pagination = (props) => {
           </a>
         </li>
         {paginationRange.map((pgNumber, index) => {
+          if (pgNumber === DOTS) {     
+            return <li key="dots" className="style_item__Y9BLA dots">&#8230;</li>;    
+          }
           return (
             <li
               key={
-                pgNumber === DOTS
+                pgNumber !== DOTS
                   ? `dots-between-${
                       paginationRange[index - 1] || "start"
                     }-and-${paginationRange[index + 1] || "end"}`
@@ -146,16 +149,16 @@ const Pagination = (props) => {
               }
               className="style_item__Y9BLA"
             >
-              <button
+              <a
                 onClick={() => onPageChange(pgNumber)}
-                href="#"
+                href="#Table"
                 aria-label={`Go to Page ${pgNumber}`}
                 className={`style_link__ToZGL ${
                   currentPage == pgNumber ? "style_current__K8c2u" : ""
                 } `}
               >
                 {pgNumber}
-              </button>
+              </a>
             </li>
           );
         })}
