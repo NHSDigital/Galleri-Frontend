@@ -12,25 +12,38 @@ export default function ClinicInvitationCriteria(props) {
   return (
     <div
       id="clinic-invitation-criteria-section"
-      class="nhsuk-grid-column-two-thirds"
+      className="nhsuk-grid-column-two-thirds"
     >
-      <h2 id="section-heading" label="header">
-        Clinic Invitation Criteria
-      </h2>
-      <div id="section-content" class="govuk-form-group">
-        <h3 id="input-label">
-          <label class="govuk-label govuk-label--s" for="weight">
-            Set the target percentage of appointments to fill
-          </label>
-        </h3>
+      <h2 id="section-heading">Clinic Invitation Criteria</h2>
+      <div
+        id="section-content"
+        className={
+          displayUserErrorTargetPercentage
+            ? "govuk-form-group nhsuk-form-group--error"
+            : "govuk-form-group"
+        }
+      >
+        <label
+          id="target-percentage-input-label"
+          className="govuk-label govuk-label--s nhsuk-u-margin-bottom-4"
+          htmlFor="input-target-percentage"
+        >
+          Set the target percentage of appointments to fill
+        </label>
         {displayUserErrorTargetPercentage && (
-          <div id="error-message" class="nhsuk-error-message">
+          <span
+            id="error-message"
+            className="nhsuk-error-message"
+            role="alert"
+            aria-labelledby="target-percentage-input-label"
+          >
+            <span className="nhsuk-u-visually-hidden">Error:</span>
             The target percentage must be between 1% and 100%
-          </div>
+          </span>
         )}
         <div id="user-input-container" class="govuk-input__wrapper">
           <input
-            class={
+            className={
               displayUserErrorTargetPercentage
                 ? "govuk-input govuk-input--width-5 govuk-input--error"
                 : "govuk-input govuk-input--width-5"
@@ -46,10 +59,13 @@ export default function ClinicInvitationCriteria(props) {
             }}
             spellCheck="false"
             onChange={(e) => onTargetFillToInputChangeHandler(e)}
+            {...(displayUserErrorTargetPercentage
+              ? { "aria-describedby": "error-message" }
+              : {})}
           />
           <div
             id="input-suffix-percentage"
-            class={
+            className={
               displayUserErrorTargetPercentage
                 ? "govuk-input__suffix govuk-input__suffix--error"
                 : "govuk-input__suffix"
@@ -62,27 +78,31 @@ export default function ClinicInvitationCriteria(props) {
       </div>
       <button
         id="update-button"
-        class="nhsuk-button nhsuk-button--secondary"
+        className="nhsuk-button nhsuk-button--secondary"
         data-module="nhsuk-button"
-        type="submit"
+        type="button"
         onClick={() => onClickTargetAppsToFillHandler(targetFillToInputValue)}
       >
         Update
       </button>
       <div>
-        <dl id="summary-list" class="nhsuk-summary-list">
-          <div id="summary-list-content" class="nhsuk-summary-list__row">
+        <dl
+          id="clinic-invitation-criteria-summary-list"
+          className="nhsuk-summary-list"
+        >
+          <div
+            id="summary-list-content"
+            className="nhsuk-summary-list__row custom-nhsuk-summary-list__row"
+          >
             <dt
-              style={{ borderTop: "1px solid #d8dde0" }}
-              id="term-label"
-              class="nhsuk-summary-list__key"
+              id="apps-To-Fill-label"
+              className="nhsuk-summary-list__key custom-border-top-1px-solid"
             >
               Target number of appointments to fill
             </dt>
             <dd
-              style={{ borderTop: "1px solid #d8dde0" }}
               id="target-apps-to-fill"
-              class="nhsuk-summary-list__value"
+              className="nhsuk-summary-list__value custom-border-top-1px-solid"
             >
               {appsToFill}
             </dd>

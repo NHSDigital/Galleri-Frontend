@@ -33,7 +33,7 @@ export default function ClinicSummaryPage(props) {
               weeks, how many invitations have been generated and when.
             </p>
             <div className="nhsuk-form-group">
-              <label className="nhsuk-label" for="select-icb">
+              <label className="nhsuk-label" htmlFor="select-icb">
                 Select the participating integrated care board (ICB)
               </label>
               <select
@@ -53,7 +53,6 @@ export default function ClinicSummaryPage(props) {
               </select>
             </div>
           </div>
-          <div aria-live="polite" id="dynamic-update-region">
           {icbSelected === ""
             ? null
             : isContextLoaded && (
@@ -68,7 +67,6 @@ export default function ClinicSummaryPage(props) {
                 onCurrentPageChange={onCurrentPageChange}
               />
             )}
-            </div>
         </div>
         </div>
       </main>

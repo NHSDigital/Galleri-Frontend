@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import ClinicInformationPage from './ClinicInformationPage';
 import InvitationSummary from '../invitation_summary/InvitationSummary';
@@ -5,133 +6,182 @@ import { AppStateContext } from '@/app/context/AppStateContext';
 import { setClinicDetails } from '../../helper/helperMethods';
 import axios from 'axios';
 
+
 const CLINIC_SUMMARY_LIST = process.env.NEXT_PUBLIC_CLINIC_SUMMARY_LIST;
-const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION
+const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION;
 const CLINIC_ICB_LIST = process.env.NEXT_PUBLIC_CLINIC_ICB_LIST;
-const PUT_TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_PUT_TARGET_PERCENTAGE
-const TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_TARGET_PERCENTAGE
-const CALCULATE_NUM_TO_INVITE = process.env.NEXT_PUBLIC_CALCULATE_NUM_TO_INVITE
-const GET_LSOA_IN_RANGE = process.env.NEXT_PUBLIC_GET_LSOA_IN_RANGE
+const PUT_TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_PUT_TARGET_PERCENTAGE;
+const TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_TARGET_PERCENTAGE;
+const CALCULATE_NUM_TO_INVITE = process.env.NEXT_PUBLIC_CALCULATE_NUM_TO_INVITE;
+const GET_LSOA_IN_RANGE = process.env.NEXT_PUBLIC_GET_LSOA_IN_RANGE;
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
 class ClinicInformation extends Component {
   constructor() {
     super();
     this.state = {
-      "displayUserErrorTargetPercentage": false,
-      "displayViewAllPrevInvitations": false,
-      "lsoaInRange": [""],
-      "rangeSelection": 1,
-      "selectedLsoa": [],
-      "targetFillToInputValue": 0,
-      "appsToFill": 0,
+      displayUserErrorTargetPercentage: false,
+      displayViewAllPrevInvitations: false,
+      lsoaInRange: [""],
+      rangeSelection: 1,
+      selectedLsoa: [],
+      targetFillToInputValue: 0,
+      appsToFill: 0,
+      targetErrorMessage: "",
+      hrefErrorMessage: "",
+      lsoaTableError: false,
     };
-    this.onClickChangeClinicHandler = this.onClickChangeClinicHandler.bind(this);
-    this.onChangeSelectedClinicHandler = this.onChangeSelectedClinicHandler.bind(this);
+
+    this.onClickChangeClinicHandler =
+      this.onClickChangeClinicHandler.bind(this);
+    this.onChangeSelectedClinicHandler =
+      this.onChangeSelectedClinicHandler.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
     this.onClickGoBackLinkHandler = this.onClickGoBackLinkHandler.bind(this);
-    this.onClickTargetAppsToFillHandler = this.onClickTargetAppsToFillHandler.bind(this);
-    this.onTargetFillToInputChangeHandler = this.onTargetFillToInputChangeHandler.bind(this);
+    this.onClickTargetAppsToFillHandler =
+      this.onClickTargetAppsToFillHandler.bind(this);
+    this.onTargetFillToInputChangeHandler =
+      this.onTargetFillToInputChangeHandler.bind(this);
     this.checkAllHandler = this.checkAllHandler.bind(this);
-    this.checkRecord = this.checkRecord.bind(this)
+    this.checkRecord = this.checkRecord.bind(this);
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
     this.lsoaCodesAppsToFill = this.lsoaCodesAppsToFill.bind(this);
     this.onCurrentPageChange = this.onCurrentPageChange.bind(this);
     this.onPageSizeChange = this.onPageSizeChange.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
   }
 
   onSubmitHandler(totalToInvite, avgExpectedUptake, lsoaCodesAppsToFill) {
-    this.context.setState({
-      "isSubmit": true,
-      "totalToInvite": totalToInvite,
-      "avgExpectedUptake": avgExpectedUptake
-    })
+    if (totalToInvite === 0) {
+      this.setState({
+        targetErrorMessage: "You must select LSOAs with people to invite",
+        hrefErrorMessage: "#lsoa-error-message",
+        lsoaTableError: true,
+      });
+      this.context.setState({
+        isSubmit: false,
+      });
+      this.scrollToErrorContent();
+    } else {
+      this.context.setState({
+        isSubmit: true,
+        totalToInvite: totalToInvite,
+        avgExpectedUptake: avgExpectedUptake,
+      });
+      this.setState({
+        lsoaTableError: false,
+        displayUserErrorTargetPercentage: false,
+      })
+
+      // Scroll to the top of the page every time it renders the page
+      window.scrollTo(0, 0);
+    }
+  }
+
+  onClickGoBackLinkHandler() {
+    this.context.setState({ navigateToClinic: false });
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
   }
 
-  onClickGoBackLinkHandler() {
-    this.context.setState({ "navigateToClinic": false })
-    // Scroll to the top of the page every time it renders the page
-    // window.scrollTo(0, 0);
+  onKeyUp(e) {
+    if (e.key === "Enter" || e.keyCode === 32) {
+      let errorContent;
+      if (this.state.hrefErrorMessage === "#lsoa-error-message")
+        errorContent = document.getElementById("lsoa-error-message");
+      else if (this.state.hrefErrorMessage === "#error-message")
+        errorContent = document.getElementById("error-message");
+      if (errorContent) {
+        errorContent.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
   }
 
   checkAllHandler(event) {
     // toggle between setting the value of checked in all elements in lsoaInRange
     if (event.target.checked) {
       // set all "checked" fields in lsoaInRange to true
-      const selectAll = this.state.lsoaInRange.map(lsoa => {
-        lsoa.checked = true
-        return lsoa
-      })
+      const selectAll = this.state.lsoaInRange.map((lsoa) => {
+        lsoa.checked = true;
+        return lsoa;
+      });
       this.setState({
-        lsoaInRange: selectAll
-      })
+        lsoaInRange: selectAll,
+      });
     } else {
-      const deselectAll = this.state.lsoaInRange.map(lsoa => {
-        lsoa.checked = false
-        return lsoa
-      })
+      const deselectAll = this.state.lsoaInRange.map((lsoa) => {
+        lsoa.checked = false;
+        return lsoa;
+      });
       this.setState({
-        lsoaInRange: deselectAll
-      })
+        lsoaInRange: deselectAll,
+      });
     }
   }
 
   checkRecord(event, el) {
-    let selectedLsoaCopy = [...this.state.selectedLsoa]
+    let selectedLsoaCopy = [...this.state.selectedLsoa];
     const lsoaItemIndex = this.state.selectedLsoa.findIndex((lsoa) => {
-      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S
-    })
+      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S;
+    });
 
-    const item = selectedLsoaCopy[lsoaItemIndex]
+    const item = selectedLsoaCopy[lsoaItemIndex];
     if (event.target.checked) {
-      item.checked = true
-      selectedLsoaCopy[lsoaItemIndex] = item
+      item.checked = true;
+      selectedLsoaCopy[lsoaItemIndex] = item;
 
       this.setState({
-        lsoaInRange: selectedLsoaCopy
-      })
+        lsoaInRange: selectedLsoaCopy,
+      });
     } else {
-      item.checked = false
-      selectedLsoaCopy[lsoaItemIndex] = item
+      item.checked = false;
+      selectedLsoaCopy[lsoaItemIndex] = item;
 
       this.setState({
-        lsoaInRange: selectedLsoaCopy
-      })
+        lsoaInRange: selectedLsoaCopy,
+      });
     }
   }
 
   handleRangeSelection(e) {
     this.setState({
-      rangeSelection: Number(e.target.selectedOptions[0].text)
-    })
+      rangeSelection: Number(e.target.selectedOptions[0].text),
+    });
     this.context.setState({
-      rangeSelection: Number(e.target.selectedOptions[0].text)
-    })
+      rangeSelection: Number(e.target.selectedOptions[0].text),
+    });
   }
 
   onCurrentPageChange(page) {
     this.context.setState({
-      currentPage: page
+      currentPage: page,
     });
   }
 
   onPageSizeChange(e) {
     this.context.setState({
       pageSize: e.target.value,
-      currentPage: 1
-    })
+      currentPage: 1,
+    });
   }
 
   // Calculating the Target number of appointments to fill
   calculateTargetAppsToFill(targetFillToInputValue) {
     this.setState({
-      appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
+      appsToFill: Math.floor(
+        this.context.state.recentInvitationHistory.appsRemaining *
+        (targetFillToInputValue / 100)
+      ),
     });
     this.context.setState({
-      targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
-    })
+      targetAppToFill: Math.floor(
+        this.context.state.recentInvitationHistory.appsRemaining *
+        (targetFillToInputValue / 100)
+      ),
+    });
   }
 
   // DB actions to PUT target percentage of appointments to fill
@@ -150,35 +200,35 @@ class ClinicInformation extends Component {
   createLsoaCodePayload(lsoaArray) {
     // create object payload for the incoming lsoaArray
     const lsoaInfo = {};
-    lsoaArray.forEach(lsoa => {
+    lsoaArray.forEach((lsoa) => {
       let eachLSOA_2011 = lsoa.LSOA_2011.S;
       let eachIMD_DECILE = lsoa.IMD_DECILE.N;
       let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
 
       lsoaInfo[eachLSOA_2011] = {
-        "IMD_DECILE": eachIMD_DECILE,
-        "FORECAST_UPTAKE": eachFORECAST_UPTAKE
-      }
-    })
+        IMD_DECILE: eachIMD_DECILE,
+        FORECAST_UPTAKE: eachFORECAST_UPTAKE,
+      };
+    });
     return lsoaInfo;
   }
 
   // POST lsoa codes and appsToFill (send to lambda)
   async lsoaCodesAppsToFill(lsoaArray) {
-    const payloadObject = this.createLsoaCodePayload(lsoaArray)
+    const payloadObject = this.createLsoaCodePayload(lsoaArray);
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         `https://${CALCULATE_NUM_TO_INVITE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/calculate-num-to-invite`,
         {
           targetAppsToFill: this.state.appsToFill,
-          lsoaCodes: payloadObject
+          lsoaCodes: payloadObject,
         }
       );
       this.context.setState({
-        "noInviteToGenerate": response.data.numberOfPeopleToInvite,
-        "personIdentifiedToInvite": response.data.selectedParticipants
-      })
+        noInviteToGenerate: response.data.numberOfPeopleToInvite,
+        personIdentifiedToInvite: response.data.selectedParticipants,
+      });
       return response.data;
     } catch (error) {
       console.error("Request failed: " + error.message);
@@ -189,18 +239,36 @@ class ClinicInformation extends Component {
   async onClickTargetAppsToFillHandler(targetFillToInputValue) {
     let value = Number(targetFillToInputValue);
 
-    if ((value) && (value <= 100)) {
+    if (value && value <= 100) {
       this.setState({
-        appsToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100)),
+        appsToFill: Math.floor(
+          this.context.state.recentInvitationHistory.appsRemaining *
+          (targetFillToInputValue / 100)
+        ),
         displayUserErrorTargetPercentage: false,
       });
       this.context.setState({
-        targetAppToFill: Math.floor(this.context.state.recentInvitationHistory.appsRemaining * (targetFillToInputValue / 100))
-      })
+        targetAppToFill: Math.floor(
+          this.context.state.recentInvitationHistory.appsRemaining *
+          (targetFillToInputValue / 100)
+        ),
+      });
     } else {
       this.setState({
         displayUserErrorTargetPercentage: true,
+        hrefErrorMessage: "#error-message",
       });
+      this.scrollToErrorContent();
+      if (!value) {
+        this.setState({
+          targetErrorMessage: "Enter a target percentage between 1% and 100%",
+        });
+      } else {
+        this.setState({
+          targetErrorMessage:
+            "The target percentage must be between 1% and 100%",
+        });
+      }
     }
   }
 
@@ -211,6 +279,17 @@ class ClinicInformation extends Component {
     this.context.setState({
       targetPercentageToFill: e.target.value,
     });
+  }
+
+  scrollToErrorContent() {
+    const errorContent = document.getElementById("error-summary");
+    if (errorContent) {
+      errorContent.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+    errorContent.focus();
   }
 
   onClickChangeClinicHandler() {
@@ -282,6 +361,7 @@ class ClinicInformation extends Component {
             displayViewAllPrevInvitations,
           } = setClinicDetails(response);
 
+
           // Set component state
           this.setState({
             rangeSelection: lastSelectedRange,
@@ -309,11 +389,11 @@ class ClinicInformation extends Component {
             pageSize: 10,
             appsToFill: Math.floor(
               this.context.state.recentInvitationHistory.appsRemaining *
-                (this.state.targetFillToInputValue / 100)
+              (this.state.targetFillToInputValue / 100)
             ),
             targetAppToFill: Math.floor(
               this.context.state.recentInvitationHistory.appsRemaining *
-                (this.state.targetFillToInputValue / 100)
+              (this.state.targetFillToInputValue / 100)
             ),
           });
         });
@@ -381,8 +461,9 @@ class ClinicInformation extends Component {
               weeklyCapacity: weeklyCapacityList,
               recentInvitationHistory: clinicInvitationHistory,
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
+              currentPage: 1,
+              pageSize: 10,
             });
-
             if (
               this.context.state.recentInvitationHistory.dateOfPrevInv ===
               "Not Available"
@@ -420,10 +501,10 @@ class ClinicInformation extends Component {
     // Trigger lambda to get LSOAs in 100 mile radius
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
     // therefore there is no guarentee that the postcode actually exists
-    const postcodeHolder = "SE1 9RT"; // const clinicPostcode = this.state.postcode
+    // const postcodeHolder = "SE1 9RT";
     axios
       .get(
-        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
+        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.context.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
@@ -439,16 +520,16 @@ class ClinicInformation extends Component {
 
   componentDidUpdate(_, prevState) {
     if (
-      this.state.rangeSelection !== prevState.rangeSelection ||
-      this.state.postcode !== prevState.postcode
+      this.context.state.rangeSelection !== prevState.rangeSelection ||
+      this.context.state.postcode !== prevState.postcode
     ) {
       // placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
       // TODO: placeholder postcode as the clinic postcode is generated off of random string
-      const postcodeHolder = "SW1A 2AA"; // const clinicPostcode = this.state.postcode
+      // const postcodeHolder = "SW1A 2AA";
       axios
         .get(
-          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
+          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.context.state.rangeSelection}`
         )
         .then((response) => {
           this.setState({
@@ -487,6 +568,9 @@ class ClinicInformation extends Component {
       targetFillToInputValue,
       rangeSelection,
       appsToFill,
+      targetErrorMessage,
+      hrefErrorMessage,
+      lsoaTableError,
     } = this.state;
 
     // Check if all the listed context state variables are available
@@ -522,6 +606,7 @@ class ClinicInformation extends Component {
                   displayUserErrorTargetPercentage={
                     displayUserErrorTargetPercentage
                   }
+                  targetErrorMessage={targetErrorMessage}
                   displayViewAllPrevInvitations={displayViewAllPrevInvitations}
                   targetFillToInputValue={targetFillToInputValue}
                   appsToFill={appsToFill}
@@ -547,6 +632,9 @@ class ClinicInformation extends Component {
                   lsoaCodesAppsToFill={this.lsoaCodesAppsToFill}
                   onPageSizeChange={this.onPageSizeChange}
                   onCurrentPageChange={this.onCurrentPageChange}
+                  onKeyUp={this.onKeyUp}
+                  hrefErrorMessage={hrefErrorMessage}
+                  lsoaTableError={lsoaTableError}
                 />
               </div>
             )
