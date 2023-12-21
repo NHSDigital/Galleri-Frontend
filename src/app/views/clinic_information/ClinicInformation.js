@@ -21,6 +21,7 @@ class ClinicInformation extends Component {
       displayViewAllPrevInvitations: false,
       lsoaInRange: [""],
       rangeSelection: 1,
+      postcode: "",
       selectedLsoa: [],
       targetFillToInputValue: 0,
       appsToFill: 0,
@@ -404,6 +405,7 @@ class ClinicInformation extends Component {
           this.setState({
             rangeSelection: lastSelectedRange,
             targetFillToInputValue: targetFillToPercentage,
+            postcode: response.data.PostCode.S,
             appsToFill: Math.floor(
               this.context.state.recentInvitationHistory.appsRemaining *
               (this.state.targetFillToInputValue / 100)
@@ -441,7 +443,7 @@ class ClinicInformation extends Component {
   }
 
   componentDidMount() {
-    axios.defaults.headers.post["Content-Type"] =
+        axios.defaults.headers.post["Content-Type"] =
       "application/json;charset=utf-8";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
@@ -510,6 +512,7 @@ class ClinicInformation extends Component {
             this.setState({
               rangeSelection: lastSelectedRange,
               targetFillToInputValue: targetFillToPercentage,
+              postcode: response.data.PostCode.S,
               appsToFill: Math.floor(
                 this.context.state.recentInvitationHistory.appsRemaining *
                 (this.state.targetFillToInputValue / 100)
@@ -586,8 +589,8 @@ class ClinicInformation extends Component {
 
   componentDidUpdate(_, prevState) {
     if (
-      this.context.state.rangeSelection !== prevState.rangeSelection ||
-      this.context.state.postcode !== prevState.postcode
+      this.state.rangeSelection !== prevState.rangeSelection ||
+      this.state.postcode !== prevState.postcode
     ) {
       // placeholder postcode as the clinic postcode is generated off of random string
       // therefore there is no guarantee that the postcode actually exists
