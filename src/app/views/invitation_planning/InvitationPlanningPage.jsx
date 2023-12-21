@@ -29,33 +29,37 @@ export default function InvitationPlanningPage(props) {
 
   return (
     <div className="nhsuk-width-container ">
-      <main className="nhsuk-main-wrapper " id="invitationsParameters" role="main">
-        <div
-          id="error-summary"
-          tabIndex="0"
-          >
-            {(!isCorrectUptakeTotal||!isCorrectTotal) && (
-              <Errorinvitations
-                onKeyUp={onKeyUp}
-                isCorrectTotal={isCorrectTotal}
-                isCorrectUptakeTotal={isCorrectUptakeTotal}
-              />
-            )}
+      <main
+        className="nhsuk-main-wrapper "
+        id="invitationsParameters"
+        role="main"
+      >
+        <div id="error-summary" tabIndex="0">
+          {(!isCorrectUptakeTotal || !isCorrectTotal) && (
+            <Errorinvitations
+              onKeyUp={onKeyUp}
+              isCorrectTotal={isCorrectTotal}
+              isCorrectUptakeTotal={isCorrectUptakeTotal}
+            />
+          )}
         </div>
         <div className="nhsuk-grid-row">
           <div className="nhsuk-grid-column-full">
-            <h1>Invitation variables</h1>
-            <h5 style={{ "font-weight": "normal" }}>
+            <h1 aria-label="Invitation Variables">Invitation variables</h1>
+            <p className="nhsuk-body-l nhsuk-u-margin-bottom-8">
               The forecasted national uptake and quintile fill targets can be
               amended if necessary.
-            </h5>
-            <div className="nhsuk-grid-column-one-half" style={{ padding: "0px" }}>
+            </p>
+            <div
+              className="nhsuk-grid-column-one-half"
+              style={{ padding: "0px" }}
+            >
               <div className="nhsuk-card" id="forecastTableContainer">
                 <div
                   style={{
                     "padding-top": "24px",
                     "padding-left": "40px",
-                    "padding-right": "40px",
+                    "padding-right": "80px",
                   }}
                 >
                   <NationalForecastUptakeTable
@@ -64,7 +68,6 @@ export default function InvitationPlanningPage(props) {
                     enableUptakeEdit={enableUptakeEdit}
                     isCorrectUptakeTotal={isCorrectUptakeTotal}
                   />
-                  <br />
                   <div
                     className="nhsuk-hint"
                     id="last-updated-hint"
@@ -80,30 +83,32 @@ export default function InvitationPlanningPage(props) {
                     {userName}
                   </div>
                   {enableUptakeEdit ? (
-                    <div>
-                      <button
-                        className="nhsuk-button"
-                        onClick={() =>
-                          onSaveForecastHandler(nationalUptakePercentage)
-                        }
-                      >
-                        Save changes
-                      </button>
-                      <br />
-                      <a
-                        className="nhsuk-action-link__link:hover .nhsuk-action-link__text"
-                        onClick={() => onCancelSaveForecastHandler()}
-                        style={{
-                          border: "24px",
-                          "text-decoration": "underline",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Cancel without saving
-                      </a>
-                      <br />
-                      <br />
-                    </div>
+                    <>
+                      <div>
+                        <button
+                          className="nhsuk-button"
+                          onClick={() =>
+                            onSaveForecastHandler(nationalUptakePercentage)
+                          }
+                        >
+                          Save changes
+                        </button>
+                      </div>
+                      <div className="nhsuk-u-margin-bottom-4">
+                        <a
+                          className="nhsuk-action-link__link:hover .nhsuk-action-link__text"
+                          href={null}
+                          onClick={() => onCancelSaveForecastHandler()}
+                          style={{
+                            border: "24px",
+                            "text-decoration": "underline",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Cancel without saving
+                        </a>
+                      </div>
+                    </>
                   ) : (
                     <button
                       className="nhsuk-button"
@@ -121,7 +126,7 @@ export default function InvitationPlanningPage(props) {
                   style={{
                     "padding-top": "24px",
                     "padding-left": "40px",
-                    "padding-right": "40px",
+                    "padding-right": "80px",
                   }}
                 >
                   <QuintileTargetTable
@@ -132,7 +137,6 @@ export default function InvitationPlanningPage(props) {
                     sumQuintiles={sumQuintiles}
                     isCorrectTotal={isCorrectTotal}
                   />
-                  <br />
                   <div
                     className="nhsuk-hint"
                     id="last-updated-hint"
@@ -148,28 +152,29 @@ export default function InvitationPlanningPage(props) {
                     {userName}
                   </div>
                   {enableFillEdit ? (
-                    <div>
-                      <button
-                        className="nhsuk-button"
-                        onClick={() => onSaveFillHandler(quintileValues)}
-                      >
-                        Save changes
-                      </button>
-                      <br />
-                      <a
-                        className="nhsuk-action-link__link:hover .nhsuk-action-link__text"
-                        onClick={() => onCancelSaveFillHandler()}
-                        style={{
-                          border: "24px",
-                          "text-decoration": "underline",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Cancel without saving
-                      </a>
-                      <br />
-                      <br />
-                    </div>
+                    <>
+                      <div>
+                        <button
+                          className="nhsuk-button"
+                          onClick={() => onSaveFillHandler(quintileValues)}
+                        >
+                          Save changes
+                        </button>
+                      </div>
+                      <div className="nhsuk-u-margin-bottom-4">
+                        <a
+                          className="nhsuk-action-link__link:hover .nhsuk-action-link__text"
+                          onClick={() => onCancelSaveFillHandler()}
+                          style={{
+                            border: "24px",
+                            "text-decoration": "underline",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Cancel without saving
+                        </a>
+                      </div>
+                    </>
                   ) : (
                     <button
                       className="nhsuk-button"
