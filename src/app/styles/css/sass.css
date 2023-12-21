@@ -7259,6 +7259,16 @@ COMPONENTS / #TABLE
 	text-align: right;
 }
 
+.custom-nhsuk-table__cell {
+	width: 170px;
+	padding-left: 100px;
+}
+@media (max-width: 48.0525em) {
+	.custom-nhsuk-table__cell {
+		width: 170px;
+	}
+}
+
 /* ==========================================================================
 #TAG
 ========================================================================== */
