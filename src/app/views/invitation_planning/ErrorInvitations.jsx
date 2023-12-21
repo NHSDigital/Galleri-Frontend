@@ -10,7 +10,7 @@ export default function Errorinvitations(props) {
   } = props;
   return (
     <div
-      class="nhsuk-error-summary"
+      className="nhsuk-error-summary"
       aria-labelledby="error-summary-title"
       role="alert"
       aria-live="polite"
@@ -18,13 +18,13 @@ export default function Errorinvitations(props) {
       onKeyDown={e => onKeyUp(e)}
     >
       <h2
-        class="nhsuk-error-summary__title"
+        className="nhsuk-error-summary__title"
         id="error-target-title"
       >
         There is a problem
       </h2>
-      <div class="nhsuk-error-summary__body">
-        <ul class="nhsuk-list nhsuk-error-summary__list" role="list">
+      <div className="nhsuk-error-summary__body">
+        <ul className="nhsuk-list nhsuk-error-summary__list" role="list">
           <li>
             {!isCorrectUptakeTotal && (
                 <a href="#uptake-error-message">

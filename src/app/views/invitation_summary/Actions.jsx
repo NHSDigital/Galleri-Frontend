@@ -39,7 +39,7 @@ const Actions = ({
 const ConfirmationContent = () => {
   return (
     <>
-      <h2 class="govuk-heading-m">What happens next</h2>
+      <h2 className="govuk-heading-m">What happens next</h2>
       <ul>
         <li>
           The invitations will be sent out to the participants using comms
