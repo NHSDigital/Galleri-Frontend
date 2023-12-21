@@ -15,6 +15,7 @@ export default function LsoaTable(prop) {
     onCurrentPageChange,
     lsoaCodesAppsToFill,
     lsoaTableError,
+    lastSelectedRange,
   } = prop;
 
   // Pagination stuff
@@ -68,7 +69,7 @@ export default function LsoaTable(prop) {
         >
           {milesOptions.map((e, key) => {
             return (
-              <option key={key} value={e.value}>
+              <option key={key} value={e.value} selected={e.value == lastSelectedRange}>
                 {e.label}
               </option>
             );

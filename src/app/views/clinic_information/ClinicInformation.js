@@ -80,6 +80,10 @@ class ClinicInformation extends Component {
     this.context.setState({ navigateToClinic: false });
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
+    this.context.setState({
+      pageSize: 10,
+      currentPage: 1,
+    });
   }
 
   onKeyUp(e) {
@@ -543,11 +547,11 @@ class ClinicInformation extends Component {
             //Executes GET API call below when page renders - grabs default Target Percentage input value
             // and displays the target number of appointments to fill
             // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-            axios
-              .get(
-                `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
-              )
-              .then((response) => {
+            // axios
+            //   .get(
+            //     `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
+            //   )
+            //   .then((response) => {
                 const targetPercentageValue = response.data.targetPercentage.N;
                 this.setState({
                   targetFillToInputValue: targetPercentageValue,
@@ -563,7 +567,7 @@ class ClinicInformation extends Component {
                   ),
                   targetPercentageToFill: targetPercentageValue,
                 });
-              });
+              // });
           });
       });
 
@@ -573,7 +577,7 @@ class ClinicInformation extends Component {
     // const postcodeHolder = "SE1 9RT";
     axios
       .get(
-        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.context.state.rangeSelection}`
+        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
@@ -598,7 +602,7 @@ class ClinicInformation extends Component {
       // const postcodeHolder = "SW1A 2AA";
       axios
         .get(
-          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.context.state.rangeSelection}`
+          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
         )
         .then((response) => {
           this.setState({
