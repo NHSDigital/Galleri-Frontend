@@ -8,48 +8,48 @@ export default function NationalForecastUptakeTable(props) {
     onUptakeChangeHandler,
     isCorrectUptakeTotal,
   } = props;
+
+  const inputLabel = "National forecast uptake";
+
   return (
     <table
-      role="table"
       className="nhsuk-table-responsive nhsuk-u-margin-bottom-4"
+      aria-labelledby="NationalForecastUptakeTableCaption"
     >
       <caption
-        className="nhsuk-table__caption"
-        style={{ "padding-bottom": "16px" }}
+        id="NationalForecastUptakeTableCaption"
+        className="nhsuk-table__caption nhsuk-u-margin-bottom-4"
       >
-        National forecast uptake
+        {inputLabel}
       </caption>
       <div
         id="national-uptake"
         className={!isCorrectUptakeTotal ? "nhsuk-form-group--error" : ""}
-        // style={{display: "table-cell"}}
       >
         {!isCorrectUptakeTotal && (
           <div id="uptake-error-message" className="nhsuk-error-message">
             The uptake percentage must be between 1% and 100%
           </div>
         )}
+        <thead>
+          <tr role="row" className="nhsuk-table__row nhsuk-u-visually-hidden">
+            <th role="columnheader" className="nhsuk-table__cell"></th>
+            <th role="columnheader" className="nhsuk-table__cell"></th>
+          </tr>
+        </thead>
         <tbody className="nhsuk-table__body">
           <tr role="row" className="nhsuk-table__row">
             <td role="cell" className="nhsuk-table__cell">
-              <b>Current Percentage</b>
+              <strong>Current Percentage</strong>
             </td>
             {enableUptakeEdit ? (
-              <td
-                role="cell"
-                className="nhsuk-table__cell custom-nhsuk-table__cell"
-                // style={{ "padding-left": "100px", width: "160px" }}
-              >
+              <td role="cell" className="custom-nhsuk-table__cell">
                 <input
+                  aria-label={inputLabel}
                   id="national-forecast-uptake"
-                  className={
-                    isCorrectUptakeTotal
-                      ? "nhsuk-input"
-                      : "nhsuk-input nhsuk-input--error"
-                  }
-                  style={{
-                    textAlign: "center",
-                  }}
+                  className={`nhsuk-input custom-text-align-center ${
+                    isCorrectUptakeTotal ? "" : "nhsuk-input--error"
+                  }`}
                   type="number"
                   min="0"
                   max="100"
@@ -64,15 +64,7 @@ export default function NationalForecastUptakeTable(props) {
                 />
               </td>
             ) : (
-              <td
-                role="cell"
-                className="nhsuk-table__cell"
-                style={{
-                  textAlign: "right",
-                  "padding-right": "2px",
-                  width: "160px",
-                }}
-              >
+              <td role="cell" className="custom-nhsuk-table__cell_1">
                 {nationalUptakePercentage}%
               </td>
             )}
