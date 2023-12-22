@@ -7262,6 +7262,7 @@ COMPONENTS / #TABLE
 @media (max-width: 48.0525em) {
 	.custom-nhsuk-table__cell {
 		width: 170px;
+		padding-left: 0;
 	}
 }
 
