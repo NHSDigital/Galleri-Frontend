@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import "@testing-library/jest-dom";
-import CheckDetailsBanner from './checkDetailsBanner';
+import CheckDetailsBanner from './CheckDetailsBanner';
 
 describe('CheckDetailsBanner Component', () => {
   const mockProps = {
