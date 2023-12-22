@@ -31,37 +31,28 @@ export default function InvitationPlanningPage(props) {
     <div className="nhsuk-width-container ">
       <main
         className="nhsuk-main-wrapper "
-        id="invitationsParameters"
-        role="main"
+        id="main-content"
+        aria-labelledby="invitation-variables"
       >
-        <div id="error-summary" tabIndex="0">
-          {(!isCorrectUptakeTotal || !isCorrectTotal) && (
+        {(!isCorrectUptakeTotal || !isCorrectTotal) && (
+          <div id="error-summary" tabIndex="0" role="alert">
             <Errorinvitations
               onKeyUp={onKeyUp}
               isCorrectTotal={isCorrectTotal}
               isCorrectUptakeTotal={isCorrectUptakeTotal}
             />
-          )}
-        </div>
+          </div>
+        )}
         <div className="nhsuk-grid-row">
           <div className="nhsuk-grid-column-full">
-            <h1 aria-label="Invitation Variables">Invitation variables</h1>
+            <h1 id="invitation-variables">Invitation variables</h1>
             <p className="nhsuk-body-l nhsuk-u-margin-bottom-8">
               The forecasted national uptake and quintile fill targets can be
               amended if necessary.
             </p>
-            <div
-              className="nhsuk-grid-column-one-half"
-              style={{ padding: "0px" }}
-            >
-              <div className="nhsuk-card" id="forecastTableContainer">
-                <div
-                  style={{
-                    "padding-top": "24px",
-                    "padding-left": "40px",
-                    "padding-right": "80px",
-                  }}
-                >
+            <div className="custom-nhsuk-grid-column-one-half">
+              <div className="nhsuk-card" id="forecast-table-container">
+                <div className="custom-invitation-variable-tables-paddings">
                   <NationalForecastUptakeTable
                     nationalUptakePercentage={nationalUptakePercentage}
                     onUptakeChangeHandler={onUptakeChangeHandler}
@@ -69,16 +60,14 @@ export default function InvitationPlanningPage(props) {
                     isCorrectUptakeTotal={isCorrectUptakeTotal}
                   />
                   <div
-                    className="nhsuk-hint"
-                    id="last-updated-hint"
-                    style={{ textAlign: "right", "margin-bottom": "2px" }}
+                    className="nhsuk-hint nhsuk-u-margin-bottom-1"
+                    id="last-updated-hint-national-forecast"
                   >
                     Last Updated: {lastUpdatedQuintile}
                   </div>
                   <div
                     className="nhsuk-hint"
-                    id="last-updated-hint"
-                    style={{ textAlign: "right" }}
+                    id="last-updated-hint-user-forecast"
                   >
                     {userName}
                   </div>
@@ -96,14 +85,9 @@ export default function InvitationPlanningPage(props) {
                       </div>
                       <div className="nhsuk-u-margin-bottom-4">
                         <a
-                          className="nhsuk-action-link__link:hover .nhsuk-action-link__text"
+                          className="custom-invitation-variable-link"
                           href={null}
                           onClick={() => onCancelSaveForecastHandler()}
-                          style={{
-                            border: "24px",
-                            "text-decoration": "underline",
-                            cursor: "pointer",
-                          }}
                         >
                           Cancel without saving
                         </a>
@@ -122,13 +106,7 @@ export default function InvitationPlanningPage(props) {
                 </div>
               </div>
               <div className="nhsuk-card" id="quintileTableContainer">
-                <div
-                  style={{
-                    "padding-top": "24px",
-                    "padding-left": "40px",
-                    "padding-right": "80px",
-                  }}
-                >
+                <div className="custom-invitation-variable-tables-paddings">
                   <QuintileTargetTable
                     quintileValues={quintileValues}
                     quintileValuesAux={quintileValuesAux}
@@ -138,16 +116,14 @@ export default function InvitationPlanningPage(props) {
                     isCorrectTotal={isCorrectTotal}
                   />
                   <div
-                    className="nhsuk-hint"
-                    id="last-updated-hint"
-                    style={{ textAlign: "right", "margin-bottom": "2px" }}
+                    className="nhsuk-hint nhsuk-u-margin-bottom-1"
+                    id="last-updated-hint-quintile"
                   >
                     Last Updated: {lastUpdatedQuintile}
                   </div>
                   <div
                     className="nhsuk-hint"
-                    id="last-updated-hint"
-                    style={{ textAlign: "right" }}
+                    id="last-updated-hint-user-quintile"
                   >
                     {userName}
                   </div>
@@ -163,13 +139,8 @@ export default function InvitationPlanningPage(props) {
                       </div>
                       <div className="nhsuk-u-margin-bottom-4">
                         <a
-                          className="nhsuk-action-link__link:hover .nhsuk-action-link__text"
+                          className="custom-invitation-variable-link"
                           onClick={() => onCancelSaveFillHandler()}
-                          style={{
-                            border: "24px",
-                            "text-decoration": "underline",
-                            cursor: "pointer",
-                          }}
                         >
                           Cancel without saving
                         </a>

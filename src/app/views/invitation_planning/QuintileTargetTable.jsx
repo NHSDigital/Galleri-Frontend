@@ -13,18 +13,12 @@ export default function QuintileTargetTable(props) {
   } = props;
 
   return (
-    <table
-      role="table"
-      className="nhsuk-table-responsive nhsuk-u-margin-bottom-4"
-    >
-      <caption
-        className="nhsuk-table__caption"
-        style={{ "padding-bottom": "16px" }}
-      >
+    <table className="nhsuk-table-responsive nhsuk-u-margin-bottom-4">
+      <caption className="nhsuk-table__caption nhsuk-u-margin-bottom-4">
         Quintile fill target
       </caption>
       <div
-        id="national-uptake"
+        id="quintile-fill-target"
         className={!isCorrectTotal ? "nhsuk-form-group--error" : ""}
       >
         {!isCorrectTotal && (
@@ -32,28 +26,31 @@ export default function QuintileTargetTable(props) {
             The fill targets must add up to 100%
           </div>
         )}
+        <thead>
+          <tr role="row" className="nhsuk-table__row nhsuk-u-visually-hidden">
+            <th role="columnheader" className="nhsuk-table__cell">
+              Quintile
+            </th>
+            <th role="columnheader" className="nhsuk-table__cell">
+              Percentage
+            </th>
+          </tr>
+        </thead>
         <tbody className="nhsuk-table__body">
           {Object.keys(quintileValues)
             .sort()
             .map((quintile) => {
               return (
-                <tr role="row" className="nhsuk-table__row">
-                  <td role="cell" className="nhsuk-table__cell ">
+                <tr key={quintile} className="nhsuk-table__row">
+                  <td className="nhsuk-table__cell ">
                     {quintileHintText(quintile)}
                   </td>
                   {enableFillEdit ? (
-                    <td
-                      role="cell"
-                      className="nhsuk-table__cell custom-nhsuk-table__cell"
-                      // style={{ "padding-left": "100px", width: "170px" }}
-                    >
+                    <td className="nhsuk-table__cell custom-nhsuk-table__cell">
                       <input
-                        className={
-                          isCorrectTotal
-                            ? "nhsuk-input"
-                            : "nhsuk-input nhsuk-input--error"
-                        }
-                        style={{ textAlign: "center", color: "black" }}
+                        className={`nhsuk-input custom-text-align-center ${
+                          isCorrectTotal ? "" : "nhsuk-input--error"
+                        }`}
                         type="number"
                         min="0"
                         step="1"
@@ -67,41 +64,21 @@ export default function QuintileTargetTable(props) {
                       />
                     </td>
                   ) : (
-                    <td
-                      role="cell"
-                      className="nhsuk-table__cell"
-                      style={{
-                        textAlign: "right",
-                        "padding-right": "2px",
-                        width: "170px",
-                      }}
-                    >
+                    <td className="custom-nhsuk-table__cell_2 ">
                       {quintileValues[`${quintile}`]}%
                     </td>
                   )}
                 </tr>
               );
             })}
-          <tr role="cell" className="nhsuk-table__cell">
-            <td role="cell" className="nhsuk-table__cell">
-              <b>Total percentage</b>
+          <tr className="nhsuk-table__cell">
+            <td className="nhsuk-table__cell">
+              <strong>Total percentage</strong>
             </td>
             {enableFillEdit ? (
-              <td
-                role="cell"
-                className="nhsuk-table__cell"
-                style={{ textAlign: "right", "padding-right": "2px" }}
-              >
-                {sumQuintiles(quintileValuesAux)}%
-              </td>
+              <td className="custom-td">{sumQuintiles(quintileValuesAux)}%</td>
             ) : (
-              <td
-                role="cell"
-                className="nhsuk-table__cell"
-                style={{ textAlign: "right", "padding-right": "2px" }}
-              >
-                {sumQuintiles(quintileValues)}%
-              </td>
+              <td className="custom-td">{sumQuintiles(quintileValues)}%</td>
             )}
           </tr>
         </tbody>
