@@ -38,14 +38,14 @@ export default function QuintileTargetTable(props) {
             .map((quintile) => {
               return (
                 <tr role="row" className="nhsuk-table__row">
-                  <td role="cell" className="nhsuk-table__cell">
+                  <td role="cell" className="nhsuk-table__cell ">
                     {quintileHintText(quintile)}
                   </td>
                   {enableFillEdit ? (
                     <td
                       role="cell"
-                      className="nhsuk-table__cell"
-                      style={{ "padding-left": "100px", width: "170px" }}
+                      className="nhsuk-table__cell custom-nhsuk-table__cell"
+                      // style={{ "padding-left": "100px", width: "170px" }}
                     >
                       <input
                         className={
