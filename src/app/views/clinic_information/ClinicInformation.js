@@ -370,11 +370,7 @@ class ClinicInformation extends Component {
           this.setState({
             rangeSelection: lastSelectedRange,
             targetFillToInputValue: targetFillToPercentage,
-            postcode: response.data.PostCode.S,
-            appsToFill: Math.floor(
-              clinicInvitationHistory.appsRemaining *
-              (targetFillToPercentage / 100)
-            ),
+            postcode: response.data.PostCode.S
           });
 
           // Set global state
@@ -392,11 +388,23 @@ class ClinicInformation extends Component {
             displayClinicSelector: false,
             currentPage: 1,
             pageSize: 10,
+            appsToFill: Math.floor(
+              clinicInvitationHistory.appsRemaining *
+              (response.data.TargetFillToPercentage.N / 100)
+            ),
             targetAppToFill: Math.floor(
               clinicInvitationHistory.appsRemaining *
-              (targetFillToPercentage / 100)
+              (response.data.TargetFillToPercentage.N / 100)
             ),
           });
+
+          this.setState({
+            appsToFill: Math.floor(
+              clinicInvitationHistory.appsRemaining *
+              (response.data.TargetFillToPercentage.N / 100)
+            ),
+          })
+
         });
       // Scroll to the top of the page every time it renders the page
       window.scrollTo(0, 0);
@@ -477,9 +485,34 @@ class ClinicInformation extends Component {
             this.setState({
               appsToFill: Math.floor(
                 clinicInvitationHistory.appsRemaining *
-                  (response.data.TargetFillToPercentage.N / 100)
+                (response.data.TargetFillToPercentage.N / 100)
               ),
             })
+
+            //Executes GET API call below when page renders - grabs default Target Percentage input value
+            // and displays the target number of appointments to fill
+            // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+            // axios
+            //   .get(
+            //     `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
+            //   )
+            //   .then((response) => {
+            const targetPercentageValue = response.data.targetPercentage.N;
+            this.setState({
+              targetFillToInputValue: targetPercentageValue,
+              appsToFill: Math.floor(
+                this.context.state.recentInvitationHistory.appsRemaining *
+                (targetPercentageValue / 100)
+              ),
+            });
+            this.context.setState({
+              targetAppToFill: Math.floor(
+                this.context.state.recentInvitationHistory.appsRemaining *
+                (targetPercentageValue / 100)
+              ),
+              targetPercentageToFill: targetPercentageValue,
+            });
+            // });
           });
       });
 
