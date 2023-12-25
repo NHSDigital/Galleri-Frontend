@@ -5,16 +5,15 @@ import NavMenu from "./NavMenu";
 export default function Header() {
   return (
     <>
-      <div>
-        <a
-          id="skip-to-main"
-          href="#main-content"
-          className="govuk-skip-link"
-          data-module="govuk-skip-link"
-        >
-          Skip to main content
-        </a>
-      </div>
+      {" "}
+      <a
+        id="skip-to-main"
+        href="#main-content"
+        className="govuk-skip-link"
+        data-module="govuk-skip-link"
+      >
+        Skip to main content
+      </a>
       <header className="nhsuk-header" role="banner">
         <div className="nhsuk-width-container">
           <div className="nhsuk-header__container">

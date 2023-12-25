@@ -9,7 +9,7 @@ export default function NationalForecastUptakeTable(props) {
     isCorrectUptakeTotal,
   } = props;
 
-  const inputLabel = "National forecast uptake";
+  const inputNationalUptakeLabel = "National forecast uptake";
 
   return (
     <table
@@ -20,7 +20,7 @@ export default function NationalForecastUptakeTable(props) {
         id="NationalForecastUptakeTableCaption"
         className="nhsuk-table__caption nhsuk-u-margin-bottom-4"
       >
-        {inputLabel}
+        {inputNationalUptakeLabel}
       </caption>
       <div
         id="national-uptake"
@@ -33,8 +33,20 @@ export default function NationalForecastUptakeTable(props) {
         )}
         <thead>
           <tr role="row" className="nhsuk-table__row nhsuk-u-visually-hidden">
-            <th role="columnheader" className="nhsuk-table__cell"></th>
-            <th role="columnheader" className="nhsuk-table__cell"></th>
+            <th
+              role="columnheader"
+              className="nhsuk-table__cell"
+              aria-hidden="true"
+            >
+              Current Percentage
+            </th>
+            <th
+              role="columnheader"
+              className="nhsuk-table__cell"
+              aria-hidden="true"
+            >
+              Percentage Value
+            </th>
           </tr>
         </thead>
         <tbody className="nhsuk-table__body">
@@ -45,9 +57,9 @@ export default function NationalForecastUptakeTable(props) {
             {enableUptakeEdit ? (
               <td role="cell" className="custom-nhsuk-table__cell">
                 <input
-                  aria-label={inputLabel}
+                  aria-label={inputNationalUptakeLabel}
                   id="national-forecast-uptake"
-                  className={`nhsuk-input custom-text-align-center ${
+                  className={`nhsuk-input custom-text-align-center custom-min-width ${
                     isCorrectUptakeTotal ? "" : "nhsuk-input--error"
                   }`}
                   type="number"

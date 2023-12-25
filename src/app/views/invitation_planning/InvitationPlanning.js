@@ -4,6 +4,7 @@ import { sumQuintiles } from "./helper";
 import InvitationPlanningPage from "./InvitationPlanningPage";
 import axios from "axios";
 import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 
 const INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE = process.env.NEXT_PUBLIC_INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE;
 const INVITATION_PARAMETERS_PUT_QUINTILES = process.env.NEXT_PUBLIC_INVITATION_PARAMETERS_PUT_QUINTILES;
@@ -100,7 +101,7 @@ class InvitationPlanning extends Component {
     console.log("enter is pressed", e);
     if (e.key === "Enter" || e.keyCode === 32) {
       let errorContent = "";
-      if(!this.state.isCorrectUptakeTotal)
+      if (!this.state.isCorrectUptakeTotal)
         errorContent = document.getElementById('uptake-error-message');
       else
         errorContent = document.getElementById('quintile-error-message');
@@ -258,7 +259,7 @@ class InvitationPlanning extends Component {
 
     return (
       <div>
-        <Header/>
+        <Header />
         <InvitationPlanningPage
           quintileValues={quintileValues}
           quintileValuesAux={quintileValuesAux}
@@ -280,6 +281,7 @@ class InvitationPlanning extends Component {
           sumQuintiles={sumQuintiles}
           onKeyUp={this.onKeyUp}
         />
+        <Footer />
       </div>
     );
   }

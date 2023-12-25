@@ -6205,6 +6205,9 @@ COMPONENTS/ #INPUT
 		font-size: 1.1875rem;
 		line-height: 1.47368;
 	}
+	.custom-min-width {
+		min-width: 60px;
+	}
 }
 @media print {
 	.nhsuk-input {
