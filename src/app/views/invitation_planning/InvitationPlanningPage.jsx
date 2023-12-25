@@ -87,7 +87,10 @@ export default function InvitationPlanningPage(props) {
                         <a
                           className="custom-invitation-variable-link"
                           href=""
-                          onClick={() => onCancelSaveForecastHandler()}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            onCancelSaveForecastHandler();
+                          }}
                         >
                           Cancel without saving
                         </a>
@@ -141,7 +144,10 @@ export default function InvitationPlanningPage(props) {
                         <a
                           className="custom-invitation-variable-link"
                           href=""
-                          onClick={() => onCancelSaveFillHandler()}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            onCancelSaveFillHandler();
+                          }}
                         >
                           Cancel without saving
                         </a>

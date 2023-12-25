@@ -28,10 +28,18 @@ export default function QuintileTargetTable(props) {
         )}
         <thead>
           <tr role="row" className="nhsuk-table__row nhsuk-u-visually-hidden">
-            <th role="columnheader" className="nhsuk-table__cell">
+            <th
+              role="columnheader"
+              className="nhsuk-table__cell"
+              aria-hidden="true"
+            >
               Quintile
             </th>
-            <th role="columnheader" className="nhsuk-table__cell">
+            <th
+              role="columnheader"
+              className="nhsuk-table__cell"
+              aria-hidden="true"
+            >
               Percentage
             </th>
           </tr>
@@ -43,9 +51,13 @@ export default function QuintileTargetTable(props) {
               return (
                 <tr key={quintile} className="nhsuk-table__row">
                   <td className="nhsuk-table__cell ">
-                    <label htmlFor={`quintile-${quintile}`}>
-                      {quintileHintText(quintile)}
-                    </label>
+                    {enableFillEdit ? (
+                      <label htmlFor={`quintile-${quintile}`}>
+                        {quintileHintText(quintile)}
+                      </label>
+                    ) : (
+                      <span>{quintileHintText(quintile)}</span>
+                    )}
                   </td>
                   {enableFillEdit ? (
                     <td className="nhsuk-table__cell custom-nhsuk-table__cell">
