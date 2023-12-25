@@ -86,7 +86,7 @@ export default function InvitationPlanningPage(props) {
                       <div className="nhsuk-u-margin-bottom-4">
                         <a
                           className="custom-invitation-variable-link"
-                          href={null}
+                          href=""
                           onClick={() => onCancelSaveForecastHandler()}
                         >
                           Cancel without saving
@@ -140,6 +140,7 @@ export default function InvitationPlanningPage(props) {
                       <div className="nhsuk-u-margin-bottom-4">
                         <a
                           className="custom-invitation-variable-link"
+                          href=""
                           onClick={() => onCancelSaveFillHandler()}
                         >
                           Cancel without saving

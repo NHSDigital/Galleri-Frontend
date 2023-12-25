@@ -43,12 +43,15 @@ export default function QuintileTargetTable(props) {
               return (
                 <tr key={quintile} className="nhsuk-table__row">
                   <td className="nhsuk-table__cell ">
-                    {quintileHintText(quintile)}
+                    <label htmlFor={`quintile-${quintile}`}>
+                      {quintileHintText(quintile)}
+                    </label>
                   </td>
                   {enableFillEdit ? (
                     <td className="nhsuk-table__cell custom-nhsuk-table__cell">
                       <input
-                        className={`nhsuk-input custom-text-align-center ${
+                        id={`quintile-${quintile}`}
+                        className={`nhsuk-input custom-text-align-center custom-min-width ${
                           isCorrectTotal ? "" : "nhsuk-input--error"
                         }`}
                         type="number"
@@ -64,7 +67,10 @@ export default function QuintileTargetTable(props) {
                       />
                     </td>
                   ) : (
-                    <td className="custom-nhsuk-table__cell_2 ">
+                    <td
+                      id={`quintile-${quintile}`}
+                      className="custom-nhsuk-table__cell_2 "
+                    >
                       {quintileValues[`${quintile}`]}%
                     </td>
                   )}
