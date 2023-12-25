@@ -81,7 +81,7 @@ class InvitationPlanning extends Component {
     });
   }
 
-  displayFillError(toggle) {
+  async displayFillError(toggle) {
     this.setState({
       isCorrectTotal: toggle,
     });
@@ -101,9 +101,9 @@ class InvitationPlanning extends Component {
     console.log("enter is pressed", e);
     if (e.key === "Enter" || e.keyCode === 32) {
       let errorContent = "";
-      if (!this.state.isCorrectUptakeTotal)
+      if (this.state.isCorrectUptakeTotal)
         errorContent = document.getElementById('uptake-error-message');
-      else
+      else if (this.state.isCorrectTotal)
         errorContent = document.getElementById('quintile-error-message');
       if (errorContent) {
         errorContent.scrollIntoView({
@@ -133,7 +133,7 @@ class InvitationPlanning extends Component {
       this.displayFillError(true);
       await this.putQuintilesAWSDynamo(quintileValues);
     } else {
-      this.displayFillError(false);
+      await this.displayFillError(false);
       this.scrollToErrorContent();
     }
   }
@@ -157,7 +157,7 @@ class InvitationPlanning extends Component {
     });
   }
 
-  displayUptakeError(toggle) {
+  async displayUptakeError(toggle) {
     this.setState({
       isCorrectUptakeTotal: toggle,
     });
@@ -181,12 +181,11 @@ class InvitationPlanning extends Component {
       this.setState({
         nationalUptakePercentage: value,
       });
-      this.putForecastUptakeAWSDynamo(value);
       this.toggleUptakeEdit(false);
       this.displayUptakeError(true);
       await this.putForecastUptakeAWSDynamo(value);
     } else {
-      this.displayUptakeError(false);
+      await this.displayUptakeError(false);
       this.scrollToErrorContent();
     }
   }

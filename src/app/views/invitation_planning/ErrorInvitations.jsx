@@ -15,7 +15,6 @@ export default function Errorinvitations(props) {
         className="nhsuk-error-summary"
         aria-labelledby="error-target-title"
         role="alert"
-        aria-live="polite"
         tabIndex="0"
         onKeyDown={(e) => onKeyUp(e)}
       >

@@ -52,7 +52,9 @@ export default function NationalForecastUptakeTable(props) {
         <tbody className="nhsuk-table__body">
           <tr role="row" className="nhsuk-table__row">
             <td role="cell" className="nhsuk-table__cell">
-              <strong>Current Percentage</strong>
+              <strong>
+                <span>Current Percentage</span>
+              </strong>
             </td>
             {enableUptakeEdit ? (
               <td role="cell" className="custom-nhsuk-table__cell">
