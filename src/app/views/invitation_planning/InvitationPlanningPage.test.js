@@ -27,12 +27,12 @@ const mockProps = {
 };
 
 describe('InvitationPlanningPage Component', () => {
-  it('renders without crashing', () => {
+  test('renders without crashing', () => {
     render(<InvitationPlanningPage {...mockProps} />);
     expect(screen.getByText('Invitation variables')).toBeInTheDocument();
   });
 
-  it('renders error summary when isCorrectUptakeTotal or isCorrectTotal is false', () => {
+  test('renders error summary when isCorrectUptakeTotal or isCorrectTotal is false', () => {
     const propsWithErrors = {
       ...mockProps,
       isCorrectUptakeTotal: false,
@@ -42,37 +42,37 @@ describe('InvitationPlanningPage Component', () => {
     expect((screen.getAllByRole('alert'))[0]).toBeInTheDocument();
   });
 
-  it('triggers onCancelSaveForecastHandler on "Cancel without saving" click', () => {
+  test('triggers onCancelSaveForecastHandler on "Cancel without saving" click', () => {
     render(<InvitationPlanningPage {...mockProps} enableUptakeEdit={true} />);
     fireEvent.click(screen.getByText('Cancel without saving'));
     expect(mockProps.onCancelSaveForecastHandler).toHaveBeenCalled();
   });
 
-  it('triggers onSaveForecastHandler on "Save changes" click', () => {
+  test('triggers onSaveForecastHandler on "Save changes" click', () => {
     render(<InvitationPlanningPage {...mockProps} enableUptakeEdit={true} />);
     fireEvent.click(screen.getByText('Save changes'));
     expect(mockProps.onSaveForecastHandler).toHaveBeenCalledWith(50);
   });
 
-  it('triggers onAmendForecastHandler on "Amend forecast uptake" click', () => {
+  test('triggers onAmendForecastHandler on "Amend forecast uptake" click', () => {
     render(<InvitationPlanningPage {...mockProps} />);
     fireEvent.click(screen.getByText('Amend forecast uptake'));
     expect(mockProps.onAmendForecastHandler).toHaveBeenCalledWith(50);
   });
 
-  it('triggers onCancelSaveFillHandler on "Cancel without saving" click', () => {
+  test('triggers onCancelSaveFillHandler on "Cancel without saving" click', () => {
     render(<InvitationPlanningPage {...mockProps} enableFillEdit={true} />);
     fireEvent.click(screen.getByText('Cancel without saving'));
     expect(mockProps.onCancelSaveFillHandler).toHaveBeenCalled();
   });
 
-  it('triggers onSaveFillHandler on "Save changes" click', () => {
+  test('triggers onSaveFillHandler on "Save changes" click', () => {
     render(<InvitationPlanningPage {...mockProps} enableFillEdit={true} />);
     fireEvent.click(screen.getByText('Save changes'));
     expect(mockProps.onSaveFillHandler).toHaveBeenCalledWith({});
   });
 
-  it('triggers onAmendFillHandler on "Amend fill target" click', () => {
+  test('triggers onAmendFillHandler on "Amend fill target" click', () => {
     render(<InvitationPlanningPage {...mockProps} />);
     fireEvent.click(screen.getByText('Amend fill target'));
     expect(mockProps.onAmendFillHandler).toHaveBeenCalled();
