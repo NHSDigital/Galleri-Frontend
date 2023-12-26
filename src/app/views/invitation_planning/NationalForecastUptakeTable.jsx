@@ -33,18 +33,10 @@ export default function NationalForecastUptakeTable(props) {
         )}
         <thead>
           <tr role="row" className="nhsuk-table__row nhsuk-u-visually-hidden">
-            <th
-              role="columnheader"
-              className="nhsuk-table__cell"
-              aria-hidden="true"
-            >
+            <th role="columnheader" className="nhsuk-table__cell">
               Current Percentage
             </th>
-            <th
-              role="columnheader"
-              className="nhsuk-table__cell"
-              aria-hidden="true"
-            >
+            <th role="columnheader" className="nhsuk-table__cell">
               Percentage Value
             </th>
           </tr>
@@ -78,7 +70,7 @@ export default function NationalForecastUptakeTable(props) {
                 />
               </td>
             ) : (
-              <td role="cell" className="custom-nhsuk-table__cell_1">
+              <td className="custom-nhsuk-table__cell_1">
                 {nationalUptakePercentage}%
               </td>
             )}

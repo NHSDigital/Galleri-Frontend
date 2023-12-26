@@ -21,14 +21,14 @@ describe('Errorinvitations Component', () => {
     jest.clearAllMocks();
   });
 
-  it('renders without errors when isCorrectTotal and isCorrectUptakeTotal are true', () => {
+  test('renders without errors when isCorrectTotal and isCorrectUptakeTotal are true', () => {
     renderComponent(mockProps);
 
     // Error summary should not be rendered
     expect(screen.queryByRole('alert')).toBeNull();
   });
 
-  it('renders the error summary when isCorrectTotal is false', () => {
+  test('renders the error summary when isCorrectTotal is false', () => {
     const propsWithError = { ...mockProps, isCorrectTotal: false };
     renderComponent(propsWithError);
 
@@ -40,7 +40,7 @@ describe('Errorinvitations Component', () => {
     expect(screen.getByText(/The fill targets must add up to 100%/i)).toBeInTheDocument();
   });
 
-  it('renders the error summary when isCorrectUptakeTotal is false', () => {
+  test('renders the error summary when isCorrectUptakeTotal is false', () => {
     const propsWithError = { ...mockProps, isCorrectUptakeTotal: false };
     renderComponent(propsWithError);
 
@@ -52,7 +52,7 @@ describe('Errorinvitations Component', () => {
     expect(screen.getByText(/The uptake percentage must be between 1% and 100%/i)).toBeInTheDocument();
   });
 
-  it('calls onKeyUp when a key is pressed on the error summary', () => {
+  test('calls onKeyUp when a key is pressed on the error summary', () => {
     const propsWithFunction = { ...mockProps, isCorrectTotal: false };
     renderComponent(propsWithFunction);
 
