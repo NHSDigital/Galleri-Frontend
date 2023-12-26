@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import "@testing-library/jest-dom";
-import Errorinvitations from './Errorinvitations';
+import Errorinvitations from './ErrorInvitations';
 
 // Mock props
 const mockProps = {
