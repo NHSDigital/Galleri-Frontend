@@ -17,13 +17,13 @@ export default function SummaryListFirst({
     >
       <div className="nhsuk-summary-list__row">
         <dt
-          id="term1-label"
+          id="appointments-remaining-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
         >
           Appointments remaining
         </dt>
         <dd
-          id="term1-value"
+          id="appointments-remaining-value"
           className="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
           {appsRemaining}
@@ -31,13 +31,13 @@ export default function SummaryListFirst({
       </div>
       <div className="nhsuk-summary-list__row">
         <dt
-          id="term2-label"
+          id="target-percentage-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
         >
           Target percentage of appointments to fill
         </dt>
         <dd
-          id="term2-value"
+          id="target-percentage-value"
           className="nhsuk-summary-list__value nhsuk-u-padding-left-4 nhsuk-summary-list__value_custom__value"
         >
           {targetPercentageToFill}%
@@ -45,13 +45,13 @@ export default function SummaryListFirst({
       </div>
       <div className="nhsuk-summary-list__row">
         <dt
-          id="term3-label"
+          id="target-appointments-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
         >
           Target number of appointments to fill
         </dt>
         <dd
-          id="term3-value"
+          id="target-appointments-value"
           className="nhsuk-summary-list__value nhsuk-u-padding-left-4 nhsuk-summary-list__value_custom__value"
         >
           {targetAppToFill}
@@ -59,13 +59,13 @@ export default function SummaryListFirst({
       </div>
       <div className="nhsuk-summary-list__row">
         <dt
-          id="term4-label"
+          id="distance-from-clinic-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
         >
           Distance from clinic
         </dt>
         <dd
-          id="term4-value"
+          id="distance-from-clinic-value"
           className="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
           + {rangeSelection} miles
@@ -73,13 +73,13 @@ export default function SummaryListFirst({
       </div>
       <div className="nhsuk-summary-list__row">
         <dt
-          id="term5-label"
+          id="total-available-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
         >
           Total available to invite
         </dt>
         <dd
-          id="term5-value"
+          id="total-available-value"
           className="nhsuk-summary-list__value nhsuk-u-padding-left-4"
         >
           {totalToInvite}
