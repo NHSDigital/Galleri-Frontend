@@ -257,6 +257,10 @@ th {
 	font-weight: 600;
 }
 
+.custom-pointer {
+	cursor: pointer;
+}
+
 .custom-underline {
 	text-decoration: underline;
 }

@@ -3,16 +3,20 @@ import React from "react";
 
 const ClinicInfo = (props) => {
   const { clinicName, address1, address2, postcode } = props;
-  const addressHolder = `
+  const fullAddress = `
 ${address1}
 ${address2}
 ${postcode}`;
 
   return (
-    <p data-testid="addressLine" style={{ whiteSpace: "pre" }}>
-      <strong>{clinicName}</strong>
-      {addressHolder}
-    </p>
+    <address
+      aria-labelledby="clinicNameLabel"
+      data-testid="addressLine"
+      className="custom-pre__whitespace"
+    >
+      <strong id="clinicNameLabel">{clinicName}</strong>
+      {fullAddress}
+    </address>
   );
 };
 

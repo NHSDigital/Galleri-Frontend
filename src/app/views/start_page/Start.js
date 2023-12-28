@@ -17,17 +17,19 @@ class Start extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (
-      <div data-testid="start-page">
+      <>
         {!this.state.isStart ? (
-          <StartPage onClickStartHandler={this.onClickStartHandler} />
+          <div data-testid="start-page">
+            <StartPage onClickStartHandler={this.onClickStartHandler} />
+          </div>
         ) : (
           <ClinicSummary />
         )}
-      </div>
+      </>
     );
   }
 }

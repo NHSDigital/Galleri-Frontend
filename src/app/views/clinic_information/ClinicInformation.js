@@ -75,7 +75,7 @@ class ClinicInformation extends Component {
       })
 
       // Scroll to the top of the page every time it renders the page
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
     }
   }
 
@@ -365,14 +365,22 @@ class ClinicInformation extends Component {
             clinicInvitationHistory,
             displayViewAllPrevInvitations,
           } = setClinicDetails(response);
+          console.log(response.data)
 
 
           // Set component state
           this.setState({
             rangeSelection: lastSelectedRange,
             targetFillToInputValue: targetFillToPercentage,
-            postcode: response.data.PostCode.S
+            postcode: response.data.PostCode.S,
+            appsToFill: Math.floor(
+              clinicInvitationHistory.appsRemaining *
+              (targetFillToPercentage / 100)
+            ),
+          }, () => {
+            console.log(this.state.appsToFill)
           });
+          console.log(this.state.appsToFill)
 
           // Set global state
           this.context.setState({
@@ -389,23 +397,14 @@ class ClinicInformation extends Component {
             displayClinicSelector: false,
             currentPage: 1,
             pageSize: 10,
-            appsToFill: Math.floor(
-              clinicInvitationHistory.appsRemaining *
-              (response.data.TargetFillToPercentage.N / 100)
-            ),
             targetAppToFill: Math.floor(
               clinicInvitationHistory.appsRemaining *
-              (response.data.TargetFillToPercentage.N / 100)
+              (targetFillToPercentage / 100)
             ),
+          }, () => {
+            console.log(this.context.state.targetAppToFill)
           });
-
-          this.setState({
-            appsToFill: Math.floor(
-              clinicInvitationHistory.appsRemaining *
-              (response.data.TargetFillToPercentage.N / 100)
-            ),
-          })
-
+          console.log(this.context.state.targetAppToFill)
         });
       // Scroll to the top of the page every time it renders the page
       window.scrollTo(0, 0);
@@ -455,7 +454,10 @@ class ClinicInformation extends Component {
             this.setState({
               rangeSelection: lastSelectedRange,
               postcode: response.data.PostCode.S,
-              targetFillToInputValue: response.data.TargetFillToPercentage.N
+              appsToFill: Math.floor(
+                this.context.state.recentInvitationHistory.appsRemaining *
+                (this.state.targetFillToInputValue / 100)
+              ),
             });
 
             // Set global state
@@ -470,6 +472,11 @@ class ClinicInformation extends Component {
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
               currentPage: 1,
               pageSize: 10,
+              targetAppToFill: Math.floor(
+                this.context.state.recentInvitationHistory.appsRemaining *
+                (this.state.targetFillToInputValue / 100)
+              ),
+              targetPercentageToFill: targetFillToPercentage,
             });
             if (
               this.context.state.recentInvitationHistory.dateOfPrevInv ===
@@ -484,31 +491,6 @@ class ClinicInformation extends Component {
                 (response.data.TargetFillToPercentage.N / 100)
               ),
             })
-
-            //Executes GET API call below when page renders - grabs default Target Percentage input value
-            // and displays the target number of appointments to fill
-            // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-            // axios
-            //   .get(
-            //     `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
-            //   )
-            //   .then((response) => {
-            const targetPercentageValue = response.data.targetPercentage.N;
-            this.setState({
-              targetFillToInputValue: targetPercentageValue,
-              appsToFill: Math.floor(
-                this.context.state.recentInvitationHistory.appsRemaining *
-                (targetPercentageValue / 100)
-              ),
-            });
-            this.context.setState({
-              targetAppToFill: Math.floor(
-                this.context.state.recentInvitationHistory.appsRemaining *
-                (targetPercentageValue / 100)
-              ),
-              targetPercentageToFill: targetPercentageValue,
-            });
-            // });
           });
       });
 
