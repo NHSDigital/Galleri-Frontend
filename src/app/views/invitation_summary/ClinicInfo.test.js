@@ -35,7 +35,7 @@ describe("ClinicInfo", () => {
 
     // Check if the address element has the correct ARIA attributes
     const addressElement = screen.getByTestId("addressLine");
-    expect(addressElement).toHaveAttribute("aria-labelledby", "clinicNameLabel");
+    expect(addressElement).toHaveAttribute("aria-label", "Clinic Information");
   });
 
   test("handles missing or undefined props", () => {

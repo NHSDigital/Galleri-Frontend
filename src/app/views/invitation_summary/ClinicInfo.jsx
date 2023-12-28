@@ -10,7 +10,7 @@ ${postcode}`;
 
   return (
     <address
-      aria-labelledby="clinicNameLabel"
+      aria-label="Clinic Information"
       data-testid="addressLine"
       className="custom-pre__whitespace"
     >
