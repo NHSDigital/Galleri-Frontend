@@ -23,7 +23,7 @@ export class AppStateProvider extends React.Component {
       "address2": "",
       "postcode": "",
       "weeklyCapacity": [],
-      "lastUpdated": "14 July 2024, 1.00am",
+      // "lastUpdated": "14 July 2024, 1.00am",
       "cancelChangeText": "Change clinic",
       "currentlySelectedClinicId": "",
       "currentlySelectedClinic": "",
@@ -45,7 +45,9 @@ export class AppStateProvider extends React.Component {
       "noInviteToGenerate": 0,
       "personIdentifiedToInvite": [],
       "pageSize": 0,
-      "currentPage": 0
+      "currentPage": 0,
+      "lsoaInRange": [""],
+      "selectedLsoa": []
     };
   }
 

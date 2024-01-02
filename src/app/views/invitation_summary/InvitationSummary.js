@@ -7,6 +7,7 @@ import axios from "axios";
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GENERATE_INVITES = process.env.NEXT_PUBLIC_GENERATE_INVITES;
 const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION;
+const GET_LSOA_IN_RANGE = process.env.NEXT_PUBLIC_GET_LSOA_IN_RANGE
 
 class InvitationSummary extends Component {
   constructor() {
@@ -74,6 +75,24 @@ class InvitationSummary extends Component {
       isSubmit: false,
     });
 
+    console.log("calling get lsoa")
+    // call the getlsoa
+    const postcodeHolder = "SE1 9RT"; // const clinicPostcode = this.state.postcode
+    axios
+      .get(
+        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
+      )
+      .then((response) => {
+        this.context.setState({
+          lsoaInRange: response.data.sort(
+            (a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N
+          ),
+          selectedLsoa: response.data.sort(
+            (a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N
+          ),
+        });
+      });
+      console.log("get lsoa called")
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
     this.context.setState({

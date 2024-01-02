@@ -22,10 +22,10 @@ class ClinicInformation extends Component {
     this.state = {
       displayUserErrorTargetPercentage: false,
       displayViewAllPrevInvitations: false,
-      lsoaInRange: [""],
+      // "lsoaInRange": [""],
       rangeSelection: 1,
       postcode: "",
-      selectedLsoa: [],
+      // "selectedLsoa": [],
       targetFillToInputValue: 0,
       appsToFill: 0,
       targetErrorMessage: "",
@@ -109,45 +109,45 @@ class ClinicInformation extends Component {
     // toggle between setting the value of checked in all elements in lsoaInRange
     if (event.target.checked) {
       // set all "checked" fields in lsoaInRange to true
-      const selectAll = this.state.lsoaInRange.map((lsoa) => {
-        lsoa.checked = true;
-        return lsoa;
-      });
-      this.setState({
-        lsoaInRange: selectAll,
-      });
+      const selectAll = this.context.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = true
+        return lsoa
+      })
+      this.context.setState({
+        lsoaInRange: selectAll
+      })
     } else {
-      const deselectAll = this.state.lsoaInRange.map((lsoa) => {
-        lsoa.checked = false;
-        return lsoa;
-      });
-      this.setState({
-        lsoaInRange: deselectAll,
-      });
+      const deselectAll = this.context.state.lsoaInRange.map(lsoa => {
+        lsoa.checked = false
+        return lsoa
+      })
+      this.context.setState({
+        lsoaInRange: deselectAll
+      })
     }
   }
 
   checkRecord(event, el) {
-    let selectedLsoaCopy = [...this.state.selectedLsoa];
-    const lsoaItemIndex = this.state.selectedLsoa.findIndex((lsoa) => {
-      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S;
-    });
+    let selectedLsoaCopy = [...this.context.state.selectedLsoa]
+    const lsoaItemIndex = this.context.state.selectedLsoa.findIndex((lsoa) => {
+      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S
+    })
 
     const item = selectedLsoaCopy[lsoaItemIndex];
     if (event.target.checked) {
       item.checked = true;
       selectedLsoaCopy[lsoaItemIndex] = item;
 
-      this.setState({
-        lsoaInRange: selectedLsoaCopy,
-      });
+      this.context.setState({
+        lsoaInRange: selectedLsoaCopy
+      })
     } else {
       item.checked = false;
       selectedLsoaCopy[lsoaItemIndex] = item;
 
-      this.setState({
-        lsoaInRange: selectedLsoaCopy,
-      });
+      this.context.setState({
+        lsoaInRange: selectedLsoaCopy
+      })
     }
   }
 
@@ -514,7 +514,7 @@ class ClinicInformation extends Component {
         `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
       )
       .then((response) => {
-        this.setState({
+        this.context.setState({
           lsoaInRange: response.data.sort(
             (a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N
           ),
@@ -539,7 +539,7 @@ class ClinicInformation extends Component {
           `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
         )
         .then((response) => {
-          this.setState({
+          this.context.setState({
             lsoaInRange: response.data.sort(
               (a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N
             ),
@@ -567,11 +567,12 @@ class ClinicInformation extends Component {
       displayViewAllPrevInvitations,
       pageSize,
       currentPage,
+      lsoaInRange,
     } = this.context.state;
 
     const {
       displayUserErrorTargetPercentage,
-      lsoaInRange,
+      // lsoaInRange,
       targetFillToInputValue,
       rangeSelection,
       appsToFill,
