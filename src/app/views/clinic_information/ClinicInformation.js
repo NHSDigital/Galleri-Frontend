@@ -454,7 +454,6 @@ class ClinicInformation extends Component {
             // Set component state
             this.setState({
               rangeSelection: lastSelectedRange,
-              targetFillToInputValue: targetFillToPercentage,
               postcode: response.data.PostCode.S,
               targetFillToInputValue: response.data.TargetFillToPercentage.N
             });
