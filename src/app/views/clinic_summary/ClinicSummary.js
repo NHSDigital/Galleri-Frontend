@@ -67,8 +67,8 @@ export default class ClinicSummary extends Component {
     this.setState({ loading: false });
     this.context.setState({
       pageSize: 10,
-      currentPage: 1
-    })
+      currentPage: 1,
+    });
   }
 
   onCheckHandler(e) {
@@ -158,7 +158,7 @@ export default class ClinicSummary extends Component {
     );
 
     return (
-      <div>
+      <div data-testid="clinic-summary">
         <Header />
         {
           // Check if a clinic link has been clicked

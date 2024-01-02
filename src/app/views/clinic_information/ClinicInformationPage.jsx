@@ -5,6 +5,7 @@ import WeeklyCapacityTable from "./WeeklyCapacityTable";
 import RecentInvitationHistory from "./RecentInvitationHistory";
 import ClinicInvitationCriteria from "./clinic_invitation_criteria/ClinicInvitationCriteria";
 import LsoaTable from "./LsoaTable";
+import ErrorBannerDetail from "./ErrorBannerDetail";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -39,21 +40,26 @@ export default function ClinicInformationPage(props) {
     checkRecord,
     onPageSizeChange,
     onCurrentPageChange,
+    targetErrorMessage,
+    onKeyUp,
+    hrefErrorMessage,
+    lsoaTableError,
   } = props;
 
   return (
-    <div class="nhsuk-width-container ">
-      <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
-        <div class="nhsuk-grid-row">
-          <div class="nhsuk-grid-column-full">
-            <div class="nhsuk-back-link">
+    <div className="nhsuk-width-container ">
+      <main className="nhsuk-main-wrapper" role="main">
+        <div className="nhsuk-grid-row">
+          <div className="nhsuk-grid-column-full">
+            <div className="nhsuk-back-link">
               <a
-                class="nhsuk-back-link__link"
+                className="nhsuk-back-link__link"
                 href="#"
                 onClick={onClickGoBackLinkHandler}
+                aria-label="Go back"
               >
                 <svg
-                  class="nhsuk-icon nhsuk-icon__chevron-left"
+                  className="nhsuk-icon nhsuk-icon__chevron-left"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -66,26 +72,27 @@ export default function ClinicInformationPage(props) {
               </a>
             </div>
           </div>
-          <div>
-            {lsoaInRange.length === 0 ? (
-              <div className="nhsuk-grid-column-two-thirds" style={{ "color": "#d5281b", "border": "5px solid", "text-align": "center", }}>
-                <h2>No LSOA data is available</h2>
-              </div>
-            ) : ("")}
-          </div>
-          <div className="nhsuk-grid-column-two-thirds">
-            <br />
-            <h1 label="header">Clinic Invitations</h1>
+          <div
+            id="main-content"
+            className="nhsuk-grid-column-full nhsuk-u-margin-bottom-4"
+          >
+            <div id="error-summary" tabIndex="0" role="alert">
+              {(displayUserErrorTargetPercentage || lsoaTableError) && (
+                <ErrorBannerDetail
+                  targetErrorMessage={targetErrorMessage}
+                  onKeyUp={onKeyUp}
+                  hrefErrorMessage={hrefErrorMessage}
+                />
+              )}
+            </div>
+            <h1 aria-label="Clinic Invitations">Clinic Invitations</h1>
             <p>
               View appointment availability, and set criteria to generate new
               invitations for a clinic.
             </p>
-            <br />
           </div>
-          <div class="nhsuk-grid-column-two-thirds">
-            <h2 id="maincontent" label="header">
-              Clinic Information
-            </h2>
+          <div className="nhsuk-grid-column-two-thirds">
+            <h2 id="clinic-information">Clinic Information</h2>
             <ClinicDetailsTable
               clinicName={clinicName}
               address1={address1}
@@ -95,21 +102,21 @@ export default function ClinicInformationPage(props) {
               onClickChangeClinicHandler={onClickChangeClinicHandler}
             />
             {displayClinicSelector ? (
-              <div class="nhsuk-form-group">
-                <label class="nhsuk-label">
+              <div className="nhsuk-form-group">
+                <label className="nhsuk-label">
                   Select another clinic from the same ICB
                 </label>
                 <select
-                  class="nhsuk-select"
+                  className="nhsuk-select"
                   id="clinic-selector"
                   value={currentlySelectedClinic}
                   onChange={(e) => {
                     onChangeSelectedClinicHandler(e);
                   }}
                 >
-                  {clinicIdNameList.map((clinic) => {
+                  {clinicIdNameList.map((clinic, index) => {
                     return (
-                      <option value={clinic.clinicName}>
+                      <option key={index} value={clinic.clinicName}>
                         {clinic.clinicName}
                       </option>
                     );
@@ -118,13 +125,13 @@ export default function ClinicInformationPage(props) {
               </div>
             ) : null}
           </div>
-          <div class="nhsuk-grid-column-full  nhsuk-u-margin-bottom-3">
+          <div className="nhsuk-grid-column-full  nhsuk-u-margin-bottom-3">
             <WeeklyCapacityTable
               weeklyCapacity={weeklyCapacity}
               lastUpdated={lastUpdated}
             />
           </div>
-          <div class="nhsuk-grid-column-full  nhsuk-u-margin-bottom-3">
+          <div className="nhsuk-grid-column-full  nhsuk-u-margin-bottom-3">
             <RecentInvitationHistory
               props={recentInvitationHistory}
               displayViewAllPrevInvitations={displayViewAllPrevInvitations}
@@ -137,7 +144,7 @@ export default function ClinicInformationPage(props) {
             onTargetFillToInputChangeHandler={onTargetFillToInputChangeHandler}
             onClickTargetAppsToFillHandler={onClickTargetAppsToFillHandler}
           />
-          <div class="nhsuk-grid-column-full">
+          <div className="nhsuk-grid-column-full">
             <LsoaTable
               lsoaInRange={lsoaInRange}
               checkAllHandler={checkAllHandler}
@@ -150,6 +157,7 @@ export default function ClinicInformationPage(props) {
               onPageSizeChange={onPageSizeChange}
               onCurrentPageChange={onCurrentPageChange}
               lastSelectedRange={lastSelectedRange}
+              lsoaTableError={lsoaTableError}
             />
           </div>
         </div>

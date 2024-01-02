@@ -43,6 +43,8 @@ class InvitationPlanning extends Component {
     // db write handlers
     this.putForecastUptakeAWSDynamo = this.putForecastUptakeAWSDynamo.bind();
     this.putQuintilesAWSDynamo = this.putQuintilesAWSDynamo.bind();
+
+    this.onKeyUp = this.onKeyUp.bind(this);
   }
 
 
@@ -94,6 +96,23 @@ class InvitationPlanning extends Component {
     });
   }
 
+  onKeyUp(e) {
+    console.log("enter is pressed", e);
+    if (e.key === "Enter" || e.keyCode === 32) {
+      let errorContent = "";
+      if(!this.state.isCorrectUptakeTotal)
+        errorContent = document.getElementById('uptake-error-message');
+      else
+        errorContent = document.getElementById('quintile-error-message');
+      if (errorContent) {
+        errorContent.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
+  }
+
   onAmendFillHandler() {
     this.toggleFillEdit(true);
     const prev = this.state.quintileValues;
@@ -114,6 +133,7 @@ class InvitationPlanning extends Component {
       await this.putQuintilesAWSDynamo(quintileValues);
     } else {
       this.displayFillError(false);
+      this.scrollToErrorContent();
     }
   }
 
@@ -166,7 +186,19 @@ class InvitationPlanning extends Component {
       await this.putForecastUptakeAWSDynamo(value);
     } else {
       this.displayUptakeError(false);
+      this.scrollToErrorContent();
     }
+  }
+
+  scrollToErrorContent() {
+    const errorContent = document.getElementById('error-summary');
+    if (errorContent) {
+      errorContent.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+    errorContent.focus();
   }
 
   onCancelSaveForecastHandler() {
@@ -205,7 +237,7 @@ class InvitationPlanning extends Component {
           quintileValuesPrevious: quintileData.quintile,
           lastUpdatedQuintile: quintileData.lastUpdatedQuintile,
           userName: quintileData.userName,
-          nationalUptakePercentage: response.data.NATIONAL_FORCAST_UPTAKE.N,
+          nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
         });
       });
 
@@ -246,6 +278,7 @@ class InvitationPlanning extends Component {
           onSaveForecastHandler={this.onSaveForecastHandler}
           onSaveFillHandler={this.onSaveFillHandler}
           sumQuintiles={sumQuintiles}
+          onKeyUp={this.onKeyUp}
         />
       </div>
     );

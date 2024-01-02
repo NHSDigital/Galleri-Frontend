@@ -1,0 +1,11 @@
+name: "Perform static analysis"
+description: "Perform static analysis"
+runs:
+  using: "composite"
+  steps:
+    - name: "Install npm dependencies"
+      shell: bash
+      run: npm i
+    - name: "Perform unit tests with coverage"
+      shell: bash
+      run: npm run coverage

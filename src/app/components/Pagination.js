@@ -9,15 +9,15 @@ const range = (from, to, step = 1) => {
   return range;
 };
 
-const DOTS = '...';
+const DOTS = "...";
 
-const Pagination = props => {
+const Pagination = (props) => {
   const {
     onPageChange,
     totalCount,
     siblingCount = 1,
     currentPage,
-    pageSize
+    pageSize,
   } = props;
 
   const fetchPageNumbers = () => {
@@ -77,72 +77,98 @@ const Pagination = props => {
 
   if (currentPage === 0) {
     return null;
-  }
-  else if (paginationRange.length < 2) {
+  } else if (paginationRange.length < 2) {
     return (
-      <nav class="nhsuk-pagination style_pagination__7B72Z" aria-label="Pagination Navigation">
-        <div class="style_summary__J3_1h">
+      <nav
+        className="nhsuk-pagination style_pagination__7B72Z"
+        aria-label="Pagination Navigation"
+      >
+        <div className="style_summary__J3_1h">
           <span index="0" node="[object Object]">
-            {`Showing ${currentPage * pageSize - pageSize + 1}-${currentPage * pageSize < totalCount ? currentPage * pageSize : totalCount} of ${totalCount} results`}
+            {`Showing ${currentPage * pageSize - pageSize + 1}-${
+              currentPage * pageSize < totalCount
+                ? currentPage * pageSize
+                : totalCount
+            } of ${totalCount} results`}
           </span>
         </div>
       </nav>
-    )
+    );
   }
   let lastPage = paginationRange[paginationRange.length - 1];
 
   const onNext = () => {
-    if (currentPage !== lastPage)
-      onPageChange(currentPage + 1);
+    if (currentPage !== lastPage) onPageChange(currentPage + 1);
   };
 
   const onPrevious = () => {
-    if (currentPage !== 1)
-      onPageChange(currentPage - 1);
+    if (currentPage !== 1) onPageChange(currentPage - 1);
   };
 
   return (
-    <nav class="nhsuk-pagination style_pagination__7B72Z" role="navigation" aria-label="Pagination Navigation">
-      <div class="style_summary__J3_1h" role="status" aria-live="polite">
+    <nav
+      className="nhsuk-pagination style_pagination__7B72Z"
+      role="navigation"
+      aria-label="Pagination Navigation"
+    >
+      <output className="style_summary__J3_1h" aria-live="polite">
         <span index="0" node="[object Object]">
-          {`Showing ${currentPage * pageSize - pageSize + 1}-${currentPage * pageSize < totalCount ? currentPage * pageSize : totalCount} of ${totalCount} results`}
+          {`Showing ${currentPage * pageSize - pageSize + 1}-${
+            currentPage * pageSize < totalCount
+              ? currentPage * pageSize
+              : totalCount
+          } of ${totalCount} results`}
         </span>
-      </div>
-      <h2 class="nhsuk-u-visually-hidden">Pagination Support links</h2>
+      </output>
+      <h2 className="nhsuk-u-visually-hidden">Pagination Support links</h2>
       <ul>
-        <li class="style_item__Y9BLA" id="prevButton">
+        <li className="style_item__Y9BLA" id="prevButton">
           <a
             aria-label="Previous page: « Previous"
-            class={`nhsuk-pagination__link style_link__ToZGL ${currentPage == 1 ? 'style_current__K8c2u' : ''} `}
+            className={`nhsuk-pagination__link style_link__ToZGL ${
+              currentPage == 1 ? "style_current__K8c2u" : ""
+            } `}
             href="#"
             onClick={onPrevious}
           >
             « Previous
           </a>
         </li>
-        {paginationRange.map(pgNumber => {
+        {paginationRange.map((pgNumber, index) => {
           if (pgNumber === DOTS) {
-            return <li class="style_item__Y9BLA dots">&#8230;</li>;
+            return <li key="dots" className="style_item__Y9BLA dots">&#8230;</li>;
           }
-
           return (
-            <li key={pgNumber}
-              class="style_item__Y9BLA"
+            <li
+              key={
+                pgNumber !== DOTS
+                  ? `dots-between-${
+                      paginationRange[index - 1] || "start"
+                    }-and-${paginationRange[index + 1] || "end"}`
+                  : `page-${pgNumber}`
+              }
+              className="style_item__Y9BLA"
             >
-              <a onClick={() => onPageChange(pgNumber)}
-                href="#"
+              <a
+                onClick={() => onPageChange(pgNumber)}
+                href="#Table"
                 aria-label={`Go to Page ${pgNumber}`}
-                class={`style_link__ToZGL ${currentPage == pgNumber ? 'style_current__K8c2u' : ''} `}>
+                className={`style_link__ToZGL ${
+                  currentPage == pgNumber ? "style_current__K8c2u" : ""
+                } `}
+              >
                 {pgNumber}
               </a>
             </li>
-          )
+          );
         })}
-        <li class="style_item__Y9BLA" id="nextButton">
+        <li className="style_item__Y9BLA" id="nextButton">
           <a
             aria-label="Next page: Next »"
             href="#"
-            class={`nhsuk-pagination__link style_link__ToZGL ${currentPage == lastPage ? 'style_current__K8c2u' : ''} `}
+            className={`nhsuk-pagination__link style_link__ToZGL ${
+              currentPage == lastPage ? "style_current__K8c2u" : ""
+            } `}
             onClick={onNext}
           >
             Next »

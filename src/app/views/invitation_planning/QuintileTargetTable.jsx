@@ -1,5 +1,6 @@
 import React from "react";
 import { quintileHintText } from "./helper";
+import PropTypes from "prop-types";
 
 export default function QuintileTargetTable(props) {
   const {
@@ -8,34 +9,45 @@ export default function QuintileTargetTable(props) {
     onQuintileChangeHandler,
     enableFillEdit,
     sumQuintiles,
+    isCorrectTotal,
   } = props;
 
   return (
-    <table role="table" class="nhsuk-table-responsive">
+    <table role="table" className="nhsuk-table-responsive">
       <caption
-        class="nhsuk-table__caption"
+        className="nhsuk-table__caption"
         style={{ "padding-bottom": "16px" }}
       >
         Quintile fill target
         <br />
       </caption>
-      <tbody class="nhsuk-table__body">
+      <div id="national-uptake"
+          className={(!isCorrectTotal)
+            ? "nhsuk-form-group--error"
+            : ""
+      }>
+        {!isCorrectTotal && (
+          <div id="quintile-error-message" className="nhsuk-error-message">
+              The fill targets must add up to 100%
+          </div>
+        )}
+      <tbody className="nhsuk-table__body">
         {Object.keys(quintileValues)
           .sort()
           .map((quintile) => {
             return (
-              <tr role="row" class="nhsuk-table__row">
-                <td role="cell" class="nhsuk-table__cell">
+              <tr role="row" className="nhsuk-table__row">
+                <td role="cell" className="nhsuk-table__cell">
                   {quintileHintText(quintile)}
                 </td>
                 {enableFillEdit ? (
                   <td
                     role="cell"
-                    class="nhsuk-table__cell"
+                    className="nhsuk-table__cell"
                     style={{ "padding-right": "2px", width: "100px" }}
                   >
                     <input
-                      class="nhsuk-input"
+                      className="nhsuk-input"
                       style={{ textAlign: "right", color: "black" }}
                       type="number"
                       min="0"
@@ -52,7 +64,7 @@ export default function QuintileTargetTable(props) {
                 ) : (
                   <td
                     role="cell"
-                    class="nhsuk-table__cell"
+                    className="nhsuk-table__cell"
                     style={{
                       textAlign: "right",
                       "padding-right": "2px",
@@ -64,7 +76,7 @@ export default function QuintileTargetTable(props) {
                 )}
                 <td
                   role="cell"
-                  class="nhsuk-table__cell"
+                  className="nhsuk-table__cell"
                   style={{ "vertical-align": "middle" }}
                 >
                   <b>%</b>
@@ -72,14 +84,14 @@ export default function QuintileTargetTable(props) {
               </tr>
             );
           })}
-        <tr role="cell" class="nhsuk-table__cell">
-          <td role="cell" class="nhsuk-table__cell">
+        <tr role="cell" className="nhsuk-table__cell">
+          <td role="cell" className="nhsuk-table__cell">
             <b>Total percentage</b>
           </td>
           {enableFillEdit ? (
             <td
               role="cell"
-              class="nhsuk-table__cell"
+              className="nhsuk-table__cell"
               style={{ textAlign: "right", "padding-right": "2px" }}
             >
               {sumQuintiles(quintileValuesAux)}
@@ -87,7 +99,7 @@ export default function QuintileTargetTable(props) {
           ) : (
             <td
               role="cell"
-              class="nhsuk-table__cell"
+              className="nhsuk-table__cell"
               style={{ textAlign: "right", "padding-right": "2px" }}
             >
               {sumQuintiles(quintileValues)}
@@ -95,13 +107,22 @@ export default function QuintileTargetTable(props) {
           )}
           <td
             role="cell"
-            class="nhsuk-table__cell"
+            className="nhsuk-table__cell"
             style={{ "vertical-align": "middle" }}
           >
             <b>%</b>
           </td>
         </tr>
       </tbody>
+      </div>
     </table>
   );
+}
+QuintileTargetTable.propTypes = {
+  quintileValuesAux: PropTypes.number.isRequired,
+  quintileValues: PropTypes.number.isRequired,
+  enableFillEdit: PropTypes.bool.isRequired,
+  sumQuintiles: PropTypes.func.isRequired,
+  onQuintileChangeHandler: PropTypes.func.isRequired,
+  isCorrectTotal: PropTypes.bool.isRequired,
 }

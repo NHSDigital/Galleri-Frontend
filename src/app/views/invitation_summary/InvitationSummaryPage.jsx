@@ -31,20 +31,20 @@ export default function InvitationSummaryPage(props) {
   return (
     <div
       data-testid="invitation-summary-container"
-      class="nhsuk-width-container "
+      className="nhsuk-width-container "
     >
-      <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
-        <div class="nhsuk-grid-row">
-          <div class="nhsuk-grid-column-full">
+      <main className="nhsuk-main-wrapper " id="clinicSummary" role="main">
+        <div className="nhsuk-grid-row">
+          <div className="nhsuk-grid-column-full">
             {!displayConfirmationInvitationSummary && (
-              <div class="nhsuk-back-link">
+              <div className="nhsuk-back-link">
                 <a
-                  class="nhsuk-back-link__link"
+                  className="nhsuk-back-link__link"
                   href="#"
                   onClick={onClickGoBackPrevPageLinkHandler}
                 >
                   <svg
-                    class="nhsuk-icon nhsuk-icon__chevron-left"
+                    className="nhsuk-icon nhsuk-icon__chevron-left"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -60,19 +60,24 @@ export default function InvitationSummaryPage(props) {
             <h1 data-testid="header" id="header">
               Invitation summary
             </h1>
-            {displayCheckDetailsBanner && <CheckDetailsBanner />}
+            {displayCheckDetailsBanner &&
+              <CheckDetailsBanner
+                onClickGoBackPrevPageLinkHandler={onClickGoBackPrevPageLinkHandler}
+                noInviteToGenerate={noInviteToGenerate}
+                totalToInvite={totalToInvite}
+              />}
           </div>
           <div
             data-testid="main-content"
             id="main-content"
             className="nhsuk-grid-column-two-thirds"
           >
-            {displayErrorInvitationSummary || (noInviteToGenerate > totalToInvite) && (
+            {/* {displayErrorInvitationSummary || (noInviteToGenerate > totalToInvite) && (
               <ErrorBanner
                 totalToInvite={totalToInvite}
                 noInviteToGenerate={noInviteToGenerate}
               />
-            )}
+            )} */}
             {displayConfirmationInvitationSummary && <ConfirmationBanner />}
             <ClinicInfo
               clinicName={clinicName}
