@@ -18,5 +18,5 @@ export function quintileHintText(quintile) {
 
 // export function getEndpoint(endpoint) {
 //   const API_ID = "eqsnf31ud8";
-//   return `https://${API_ID}.execute-api.eu-west-2.amazonaws.com/dev"/${endpoint}`;
+//   return `https://${API_ID}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}"/${endpoint}`;
 // }
