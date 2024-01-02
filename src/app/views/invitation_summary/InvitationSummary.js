@@ -75,12 +75,9 @@ class InvitationSummary extends Component {
       isSubmit: false,
     });
 
-    console.log("calling get lsoa")
-    // call the getlsoa
-    const postcodeHolder = "SE1 9RT"; // const clinicPostcode = this.state.postcode
     axios
       .get(
-        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${postcodeHolder}&miles=${this.context.state.rangeSelection}`
+        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.context.state.rangeSelection}`
       )
       .then((response) => {
         this.context.setState({
@@ -92,7 +89,6 @@ class InvitationSummary extends Component {
           ),
         });
       });
-      console.log("get lsoa called")
     // Scroll to the top of the page every time it renders the page
     window.scrollTo(0, 0);
     this.context.setState({

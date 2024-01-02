@@ -22,10 +22,8 @@ class ClinicInformation extends Component {
     this.state = {
       displayUserErrorTargetPercentage: false,
       displayViewAllPrevInvitations: false,
-      // "lsoaInRange": [""],
       rangeSelection: 1,
       postcode: "",
-      // "selectedLsoa": [],
       targetFillToInputValue: 0,
       appsToFill: 0,
       targetErrorMessage: "",
@@ -483,7 +481,7 @@ class ClinicInformation extends Component {
             // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
             // axios
             //   .get(
-            //     `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
+            //     `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/dev/target-percentage`
             //   )
             //   .then((response) => {
                 const targetPercentageValue = response.data.targetPercentage.N;
@@ -511,7 +509,7 @@ class ClinicInformation extends Component {
     // const postcodeHolder = "SE1 9RT";
     axios
       .get(
-        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
+        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
       )
       .then((response) => {
         this.context.setState({
@@ -536,7 +534,7 @@ class ClinicInformation extends Component {
       // const postcodeHolder = "SW1A 2AA";
       axios
         .get(
-          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
+          `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
         )
         .then((response) => {
           this.context.setState({
@@ -572,7 +570,6 @@ class ClinicInformation extends Component {
 
     const {
       displayUserErrorTargetPercentage,
-      // lsoaInRange,
       targetFillToInputValue,
       rangeSelection,
       appsToFill,
