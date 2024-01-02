@@ -365,8 +365,6 @@ class ClinicInformation extends Component {
             clinicInvitationHistory,
             displayViewAllPrevInvitations,
           } = setClinicDetails(response);
-          console.log(response.data)
-
 
           // Set component state
           this.setState({
@@ -377,10 +375,7 @@ class ClinicInformation extends Component {
               clinicInvitationHistory.appsRemaining *
               (targetFillToPercentage / 100)
             ),
-          }, () => {
-            console.log(this.state.appsToFill)
           });
-          console.log(this.state.appsToFill)
 
           // Set global state
           this.context.setState({
@@ -401,10 +396,7 @@ class ClinicInformation extends Component {
               clinicInvitationHistory.appsRemaining *
               (targetFillToPercentage / 100)
             ),
-          }, () => {
-            console.log(this.context.state.targetAppToFill)
           });
-          console.log(this.context.state.targetAppToFill)
         });
       // Scroll to the top of the page every time it renders the page
       window.scrollTo(0, 0);
