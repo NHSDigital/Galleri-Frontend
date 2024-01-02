@@ -74,6 +74,15 @@ class ClinicInformation extends Component {
         displayUserErrorTargetPercentage: false,
       })
 
+      const deselectAll = this.state.lsoaInRange.map((lsoa) => {
+        if(lsoa.checked === true)
+          lsoa.checked = false;
+        return lsoa;
+      });
+      this.setState({
+        lsoaInRange: deselectAll,
+      });
+
       // Scroll to the top of the page every time it renders the page
       window.scrollTo(0, 0);
     }
@@ -486,7 +495,7 @@ class ClinicInformation extends Component {
             //     `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
             //   )
             //   .then((response) => {
-                const targetPercentageValue = response.data.targetPercentage.N;
+                const targetPercentageValue = response.data.targetFillToPercentage.N;
                 this.setState({
                   targetFillToInputValue: targetPercentageValue,
                   appsToFill: Math.floor(
