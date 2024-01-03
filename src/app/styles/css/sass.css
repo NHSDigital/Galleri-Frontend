@@ -97,6 +97,12 @@ a:active {
 	display: none;
 }
 
+/* custom pseudo-class for to hide the link until the reference page is complete */
+.custom-invitation-variable-link {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 .nhsuk-link--no-visited-state:link {
 	color: #005eb8;
 }
@@ -257,6 +263,16 @@ th {
 	font-weight: 600;
 }
 
+.custom-invitation-variable-tables-paddings {
+	padding-top: 24px;
+	padding-left: 40px;
+	padding-right: 80px;
+}
+
+.custom-text-align-center {
+	text-align: center;
+}
+
 .custom-underline {
 	text-decoration: underline;
 }
@@ -271,6 +287,11 @@ th {
 
 .custom-th {
 	vertical-align: bottom;
+}
+
+.custom-td {
+	text-align: right;
+	padding-right: 2px;
 }
 
 .custom-vertical-align-middle {
@@ -391,6 +412,25 @@ OBJECTS / #GRID
 	.nhsuk-grid-column-one-half {
 		float: left;
 		width: 50%;
+	}
+}
+
+/* custom nhsuk-grid-column-one-half */
+.custom-nhsuk-grid-column-one-half {
+	box-sizing: border-box;
+	padding: 0;
+	width: 85%;
+}
+.custom-nhsuk-grid-column-one-half .nhsuk-hint {
+	text-align: left;
+}
+@media (min-width: 48.0625em) {
+	.custom-nhsuk-grid-column-one-half {
+		float: left;
+		width: 50%;
+	}
+	.custom-nhsuk-grid-column-one-half .nhsuk-hint {
+		text-align: right;
 	}
 }
 
@@ -6161,6 +6201,9 @@ COMPONENTS/ #INPUT
 		font-size: 1.1875rem;
 		line-height: 1.47368;
 	}
+	.custom-min-width {
+		min-width: 60px;
+	}
 }
 @media print {
 	.nhsuk-input {
@@ -7253,6 +7296,29 @@ COMPONENTS / #TABLE
 .nhsuk-table__header--numeric,
 .nhsuk-table__cell--numeric {
 	text-align: right;
+}
+
+.custom-nhsuk-table__cell {
+	padding-left: 100px;
+	width: 160px;
+}
+@media (max-width: 48.0525em) {
+	.custom-nhsuk-table__cell {
+		width: 170px;
+		padding-left: 0;
+	}
+}
+
+.custom-nhsuk-table__cell_1 {
+	text-align: right;
+	padding-right: 2px;
+	width: 160px;
+}
+
+.custom-nhsuk-table__cell_2 {
+	text-align: right;
+	padding-right: 2px;
+	width: 175px;
 }
 
 /* ==========================================================================
