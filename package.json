@@ -10,7 +10,8 @@
     "lint": "next lint",
     "test": "jest --watch",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "coverage": "jest"
   },
   "dependencies": {
     "asdf": "^1.2.2",
