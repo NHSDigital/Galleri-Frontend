@@ -11,7 +11,7 @@
     "test": "jest --watch",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "coverage": "jest --coverage"
+    "coverage": "jest"
   },
   "dependencies": {
     "asdf": "^1.2.2",
