@@ -446,10 +446,7 @@ class ClinicInformation extends Component {
             this.setState({
               rangeSelection: lastSelectedRange,
               postcode: response.data.PostCode.S,
-              appsToFill: Math.floor(
-                this.context.state.recentInvitationHistory.appsRemaining *
-                (this.state.targetFillToInputValue / 100)
-              ),
+              targetFillToInputValue: response.data.TargetFillToPercentage.N
             });
 
             // Set global state
@@ -480,7 +477,7 @@ class ClinicInformation extends Component {
             this.setState({
               appsToFill: Math.floor(
                 clinicInvitationHistory.appsRemaining *
-                (response.data.TargetFillToPercentage.N / 100)
+                  (response.data.TargetFillToPercentage.N / 100)
               ),
             })
           });
