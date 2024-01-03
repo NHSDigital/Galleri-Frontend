@@ -19,6 +19,7 @@ const config = {
   collectCoverageFrom: [
     "**/*.{js,jsx,ts,tsx}", // Include all JS, JSX, TS, and TSX files
     "!**/*.test.{js,jsx,ts,tsx}", // Exclude test files
+    "!**/*.config.js", // Exclude config files
     "!**/node_modules/**",
   ],
 };
