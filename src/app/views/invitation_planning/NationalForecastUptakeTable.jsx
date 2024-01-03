@@ -2,81 +2,80 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export default function NationalForecastUptakeTable(props) {
-  const { nationalUptakePercentage, enableUptakeEdit, onUptakeChangeHandler, isCorrectUptakeTotal } =
-    props;
+  const {
+    nationalUptakePercentage,
+    enableUptakeEdit,
+    onUptakeChangeHandler,
+    isCorrectUptakeTotal,
+  } = props;
+
+  const inputNationalUptakeLabel = "National forecast uptake";
+
   return (
-    <table role="table" className="nhsuk-table-responsive">
+    <table
+      className="nhsuk-table-responsive nhsuk-u-margin-bottom-4"
+      aria-labelledby="NationalForecastUptakeTableCaption"
+    >
       <caption
-        className="nhsuk-table__caption"
-        style={{ "padding-bottom": "16px" }}
+        id="NationalForecastUptakeTableCaption"
+        className="nhsuk-table__caption nhsuk-u-margin-bottom-4"
       >
-        National forecast uptake
-        <br />
+        {inputNationalUptakeLabel}
       </caption>
-      <div id="national-uptake"
-          className={(!isCorrectUptakeTotal)
-            ? "nhsuk-form-group--error"
-            : ""
-          }
-        >
+      <div
+        id="national-uptake"
+        className={!isCorrectUptakeTotal ? "nhsuk-form-group--error" : ""}
+      >
         {!isCorrectUptakeTotal && (
           <div id="uptake-error-message" className="nhsuk-error-message">
             The uptake percentage must be between 1% and 100%
           </div>
         )}
-      <tbody className="nhsuk-table__body">
-        <tr role="row" className="nhsuk-table__row">
-          <td role="cell" className="nhsuk-table__cell">
-            <b>Current Percentage</b>
-          </td>
-          {enableUptakeEdit ? (
-            <td
-              role="cell"
-              className="nhsuk-table__cell"
-              style={{ "padding-right": "2px", width: "100px" }}
-            >
-              <input
-                id="national-forecast-uptake"
-                className="nhsuk-input"
-                style={{
-                  textAlign: "right",
-                  color: "black",
-                }}
-                type="number"
-                min="0"
-                max="100"
-                step="1"
-                placeholder={nationalUptakePercentage}
-                onKeyPress={(event) => {
-                  if (!Number.isInteger(Number(event.key))) {
-                    event.preventDefault();
-                  }
-                }}
-                onChange={(e) => onUptakeChangeHandler(e)}
-              />
+        <thead>
+          <tr role="row" className="nhsuk-table__row nhsuk-u-visually-hidden">
+            <th role="columnheader" className="nhsuk-table__cell">
+              Current Percentage
+            </th>
+            <th role="columnheader" className="nhsuk-table__cell">
+              Percentage Value
+            </th>
+          </tr>
+        </thead>
+        <tbody className="nhsuk-table__body">
+          <tr role="row" className="nhsuk-table__row">
+            <td role="cell" className="nhsuk-table__cell">
+              <strong>
+                <span>Current Percentage</span>
+              </strong>
             </td>
-          ) : (
-            <td
-              role="cell"
-              className="nhsuk-table__cell"
-              style={{
-                textAlign: "right",
-                "padding-right": "2px",
-                width: "100px",
-              }}
-            >
-              {nationalUptakePercentage}
-            </td>
-          )}
-          <td
-            role="cell"
-            className="nhsuk-table__cell"
-            style={{ "vertical-align": "middle" }}
-          >
-            %
-          </td>
-        </tr>
-      </tbody>
+            {enableUptakeEdit ? (
+              <td role="cell" className="custom-nhsuk-table__cell">
+                <input
+                  aria-label={inputNationalUptakeLabel}
+                  id="national-forecast-uptake"
+                  className={`nhsuk-input custom-text-align-center custom-min-width ${
+                    isCorrectUptakeTotal ? "" : "nhsuk-input--error"
+                  }`}
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="1"
+                  placeholder={nationalUptakePercentage + "%"}
+                  onKeyPress={(event) => {
+                    if (!Number.isInteger(Number(event.key))) {
+                      event.preventDefault();
+                    }
+                  }}
+                  onChange={(e) => onUptakeChangeHandler(e)}
+                />
+              </td>
+            ) : (
+              <td className="custom-nhsuk-table__cell_1">
+                {nationalUptakePercentage}%
+              </td>
+            )}
+          </tr>
+        </tbody>
       </div>
     </table>
   );
@@ -86,4 +85,4 @@ NationalForecastUptakeTable.propTypes = {
   enableUptakeEdit: PropTypes.bool.isRequired,
   onUptakeChangeHandler: PropTypes.func.isRequired,
   isCorrectUptakeTotal: PropTypes.bool.isRequired,
-}
+};

@@ -54,7 +54,7 @@ class InvitationSummary extends Component {
       targetFillToInputValue: targetFillToPercentage,
       appsToFill: Math.floor(
         this.context.state.recentInvitationHistory.appsRemaining *
-          (this.state.targetFillToInputValue / 100)
+        (this.state.targetFillToInputValue / 100)
       ),
     });
 
@@ -138,6 +138,23 @@ class InvitationSummary extends Component {
     }
     // Scroll to the top of the page
     window.scrollTo(0, 0);
+
+    // Event Listener to handle the very first "Tab" press when component mounts
+    const handleFirstTab = (e) => {
+      const skipLink = document.getElementById('skip-to-main');
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        // Set focus to the skip link when the first "Tab" is pressed
+        if (skipLink) {
+          skipLink.focus();
+        }
+        // Remove the event listener after it has been triggered
+        window.removeEventListener('keydown', handleFirstTab);
+      }
+    };
+
+    // Add the event listener to the window
+    window.addEventListener('keydown', handleFirstTab);
   }
 
   render() {
