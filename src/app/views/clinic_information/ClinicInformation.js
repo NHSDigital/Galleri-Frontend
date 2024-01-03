@@ -75,7 +75,7 @@ class ClinicInformation extends Component {
       })
 
       // Scroll to the top of the page every time it renders the page
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
     }
   }
 
@@ -366,15 +366,14 @@ class ClinicInformation extends Component {
             displayViewAllPrevInvitations,
           } = setClinicDetails(response);
 
-
           // Set component state
           this.setState({
             rangeSelection: lastSelectedRange,
             targetFillToInputValue: targetFillToPercentage,
             postcode: response.data.PostCode.S,
             appsToFill: Math.floor(
-              this.context.state.recentInvitationHistory.appsRemaining *
-                (this.state.targetFillToInputValue / 100)
+              clinicInvitationHistory.appsRemaining *
+              (targetFillToPercentage / 100)
             ),
           });
 
@@ -393,13 +392,9 @@ class ClinicInformation extends Component {
             displayClinicSelector: false,
             currentPage: 1,
             pageSize: 10,
-            appsToFill: Math.floor(
-              this.context.state.recentInvitationHistory.appsRemaining *
-              (this.state.targetFillToInputValue / 100)
-            ),
             targetAppToFill: Math.floor(
-              this.context.state.recentInvitationHistory.appsRemaining *
-              (this.state.targetFillToInputValue / 100)
+              clinicInvitationHistory.appsRemaining *
+              (targetFillToPercentage / 100)
             ),
           });
         });
@@ -409,7 +404,7 @@ class ClinicInformation extends Component {
   }
 
   componentDidMount() {
-        axios.defaults.headers.post["Content-Type"] =
+    axios.defaults.headers.post["Content-Type"] =
       "application/json;charset=utf-8";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
@@ -454,7 +449,7 @@ class ClinicInformation extends Component {
               postcode: response.data.PostCode.S,
               appsToFill: Math.floor(
                 this.context.state.recentInvitationHistory.appsRemaining *
-                  (this.state.targetFillToInputValue / 100)
+                (this.state.targetFillToInputValue / 100)
               ),
             });
 
@@ -470,6 +465,11 @@ class ClinicInformation extends Component {
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
               currentPage: 1,
               pageSize: 10,
+              targetAppToFill: Math.floor(
+                this.context.state.recentInvitationHistory.appsRemaining *
+                (this.state.targetFillToInputValue / 100)
+              ),
+              targetPercentageToFill: targetFillToPercentage,
             });
             if (
               this.context.state.recentInvitationHistory.dateOfPrevInv ===
@@ -486,22 +486,22 @@ class ClinicInformation extends Component {
             //     `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
             //   )
             //   .then((response) => {
-                const targetPercentageValue = response.data.targetPercentage.N;
-                this.setState({
-                  targetFillToInputValue: targetPercentageValue,
-                  appsToFill: Math.floor(
-                    this.context.state.recentInvitationHistory.appsRemaining *
-                      (targetPercentageValue / 100)
-                  ),
-                });
-                this.context.setState({
-                  targetAppToFill: Math.floor(
-                    this.context.state.recentInvitationHistory.appsRemaining *
-                      (targetPercentageValue / 100)
-                  ),
-                  targetPercentageToFill: targetPercentageValue,
-                });
-              // });
+            // const targetPercentageValue = response.data.targetPercentage.N;
+            // this.setState({
+            //   targetFillToInputValue: targetPercentageValue,
+            //   appsToFill: Math.floor(
+            //     this.context.state.recentInvitationHistory.appsRemaining *
+            //     (targetPercentageValue / 100)
+            //   ),
+            // });
+            // this.context.setState({
+            //   targetAppToFill: Math.floor(
+            //     this.context.state.recentInvitationHistory.appsRemaining *
+            //     (targetPercentageValue / 100)
+            //   ),
+            //   targetPercentageToFill: targetPercentageValue,
+            // });
+            // });
           });
       });
 
