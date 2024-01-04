@@ -44,6 +44,7 @@ export default function ClinicInformationPage(props) {
     onKeyUp,
     hrefErrorMessage,
     lsoaTableError,
+    nationalUptakePercentage,
   } = props;
 
   return (
@@ -158,6 +159,7 @@ export default function ClinicInformationPage(props) {
               onCurrentPageChange={onCurrentPageChange}
               lastSelectedRange={lastSelectedRange}
               lsoaTableError={lsoaTableError}
+              nationalUptakePercentage={nationalUptakePercentage}
             />
           </div>
         </div>
