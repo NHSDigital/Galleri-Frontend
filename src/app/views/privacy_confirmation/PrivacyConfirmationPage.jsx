@@ -75,7 +75,7 @@ export default function PrivacyConfirmationPage(props) {
                         role="list"
                       >
                         <li>
-                          <a href="#dob-errors-year">
+                          <a href="#errors-confirm-privacy">
                             Select the checkbox to confirm you have read and
                             understood the message
                           </a>
@@ -128,16 +128,16 @@ export default function PrivacyConfirmationPage(props) {
                         <div className="nhsuk-checkboxes__item nhsuk-u-margin-bottom-4">
                           <input
                             className="nhsuk-checkboxes__input"
-                            id="confirmPrivacyPage"
-                            data-testid="confirmPrivacyPage-button"
-                            name="confirmPrivacyPageCheckbox"
+                            id="errors-confirm-privacy"
+                            data-testid="errors-confirm-privacy"
+                            name="confirm-privacy"
                             type="checkbox"
                             value={false}
                             onChange={() => onToggleConfirmationHandler()}
                           />
                           <label
                             className="nhsuk-label nhsuk-checkboxes__label"
-                            htmlFor="confirmPrivacyPage"
+                            htmlFor="errors-confirm-privacy"
                           >
                             I have read and understood this message
                           </label>
@@ -152,16 +152,16 @@ export default function PrivacyConfirmationPage(props) {
             <div className="nhsuk-checkboxes__item nhsuk-u-margin-bottom-4">
               <input
                 className="nhsuk-checkboxes__input"
-                id="confirmPrivacyPage"
-                data-testid="confirmPrivacyPage-button"
-                name="confirmPrivacyPageCheckbox"
+                id="errors-confirm-privacy"
+                data-testid="errors-confirm-privacy"
+                name="confirm-privacy"
                 type="checkbox"
                 value={false}
                 onChange={() => onToggleConfirmationHandler()}
               />
               <label
                 className="nhsuk-label nhsuk-checkboxes__label"
-                htmlFor="confirmPrivacyPage"
+                htmlFor="errors-confirm-privacy"
               >
                 I have read and understood this message
               </label>
