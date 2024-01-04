@@ -15,6 +15,7 @@ const TARGET_PERCENTAGE = process.env.NEXT_PUBLIC_TARGET_PERCENTAGE;
 const CALCULATE_NUM_TO_INVITE = process.env.NEXT_PUBLIC_CALCULATE_NUM_TO_INVITE;
 const GET_LSOA_IN_RANGE = process.env.NEXT_PUBLIC_GET_LSOA_IN_RANGE;
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
+const INVITATION_PARAMETERS = process.env.NEXT_PUBLIC_INVITATION_PARAMETERS;
 
 class ClinicInformation extends Component {
   constructor() {
@@ -31,6 +32,7 @@ class ClinicInformation extends Component {
       targetErrorMessage: "",
       hrefErrorMessage: "",
       lsoaTableError: false,
+      nationalUptakePercentage: 0,
     };
 
     this.onClickChangeClinicHandler =
@@ -208,11 +210,11 @@ class ClinicInformation extends Component {
     lsoaArray.forEach((lsoa) => {
       let eachLSOA_2011 = lsoa.LSOA_2011.S;
       let eachIMD_DECILE = lsoa.IMD_DECILE.N;
-      let eachFORECAST_UPTAKE = lsoa.FORECAST_UPTAKE.N;
+      let eachMODERATOR = lsoa.MODERATOR.N;
 
       lsoaInfo[eachLSOA_2011] = {
         IMD_DECILE: eachIMD_DECILE,
-        FORECAST_UPTAKE: eachFORECAST_UPTAKE,
+        MODERATOR: eachMODERATOR,
       };
     });
     return lsoaInfo;
@@ -523,6 +525,15 @@ class ClinicInformation extends Component {
           ),
         });
       });
+      axios
+      .get(
+        `https://${INVITATION_PARAMETERS}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/invitation-parameters`
+      )
+      .then((response) => {
+        this.setState({
+          nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
+        });
+      });
   }
 
   componentDidUpdate(_, prevState) {
@@ -578,6 +589,7 @@ class ClinicInformation extends Component {
       targetErrorMessage,
       hrefErrorMessage,
       lsoaTableError,
+      nationalUptakePercentage,
     } = this.state;
 
     // Check if all the listed context state variables are available
@@ -642,6 +654,7 @@ class ClinicInformation extends Component {
                   onKeyUp={this.onKeyUp}
                   hrefErrorMessage={hrefErrorMessage}
                   lsoaTableError={lsoaTableError}
+                  nationalUptakePercentage={nationalUptakePercentage}
                 />
               </div>
             )

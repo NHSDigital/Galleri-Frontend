@@ -16,6 +16,7 @@ export default function LsoaTable(prop) {
     lsoaCodesAppsToFill,
     lsoaTableError,
     lastSelectedRange,
+    nationalUptakePercentage,
   } = prop;
 
   // Pagination stuff
@@ -44,7 +45,7 @@ export default function LsoaTable(prop) {
 
   const calculateAverageExpectedUptake = (arr) => {
     const total = arr.reduce((acc, curr) => {
-      return acc + Number(curr?.FORECAST_UPTAKE?.N);
+      return acc + Number(Number(curr?.MODERATOR?.S) * nationalUptakePercentage);
     }, 0);
     return Math.round(total / arr.length);
   };
@@ -224,7 +225,7 @@ export default function LsoaTable(prop) {
                       <span className="nhsuk-table-responsive__heading">
                         Forecast uptake{" "}
                       </span>
-                      {e.FORECAST_UPTAKE?.N}%
+                      {(Number(e.MODERATOR?.S) * nationalUptakePercentage).toFixed(2)}%
                     </td>
                     <td role="cell" className="nhsuk-table__cell">
                       <span className="nhsuk-table-responsive__heading">
