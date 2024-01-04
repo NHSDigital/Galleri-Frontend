@@ -72,6 +72,15 @@ class ClinicInformation extends Component {
         displayUserErrorTargetPercentage: false,
       })
 
+      const deselectAll = this.state.lsoaInRange.map((lsoa) => {
+        if(lsoa.checked === true)
+          lsoa.checked = false;
+        return lsoa;
+      });
+      this.setState({
+        lsoaInRange: deselectAll,
+      });
+
       // Scroll to the top of the page every time it renders the page
       // window.scrollTo(0, 0);
     }
@@ -499,7 +508,7 @@ class ClinicInformation extends Component {
             //   ),
             //   targetPercentageToFill: targetPercentageValue,
             // });
-            // });
+            // })
           });
       });
 
