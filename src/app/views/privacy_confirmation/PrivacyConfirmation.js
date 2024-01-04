@@ -7,7 +7,8 @@ export default class PrivacyConfirmation extends Component {
     super(props);
     this.state = {
       confirmationReceived: false,
-      continueToStart: false
+      continueToStart: false,
+      showError: false
     }
     this.onToggleConfirmationHandler = this.onToggleConfirmationHandler.bind(this);
     this.onClickContinueHandler = this.onClickContinueHandler.bind(this);
@@ -25,13 +26,16 @@ export default class PrivacyConfirmation extends Component {
         continueToStart: true
       })
     } else {
-      console.log('show error');
+      this.setState({
+        showError: true
+      })
     }
   }
 
   componentDidMount() {
     this.setState({
-      continueToStart: false
+      continueToStart: false,
+      showError: false
     })
   }
 
@@ -44,6 +48,7 @@ export default class PrivacyConfirmation extends Component {
           <PrivacyConfirmationPage
             onToggleConfirmationHandler={this.onToggleConfirmationHandler}
             onClickContinueHandler={this.onClickContinueHandler}
+            showError={this.state.showError}
           />
         )}
       </>

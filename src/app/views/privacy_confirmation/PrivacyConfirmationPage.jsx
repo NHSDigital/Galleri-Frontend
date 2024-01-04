@@ -2,7 +2,8 @@ import React from "react";
 import "../../styles/css/sass.css";
 
 export default function PrivacyConfirmationPage(props) {
-  const { onToggleConfirmationHandler, onClickContinueHandler } = props;
+  const { onToggleConfirmationHandler, onClickContinueHandler, showError } =
+    props;
   return (
     <>
       <header
@@ -52,6 +53,40 @@ export default function PrivacyConfirmationPage(props) {
 
       <div className="nhsuk-width-container">
         <main className="nhsuk-main-wrapper" id="maincontent" role="main">
+          {showError ? (
+            <div class="nhsuk-grid-row">
+              <div class="nhsuk-grid-column-two-thirds">
+                <form>
+                  <div
+                    class="nhsuk-error-summary"
+                    aria-labelledby="error-summary-title"
+                    role="alert"
+                    tabindex="-1"
+                  >
+                    <h2
+                      class="nhsuk-error-summary__title"
+                      id="error-summary-title"
+                    >
+                      There is a problem
+                    </h2>
+                    <div class="nhsuk-error-summary__body">
+                      <ul
+                        class="nhsuk-list nhsuk-error-summary__list"
+                        role="list"
+                      >
+                        <li>
+                          <a href="#dob-errors-year">
+                            Select the checkbox to confirm you have read and
+                            understood the message
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          ) : null}
           <div className="nhsuk-grid-row">
             <div className="nhsuk-grid-column-two-thirds">
               <h1>Protecting patient data</h1>
@@ -74,23 +109,64 @@ export default function PrivacyConfirmationPage(props) {
               </div>
             </div>
           </div>
-          <div className="nhsuk-checkboxes__item nhsuk-u-margin-bottom-4">
-            <input
-              className="nhsuk-checkboxes__input"
-              id="confirmPrivacyPage"
-              data-testid="confirmPrivacyPage-button"
-              name="confirmPrivacyPageCheckbox"
-              type="checkbox"
-              value={false}
-              onChange={() => onToggleConfirmationHandler()}
-            />
-            <label
-              className="nhsuk-label nhsuk-checkboxes__label"
-              htmlFor="confirmPrivacyPage"
-            >
-              I have read and understood this message
-            </label>
-          </div>
+          {showError ? (
+            <div class="nhsuk-grid-row">
+              <div class="nhsuk-grid-column-two-thirds">
+                <form>
+                  <div class="nhsuk-form-group nhsuk-form-group--error">
+                    <fieldset
+                      class="nhsuk-fieldset"
+                      aria-describedby="contact-hint contact-error"
+                    >
+                      <span class="nhsuk-error-message" id="contact-error">
+                        <span class="nhsuk-u-visually-hidden">Error:</span>{" "}
+                        Select the checkbox to confirm you have read and
+                        understood the message
+                      </span>
+
+                      <div class="nhsuk-checkboxes">
+                        <div className="nhsuk-checkboxes__item nhsuk-u-margin-bottom-4">
+                          <input
+                            className="nhsuk-checkboxes__input"
+                            id="confirmPrivacyPage"
+                            data-testid="confirmPrivacyPage-button"
+                            name="confirmPrivacyPageCheckbox"
+                            type="checkbox"
+                            value={false}
+                            onChange={() => onToggleConfirmationHandler()}
+                          />
+                          <label
+                            className="nhsuk-label nhsuk-checkboxes__label"
+                            htmlFor="confirmPrivacyPage"
+                          >
+                            I have read and understood this message
+                          </label>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                </form>
+              </div>
+            </div>
+          ) : (
+            <div className="nhsuk-checkboxes__item nhsuk-u-margin-bottom-4">
+              <input
+                className="nhsuk-checkboxes__input"
+                id="confirmPrivacyPage"
+                data-testid="confirmPrivacyPage-button"
+                name="confirmPrivacyPageCheckbox"
+                type="checkbox"
+                value={false}
+                onChange={() => onToggleConfirmationHandler()}
+              />
+              <label
+                className="nhsuk-label nhsuk-checkboxes__label"
+                htmlFor="confirmPrivacyPage"
+              >
+                I have read and understood this message
+              </label>
+            </div>
+          )}
           <br />
           <a
             className="nhsuk-button"
