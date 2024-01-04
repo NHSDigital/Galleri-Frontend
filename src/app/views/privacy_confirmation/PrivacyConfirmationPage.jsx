@@ -2,7 +2,7 @@ import React from "react";
 import "../../styles/css/sass.css";
 
 export default function PrivacyConfirmationPage(props) {
-  const { onToggleConfirmationHandler } = props;
+  const { onToggleConfirmationHandler, onClickContinueHandler } = props;
   return (
     <>
       <header
@@ -98,7 +98,7 @@ export default function PrivacyConfirmationPage(props) {
             href="#"
             role="button"
             draggable="false"
-            onClick={() => { console.log('continue!') }}
+            onClick={() => onClickContinueHandler()}
           >
             Continue
           </a>

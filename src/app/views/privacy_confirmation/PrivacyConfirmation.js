@@ -5,25 +5,46 @@ import PrivacyConfirmationPage from "./PrivacyConfirmationPage";
 export default class PrivacyConfirmation extends Component {
   constructor(props) {
     super(props);
-      this.state = {
-        confirmationReceived: false
-      }
-      this.onToggleConfirmationHandler = this.onToggleConfirmationHandler.bind(this);
+    this.state = {
+      confirmationReceived: false,
+      continueToStart: false
+    }
+    this.onToggleConfirmationHandler = this.onToggleConfirmationHandler.bind(this);
+    this.onClickContinueHandler = this.onClickContinueHandler.bind(this);
   }
 
-  onToggleConfirmationHandler(){
+  onToggleConfirmationHandler() {
     this.setState({
-      confirmationReceived: !confirmationReceived
+      confirmationReceived: !this.state.confirmationReceived
+    })
+  }
+
+  onClickContinueHandler() {
+    if (this.state.confirmationReceived) {
+      this.setState({
+        continueToStart: true
+      })
+    } else {
+      console.log('show error');
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      continueToStart: false
     })
   }
 
   render() {
     return (
       <>
-        {this.state.confirmationReceived ? (
+        {this.state.continueToStart ? (
           <StartPage />
-          ) : (
-          <PrivacyConfirmationPage onToggleConfirmationHandler={this.onToggleConfirmationHandler}/>
+        ) : (
+          <PrivacyConfirmationPage
+            onToggleConfirmationHandler={this.onToggleConfirmationHandler}
+            onClickContinueHandler={this.onClickContinueHandler}
+          />
         )}
       </>
     );
