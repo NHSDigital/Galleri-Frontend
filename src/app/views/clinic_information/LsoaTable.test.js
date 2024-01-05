@@ -8,7 +8,7 @@ const mockLsoaInRange = [
   {
     LSOA_NAME: { S: 'LSOA 1' },
     DISTANCE_TO_SITE: { N: '5' },
-    FORECAST_UPTAKE: { N: '80' },
+    MODERATOR: { S: '1.5' },
     IMD_DECILE: { N: '3' },
     ELIGIBLE_POPULATION: { S: '100' },
     INVITED_POPULATION: { S: '20' },
@@ -29,6 +29,7 @@ const mockProps = {
   onCurrentPageChange: jest.fn(),
   lsoaCodesAppsToFill: jest.fn(),
   lsoaTableError: false,
+  nationalUptakePercentage: 50,
 };
 
 describe('LsoaTable Component', () => {
@@ -65,7 +66,7 @@ describe('LsoaTable Component', () => {
     // Check if the table rows are rendered based on the mock data
     expect(screen.getByText('LSOA 1')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('80%')).toBeInTheDocument();
+    expect(screen.getByText('75.00%')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
     expect(screen.getByText('100')).toBeInTheDocument();
     expect(screen.getByText('80')).toBeInTheDocument(); // Available to invite
