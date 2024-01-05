@@ -74,12 +74,12 @@ class ClinicInformation extends Component {
         displayUserErrorTargetPercentage: false,
       })
 
-      const deselectAll = this.state.lsoaInRange.map((lsoa) => {
+      const deselectAll = this.context.state.lsoaInRange.map((lsoa) => {
         if(lsoa.checked === true)
           lsoa.checked = false;
         return lsoa;
       });
-      this.setState({
+      this.context.setState({
         lsoaInRange: deselectAll,
       });
 
@@ -413,7 +413,7 @@ class ClinicInformation extends Component {
   }
 
   componentDidMount() {
-    axios.defaults.headers.post["Content-Type"] =
+        axios.defaults.headers.post["Content-Type"] =
       "application/json;charset=utf-8";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
@@ -541,7 +541,7 @@ class ClinicInformation extends Component {
           nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
         });
       });
-  }
+        }
 
   componentDidUpdate(_, prevState) {
     if (
