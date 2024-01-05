@@ -54,24 +54,24 @@ export default function PrivacyConfirmationPage(props) {
       <div className="nhsuk-width-container">
         <main className="nhsuk-main-wrapper" id="maincontent" role="main">
           {showError ? (
-            <div class="nhsuk-grid-row">
-              <div class="nhsuk-grid-column-two-thirds">
+            <div className="nhsuk-grid-row">
+              <div className="nhsuk-grid-column-two-thirds">
                 <form>
                   <div
-                    class="nhsuk-error-summary"
+                    className="nhsuk-error-summary"
                     aria-labelledby="error-summary-title"
                     role="alert"
-                    tabindex="-1"
+                    tabIndex="-1"
                   >
                     <h2
-                      class="nhsuk-error-summary__title"
+                      className="nhsuk-error-summary__title"
                       id="error-summary-title"
                     >
                       There is a problem
                     </h2>
-                    <div class="nhsuk-error-summary__body">
+                    <div className="nhsuk-error-summary__body">
                       <ul
-                        class="nhsuk-list nhsuk-error-summary__list"
+                        className="nhsuk-list nhsuk-error-summary__list"
                         role="list"
                       >
                         <li>
@@ -110,21 +110,21 @@ export default function PrivacyConfirmationPage(props) {
             </div>
           </div>
           {showError ? (
-            <div class="nhsuk-grid-row">
-              <div class="nhsuk-grid-column-two-thirds">
+            <div className="nhsuk-grid-row">
+              <div className="nhsuk-grid-column-two-thirds">
                 <form>
-                  <div class="nhsuk-form-group nhsuk-form-group--error">
+                  <div className="nhsuk-form-group nhsuk-form-group--error">
                     <fieldset
-                      class="nhsuk-fieldset"
+                      className="nhsuk-fieldset"
                       aria-describedby="contact-hint contact-error"
                     >
-                      <span class="nhsuk-error-message" id="contact-error">
-                        <span class="nhsuk-u-visually-hidden">Error:</span>{" "}
+                      <span className="nhsuk-error-message" id="contact-error">
+                        <span className="nhsuk-u-visually-hidden">Error:</span>{" "}
                         Select the checkbox to confirm you have read and
                         understood the message
                       </span>
 
-                      <div class="nhsuk-checkboxes">
+                      <div className="nhsuk-checkboxes">
                         <div className="nhsuk-checkboxes__item nhsuk-u-margin-bottom-4">
                           <input
                             className="nhsuk-checkboxes__input"
@@ -152,8 +152,8 @@ export default function PrivacyConfirmationPage(props) {
             <div className="nhsuk-checkboxes__item nhsuk-u-margin-bottom-4">
               <input
                 className="nhsuk-checkboxes__input"
-                id="errors-confirm-privacy"
-                data-testid="errors-confirm-privacy"
+                id="confirm-privacy"
+                data-testid="confirm-privacy"
                 name="confirm-privacy"
                 type="checkbox"
                 value={false}
