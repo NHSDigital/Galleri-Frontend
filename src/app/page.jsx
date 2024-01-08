@@ -12,12 +12,13 @@ import { AppStateProvider } from "./context/AppStateContext";
 
 // The root page of Galleri
 export default function Root() {
+  const roles = ["invitation_planner", "referring_nurse"]
   return (
     <div>
       <body className="js-enabled">
         <AppStateProvider>
           {/* <Header /> */}
-          <PrivacyConfirmation />
+          <PrivacyConfirmation userRole={roles[0]}/>
           {/* <Start /> */}
           {/* <Content /> */}
           {/* <ClinicSummary /> */}

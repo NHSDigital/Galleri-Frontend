@@ -1,11 +1,15 @@
 import { Component } from "react";
 import StartPage from "../start_page/StartPage";
 import PrivacyConfirmationPage from "./PrivacyConfirmationPage";
+import ClinicSummary from "../clinic_summary/ClinicSummary";
+import ReferralsSummary from "../referrals_summary/ReferralsSummary";
 
 export default class PrivacyConfirmation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userRoles: ["invitation_planner", "referring_nurse"],
+      selectedRole: props.userRole,
       confirmationReceived: false,
       continueToStart: false,
       showError: false
@@ -43,7 +47,15 @@ export default class PrivacyConfirmation extends Component {
     return (
       <>
         {this.state.continueToStart ? (
-          <StartPage />
+          this.state.selectedRole === this.state.userRoles[0] ? ( // role 0 is 'invitation_planner'
+            <ClinicSummary />
+          ) : (
+            this.state.selectedRole === this.state.userRoles[1] ? ( // role 1 is 'referring_nurse'
+              <ReferralsSummary />
+            ) : (
+              <StartPage /> // default start page when no role defined
+            )
+          )
         ) : (
           <PrivacyConfirmationPage
             onToggleConfirmationHandler={this.onToggleConfirmationHandler}
