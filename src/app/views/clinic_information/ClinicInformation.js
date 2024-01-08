@@ -217,7 +217,7 @@ class ClinicInformation extends Component {
     lsoaArray.forEach((lsoa) => {
       let eachLSOA_2011 = lsoa.LSOA_2011.S;
       let eachIMD_DECILE = lsoa.IMD_DECILE.N;
-      let eachMODERATOR = lsoa.MODERATOR.N;
+      let eachMODERATOR = lsoa.MODERATOR.S;
 
       lsoaInfo[eachLSOA_2011] = {
         IMD_DECILE: eachIMD_DECILE,
