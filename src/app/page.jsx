@@ -2,6 +2,7 @@
 import Header from "./components/Header";
 import Content from "./components/content";
 import Footer from "./components/Footer";
+import PrivacyConfirmation from "./views/privacy_confirmation/PrivacyConfirmation";
 import Start from "./views/start_page/Start";
 import ClinicSummary from "./views/clinic_summary/ClinicSummary";
 import InvitationPlanning from "./views/invitation_planning/InvitationPlanning";
@@ -11,6 +12,7 @@ import { AppStateProvider } from "./context/AppStateContext";
 
 // The root page of Galleri
 export default function Root() {
+  const roles = ["invitation_planner", "referring_nurse"]
   return (
     <div>
       <body className="js-enabled">
@@ -24,7 +26,8 @@ export default function Root() {
         </a>
         <AppStateProvider>
           {/* <Header /> */}
-          <Start />
+          <PrivacyConfirmation userRole={roles[0]}/>
+          {/* <Start /> */}
           {/* <Content /> */}
           {/* <ClinicSummary /> */}
           {/* <InvitationPlanning /> */}
