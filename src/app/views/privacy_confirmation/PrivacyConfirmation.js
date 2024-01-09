@@ -53,7 +53,7 @@ export default class PrivacyConfirmation extends Component {
             this.state.selectedRole === this.state.userRoles[1] ? ( // role 1 is 'referring_nurse'
               <ReferralsSummary />
             ) : (
-              <StartPage /> // default start page when no role defined
+              null
             )
           )
         ) : (

@@ -19,7 +19,6 @@ export default function Root() {
         <AppStateProvider>
           {/* <Header /> */}
           <PrivacyConfirmation userRole={roles[0]}/>
-          {/* <Start /> */}
           {/* <Content /> */}
           {/* <ClinicSummary /> */}
           {/* <InvitationPlanning /> */}
