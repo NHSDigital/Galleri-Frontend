@@ -8,7 +8,7 @@ export default class PrivacyConfirmation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userRoles: ["invitation_planner", "referring_nurse"],
+      userRoles: ["Invitation Planner", "Referring Nurse"],
       selectedRole: props.userRole,
       confirmationReceived: false,
       continueToStart: false,

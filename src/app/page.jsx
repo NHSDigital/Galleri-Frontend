@@ -12,7 +12,7 @@ import { AppStateProvider } from "./context/AppStateContext";
 
 // The root page of Galleri
 export default function Root() {
-  const roles = ["invitation_planner", "referring_nurse"]
+  const roles = ["Invitation Planner", "Referring Nurse"]
   return (
     <div>
       <body className="js-enabled">
