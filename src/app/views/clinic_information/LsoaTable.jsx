@@ -194,7 +194,7 @@ export default function LsoaTable(prop) {
                           name="SelectALsoaInList"
                           type="checkbox"
                           onChange={(event) => checkRecord(event, e)}
-                          checked={e.checked}
+                          checked={e.checked?true:false}
                         />
                         <label
                           className="nhsuk-label nhsuk-checkboxes__label"
