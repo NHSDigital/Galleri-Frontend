@@ -180,6 +180,7 @@ export default function LsoaTable(prop) {
           ) : (
             <tbody className="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
               {currentTableData?.map((e, key) => {
+                const forecastUptake = nationalUptakePercentage && `${(Number(e.MODERATOR?.S) * nationalUptakePercentage).toFixed(0)}`
                 return (
                   <tr key={key} role="row" className="nhsuk-table__row">
                     <td role="cell" className="nhsuk-table__cell">
@@ -225,7 +226,7 @@ export default function LsoaTable(prop) {
                       <span className="nhsuk-table-responsive__heading">
                         Forecast uptake{" "}
                       </span>
-                      {(Number(e.MODERATOR?.S) * nationalUptakePercentage).toFixed(2)}%
+                      {forecastUptake > 100 ? 100 : forecastUptake}%
                     </td>
                     <td role="cell" className="nhsuk-table__cell">
                       <span className="nhsuk-table-responsive__heading">
