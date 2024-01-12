@@ -66,7 +66,7 @@ describe('LsoaTable Component', () => {
     // Check if the table rows are rendered based on the mock data
     expect(screen.getByText('LSOA 1')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('75.00%')).toBeInTheDocument();
+    expect(screen.getByText('75%')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
     expect(screen.getByText('100')).toBeInTheDocument();
     expect(screen.getByText('80')).toBeInTheDocument(); // Available to invite
