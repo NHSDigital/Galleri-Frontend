@@ -44,10 +44,14 @@ export default function LsoaTable(prop) {
   };
 
   const calculateAverageExpectedUptake = (arr) => {
-    const total = arr.reduce((acc, curr) => {
-      return acc + Number(Number(curr?.MODERATOR?.S) * nationalUptakePercentage);
+    const total_invited = arr.reduce((acc, curr) => {
+      return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S));
     }, 0);
-    return Math.round(total / arr.length);
+    const total = arr.reduce((acc, curr) => {
+      return acc + Number(Number(curr?.MODERATOR?.S) * nationalUptakePercentage * (Number(curr?.ELIGIBLE_POPULATION?.S) -
+      Number(curr?.INVITED_POPULATION?.S)));
+    }, 0);
+    return Math.round(total / total_invited);
   };
 
   return (
