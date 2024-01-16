@@ -65,7 +65,7 @@ class ClinicInformation extends Component {
       this.scrollToErrorContent();
     }else if (this.state.appsToFill === 0 ||
       this.state.displayUserErrorTargetPercentage ||
-      this.state.targetFillToInputValue === "" ||
+      this.state.targetFillToInputValue.trim().length === 0 ||
       Number(this.state.targetFillToInputValue) === 0 ||
       Number(this.state.targetFillToInputValue) >= 100
       ){
