@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, getByText, queryByText } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LsoaTable from './LsoaTable';
 
@@ -106,4 +106,11 @@ describe('LsoaTable Component', () => {
     expect(mockProps.onSubmitHandler).toHaveBeenCalled();
     expect(mockProps.lsoaCodesAppsToFill).toHaveBeenCalled();
   });
+
+  test('forecast uptake should render correct values', () => {
+    const { container } = render(<LsoaTable {...mockProps} nationalUptakePercentage={150}/>)
+    const forecastUptake = queryByText(container, /100(.*)%/)
+    expect(queryByText(container, /150(.*)%/)).toBeNull()
+    expect(forecastUptake).toBeInTheDocument()
+  })
 });
