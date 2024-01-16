@@ -1,13 +1,12 @@
 {
-    "ICB": "Participating ICB QMF",
-    "clinicsPerPage": "10",
-    "address": "Mordor",
-    "appointmentsRemaining": "231",
-    "targetPercentage": "25",
-    "targetAppointmentsToFill": "57",
-    "distance": "+2",
-    "errorBanner": "There is a problem",
-    "errorLink": "You must select LSOAs with people to invite",
-    "lsoaTableErrorMessage":"You must select LSOAs with people to invite"
-   
- }
+"ICB": "Participating ICB QMF",
+"clinicsPerPage": "10",
+"address": "Mordor",
+"appointmentsRemaining": "231",
+"targetPercentage": "25",
+"targetAppointmentsToFill": "57",
+"distance": "+2",
+"errorBanner": "There is a problem",
+"errorLink": "You must select LSOAs with people to invite",
+"lsoaTableErrorMessage":"You must select LSOAs with people to invite"
+}

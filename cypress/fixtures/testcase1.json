@@ -1,10 +1,8 @@
 {
-    "ICB": "Participating ICB QJK",
-    "clinicsPerPage": "20",
-    "address": "61 overweighs Hospital",
-    "appointmentsRemaining": "317",
-    "targetPercentage": "25",
-    "targetAppointmentsToFill": "79"
-  
-    
-  }
+"ICB": "Participating ICB QJK",
+"clinicsPerPage": "20",
+"address": "61 overweighs Hospital",
+"appointmentsRemaining": "317",
+"targetPercentage": "25",
+"targetAppointmentsToFill": "79"
+}
