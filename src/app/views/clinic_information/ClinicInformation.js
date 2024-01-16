@@ -63,7 +63,18 @@ class ClinicInformation extends Component {
         isSubmit: false,
       });
       this.scrollToErrorContent();
-    } else {
+    }else if (this.state.appsToFill === 0){
+      this.setState({
+        targetErrorMessage: "The target percentage must be between 1% and 100%",
+        hrefErrorMessage: "#error-message",
+        displayUserErrorTargetPercentage: true,
+      });
+      this.context.setState({
+        isSubmit: false,
+      });
+      this.scrollToErrorContent();
+    }
+    else {
       this.context.setState({
         isSubmit: true,
         totalToInvite: totalToInvite,
