@@ -63,7 +63,12 @@ class ClinicInformation extends Component {
         isSubmit: false,
       });
       this.scrollToErrorContent();
-    }else if (this.state.appsToFill === 0){
+    }else if (this.state.appsToFill === 0 ||
+      this.state.displayUserErrorTargetPercentage ||
+      this.state.targetFillToInputValue === "" ||
+      Number(this.state.targetFillToInputValue) === 0 ||
+      Number(this.state.targetFillToInputValue) >= 100
+      ){
       this.setState({
         targetErrorMessage: "The target percentage must be between 1% and 100%",
         hrefErrorMessage: "#error-message",
@@ -277,6 +282,7 @@ class ClinicInformation extends Component {
           this.context.state.recentInvitationHistory.appsRemaining *
           (targetFillToInputValue / 100)
         ),
+        targetPercentageToFill: targetFillToInputValue,
       });
     } else {
       this.setState({
@@ -300,9 +306,6 @@ class ClinicInformation extends Component {
   onTargetFillToInputChangeHandler(e) {
     this.setState({
       targetFillToInputValue: e.target.value,
-    });
-    this.context.setState({
-      targetPercentageToFill: e.target.value,
     });
   }
 
@@ -390,7 +393,13 @@ class ClinicInformation extends Component {
           this.setState({
             rangeSelection: lastSelectedRange,
             targetFillToInputValue: targetFillToPercentage,
-            postcode: response.data.PostCode.S
+            postcode: response.data.PostCode.S,
+            appsToFill: Math.floor(
+              clinicInvitationHistory.appsRemaining *
+              (response.data.TargetFillToPercentage.N / 100)
+            ),
+            displayUserErrorTargetPercentage: false,
+            lsoaTableError: false,
           });
 
           // Set global state
@@ -417,14 +426,6 @@ class ClinicInformation extends Component {
               (response.data.TargetFillToPercentage.N / 100)
             ),
           });
-
-          this.setState({
-            appsToFill: Math.floor(
-              clinicInvitationHistory.appsRemaining *
-              (response.data.TargetFillToPercentage.N / 100)
-            ),
-          })
-
         });
       // Scroll to the top of the page every time it renders the page
       window.scrollTo(0, 0);
@@ -509,6 +510,13 @@ class ClinicInformation extends Component {
               ),
             })
 
+            this.context.setState({
+              targetAppToFill: Math.floor(
+                clinicInvitationHistory.appsRemaining *
+                (response.data.TargetFillToPercentage.N / 100)
+              ),
+            });
+
             //Executes GET API call below when page renders - grabs default Target Percentage input value
             // and displays the target number of appointments to fill
             // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
@@ -517,21 +525,21 @@ class ClinicInformation extends Component {
             //     `https://${TARGET_PERCENTAGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/target-percentage`
             //   )
             //   .then((response) => {
-            const targetPercentageValue = response.data.targetPercentage.N;
-            this.setState({
-              targetFillToInputValue: targetPercentageValue,
-              appsToFill: Math.floor(
-                this.context.state.recentInvitationHistory.appsRemaining *
-                (targetPercentageValue / 100)
-              ),
-            });
-            this.context.setState({
-              targetAppToFill: Math.floor(
-                this.context.state.recentInvitationHistory.appsRemaining *
-                (targetPercentageValue / 100)
-              ),
-              targetPercentageToFill: targetPercentageValue,
-            });
+            // const targetPercentageValue = response.data.targetPercentage.N;
+            // this.setState({
+            //   targetFillToInputValue: targetPercentageValue,
+            //   appsToFill: Math.floor(
+            //     this.context.state.recentInvitationHistory.appsRemaining *
+            //     (targetPercentageValue / 100)
+            //   ),
+            // });
+            // this.context.setState({
+            //   targetAppToFill: Math.floor(
+            //     this.context.state.recentInvitationHistory.appsRemaining *
+            //     (targetPercentageValue / 100)
+            //   ),
+            //   targetPercentageToFill: targetPercentageValue,
+            // });
           });
       });
 
@@ -562,7 +570,7 @@ class ClinicInformation extends Component {
           nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
         });
       });
-        }
+    }
 
   componentDidUpdate(_, prevState) {
     if (
