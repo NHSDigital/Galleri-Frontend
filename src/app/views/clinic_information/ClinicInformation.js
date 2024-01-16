@@ -528,20 +528,23 @@ class ClinicInformation extends Component {
     // TODO: placeholder postcode as the clinic postcode is generated off of random string
     // therefore there is no guarentee that the postcode actually exists
     // const postcodeHolder = "SE1 9RT";
-    axios
-      .get(
-        `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
-      )
-      .then((response) => {
-        this.context.setState({
-          lsoaInRange: response.data.sort(
-            (a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N
-          ),
-          selectedLsoa: response.data.sort(
-            (a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N
-          ),
-        });
-      });
+
+    // This call is made from componentDidUpdate for performance optimization
+
+    // axios
+    //   .get(
+    //     `https://${GET_LSOA_IN_RANGE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
+    //   )
+    //   .then((response) => {
+    //     this.context.setState({
+    //       lsoaInRange: response.data.sort(
+    //         (a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N
+    //       ),
+    //       selectedLsoa: response.data.sort(
+    //         (a, b) => a.IMD_DECILE?.N - b.IMD_DECILE?.N
+    //       ),
+    //     });
+    //   });
       axios
       .get(
         `https://${INVITATION_PARAMETERS}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/invitation-parameters`
