@@ -5,28 +5,21 @@ describe('Start now', () => {
 
     
 
-    it('User clicks on start now button', () => {
+    it('User clicks on Continue button', () => {
 
         //TODO: Until domain name is finalised, using this localhost url as UAT isn't working
-        cy.visit("http://uat-1-invitations-frontend.eba-n7zf64t4.eu-west-2.elasticbeanstalk.com/")
+        cy.visit("http://uat-2-invitations-frontend.eba-mas6i84b.eu-west-2.elasticbeanstalk.com/")
         .get('.nhsuk-header__transactional-service-name--link')
         .contains('Galleri')
         .get('.nhsuk-grid-column-two-thirds')
-        .should('have.text','Protecting patient data')
-
-        //Local host url
-        // cy.visit("http://localhost:3001")
-        // .get('.nhsuk-grid-column-two-thirds')
-        // .contains('Galleri Pilot System')
-        // .get('.nhsuk-button')
-        // .click()
+        .contains('Protecting patient data')
         
         //User checks the checkbox to say I have read and understood the message
         cy.get('#confirm-privacy')
         .check()
 
         //User clicks on Continue button
-        cy.get('#continue-button')
+        cy.get('.nhsuk-button')
         .click()
 
         //Verify user is on the clinic summary screen
@@ -35,25 +28,25 @@ describe('Start now', () => {
 
         //Clinic Summary Screen: User clicks on the dropdown to select the participating ICB
         cy.get('#select-icb')
-        .select('Participating ICB QE1')
-        .should('have.value', 'Participating ICB QE1')
+        .select('Participating ICB QMF')
+        .should('have.value', 'Participating ICB QMF')
 
         //User checks the checkbox to display clinic with no appointments available
         cy.get('#displayClinicsNoApp')
         .click()
 
-        //User is able to select from dropdown to display number of clinics per page
-        cy.get('#pageSize')
+       // User is able to select from dropdown to display number of clinics per page
+       cy.get('#pageSize')
         .select('20')
-        .should('have.value', '20')
+       .should('have.value', '20')
 
-        //User is able to select from dropdown to display number of clinics per page
-        cy.get('#pageSize')
-        .select('10')
-        .should('have.value', '10')
+       // User is able to select from dropdown to display number of clinics per page
+       cy.get('#pageSize')
+       .select('10')
+       .should('have.value', '10')
 
         //User select a phlebotomy clinic from the participating ICB
-        cy.get('*[id="Phlebotomy clinic 57"]')
+        cy.get('*[id="Phlebotomy clinic 97"]')
         .click()
 
        //User should be able to click on go back link on Clinic Invitations Screen
@@ -61,7 +54,7 @@ describe('Start now', () => {
        .click()
 
        //User select a phlebotomy clinic from the participating ICB
-        cy.get('*[id="Phlebotomy clinic 80"]')
+        cy.get('*[id="Phlebotomy clinic 45"]')
         .click()
 
        //Verify user is on the Clinic Invitation screen
@@ -75,8 +68,8 @@ describe('Start now', () => {
 
       //User clicks on the dropdown to select another phlebotomy clinic
         cy.get('#clinic-selector')
-        .select('Phlebotomy clinic 37')
-        .should('have.value','Phlebotomy clinic 37')
+        .select('Phlebotomy clinic 15')
+        .should('have.value','Phlebotomy clinic 15')
 
       //User clicks on Cancel change link
         cy.get('#changeCancelButtonId')
@@ -119,15 +112,20 @@ describe('Start now', () => {
         .click()
 
       //Verify user is navigated to Invitation Summary screen
-        cy.get('#header')
+        cy.get('#invitation-summary-heading')
         .should('have.text','Invitation summary')
 
       //Verify user can see the check details banner
-       cy.get('#check-details-banner')
+       cy.get('#validation-alert')
        .should('have.text','Validation Alert: Check these details before you generate invitations')  
 
       //User should be able to go back to clinic invitations screen from Invitation Summary screen
        cy.get('.nhsuk-back-link__link')
+       .click()
+
+       //User clicks on select All LSOA checkbox
+       cy.get('#selectAllLsoa')
+       .wait(5000)
        .click()
 
        //User clicks on Calculate number to invite button
