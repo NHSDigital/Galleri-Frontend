@@ -121,7 +121,7 @@ cy.get('#invitation-summary-heading')
 .should('have.text',data.invitationSummaryHeader)
 //Verify user can see the check details banner
 cy.get('#validation-alert')
-.should('have.text',data.validationBanner)  
+.should('have.text',data.validationBanner)
 //User clicks on Generate Invitations button
 cy.get('#generate-button')
 .click()

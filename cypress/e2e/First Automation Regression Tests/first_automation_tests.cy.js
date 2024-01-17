@@ -87,7 +87,7 @@ cy.get('#invitation-summary-heading')
 .should('have.text','Invitation summary')
 //Verify user can see the check details banner
 cy.get('#validation-alert')
-.should('have.text','Validation Alert: Check these details before you generate invitations')  
+.should('have.text','Validation Alert: Check these details before you generate invitations')
 //User should be able to go back to clinic invitations screen from Invitation Summary screen
 cy.get('.nhsuk-back-link__link')
 .click()
