@@ -17,7 +17,7 @@ export default function SummaryListSecond({
           id={baseId}
           className="nhsuk-summary-list nhsuk-u-margin-bottom-8 nhsuk-error-summary__list"
         >
-          <div className="nhsuk-summary-list__row">
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
             <dt
               id={`${baseId}-term1-label`}
               className="nhsuk-summary-list__key nhsuk-error-message"
@@ -31,7 +31,7 @@ export default function SummaryListSecond({
               0
             </dd>
           </div>
-          <div className="nhsuk-summary-list__row">
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
             <dt
               id={`${baseId}-term2-label`}
               className="nhsuk-summary-list__key"
@@ -45,7 +45,7 @@ export default function SummaryListSecond({
               {avgExpectedUptake}%
             </dd>
           </div>
-          <div className="nhsuk-summary-list__row">
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
             <dt
               id={`${baseId}-term3-label`}
               className="nhsuk-summary-list__key"
@@ -66,7 +66,7 @@ export default function SummaryListSecond({
           id={baseId}
           className="nhsuk-summary-list nhsuk-u-margin-bottom-8"
         >
-          <div className="nhsuk-summary-list__row">
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
             <dt
               id={`${baseId}-term1-label`}
               className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
@@ -80,7 +80,7 @@ export default function SummaryListSecond({
               {noInviteToGenerate}
             </dd>
           </div>
-          <div className="nhsuk-summary-list__row">
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
             <dt
               id={`${baseId}-term2-label`}
               className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
@@ -94,7 +94,7 @@ export default function SummaryListSecond({
               {avgExpectedUptake}%
             </dd>
           </div>
-          <div className="nhsuk-summary-list__row">
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
             <dt
               id={`${baseId}-term3-label`}
               className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"

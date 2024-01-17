@@ -267,6 +267,12 @@ th {
 	cursor: pointer;
 }
 
+@media (max-width: 320px) {
+	.custom-invitation-summary-row-display-flex {
+		display: flex;
+	}
+}
+
 .custom-invitation-variable-tables-paddings {
 	padding-top: 24px;
 	padding-left: 40px;
