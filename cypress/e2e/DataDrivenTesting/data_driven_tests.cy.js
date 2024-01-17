@@ -280,5 +280,5 @@ cy.get('#lsoa-error-message')
 .should('have.text',data.lsoaTableErrorMessage)
 })
 })
-})
+});
 

@@ -113,4 +113,4 @@ cy.get('#returnToClinicInvitations-link')
 .should('have.text','Return to clinic invitations')
 .click()
 })
-})
+});
