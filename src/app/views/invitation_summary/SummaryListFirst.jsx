@@ -16,7 +16,7 @@ export default function SummaryListFirst({
       id="summary-list-1"
       className="nhsuk-summary-list nhsuk-u-margin-bottom-9"
     >
-      <div className="nhsuk-summary-list__row">
+      <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
         <dt
           id="appointments-remaining-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
@@ -30,7 +30,7 @@ export default function SummaryListFirst({
           {appsRemaining}
         </dd>
       </div>
-      <div className="nhsuk-summary-list__row">
+      <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
         <dt
           id="target-percentage-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
@@ -44,7 +44,7 @@ export default function SummaryListFirst({
           {targetPercentageToFill}%
         </dd>
       </div>
-      <div className="nhsuk-summary-list__row">
+      <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
         <dt
           id="target-appointments-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
@@ -58,7 +58,7 @@ export default function SummaryListFirst({
           {targetAppToFill}
         </dd>
       </div>
-      <div className="nhsuk-summary-list__row">
+      <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
         <dt
           id="distance-from-clinic-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
@@ -72,7 +72,7 @@ export default function SummaryListFirst({
           + {rangeSelection} miles
         </dd>
       </div>
-      <div className="nhsuk-summary-list__row">
+      <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
         <dt
           id="total-available-label"
           className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
