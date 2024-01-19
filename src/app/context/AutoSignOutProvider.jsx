@@ -1,8 +1,10 @@
 "use client";
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useSession } from 'next-auth/react';
+// The display counter does not represent the actual timer after inactive,
+// and it auto-signs out after set timer runs out regardless of inactive or not
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useSession } from "next-auth/react";
 
-const timeout = 60000 ; // 10 minute in milliseconds
+const timeout = 60000 * 2; // 2 mins currently but have to be 10 minutes in milliseconds
 
 const AutoSignOutProvider = ({ children }) => {
   const [timer, setTimer] = useState(null);
@@ -12,10 +14,11 @@ const AutoSignOutProvider = ({ children }) => {
 
   // Function to reset the timer
   const resetTimer = useCallback(() => {
-    console.log('Resetting timer function.');
+    console.log("Resetting timer function.");
     clearTimeout(timer);
     // Set a new timer when called
-    setTimer(setTimeout(() => handleSignOut(), timeout));
+    // setTimer(setTimeout(() => handleSignOut(), timeout));
+    setTimer(setTimeout(() => timeout));
     setRemainingTime(timeout / 1000);
   }, [timer, remainingTime]);
 
@@ -24,12 +27,14 @@ const AutoSignOutProvider = ({ children }) => {
 
   // Function to handle the sign-out action
   const handleSignOut = async () => {
-    window.location.href = '/signin?callbackUrl=/';
+    console.log("Auto sign out handle singout action invoked");
+    window.location.href = "/signin?callbackUrl=/";
   };
 
   useEffect(() => {
     // Set the initial timer when the component mounts
-    setTimer(setTimeout(() => handleSignOut(), timeout));
+    // setTimer(setTimeout(() => handleSignOut(), timeout));
+    setTimer(setTimeout(() => timeout));
 
     // Cleanup function to clear the timer when the component unmounts
     return () => {
@@ -40,20 +45,20 @@ const AutoSignOutProvider = ({ children }) => {
   useEffect(() => {
     // Function to reset the timer on user activity
     const resetTimerOnActivity = () => {
-      console.log('User activity detected! Resetting timer.');
+      console.log("User activity detected! Resetting timer.");
       resetTimerRef.current();
     };
 
     // Attach event listeners for user activity
-    document.addEventListener('mousemove', resetTimerOnActivity);
-    document.addEventListener('click', resetTimerOnActivity);
-    document.addEventListener('touchstart', resetTimerOnActivity);
+    document.addEventListener("mousemove", resetTimerOnActivity);
+    document.addEventListener("click", resetTimerOnActivity);
+    document.addEventListener("touchstart", resetTimerOnActivity);
 
     // Detach event listeners on component unmount
     return () => {
-      document.removeEventListener('mousemove', resetTimerOnActivity);
-      document.removeEventListener('click', resetTimerOnActivity);
-      document.removeEventListener('touchstart', resetTimerOnActivity);
+      document.removeEventListener("mousemove", resetTimerOnActivity);
+      document.removeEventListener("click", resetTimerOnActivity);
+      document.removeEventListener("touchstart", resetTimerOnActivity);
     };
   }, []);
 

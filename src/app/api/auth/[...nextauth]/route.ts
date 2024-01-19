@@ -3,7 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import { users } from "../../../../../helpers/user_database";
 
-
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -34,7 +33,46 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
     // ...add more providers here
+    {
+      id: "CIS2",
+      name: "CIS2",
+      type: "oauth",
+      version: "2.0",
+      clientId: process.env.CIS2_ID,
+      clientSecret: process.env.CIS2_SECRET,
+      wellKnown:
+        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk/openam/oauth2/realms/root/realms/oidc/.well-known/openid-configuration",
+      authorization: {
+        params: {
+          scope: "openid email profile",
+          redirect_uri: process.env.NEXTAUTH_URL,
+        },
+      },
+      idToken: true,
+      checks: ["state"],
+      profile(profile) {
+        return (
+          console.log("profile", profile),
+          {
+            id: profile.sub,
+            name: profile.name,
+            email: profile.email,
+            image: profile.picture,
+          }
+        );
+      },
+    },
   ],
+  callbacks: {
+    async jwt({ token, user, profile }) {
+      console.log("jwt callback", { token, user, profile });
+      return token;
+    },
+    async session({ session, token, user }) {
+      console.log("session callback", { session, token, user });
+      return session;
+    },
+  },
   pages: {
     signIn: "/auth/signin",
   },
@@ -48,7 +86,7 @@ export const authOptions: NextAuthOptions = {
     // strategy: "database",
 
     // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 60, // 10 min
+    maxAge: 60 * 10, // 10 min
 
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
