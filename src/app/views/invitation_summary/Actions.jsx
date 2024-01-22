@@ -4,16 +4,15 @@ import React from "react";
 const Actions = ({
   onClickGenerateHandler,
   displayConfirmationInvitationSummary,
-  displayErrorInvitationSummary,
-  onClickGoBackPrevPageLinkHandler
+  onClickGoBackPrevPageLinkHandler,
 }) => (
   <>
     {displayConfirmationInvitationSummary && (
-      <div className="nhsuk-u-margin-bottom-8">
+      <div className="custom-pointer nhsuk-u-margin-bottom-8">
         <a
           id="returnToClinicInvitations-link"
-          style={{ textDecorationLine: "underline" }}
-          onClick={onClickGoBackPrevPageLinkHandler} // Will have to come back and add a path to previous page after Router is implemented
+          href="#"
+          onClick={onClickGoBackPrevPageLinkHandler}
         >
           Return to clinic invitations
         </a>
@@ -26,7 +25,6 @@ const Actions = ({
         className="nhsuk-button"
         data-module="nhsuk-button"
         type="submit"
-        disabled={displayErrorInvitationSummary}
         onClick={onClickGenerateHandler}
       >
         Generate invitations
@@ -39,7 +37,7 @@ const Actions = ({
 const ConfirmationContent = () => {
   return (
     <>
-      <h2 class="govuk-heading-m">What happens next</h2>
+      <h2 className="govuk-heading-m">What happens next</h2>
       <ul>
         <li>
           The invitations will be sent out to the participants using comms

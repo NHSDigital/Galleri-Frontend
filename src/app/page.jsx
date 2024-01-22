@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import Content from "./components/content";
 import Footer from "./components/Footer";
+import PrivacyConfirmation from "./views/privacy_confirmation/PrivacyConfirmation";
 import Start from "./views/start_page/Start";
 import ClinicSummary from "./views/clinic_summary/ClinicSummary";
 import InvitationPlanning from "./views/invitation_planning/InvitationPlanning";
@@ -11,17 +12,23 @@ import AutoSignOutProvider from "./context/AutoSignOutProvider";
 
 // The root page of Galleri
 export default async function Root() {
+  const roles = ["Invitation Planner", "Referring Nurse"];
   return (
     <div>
       <body className="js-enabled">
-        <a id="skip-to-main" href="#main-content" className="govuk-skip-link" data-module="govuk-skip-link">
+        <a
+          id="skip-to-main"
+          href="#main-content"
+          className="govuk-skip-link"
+          data-module="govuk-skip-link"
+        >
           Skip to main content
         </a>
 
         <AutoSignOutProvider>
           <AppStateProvider>
             {/* <Header /> */}
-            <Start />
+            <PrivacyConfirmation userRole={roles[0]} />
             {/* <Content /> */}
             {/* <ClinicSummary /> */}
             {/* <InvitationPlanning /> */}

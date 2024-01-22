@@ -2,6 +2,7 @@ import "../../styles/css/sass.css";
 import React from "react";
 import NationalForecastUptakeTable from "./NationalForecastUptakeTable";
 import QuintileTargetTable from "./QuintileTargetTable";
+import Errorinvitations from "./ErrorInvitations";
 
 export default function InvitationPlanningPage(props) {
   const {
@@ -23,80 +24,81 @@ export default function InvitationPlanningPage(props) {
     onCancelSaveForecastHandler,
     onSaveForecastHandler,
     sumQuintiles,
+    onKeyUp,
   } = props;
 
   return (
-    <div class="nhsuk-width-container ">
-      <main class="nhsuk-main-wrapper " id="invitationsParameters" role="main">
-        <div class="nhsuk-grid-row">
-          <div class="nhsuk-grid-column-full">
-            <h1>Invitation variables</h1>
-            <h5 style={{ "font-weight": "normal" }}>
+    <div className="nhsuk-width-container ">
+      <main
+        className="nhsuk-main-wrapper "
+        id="main-content"
+        aria-labelledby="invitation-variables"
+      >
+        {(!isCorrectUptakeTotal || !isCorrectTotal) && (
+          <div id="error-summary" tabIndex="0" role="alert">
+            <Errorinvitations
+              onKeyUp={onKeyUp}
+              isCorrectTotal={isCorrectTotal}
+              isCorrectUptakeTotal={isCorrectUptakeTotal}
+            />
+          </div>
+        )}
+        <div className="nhsuk-grid-row">
+          <div className="nhsuk-grid-column-full">
+            <h1 id="invitation-variables">Invitation variables</h1>
+            <p className="nhsuk-body-l nhsuk-u-margin-bottom-8">
               The forecasted national uptake and quintile fill targets can be
               amended if necessary.
-            </h5>
-            <div class="nhsuk-grid-column-one-half" style={{ padding: "0px" }}>
-              <div class="nhsuk-card" id="forecastTableContainer">
-                <div
-                  style={{
-                    "padding-top": "24px",
-                    "padding-left": "40px",
-                    "padding-right": "40px",
-                  }}
-                >
+            </p>
+            <div className="custom-nhsuk-grid-column-one-half">
+              <div className="nhsuk-card" id="forecast-table-container">
+                <div className="custom-invitation-variable-tables-paddings">
                   <NationalForecastUptakeTable
                     nationalUptakePercentage={nationalUptakePercentage}
                     onUptakeChangeHandler={onUptakeChangeHandler}
                     enableUptakeEdit={enableUptakeEdit}
+                    isCorrectUptakeTotal={isCorrectUptakeTotal}
                   />
-                  <br />
                   <div
-                    class="nhsuk-hint"
-                    id="last-updated-hint"
-                    style={{ textAlign: "right", "margin-bottom": "2px" }}
+                    className="nhsuk-hint nhsuk-u-margin-bottom-1"
+                    id="last-updated-hint-national-forecast"
                   >
                     Last Updated: {lastUpdatedQuintile}
                   </div>
                   <div
-                    class="nhsuk-hint"
-                    id="last-updated-hint"
-                    style={{ textAlign: "right" }}
+                    className="nhsuk-hint"
+                    id="last-updated-hint-user-forecast"
                   >
                     {userName}
                   </div>
-                  {!isCorrectUptakeTotal && (
-                    <div class="nhsuk-error-summary">
-                      The uptake percentage must be between 1% and 100%
-                    </div>
-                  )}
                   {enableUptakeEdit ? (
-                    <div>
-                      <button
-                        class="nhsuk-button"
-                        onClick={() =>
-                          onSaveForecastHandler(nationalUptakePercentage)
-                        }
-                      >
-                        Save changes
-                      </button>
-                      <br />
-                      <a
-                        class="nhsuk-action-link__link:hover .nhsuk-action-link__text"
-                        onClick={() => onCancelSaveForecastHandler()}
-                        style={{
-                          border: "24px",
-                          "text-decoration": "underline",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Cancel without saving
-                      </a>
-                      <br />
-                      <br />
-                    </div>
+                    <>
+                      <div>
+                        <button
+                          className="nhsuk-button"
+                          onClick={() =>
+                            onSaveForecastHandler(nationalUptakePercentage)
+                          }
+                        >
+                          Save changes
+                        </button>
+                      </div>
+                      <div className="nhsuk-u-margin-bottom-4">
+                        <a
+                          className="custom-invitation-variable-link"
+                          href=""
+                          onClick={(event) => {
+                            event.preventDefault();
+                            onCancelSaveForecastHandler();
+                          }}
+                        >
+                          Cancel without saving
+                        </a>
+                      </div>
+                    </>
                   ) : (
                     <button
-                      class="nhsuk-button"
+                      className="nhsuk-button"
                       onClick={() =>
                         onAmendForecastHandler(nationalUptakePercentage)
                       }
@@ -106,67 +108,54 @@ export default function InvitationPlanningPage(props) {
                   )}
                 </div>
               </div>
-              <div class="nhsuk-card" id="quintileTableContainer">
-                <div
-                  style={{
-                    "padding-top": "24px",
-                    "padding-left": "40px",
-                    "padding-right": "40px",
-                  }}
-                >
+              <div className="nhsuk-card" id="quintileTableContainer">
+                <div className="custom-invitation-variable-tables-paddings">
                   <QuintileTargetTable
                     quintileValues={quintileValues}
                     quintileValuesAux={quintileValuesAux}
                     onQuintileChangeHandler={onQuintileChangeHandler}
                     enableFillEdit={enableFillEdit}
                     sumQuintiles={sumQuintiles}
+                    isCorrectTotal={isCorrectTotal}
                   />
-                  <br />
                   <div
-                    class="nhsuk-hint"
-                    id="last-updated-hint"
-                    style={{ textAlign: "right", "margin-bottom": "2px" }}
+                    className="nhsuk-hint nhsuk-u-margin-bottom-1"
+                    id="last-updated-hint-quintile"
                   >
                     Last Updated: {lastUpdatedQuintile}
                   </div>
                   <div
-                    class="nhsuk-hint"
-                    id="last-updated-hint"
-                    style={{ textAlign: "right" }}
+                    className="nhsuk-hint"
+                    id="last-updated-hint-user-quintile"
                   >
                     {userName}
                   </div>
-                  {!isCorrectTotal && (
-                    <div class="nhsuk-error-summary">
-                      The fill targets must add up to 100%
-                    </div>
-                  )}
                   {enableFillEdit ? (
-                    <div>
-                      <button
-                        class="nhsuk-button"
-                        onClick={() => onSaveFillHandler(quintileValues)}
-                      >
-                        Save changes
-                      </button>
-                      <br />
-                      <a
-                        class="nhsuk-action-link__link:hover .nhsuk-action-link__text"
-                        onClick={() => onCancelSaveFillHandler()}
-                        style={{
-                          border: "24px",
-                          "text-decoration": "underline",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Cancel without saving
-                      </a>
-                      <br />
-                      <br />
-                    </div>
+                    <>
+                      <div>
+                        <button
+                          className="nhsuk-button"
+                          onClick={() => onSaveFillHandler(quintileValues)}
+                        >
+                          Save changes
+                        </button>
+                      </div>
+                      <div className="nhsuk-u-margin-bottom-4">
+                        <a
+                          className="custom-invitation-variable-link"
+                          href=""
+                          onClick={(event) => {
+                            event.preventDefault();
+                            onCancelSaveFillHandler();
+                          }}
+                        >
+                          Cancel without saving
+                        </a>
+                      </div>
+                    </>
                   ) : (
                     <button
-                      class="nhsuk-button"
+                      className="nhsuk-button"
                       onClick={() => onAmendFillHandler()}
                     >
                       Amend fill target

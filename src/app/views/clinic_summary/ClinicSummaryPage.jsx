@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import ClinicSummaryTable from "./ClinicSummaryTable";
 
 export default function ClinicSummaryPage(props) {
-  console.log("ClinicSummary")
+  console.log("ClinicSummary");
 
   const {
     icbData,
@@ -31,8 +31,8 @@ export default function ClinicSummaryPage(props) {
             <h1 aria-label="Clinic Summary">Clinic Summary</h1>
             <div className="nhsuk-u-reading-width nhsuk-u-margin-bottom-6">
               <p>
-                Summarises how many appointments remain available over the next 6
-                weeks, how many invitations have been generated and when.
+                Summarises how many appointments remain available over the next
+                6 weeks, how many invitations have been generated and when.
               </p>
               <div className="nhsuk-form-group">
                 <label className="nhsuk-label" for="select-icb">
@@ -55,10 +55,9 @@ export default function ClinicSummaryPage(props) {
                 </select>
               </div>
             </div>
-            <div aria-live="polite" id="dynamic-update-region">
-              {icbSelected === ""
-                ? null
-                : isContextLoaded && (
+            {icbSelected === ""
+              ? null
+              : isContextLoaded && (
                   <ClinicSummaryTable
                     lastUpdated={lastUpdated}
                     clinicList={clinicList}
@@ -70,7 +69,6 @@ export default function ClinicSummaryPage(props) {
                     onCurrentPageChange={onCurrentPageChange}
                   />
                 )}
-            </div>
           </div>
         </div>
       </main>

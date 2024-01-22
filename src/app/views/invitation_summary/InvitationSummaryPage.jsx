@@ -2,7 +2,6 @@ import "../../styles/css/sass.css";
 import React from "react";
 import ClinicInfo from "./ClinicInfo";
 import CheckDetailsBanner from "./CheckDetailsBanner";
-import ErrorBanner from "./ErrorBanner";
 import ConfirmationBanner from "./ConfirmationBanner";
 import Actions from "./Actions";
 import SummaryListFirst from "./SummaryListFirst";
@@ -25,26 +24,26 @@ export default function InvitationSummaryPage(props) {
     targetPercentageToFill,
     totalToInvite,
     avgExpectedUptake,
-    noInviteToGenerate
+    noInviteToGenerate,
   } = props;
 
   return (
     <div
       data-testid="invitation-summary-container"
-      class="nhsuk-width-container "
+      className="nhsuk-width-container "
     >
-      <main class="nhsuk-main-wrapper " id="clinicSummary" role="main">
-        <div class="nhsuk-grid-row">
-          <div class="nhsuk-grid-column-full">
+      <main className="nhsuk-main-wrapper " id="invitation-summary" role="main">
+        <section className="nhsuk-grid-row">
+          <div className="nhsuk-grid-column-full">
             {!displayConfirmationInvitationSummary && (
-              <div class="nhsuk-back-link">
+              <div className="nhsuk-back-link">
                 <a
-                  class="nhsuk-back-link__link"
+                  className="nhsuk-back-link__link"
                   href="#"
                   onClick={onClickGoBackPrevPageLinkHandler}
                 >
                   <svg
-                    class="nhsuk-icon nhsuk-icon__chevron-left"
+                    className="nhsuk-icon nhsuk-icon__chevron-left"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -57,22 +56,25 @@ export default function InvitationSummaryPage(props) {
                 </a>
               </div>
             )}
-            <h1 data-testid="header" id="header">
+            <h1 data-testid="header" id="invitation-summary-heading">
               Invitation summary
             </h1>
-            {displayCheckDetailsBanner && <CheckDetailsBanner />}
+            {displayCheckDetailsBanner && (
+              <CheckDetailsBanner
+                onClickGoBackPrevPageLinkHandler={
+                  onClickGoBackPrevPageLinkHandler
+                }
+                noInviteToGenerate={noInviteToGenerate}
+                totalToInvite={totalToInvite}
+                targetAppToFill={targetAppToFill}
+              />
+            )}
           </div>
-          <div
+          <article
             data-testid="main-content"
             id="main-content"
             className="nhsuk-grid-column-two-thirds"
           >
-            {displayErrorInvitationSummary || (noInviteToGenerate > totalToInvite) && (
-              <ErrorBanner
-                totalToInvite={totalToInvite}
-                noInviteToGenerate={noInviteToGenerate}
-              />
-            )}
             {displayConfirmationInvitationSummary && <ConfirmationBanner />}
             <ClinicInfo
               clinicName={clinicName}
@@ -103,8 +105,8 @@ export default function InvitationSummaryPage(props) {
                 displayConfirmationInvitationSummary
               }
             />
-          </div>
-        </div>
+          </article>
+        </section>
       </main>
     </div>
   );

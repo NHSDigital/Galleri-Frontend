@@ -1,39 +1,61 @@
 import "../../styles/css/sass.css";
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function SummaryListSecond({
   displayErrorInvitationSummary,
   avgExpectedUptake,
-  noInviteToGenerate
+  noInviteToGenerate,
 }) {
+  const baseId = "summary-list-2";
+
   return (
     <>
       {displayErrorInvitationSummary ? (
         <dl
           data-testid="summary-list-2-error"
-          id="summary-list-2"
-          class="nhsuk-summary-list nhsuk-u-margin-bottom-8 nhsuk-error-summary__list"
+          id={baseId}
+          className="nhsuk-summary-list nhsuk-u-margin-bottom-8 nhsuk-error-summary__list"
         >
-          <div class="nhsuk-summary-list__row">
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
             <dt
-              style={{ width: "350px" }}
-              id="term1-label"
-              class="nhsuk-summary-list__key"
-            >
-              Overall expected uptake
-            </dt>
-            <dd id="term1-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-1">
-              {avgExpectedUptake}%
-            </dd>
-          </div>
-          <div class="nhsuk-summary-list__row">
-            <dt
-              id="term2-label"
-              class="nhsuk-summary-list__key nhsuk-error-message"
+              id={`${baseId}-term1-label`}
+              className="nhsuk-summary-list__key nhsuk-error-message"
             >
               Number of invitations to generate
             </dt>
-            <dd id="term2-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-1">
+            <dd
+              id={`${baseId}-term1-value`}
+              className="nhsuk-summary-list__value nhsuk-u-padding-left-4"
+            >
+              0
+            </dd>
+          </div>
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
+            <dt
+              id={`${baseId}-term2-label`}
+              className="nhsuk-summary-list__key"
+            >
+              Overall expected uptake
+            </dt>
+            <dd
+              id={`${baseId}-term2-value`}
+              className="nhsuk-summary-list__value nhsuk-u-padding-left-4"
+            >
+              {avgExpectedUptake}%
+            </dd>
+          </div>
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
+            <dt
+              id={`${baseId}-term3-label`}
+              className="nhsuk-summary-list__key"
+            >
+              Estimated appointments that will be filled
+            </dt>
+            <dd
+              id={`${baseId}-term3-value`}
+              className="nhsuk-summary-list__value nhsuk-u-padding-left-4"
+            >
               0
             </dd>
           </div>
@@ -41,27 +63,49 @@ export default function SummaryListSecond({
       ) : (
         <dl
           data-testid="summary-list-2"
-          id="summary-list-2"
-          class="nhsuk-summary-list nhsuk-u-margin-bottom-8"
+          id={baseId}
+          className="nhsuk-summary-list nhsuk-u-margin-bottom-8"
         >
-          <div class="nhsuk-summary-list__row">
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
             <dt
-              style={{ width: "350px" }}
-              id="term1-label"
-              class="nhsuk-summary-list__key"
+              id={`${baseId}-term1-label`}
+              className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
+            >
+              Number of invitations to generate
+            </dt>
+            <dd
+              id={`${baseId}-term1-value`}
+              className="nhsuk-summary-list__value nhsuk-u-padding-left-4"
+            >
+              {noInviteToGenerate}
+            </dd>
+          </div>
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
+            <dt
+              id={`${baseId}-term2-label`}
+              className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
             >
               Overall expected uptake
             </dt>
-            <dd id="term1-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-4">
+            <dd
+              id={`${baseId}-term2-value`}
+              className="nhsuk-summary-list__value nhsuk-u-padding-left-4"
+            >
               {avgExpectedUptake}%
             </dd>
           </div>
-          <div class="nhsuk-summary-list__row">
-            <dt id="term2-label" class="nhsuk-summary-list__key">
-              Number of invitations to generate
+          <div className="nhsuk-summary-list__row custom-invitation-summary-row-display-flex">
+            <dt
+              id={`${baseId}-term3-label`}
+              className="nhsuk-summary-list__key nhsuk-summary-list-custom__key"
+            >
+              Estimated appointments that will be filled
             </dt>
-            <dd id="term2-value" class="nhsuk-summary-list__value nhsuk-u-padding-left-4">
-              {noInviteToGenerate}
+            <dd
+              id={`${baseId}-term3-value`}
+              className="nhsuk-summary-list__value nhsuk-u-padding-left-4 nhsuk-summary-list__value_custom__value"
+            >
+              {Math.floor((noInviteToGenerate * avgExpectedUptake) / 100)}
             </dd>
           </div>
         </dl>
@@ -69,3 +113,8 @@ export default function SummaryListSecond({
     </>
   );
 }
+SummaryListSecond.propTypes = {
+  displayErrorInvitationSummary: PropTypes.bool.isRequired,
+  avgExpectedUptake: PropTypes.number.isRequired,
+  noInviteToGenerate: PropTypes.number.isRequired,
+};

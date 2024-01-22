@@ -23,7 +23,6 @@ export default function ClinicSummaryTable(props) {
 
   return (
     <section>
-      {/* <h2 className="nhsuk-heading no-margin-bottom">Clinic List</h2> */}
       <table
         className="nhsuk-table-responsive nhsuk-u-margin-bottom-6"
         aria-labelledby="clinicTableCaption"
@@ -36,7 +35,7 @@ export default function ClinicSummaryTable(props) {
           <span className="nhsuk-hint" id="last-updated-hint">
             Last Updated: {props.lastUpdated}
           </span>
-          <div className="nhsuk-checkboxes__item">
+          <div className="nhsuk-checkboxes__item nhsuk-u-margin-bottom-4">
             <input
               className="nhsuk-checkboxes__input"
               id="displayClinicsNoApp"
@@ -52,9 +51,8 @@ export default function ClinicSummaryTable(props) {
               Display clinics with no appointments available
             </label>
           </div>
-          <br />
           <div className="nhsuk-form-group">
-            <label className="nhsuk-label" for="pageSize">
+            <label className="nhsuk-label" htmlFor="pageSize">
               Clinics per page
             </label>
             <select

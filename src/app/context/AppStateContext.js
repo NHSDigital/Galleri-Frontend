@@ -46,7 +46,9 @@ export class AppStateProvider extends React.Component {
       "noInviteToGenerate": 0,
       "personIdentifiedToInvite": [],
       "pageSize": 0,
-      "currentPage": 0
+      "currentPage": 0,
+      "lsoaInRange": [""],
+      "selectedLsoa": []
     };
   }
 
