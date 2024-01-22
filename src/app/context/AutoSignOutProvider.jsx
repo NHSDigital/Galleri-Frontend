@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 
-const timeout = 60000 * 2; // 2 mins currently but have to be 10 minutes in milliseconds
+const timeout = 60000 * 15; // 15 minutes in milliseconds
 
 const AutoSignOutProvider = ({ children }) => {
   const [timer, setTimer] = useState(null);
