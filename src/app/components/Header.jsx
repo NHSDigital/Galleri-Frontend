@@ -1,8 +1,8 @@
 import React from "react";
 import "../styles/css/sass.css";
 import NavMenu from "./NavMenu";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+// import { useSession } from "next-auth/react"; //Will require later
+// import { redirect } from "next/navigation"; //Will require later
 
 // Header container
 export default function Header() {

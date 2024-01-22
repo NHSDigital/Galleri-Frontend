@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/css/sass.css";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+// import { useSession } from "next-auth/react"; //Will require later
+// import { redirect } from "next/navigation"; //Will require later
 
 export default function StartPage(props) {
   // Block below is used to get session data for client components since the

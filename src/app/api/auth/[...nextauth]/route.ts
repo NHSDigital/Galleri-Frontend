@@ -1,6 +1,5 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
 import { users } from "../../../../../helpers/user_database";
 
 export const authOptions: NextAuthOptions = {
@@ -28,10 +27,6 @@ export const authOptions: NextAuthOptions = {
         return null;
       },
     }),
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
     // ...add more providers here
     {
       id: "CIS2",
@@ -44,7 +39,7 @@ export const authOptions: NextAuthOptions = {
         "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk/openam/oauth2/realms/root/realms/oidc/.well-known/openid-configuration",
       authorization: {
         params: {
-          scope: "openid email profile",
+          scope: "openid email profile nationalrbacaccess",
           redirect_uri: process.env.NEXTAUTH_URL,
         },
       },
@@ -63,20 +58,11 @@ export const authOptions: NextAuthOptions = {
       },
     },
   ],
-  callbacks: {
-    async jwt({ token, user, profile }) {
-      console.log("jwt callback", { token, user, profile });
-      return token;
-    },
-    async session({ session, token, user }) {
-      console.log("session callback", { session, token, user });
-      return session;
-    },
-  },
   pages: {
     signIn: "/auth/signin",
   },
   session: {
+    strategy: "jwt",
     // Choose how you want to save the user session.
     // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
     // If you use an `adapter` however, we default it to `"database"` instead.
@@ -92,6 +78,18 @@ export const authOptions: NextAuthOptions = {
     // Use it to limit write operations. Set to 0 to always update the database.
     // Note: This option is ignored if using JSON Web Tokens
     updateAge: 24 * 60 * 60, // 24 hours
+  },
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      console.log("session callback", { session, token });
+      return session;
+    },
   },
 };
 
