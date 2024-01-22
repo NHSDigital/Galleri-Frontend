@@ -127,7 +127,6 @@ class InvitationSummary extends Component {
         },
       }
     );
-    console.log("logging response = ", response.data);
   }
 
   componentDidMount() {

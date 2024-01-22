@@ -19,7 +19,6 @@ export const authOptions: NextAuthOptions = {
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
-        console.log(users.find((item) => item.email === "amar.rai5@nhs.net"));
         const user = users.find((item) => item.email === credentials.email);
         if (user?.password === credentials.password) {
           return user;
@@ -47,7 +46,7 @@ export const authOptions: NextAuthOptions = {
       checks: ["state"],
       profile(profile) {
         return (
-          console.log("profile", profile),
+          // console.log("profile", profile),
           {
             id: profile.sub,
             name: profile.name,
@@ -87,7 +86,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      console.log("session callback", { session, token });
+      // console.log("session callback", { session, token });
       return session;
     },
   },

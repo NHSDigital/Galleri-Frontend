@@ -3,8 +3,6 @@ import React, { Component } from "react";
 import ClinicSummaryTable from "./ClinicSummaryTable";
 
 export default function ClinicSummaryPage(props) {
-  console.log("ClinicSummary");
-
   const {
     icbData,
     icbSelected,
