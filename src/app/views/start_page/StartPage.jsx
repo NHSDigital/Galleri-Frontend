@@ -75,6 +75,7 @@ export default function StartPage(props) {
 
               <a
                 class="nhsuk-button"
+                data-testid="start-button"
                 href="#"
                 role="button"
                 draggable="false"
