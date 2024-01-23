@@ -1,4 +1,4 @@
-
+"use client";
 import React, { Component } from 'react';
 import ClinicInformationPage from './ClinicInformationPage';
 import InvitationSummary from '../invitation_summary/InvitationSummary';
@@ -63,12 +63,12 @@ class ClinicInformation extends Component {
         isSubmit: false,
       });
       this.scrollToErrorContent();
-    }else if (this.state.appsToFill === 0 ||
+    } else if (this.state.appsToFill === 0 ||
       this.state.displayUserErrorTargetPercentage ||
       this.state.targetFillToInputValue.trim().length === 0 ||
       Number(this.state.targetFillToInputValue) === 0 ||
       Number(this.state.targetFillToInputValue) >= 100
-      ){
+    ) {
       this.setState({
         targetErrorMessage: "The target percentage must be between 1% and 100%",
         hrefErrorMessage: "#error-message",
@@ -91,7 +91,7 @@ class ClinicInformation extends Component {
       })
 
       const deselectAll = this.context.state.lsoaInRange.map((lsoa) => {
-        if(lsoa.checked === true)
+        if (lsoa.checked === true)
           lsoa.checked = false;
         return lsoa;
       });
@@ -564,7 +564,7 @@ class ClinicInformation extends Component {
     //       ),
     //     });
     //   });
-      axios
+    axios
       .get(
         `https://${INVITATION_PARAMETERS}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/invitation-parameters`
       )
@@ -573,7 +573,7 @@ class ClinicInformation extends Component {
           nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
         });
       });
-    }
+  }
 
   componentDidUpdate(_, prevState) {
     if (

@@ -1,3 +1,4 @@
+"use client";
 import { Component } from "react";
 import ClinicSummaryPage from "./ClinicSummaryPage";
 import ClinicInformation from "../clinic_information/ClinicInformation";

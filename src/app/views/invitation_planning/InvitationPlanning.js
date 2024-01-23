@@ -1,3 +1,4 @@
+"use client";
 import { Component } from "react";
 import { QuintileTarget } from "@/app/models/invitation_planning/QuintileTarget";
 import { sumQuintiles } from "./helper";

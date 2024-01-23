@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import StartPage from "./StartPage";
-import ClinicSummary from "../clinic_summary/ClinicSummary";
+"use client";
+import React, { Component } from 'react';
+import StartPage from './StartPage';
+import ClinicSummary from '../clinic_summary/ClinicSummary';
 
 class Start extends Component {
   constructor() {
