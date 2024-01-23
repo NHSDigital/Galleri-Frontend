@@ -14,10 +14,8 @@ export default function LoggedOut() {
       <div className="nhsuk-width-container">
         <main className="nhsuk-main-wrapper" id="maincontent" role="main">
           <div className="nhsuk-grid-column-full">
-            <h1 data-testid="log-out-header">You have been logged out</h1>
-          </div>
-          <div className="nhsuk-grid-row">
-            <div className="nhsuk-grid-column-two-thirds">
+            <div className="nhsuk-grid-row">
+              <h1 data-testid="log-out-header">You have been logged out</h1>
               <p>
                 You have been logged out as you have been inactive for 15
                 minutes.
