@@ -1,5 +1,5 @@
 import React from "react";
-import { useInactivity } from "@/app/context/InactivityTimerContext";
+import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
 
 import "../../styles/css/sass.css";

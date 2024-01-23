@@ -1,3 +1,4 @@
+"use client";
 import { Component } from "react";
 import StartPage from "../start_page/StartPage";
 import PrivacyConfirmationPage from "./PrivacyConfirmationPage";

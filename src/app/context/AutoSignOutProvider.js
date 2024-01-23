@@ -1,3 +1,4 @@
+"use client";
 import React, {
   createContext,
   useState,
@@ -6,10 +7,13 @@ import React, {
   useRef,
 } from "react";
 
+import { useSession } from "next-auth/react";
+
 const InactivityContext = createContext();
 
 const InactivityProvider = ({ children, timeout }) => {
   const [showLogoutPage, setShowLogoutPage] = useState(false);
+  const { data: session } = useSession();
   const timerRef = useRef(null);
 
   const resetTimer = () => {
@@ -37,11 +41,14 @@ const InactivityProvider = ({ children, timeout }) => {
         window.removeEventListener(event, onActivity);
       });
     };
-  }, [timeout]);
+  }, [timeout, session]);
 
-  const closeLogoutPage = () => {
-    setShowLogoutPage(false);
+  const closeLogoutPage = async () => {
+    window.location.href = "/signin?callbackUrl=/";
     resetTimer();
+    setTimeout(() => {
+      setShowLogoutPage(false);
+    }, 2000);
   };
 
   return (

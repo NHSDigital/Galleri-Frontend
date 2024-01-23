@@ -1,8 +1,23 @@
+import React from "react";
 import "../styles/css/sass.css";
 import NavMenu from "./NavMenu";
+// import { useSession } from "next-auth/react"; //Will require later
+// import { redirect } from "next/navigation"; //Will require later
 
 // Header container
 export default function Header({ withNavigation }) {
+  // Block below is used to Fetching user session data for client components since the
+  // class component this component is imported is client component
+  // const { data: session } = useSession({
+  //   required: true,
+  //   onUnauthenticated() {
+  //     // Redirect to sign-in page if user is not authenticated
+  //     console.log(
+  //       "Inside Header Component, Session Data Not Found so logging out"
+  //     );
+  //     redirect("/signin?callbackUrl=/");
+  //   },
+  // });
   return withNavigation ? (
     <>
       <div>
@@ -44,6 +59,19 @@ export default function Header({ withNavigation }) {
             </div>
             <div className="nhsuk-header__transactional-service-name">
               {/* <a className="nhsuk-header__transactional-service-name--link" href="#">Galleri</a> */}
+            </div>
+            <div style={{ position: "relative", display: "flex" }}>
+              {" "}
+              <div
+                style={{
+                  marginLeft: "auto",
+                  marginRight: "2%",
+                  color: "white",
+                  fontSize: "25px",
+                }}
+              >
+                {/* Hi, {session?.user.name} */}
+              </div>
             </div>
           </div>
           <div className="nhsuk-navigation-container">

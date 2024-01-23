@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "@/app/components/Header";
 import "../../styles/css/sass.css";
-import { useInactivity } from "@/app/context/InactivityTimerContext";
+import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import LoggedOut from "../logged_out/LoggedOut";
 
 export default function PrivacyConfirmationPage({
