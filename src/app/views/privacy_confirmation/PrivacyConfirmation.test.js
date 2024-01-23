@@ -33,7 +33,7 @@ describe("ClinicInfo", () => {
   const mockProps = {};
 
   jest.mock("next-auth/react", () => ({
-    ...jest.requireActual("next-auth/react"), // use the actual module for other exports
+    ...jest.requireActual("next-auth/react"),
     useSession: jest.fn(),
   }));
 
