@@ -1,0 +1,59 @@
+import React from "react";
+import "@testing-library/jest-dom";
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  waitFor,
+} from "@testing-library/react";
+import { InactivityProvider } from "../../context/InactivityTimerContext";
+import LoggedOut from "./LoggedOut";
+import Root from "../../page";
+import PrivacyConfirmationPage from "../privacy_confirmation/PrivacyConfirmationPage";
+
+jest.mock("../privacy_confirmation/PrivacyConfirmationPage", () => {
+  return {
+    __esModule: true,
+    default: () => (
+      <div data-testid="privacy-confirmation-page">
+        Privacy Confirmation Start Page
+      </div>
+    ),
+  };
+});
+
+describe("LoggedOut page", () => {
+  test("it should render logged out page", () => {
+    render(
+      <InactivityProvider timeout={10000}>
+        <Root />
+        <LoggedOut />
+      </InactivityProvider>
+    );
+    const logoutButton = screen.getByLabelText("Log Out");
+    const logoutHeader = screen.getByTestId("log-out-header");
+
+    expect(logoutButton).toBeDefined();
+    expect(logoutHeader).toBeDefined();
+  });
+
+  test("it shows continue button after timeout", async () => {
+    const { getByLabelText, queryByTestId } = render(
+      <InactivityProvider timeout={1000}>
+        <Root />
+        <LoggedOut />
+      </InactivityProvider>
+    );
+    // screen.debug();
+    expect(queryByTestId("privacy-confirmation-page")).toBeInTheDocument();
+    const logoutButton = getByLabelText("Log Out");
+    await waitFor(() => {
+      expect(logoutButton).toBeInTheDocument();
+    }, 1100);
+
+    fireEvent.click(logoutButton);
+    expect(queryByTestId("privacy-confirmation-page")).toBeInTheDocument();
+    expect(logoutButton).toBeDefined();
+  });
+});

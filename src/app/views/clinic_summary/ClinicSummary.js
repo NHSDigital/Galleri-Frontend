@@ -159,7 +159,7 @@ export default class ClinicSummary extends Component {
 
     return (
       <div data-testid="clinic-summary">
-        <Header />
+        <Header withNavigation={true} />
         {
           // Check if a clinic link has been clicked
           // If clicked render the clinic information page and pass the props
