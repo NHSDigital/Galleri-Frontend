@@ -11,6 +11,7 @@ import { InactivityProvider } from "../../context/AutoSignOutProvider";
 import LoggedOut from "./LoggedOut";
 import Root from "../../page";
 import PrivacyConfirmationPage from "../privacy_confirmation/PrivacyConfirmationPage";
+import { useSession } from "next-auth/react";
 
 jest.mock("../privacy_confirmation/PrivacyConfirmationPage", () => {
   return {
@@ -23,8 +24,20 @@ jest.mock("../privacy_confirmation/PrivacyConfirmationPage", () => {
   };
 });
 
+jest.mock("next-auth/react", () => ({
+  ...jest.requireActual("next-auth/react"), // use the actual module for other exports
+  useSession: jest.fn(),
+}));
+
 describe("LoggedOut page", () => {
   test("it should render logged out page", () => {
+    const mockSession = {
+      user: { name: "Test User", email: "test@example.com" },
+      expires: "mock-expiry",
+    };
+
+    useSession.mockReturnValueOnce([null, true]);
+    useSession.mockReturnValueOnce([mockSession, false]);
     render(
       <InactivityProvider timeout={10000}>
         <Root />
@@ -39,13 +52,20 @@ describe("LoggedOut page", () => {
   });
 
   test("it shows continue button after timeout", async () => {
+    const mockSession = {
+      user: { name: "Test User", email: "test@example.com" },
+      expires: "mock-expiry",
+    };
+
+    useSession.mockReturnValueOnce([null, true]);
+    useSession.mockReturnValueOnce([mockSession, false]);
     const { getByLabelText, queryByTestId } = render(
       <InactivityProvider timeout={1000}>
         <Root />
         <LoggedOut />
       </InactivityProvider>
     );
-    // screen.debug();
+
     expect(queryByTestId("privacy-confirmation-page")).toBeInTheDocument();
     const logoutButton = getByLabelText("Log Out");
     await waitFor(() => {

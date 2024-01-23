@@ -6,6 +6,8 @@ import ConfirmationBanner from "./ConfirmationBanner";
 import Actions from "./Actions";
 import SummaryListFirst from "./SummaryListFirst";
 import SummaryListSecond from "./SummaryListSecond";
+import { useInactivity } from "@/app/context/AutoSignOutProvider";
+import LoggedOut from "../logged_out/LoggedOut";
 
 export default function InvitationSummaryPage(props) {
   const {
@@ -27,7 +29,9 @@ export default function InvitationSummaryPage(props) {
     noInviteToGenerate,
   } = props;
 
-  return (
+  const { showLogoutPage } = useInactivity();
+
+  return !showLogoutPage ? (
     <div
       data-testid="invitation-summary-container"
       className="nhsuk-width-container "
@@ -109,5 +113,7 @@ export default function InvitationSummaryPage(props) {
         </section>
       </main>
     </div>
+  ) : (
+    <LoggedOut />
   );
 }

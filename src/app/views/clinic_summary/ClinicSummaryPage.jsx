@@ -1,6 +1,8 @@
 import "../../styles/css/sass.css";
 import React, { Component } from "react";
 import ClinicSummaryTable from "./ClinicSummaryTable";
+import { useInactivity } from "@/app/context/AutoSignOutProvider";
+import LoggedOut from "../logged_out/LoggedOut";
 
 export default function ClinicSummaryPage(props) {
   const {
@@ -18,10 +20,12 @@ export default function ClinicSummaryPage(props) {
     onCurrentPageChange,
   } = props;
 
+  const { showLogoutPage } = useInactivity();
+
   // Check if all the listed context state variables are available
   const isContextLoaded = clinicList.length > 0;
 
-  return (
+  return !showLogoutPage ? (
     <div className="nhsuk-width-container">
       <main className="nhsuk-main-wrapper" id="main-content" role="main">
         <div className="nhsuk-grid-row">
@@ -71,5 +75,7 @@ export default function ClinicSummaryPage(props) {
         </div>
       </main>
     </div>
+  ) : (
+    <LoggedOut />
   );
 }
