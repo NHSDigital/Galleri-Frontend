@@ -44,7 +44,7 @@ describe("LoggedOut page", () => {
         <LoggedOut />
       </InactivityProvider>
     );
-    const logoutButton = screen.getByLabelText("Log Out");
+    const logoutButton = screen.getByLabelText("Continue");
     const logoutHeader = screen.getByTestId("log-out-header");
 
     expect(logoutButton).toBeDefined();
@@ -67,7 +67,7 @@ describe("LoggedOut page", () => {
     );
 
     expect(queryByTestId("privacy-confirmation-page")).toBeInTheDocument();
-    const logoutButton = getByLabelText("Log Out");
+    const logoutButton = getByLabelText("Continue");
     await waitFor(() => {
       expect(logoutButton).toBeInTheDocument();
     }, 1100);

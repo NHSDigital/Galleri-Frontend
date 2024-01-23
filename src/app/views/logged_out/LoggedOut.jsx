@@ -25,9 +25,9 @@ export default function LoggedOut() {
             </div>
           </div>
           <a
-            aria-label="Log Out"
+            aria-label="Continue"
             className="nhsuk-button"
-            data-testid="log-out-button"
+            data-testid="continue-button"
             href="#"
             role="button"
             draggable="false"
