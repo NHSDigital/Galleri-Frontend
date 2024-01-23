@@ -6,6 +6,8 @@ import RecentInvitationHistory from "./RecentInvitationHistory";
 import ClinicInvitationCriteria from "./clinic_invitation_criteria/ClinicInvitationCriteria";
 import LsoaTable from "./LsoaTable";
 import ErrorBannerDetail from "./ErrorBannerDetail";
+import { useInactivity } from "@/app/context/AutoSignOutProvider";
+import LoggedOut from "../logged_out/LoggedOut";
 
 export default function ClinicInformationPage(props) {
   const {
@@ -47,7 +49,9 @@ export default function ClinicInformationPage(props) {
     nationalUptakePercentage,
   } = props;
 
-  return (
+  const { showLogoutPage } = useInactivity();
+
+  return !showLogoutPage ? (
     <div className="nhsuk-width-container ">
       <main className="nhsuk-main-wrapper" role="main">
         <div className="nhsuk-grid-row">
@@ -165,5 +169,7 @@ export default function ClinicInformationPage(props) {
         </div>
       </main>
     </div>
+  ) : (
+    <LoggedOut />
   );
 }
