@@ -1,6 +1,17 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { users } from "../../../../../helpers/user_database";
+// import { users } from "../../../../../helpers/user_database";
+
+interface UsersItem {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+}
+
+type UsersListType = UsersItem[];
+
+const users: UsersListType = JSON.parse(process.env.USERS || "[]");
 
 export const authOptions: NextAuthOptions = {
   providers: [
