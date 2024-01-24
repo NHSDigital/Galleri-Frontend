@@ -13,7 +13,7 @@ type UsersListType = UsersItem[];
 
 const users: UsersListType = JSON.parse(process.env.USERS || "[]");
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -69,7 +69,7 @@ export const authOptions: NextAuthOptions = {
     },
   ],
   pages: {
-    signIn: "/auth/signin",
+    signIn: "./auth/signin",
   },
   session: {
     strategy: "jwt",
