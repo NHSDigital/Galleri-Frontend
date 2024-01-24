@@ -2,7 +2,7 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import PrivacyConfirmation from "./PrivacyConfirmation";
-import { useInactivity } from "../../context/AutoSignOutProvider";
+import { useInactivity } from "../../context/AutoSignOutProvider.jsx";
 import { useSession } from "next-auth/react";
 
 jest.mock("next-auth/react");

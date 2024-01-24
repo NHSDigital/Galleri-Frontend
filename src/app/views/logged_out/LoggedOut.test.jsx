@@ -7,7 +7,7 @@ import {
   act,
   waitFor,
 } from "@testing-library/react";
-import { InactivityProvider } from "../../context/AutoSignOutProvider";
+import { InactivityProvider } from "../../context/AutoSignOutProvider.jsx";
 import LoggedOut from "./LoggedOut";
 import Root from "../../page";
 import PrivacyConfirmationPage from "../privacy_confirmation/PrivacyConfirmationPage";
