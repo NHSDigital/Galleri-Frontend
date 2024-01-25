@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 export default function NationalForecastUptakeTable(props) {
   const {
@@ -80,9 +80,9 @@ export default function NationalForecastUptakeTable(props) {
     </table>
   );
 }
-NationalForecastUptakeTable.propTypes = {
-  nationalUptakePercentage: PropTypes.number.isRequired,
-  enableUptakeEdit: PropTypes.bool.isRequired,
-  onUptakeChangeHandler: PropTypes.func.isRequired,
-  isCorrectUptakeTotal: PropTypes.bool.isRequired,
-};
+// NationalForecastUptakeTable.propTypes = {
+//   nationalUptakePercentage: PropTypes.number.isRequired,
+//   enableUptakeEdit: PropTypes.bool.isRequired,
+//   onUptakeChangeHandler: PropTypes.func.isRequired,
+//   isCorrectUptakeTotal: PropTypes.bool.isRequired,
+// };

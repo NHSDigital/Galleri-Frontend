@@ -1,6 +1,6 @@
 import "../../styles/css/sass.css";
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 export default function SummaryListSecond({
   displayErrorInvitationSummary,
@@ -113,8 +113,8 @@ export default function SummaryListSecond({
     </>
   );
 }
-SummaryListSecond.propTypes = {
-  displayErrorInvitationSummary: PropTypes.bool.isRequired,
-  avgExpectedUptake: PropTypes.number.isRequired,
-  noInviteToGenerate: PropTypes.number.isRequired,
-};
+// SummaryListSecond.propTypes = {
+//   displayErrorInvitationSummary: PropTypes.bool.isRequired,
+//   avgExpectedUptake: PropTypes.number.isRequired,
+//   noInviteToGenerate: PropTypes.number.isRequired,
+// };
