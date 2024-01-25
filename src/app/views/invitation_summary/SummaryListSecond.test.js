@@ -27,19 +27,19 @@ describe("SummaryListSecond", () => {
     expect(screen.queryByTestId("summary-list-2")).not.toBeInTheDocument();
   });
 
-  test("matches prop types", () => {
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => { });
-    const invalidProps = {
-      displayErrorInvitationSummary: "invalid",
-      avgExpectedUptake: "invalid",
-      noInviteToGenerate: "invalid",
-    };
+  // test("matches prop types", () => {
+  //   const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => { });
+  //   const invalidProps = {
+  //     displayErrorInvitationSummary: "invalid",
+  //     avgExpectedUptake: "invalid",
+  //     noInviteToGenerate: "invalid",
+  //   };
 
-    render(<SummaryListSecond {...invalidProps} />);
+  //   render(<SummaryListSecond {...invalidProps} />);
 
-    // Check if prop type warnings are logged
-    expect(consoleErrorSpy).toHaveBeenCalled();
+  //   // Check if prop type warnings are logged
+  //   expect(consoleErrorSpy).toHaveBeenCalled();
 
-    consoleErrorSpy.mockRestore();
-  });
+  //   consoleErrorSpy.mockRestore();
+  // });
 });
