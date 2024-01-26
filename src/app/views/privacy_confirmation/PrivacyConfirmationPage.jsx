@@ -1,7 +1,18 @@
 import React from "react";
 import "../../styles/css/sass.css";
+import { useSession } from "next-auth/react"; //Will require later
+import { redirect } from "next/navigation"; //Will require later
 
 export default function PrivacyConfirmationPage(props) {
+  // Block below is used to get session data for client components since the
+  // class component this component is imported is client component
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      console.log("Session Data Not Found so logging out");
+      redirect("/signin?callbackUrl=/");
+    },
+  });
   const { onToggleConfirmationHandler, onClickContinueHandler, showError } =
     props;
   return (
