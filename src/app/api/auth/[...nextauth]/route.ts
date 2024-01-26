@@ -11,7 +11,13 @@ interface UsersItem {
 
 type UsersListType = UsersItem[];
 
-const users: UsersListType = JSON.parse(process.env.USERS || "[]");
+let users: UsersListType = [];
+
+try {
+  users = JSON.parse(process.env.USERS || "[]");
+} catch (error) {
+  console.error("Error parsing USERS environment variable:", error);
+}
 
 const authOptions: NextAuthOptions = {
   providers: [
