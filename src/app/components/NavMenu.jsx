@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import "../styles/css/sass.css";
 import { signOut } from "next-auth/react";
@@ -32,7 +33,9 @@ export default function NavMenu() {
           <a
             class="nhsuk-header__navigation-link"
             style={{ cursor: "pointer" }}
-            onClick={signOut}
+            onClick={() =>
+              signOut({ callbackUrl: "http://localhost:3000/signin" })
+            }
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === "Space") {
                 // Handle the keyboard interaction, e.g., trigger the same action as onClick

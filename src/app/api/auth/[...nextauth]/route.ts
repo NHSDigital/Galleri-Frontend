@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import { users } from "../../../../../helpers/user_database";
+import GithubProvider from "next-auth/providers/github";
 
 interface UsersItem {
   id: string;
@@ -19,7 +19,7 @@ try {
   console.error("Error parsing USERS environment variable:", error);
 }
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -43,10 +43,14 @@ const authOptions: NextAuthOptions = {
         return null;
       },
     }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
     // ...add more providers here
     {
-      id: "CIS2",
-      name: "CIS2",
+      id: "cis2",
+      name: "Cis2",
       type: "oauth",
       version: "2.0",
       clientId: process.env.CIS2_ID,
@@ -56,28 +60,43 @@ const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope: "openid email profile nationalrbacaccess",
-          redirect_uri: process.env.NEXTAUTH_URL,
+          redirect_uri: "http://localhost:3000/",
+          response_type: "code",
         },
       },
+      // token: {
+      //   url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token",
+      //   params: {
+      //     client_id: process.env.CIS2_ID,
+      //     clientSecret: process.env.CIS2_SECRET,
+      //     redirect_uri: process.env.NEXTAUTH_URL,
+      //     grant_type: "authorization_code",
+      //   },
+      // },
+      token:
+        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token",
+      userinfo:
+        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo",
       idToken: true,
       checks: ["state"],
-      profile(profile) {
-        return (
-          // console.log("profile", profile),
-          {
-            id: profile.sub,
-            name: profile.name,
-            email: profile.email,
-            image: profile.picture,
-          }
-        );
+      profile(profile, token) {
+        console.log("profile: ", profile);
+        console.log("tokens: ", token);
+        return profile;
+        // return {
+        //   id: profile.sub,
+        //   name: profile.name,
+        //   email: profile.email,
+        //   image: profile.picture,
+        // };
       },
     },
   ],
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/signin",
   },
+  jwt: { secret: process.env.NEXTAUTH_SECRET },
   session: {
     strategy: "jwt",
     // Choose how you want to save the user session.
@@ -97,15 +116,24 @@ const authOptions: NextAuthOptions = {
     updateAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, user, account }) {
+      console.log("hey");
+      if (user) {
+        token.user = user;
+      }
       if (account) {
         token.accessToken = account.access_token;
       }
+      console.log("TOKEN", token, "USER", user, "ACCOUNT", account);
       return token;
     },
-    async session({ session, token }) {
-      // console.log("session callback", { session, token });
-      return session;
+    async session({ session, token, user }) {
+      console.log("SESSION", session);
+      return {
+        ...session,
+        user: token.user,
+        accessToken: token.accessToken,
+      };
     },
   },
 };

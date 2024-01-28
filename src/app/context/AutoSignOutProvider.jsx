@@ -86,7 +86,7 @@ const AutoSignOutProvider = ({ children }) => {
 
   return (
     <>
-      <div>Remaining Time: {remainingTime} seconds</div>
+      {/* <div>Remaining Time: {remainingTime} seconds</div> */}
       {children}
     </>
   );
