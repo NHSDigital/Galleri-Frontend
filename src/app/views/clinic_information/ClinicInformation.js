@@ -73,8 +73,7 @@ class ClinicInformation extends Component {
         lsoaTableError: false,
         displayUserErrorTargetPercentage: false,
       })
-
-      // Scroll to the top of the page every time it renders the page
+     // Scroll to the top of the page every time it renders the page
       window.scrollTo(0, 0);
     }
   }
@@ -193,7 +192,7 @@ class ClinicInformation extends Component {
   async putTargetPercentageAWSDynamo(value) {
     try {
       const response = await axios.put(
-        `https://10396r67vf.execute-api.eu-west-2.amazonaws.com/dev/put-target-percentage`,
+        `https://qlyc7rlmp6.execute-api.eu-west-2.amazonaws.com/uat-1/put-target-percentage`,
         { targetPercentage: Number(value) }
       );
       return response.data;
@@ -224,7 +223,7 @@ class ClinicInformation extends Component {
     try {
       const response = await axios.post(
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-        `https://kni741qn36.execute-api.eu-west-2.amazonaws.com/dev/calculate-num-to-invite`,
+        `https://riit28f4fl.execute-api.eu-west-2.amazonaws.com/uat-1/calculate-num-to-invite`,
         {
           targetAppsToFill: this.state.appsToFill,
           lsoaCodes: payloadObject,
@@ -321,7 +320,7 @@ class ClinicInformation extends Component {
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     return axios.get(
-      `https://7aclx0b1e0.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${clinicId}&clinicName=${clinicName}`
+      `https://uhclz23uaj.execute-api.eu-west-2.amazonaws.com/uat-1/clinic-information?clinicId=${clinicId}&clinicName=${clinicName}`
     );
   }
 
@@ -353,7 +352,7 @@ class ClinicInformation extends Component {
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
       axios
         .get(
-          `https://7aclx0b1e0.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
+          `https://uhclz23uaj.execute-api.eu-west-2.amazonaws.com/uat-1/clinic-information?clinicId=${currentlySelectedClinicId}&clinicName=${currentlySelectedClinic}`
         )
         .then((response) => {
           const {
@@ -415,7 +414,7 @@ class ClinicInformation extends Component {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
-        `https://omx1jjwy11.execute-api.eu-west-2.amazonaws.com/dev/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
+        `https://e7c24dsi1f.execute-api.eu-west-2.amazonaws.com/uat-1/clinic-icb-list?participatingIcb=${this.context.state.icbSelected}`
       )
       .then((response) => {
         this.context.setState({
@@ -434,7 +433,7 @@ class ClinicInformation extends Component {
         // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
         axios
           .get(
-            `https://7aclx0b1e0.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
+            `https://uhclz23uaj.execute-api.eu-west-2.amazonaws.com/uat-1/clinic-information?clinicId=${initialSelectedClinicId}&clinicName=${initialSelectedClinic}`
           )
           .then((response) => {
             const {
@@ -511,7 +510,7 @@ class ClinicInformation extends Component {
     // const postcodeHolder = "SE1 9RT";
     axios
       .get(
-        `https://jeg70qwkr2.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
+        `https://9wgcg7ed18.execute-api.eu-west-2.amazonaws.com/uat-1/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
       )
       .then((response) => {
         this.setState({
@@ -536,7 +535,7 @@ class ClinicInformation extends Component {
       // const postcodeHolder = "SW1A 2AA";
       axios
         .get(
-          `https://jeg70qwkr2.execute-api.eu-west-2.amazonaws.com/dev/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
+          `https://9wgcg7ed18.execute-api.eu-west-2.amazonaws.com/uat-1/get-lsoa-in-range?clinicPostcode=${this.context.state.postcode}&miles=${this.state.rangeSelection}`
         )
         .then((response) => {
           this.setState({
