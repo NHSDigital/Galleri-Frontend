@@ -43,7 +43,7 @@ export default function NavMenu() {
             style={{ cursor: "pointer" }}
             onClick={() => {
               console.log(currentUrl);
-              signOut({ redirect: false, callbackUrl: `${currentUrl}signin` });
+              signOut({ callbackUrl: `/signin` });
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === "Space") {
