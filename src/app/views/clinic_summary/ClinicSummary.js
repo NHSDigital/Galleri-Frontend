@@ -12,7 +12,6 @@ import {
 import axios from "axios";
 import Header from "@/app/components/Header";
 
-
 const CLINIC_SUMMARY_LIST = process.env.NEXT_PUBLIC_CLINIC_SUMMARY_LIST;
 const PARTICIPATING_ICB_LIST = process.env.NEXT_PUBLIC_PARTICIPATING_ICB_LIST;
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
