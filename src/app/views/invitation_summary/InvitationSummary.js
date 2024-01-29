@@ -29,7 +29,7 @@ class InvitationSummary extends Component {
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     const response = await axios.get(
-      `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${clinicId}&clinicName=${clinicName}`
+      `https://7aclx0b1e0.execute-api.eu-west-2.amazonaws.com/dev/clinic-information?clinicId=${clinicId}&clinicName=${clinicName}`
     );
     return response;
   }
@@ -113,7 +113,7 @@ class InvitationSummary extends Component {
 
     const response = await axios.post(
       // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      `https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
+      `https://o41rwmyvv7.execute-api.eu-west-2.amazonaws.com/dev/generate-invites`,
       {
         selectedParticipants: this.context.state.personIdentifiedToInvite,
         clinicInfo: {
