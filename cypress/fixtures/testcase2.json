@@ -1,0 +1,15 @@
+{
+"ICB": "Participating ICB QMJ",
+"address": "23 hypertonus Avenue",
+"appointmentsRemaining": "360",
+"targetPercentage": "0",
+"targetPercentage1": "75",
+"targetAppointmentsToFill": "270",
+"distance": "+1",
+"distance1": "+5",
+"invitationSummaryHeader": "Invitation summary",
+"validationBanner": "Validation Alert: Check these details before you generate invitations",
+"confirmationBanner": "CompleteYour invitations are confirmed and will be sent at the end of the day.",
+"whatHappensNextLink": "What happens next",
+"returnToClinicInvitationsLink": "Return to clinic invitations"
+}
