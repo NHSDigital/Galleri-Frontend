@@ -79,16 +79,8 @@ const authOptions: NextAuthOptions = {
         "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo",
       idToken: true,
       checks: ["state"],
-      profile(profile, token) {
-        console.log("profile: ", profile);
-        console.log("tokens: ", token);
+      profile(profile) {
         return profile;
-        // return {
-        //   id: profile.sub,
-        //   name: profile.name,
-        //   email: profile.email,
-        //   image: profile.picture,
-        // };
       },
     },
   ],
@@ -117,18 +109,15 @@ const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log("hey");
       if (user) {
         token.user = user;
       }
       if (account) {
         token.accessToken = account.access_token;
       }
-      console.log("TOKEN", token, "USER", user, "ACCOUNT", account);
       return token;
     },
-    async session({ session, token, user }) {
-      console.log("SESSION", session);
+    async session({ session, token }) {
       return {
         ...session,
         user: token.user,
