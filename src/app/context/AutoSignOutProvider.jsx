@@ -14,7 +14,6 @@ const AutoSignOutProvider = ({ children }) => {
 
   // Function to reset the timer
   const resetTimer = useCallback(() => {
-    console.log("Resetting timer function.");
     clearTimeout(timer);
     // Set a new timer when called
     // setTimer(setTimeout(() => handleSignOut(), timeout));
@@ -27,7 +26,6 @@ const AutoSignOutProvider = ({ children }) => {
 
   // Function to handle the sign-out action
   const handleSignOut = async () => {
-    console.log("Auto sign out handle singout action invoked");
     window.location.href = "/signin?callbackUrl=/";
   };
 
@@ -45,7 +43,6 @@ const AutoSignOutProvider = ({ children }) => {
   useEffect(() => {
     // Function to reset the timer on user activity
     const resetTimerOnActivity = () => {
-      console.log("User activity detected! Resetting timer.");
       resetTimerRef.current();
     };
 
@@ -86,7 +83,7 @@ const AutoSignOutProvider = ({ children }) => {
 
   return (
     <>
-      <div>Remaining Time: {remainingTime} seconds</div>
+      {/* <div>Remaining Time: {remainingTime} seconds</div> */}
       {children}
     </>
   );

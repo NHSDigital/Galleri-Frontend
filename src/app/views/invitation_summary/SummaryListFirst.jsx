@@ -1,6 +1,5 @@
 import "../../styles/css/sass.css";
 import React from "react";
-import PropTypes from "prop-types";
 
 export default function SummaryListFirst({
   props,
@@ -89,12 +88,3 @@ export default function SummaryListFirst({
     </dl>
   );
 }
-SummaryListFirst.propTypes = {
-  props: PropTypes.shape({
-    appsRemaining: PropTypes.number.isRequired,
-  }).isRequired,
-  rangeSelection: PropTypes.number.isRequired,
-  targetAppToFill: PropTypes.number.isRequired,
-  targetPercentageToFill: PropTypes.number.isRequired,
-  totalToInvite: PropTypes.number.isRequired,
-};
