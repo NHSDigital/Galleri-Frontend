@@ -1,6 +1,5 @@
 import "../../styles/css/sass.css";
 import React from "react";
-// import PropTypes from "prop-types";
 
 export default function Errorinvitations(props) {
   const { onKeyUp, isCorrectTotal, isCorrectUptakeTotal } = props;
@@ -43,8 +42,3 @@ export default function Errorinvitations(props) {
     )
   );
 }
-// Errorinvitations.propTypes = {
-//   onKeyUp: PropTypes.func.isRequired,
-//   isCorrectTotal: PropTypes.bool.isRequired,
-//   isCorrectUptakeTotal: PropTypes.bool.isRequired,
-// };

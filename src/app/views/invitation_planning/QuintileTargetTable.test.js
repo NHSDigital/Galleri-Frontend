@@ -74,23 +74,4 @@ describe("QuintileTargetTable", () => {
     expect((screen.getAllByText("Mocked Quintile Hint Text"))[0]).toBeInTheDocument();
     expect(screen.getByText("100%")).toBeInTheDocument();
   });
-
-  // test("matches prop types", () => {
-  //   const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => { });
-  //   const invalidProps = {
-  //     quintileValuesAux: "invalid",
-  //     quintileValues: "invalid",
-  //     enableFillEdit: "invalid",
-  //     sumQuintiles: jest.fn(),
-  //     onQuintileChangeHandler: jest.fn(),
-  //     isCorrectTotal: "invalid",
-  //   };
-
-  //   render(<QuintileTargetTable {...invalidProps} />);
-
-  //   // Check if prop type warnings are logged
-  //   expect(consoleErrorSpy).toHaveBeenCalled();
-
-  //   consoleErrorSpy.mockRestore();
-  // });
 });
