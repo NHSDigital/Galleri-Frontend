@@ -1,6 +1,6 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GithubProvider from 'next-auth/providers/github';
 
 interface UsersItem {
   id: string;
@@ -14,23 +14,23 @@ type UsersListType = UsersItem[];
 let users: UsersListType = [];
 
 try {
-  users = JSON.parse(process.env.USERS || "[]");
+  users = JSON.parse(process.env.USERS || '[]');
 } catch (error) {
-  console.error("Error parsing USERS environment variable:", error);
+  console.error('Error parsing USERS environment variable:', error);
 }
 
 const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
-      name: "Credentials",
+      name: 'Credentials',
       // The credentials is used to generate a suitable form on the sign in page.
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "Enter Email" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'text', placeholder: 'Enter Email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
         if (!credentials || !credentials.email || !credentials.password) {
@@ -49,19 +49,19 @@ const authOptions: NextAuthOptions = {
     }),
     // ...add more providers here
     {
-      id: "cis2",
-      name: "Cis2",
-      type: "oauth",
-      version: "2.0",
+      id: 'cis2',
+      name: 'Cis2',
+      type: 'oauth',
+      version: '2.0',
       clientId: process.env.CIS2_ID,
       clientSecret: process.env.CIS2_SECRET,
       wellKnown:
-        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk/openam/oauth2/realms/root/realms/oidc/.well-known/openid-configuration",
+        'https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk/openam/oauth2/realms/root/realms/oidc/.well-known/openid-configuration',
       authorization: {
         params: {
-          scope: "openid email profile nationalrbacaccess",
-          redirect_uri: "http://localhost:3000/",
-          response_type: "code",
+          scope: 'openid email profile nationalrbacaccess',
+          redirect_uri: 'http://localhost:3000/',
+          response_type: 'code',
         },
       },
       // token: {
@@ -74,11 +74,11 @@ const authOptions: NextAuthOptions = {
       //   },
       // },
       token:
-        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token",
+        'https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token',
       userinfo:
-        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo",
+        'https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo',
       idToken: true,
-      checks: ["state"],
+      checks: ['state'],
       profile(profile) {
         return profile;
       },
@@ -86,11 +86,11 @@ const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/signin",
+    signIn: '/signin',
   },
   jwt: { secret: process.env.NEXTAUTH_SECRET },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     // Choose how you want to save the user session.
     // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
     // If you use an `adapter` however, we default it to `"database"` instead.

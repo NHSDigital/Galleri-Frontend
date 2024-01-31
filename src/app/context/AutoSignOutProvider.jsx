@@ -1,13 +1,13 @@
-"use client";
+'use client';
 import React, {
   createContext,
   useState,
   useEffect,
   useContext,
   useRef,
-} from "react";
+} from 'react';
 
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut } from 'next-auth/react';
 
 const InactivityContext = createContext();
 
@@ -25,7 +25,7 @@ const InactivityProvider = ({ children, timeout }) => {
 
   useEffect(() => {
     console.log(window.location.href);
-    const events = ["mousemove", "keydown", "mousedown", "touchstart"];
+    const events = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
 
     const onActivity = () => {
       resetTimer();
@@ -49,8 +49,6 @@ const InactivityProvider = ({ children, timeout }) => {
     setTimeout(() => {
       setShowLogoutPage(false);
     }, 1000);
-    signOut({ callbackUrl: "http://localhost:3000/signin" });
-    // window.location.href = "/signin";
   };
 
   return (
