@@ -1,9 +1,18 @@
+"use client";
 import Link from "next/link";
 import "../styles/css/sass.css";
+// import { useEffect, useState } from "react"; will require later
 import { signOut } from "next-auth/react";
 
 // Navigation Menu
 export default function NavMenu() {
+  // Below will be required later
+  // const [currentUrl, setCurrentUrl] = useState("");
+  // useEffect(() => {
+  //   // Get the current page URL
+  //   const currentUrl = window.location.href;
+  //   setCurrentUrl(currentUrl);
+  // }, []);
   return (
     <nav
       className="nhsuk-navigation"
@@ -32,7 +41,9 @@ export default function NavMenu() {
           <a
             class="nhsuk-header__navigation-link"
             style={{ cursor: "pointer" }}
-            onClick={signOut}
+            onClick={() => {
+              signOut({ callbackUrl: `/signin` });
+            }}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === "Space") {
                 // Handle the keyboard interaction, e.g., trigger the same action as onClick

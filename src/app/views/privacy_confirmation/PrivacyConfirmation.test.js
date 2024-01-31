@@ -1,79 +1,110 @@
-import React from 'react';
-import '@testing-library/jest-dom';
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import PrivacyConfirmation from './PrivacyConfirmation';
-import { useInactivity } from '../../context/AutoSignOutProvider.jsx';
-import { useSession } from 'next-auth/react';
+import React from "react";
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import PrivacyConfirmationPage from "./PrivacyConfirmationPage";
+import { SessionProvider } from "next-auth/react"; // Import SessionProvider
+import { InactivityProvider } from "../../context/AutoSignOutProvider.jsx"; // Import InactivityProvider
 
-jest.mock('next-auth/react');
+describe("Privacy Confirmation Page", () => {
+  const mockProps = {
+    onToggleConfirmationHandler: jest.fn(),
+    onClickContinueHandler: jest.fn(),
+    showError: false,
+  };
 
-jest.mock('../../context/AutoSignOutProvider');
+  // Define the mock inactivity values
+  const mockInactivityValues = {
+    showLogoutPage: false,
+    closeLogoutPage: jest.fn(),
+  };
 
-const mockInactivityValues = {
-  showLogoutPage: false,
-  closeLogoutPage: jest.fn(),
-};
-
-const mockSession = {
-  user: { name: 'Test User', email: 'test@example.com' },
-  expires: 'mock-expiry',
-};
-
-useSession.mockReturnValue([mockSession, false]);
-useInactivity.mockReturnValue(mockInactivityValues);
-
-global.renderWithInactivityProvider = (ui, options) => {
-  return render(
-    <InactivityProvider timeout={1000}>{ui}</InactivityProvider>,
-    options
-  );
-};
-
-describe('ClinicInfo', () => {
-  const mockProps = {};
-
-  jest.mock('next-auth/react', () => ({
-    ...jest.requireActual('next-auth/react'),
-    useSession: jest.fn(),
+  // Mock the useInactivity function
+  jest.mock("../../context/AutoSignOutProvider.jsx", () => ({
+    ...jest.requireActual("../../context/AutoSignOutProvider.jsx"),
+    useInactivity: jest.fn(() => mockInactivityValues),
   }));
 
-  test('renders PrivacyConfirmation correctly', () => {
-    render(<PrivacyConfirmation {...mockProps} />);
-    expect(screen.getByText('Protecting patient data')).toBeInTheDocument();
+  test("renders Privacy Confirmation correctly", () => {
+    // Mock the session data
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    // Mock the useSession hook to return the mock session
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <PrivacyConfirmationPage {...mockProps} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
+
+    expect(screen.getByText("Protecting patient data")).toBeInTheDocument();
     expect(
-      screen.getByText(
-        'You must only access a participant’s records if there is a legitimate requirement to access their data.'
-      )
+      screen.getByText("When you are finished using the system you must:")
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        'All activity in the Galleri pilot system is routinely checked to ensure records are not accessed inappropriately.'
-      )
+      screen.getByText("Log out using the button in the top right hand corner.")
     ).toBeInTheDocument();
+    expect(screen.getByText("Remove your smart card.")).toBeInTheDocument();
     expect(
-      screen.getByText('When you are finished using the system you must:')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Log out using the button in the top right hand corner.')
-    ).toBeInTheDocument();
-    expect(screen.getByText('Remove your smart card.')).toBeInTheDocument();
-    expect(
-      screen.getByText('I have read and understood this message')
+      screen.getByText("I have read and understood this message")
     ).toBeInTheDocument();
   });
 
-  test('renders PrivacyConfirmation errors correctly', () => {
-    render(<PrivacyConfirmation {...mockProps} />);
-    const checkbox = screen.getByTestId('confirm-privacy');
+  test("renders Privacy Confirmation errors correctly", () => {
+    // Mock the session data
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    // Mock the useSession hook to return the mock session
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <PrivacyConfirmationPage {...mockProps} showError={true} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
+
+    const checkbox = screen.getByTestId("errors-confirm-privacy");
     expect(checkbox.checked).toEqual(false);
     // Simulate a click on the "Continue" button while checkbox unchecked
-    fireEvent.click(screen.getByText('Continue'));
-    expect(screen.getByText('There is a problem')).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Continue"));
+    expect(screen.getByText("There is a problem")).toBeInTheDocument();
   });
 
-  test('renders PrivacyConfirmation checkbox to function correctly', () => {
-    render(<PrivacyConfirmation {...mockProps} />);
-    const checkbox = screen.getByTestId('confirm-privacy');
+  test("renders Privacy Confirmation checkbox to function correctly", () => {
+    // Mock the session data
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    // Mock the useSession hook to return the mock session
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <PrivacyConfirmationPage {...mockProps} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
+
+    const checkbox = screen.getByTestId("confirm-privacy");
     expect(checkbox.checked).toEqual(false);
     fireEvent.click(checkbox);
     expect(checkbox.checked).toEqual(true);

@@ -132,16 +132,7 @@ const SignIn = () => {
                   <button
                     className="nhsuk-button"
                     data-module="nhsuk-button"
-                    onClick={() => signIn("github")}
-                  >
-                    Sign In with GitHub
-                  </button>
-                </div>
-                <div>
-                  <button
-                    className="nhsuk-button"
-                    data-module="nhsuk-button"
-                    onClick={() => signIn("CIS2")}
+                    onClick={() => signIn("cis2")}
                   >
                     Sign In with CIS2
                   </button>

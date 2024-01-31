@@ -7,7 +7,7 @@ import React, {
   useRef,
 } from "react";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 const InactivityContext = createContext();
 
@@ -24,6 +24,7 @@ const InactivityProvider = ({ children, timeout }) => {
   };
 
   useEffect(() => {
+    console.log(window.location.href);
     const events = ["mousemove", "keydown", "mousedown", "touchstart"];
 
     const onActivity = () => {
@@ -44,11 +45,12 @@ const InactivityProvider = ({ children, timeout }) => {
   }, [timeout, session]);
 
   const closeLogoutPage = async () => {
-    window.location.href = "/signin?callbackUrl=/";
     resetTimer();
     setTimeout(() => {
       setShowLogoutPage(false);
-    }, 2000);
+    }, 1000);
+    signOut({ callbackUrl: "http://localhost:3000/signin" });
+    // window.location.href = "/signin";
   };
 
   return (
