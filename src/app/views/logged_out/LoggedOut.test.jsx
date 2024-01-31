@@ -6,23 +6,31 @@ import LoggedOut from './LoggedOut';
 import Root from '../../page';
 import { useSession } from 'next-auth/react';
 
-jest.mock('../privacy_confirmation/PrivacyConfirmationPage', () => {
-  return {
-    __esModule: true,
-    default: () => (
-      <div data-testid='privacy-confirmation-page'>
-        Privacy Confirmation Start Page
-      </div>
-    ),
-  };
-});
+jest.mock('../privacy_confirmation/PrivacyConfirmationPage', () => ({
+  __esModule: true,
+  default: () => (
+    <div data-testid="privacy-confirmation-page">
+      Privacy Confirmation Start Page
+    </div>
+  ),
+}));
 
 jest.mock('next-auth/react', () => ({
   ...jest.requireActual('next-auth/react'),
   useSession: jest.fn(),
 }));
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({}),
+  }),
+);
+
 describe('LoggedOut page', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('it should render logged out page', () => {
     const mockSession = {
       user: { name: 'Test User', email: 'test@example.com' },
@@ -32,11 +40,12 @@ describe('LoggedOut page', () => {
     useSession.mockReturnValueOnce([null, true]);
     useSession.mockReturnValueOnce([mockSession, false]);
     render(
-      <InactivityProvider timeout={10000}>
+      <InactivityProvider timeout={10}>
         <Root />
         <LoggedOut />
-      </InactivityProvider>
+      </InactivityProvider>,
     );
+
     const logoutButton = screen.getByLabelText('Continue');
     const logoutHeader = screen.getByTestId('log-out-header');
 
@@ -52,21 +61,31 @@ describe('LoggedOut page', () => {
 
     useSession.mockReturnValueOnce([null, true]);
     useSession.mockReturnValueOnce([mockSession, false]);
-    const { getByLabelText, queryByTestId } = render(
+
+    render(
       <InactivityProvider timeout={1000}>
         <Root />
         <LoggedOut />
-      </InactivityProvider>
+      </InactivityProvider>,
     );
 
-    expect(queryByTestId('privacy-confirmation-page')).toBeInTheDocument();
-    const logoutButton = getByLabelText('Continue');
-    await waitFor(() => {
-      expect(logoutButton).toBeInTheDocument();
-    }, 1100);
+    expect(
+      screen.queryByTestId('privacy-confirmation-page'),
+    ).toBeInTheDocument();
+
+    const logoutButton = screen.getByLabelText('Continue');
+    await waitFor(
+      () => {
+        expect(logoutButton).toBeInTheDocument();
+      },
+      { timeout: 10 },
+    ); // Adjust the timeout value
 
     fireEvent.click(logoutButton);
-    expect(queryByTestId('privacy-confirmation-page')).toBeInTheDocument();
+
+    expect(
+      screen.queryByTestId('privacy-confirmation-page'),
+    ).toBeInTheDocument();
     expect(logoutButton).toBeDefined();
   });
 });
