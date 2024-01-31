@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../styles/css/sass.css";
 import { useSession, getProviders } from "next-auth/react"; //Will require later
 import { redirect } from "next/navigation"; //Will require later
@@ -16,6 +16,21 @@ export default function PrivacyConfirmationPage(props) {
       redirect("/signin?callbackUrl=/");
     },
   });
+
+  // Get the value of the 'code' parameter from the url when land on this page
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    const codeValue = url.searchParams.get("code") || "No Code Value present";
+    console.log("Value of code:", codeValue);
+
+    // Clear all query parameters
+    url.search = "";
+    // Replace the current state in the browser's history with the modified URL
+    window.history.replaceState(null, "", url.toString());
+  }, []);
+
+  // const session = 1;
 
   const { onToggleConfirmationHandler, onClickContinueHandler, showError } =
     props;
