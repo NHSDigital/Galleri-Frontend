@@ -1,13 +1,13 @@
-'use client';
+"use client";
 import React, {
   createContext,
   useState,
   useEffect,
   useContext,
   useRef,
-} from 'react';
+} from "react";
 
-import { useSession, signOut } from 'next-auth/react';
+import { useSession, signOut } from "next-auth/react";
 
 const InactivityContext = createContext();
 
@@ -24,8 +24,7 @@ const InactivityProvider = ({ children, timeout }) => {
   };
 
   useEffect(() => {
-    console.log(window.location.href);
-    const events = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
+    const events = ["mousemove", "keydown", "mousedown", "touchstart"];
 
     const onActivity = () => {
       resetTimer();
