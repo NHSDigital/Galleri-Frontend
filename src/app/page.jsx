@@ -26,16 +26,14 @@ export default function Root() {
           Skip to main content
         </a>
         <AppStateProvider>
-          <InactivityProvider timeout={process.env.LOGOUT_TIMEOUT || 5000}>
-            {/* <Header /> */}
-            <PrivacyConfirmation userRole={roles[0]} />
-            {/* <Content /> */}
-            {/* <ClinicSummary /> */}
-            {/* <InvitationPlanning /> */}
-            {/* <ClinicInformation /> */}
-            {/* <InvitationSummary /> */}
-            <Footer />
-          </InactivityProvider>
+          {/* <Header /> */}
+          <PrivacyConfirmation userRole={roles[0]} />
+          {/* <Content /> */}
+          {/* <ClinicSummary /> */}
+          {/* <InvitationPlanning /> */}
+          {/* <ClinicInformation /> */}
+          {/* <InvitationSummary /> */}
+          <Footer />
         </AppStateProvider>
       </body>
     </div>

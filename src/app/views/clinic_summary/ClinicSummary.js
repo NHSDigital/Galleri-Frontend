@@ -46,7 +46,7 @@ export default class ClinicSummary extends Component {
       .then((response) => {
         this.context.setState({
           clinicList: response.data,
-          lastUpdated: new Date(response.data[0].UpdatedDate?.S)
+          lastUpdated: new Date(response.data[0]?.UpdatedDate?.S)
             .toLocaleDateString("en-GB", {
               year: "numeric",
               month: "long",
