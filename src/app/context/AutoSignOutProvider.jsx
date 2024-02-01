@@ -45,6 +45,7 @@ const InactivityProvider = ({ children, timeout }) => {
 
   const closeLogoutPage = async () => {
     resetTimer();
+    window.location.href = "/";
     setTimeout(() => {
       setShowLogoutPage(false);
     }, 1000);
