@@ -76,6 +76,6 @@ export default function ClinicSummaryPage(props) {
       </main>
     </div>
   ) : (
-    <LoggedOut />
+    <LoggedOut showHeader={false} />
   );
 }

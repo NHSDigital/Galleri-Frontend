@@ -208,7 +208,7 @@ export default function PrivacyConfirmationPage(props) {
         </div>
       </>
     ) : (
-      <LoggedOut />
+      <LoggedOut showHeader={true} />
     );
   }
 }

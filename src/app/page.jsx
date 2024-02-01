@@ -9,7 +9,6 @@ import InvitationPlanning from "./views/invitation_planning/InvitationPlanning";
 import ClinicInformation from "./views/clinic_information/ClinicInformation";
 import InvitationSummary from "./views/invitation_summary/InvitationSummary";
 import { AppStateProvider } from "./context/AppStateContext";
-import { InactivityProvider } from "./context/AutoSignOutProvider";
 
 // The root page of Galleri
 export default function Root() {

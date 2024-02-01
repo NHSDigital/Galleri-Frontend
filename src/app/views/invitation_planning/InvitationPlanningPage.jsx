@@ -173,6 +173,6 @@ export default function InvitationPlanningPage(props) {
       </main>
     </div>
   ) : (
-    <LoggedOut />
+    <LoggedOut showHeader={false} />
   );
 }

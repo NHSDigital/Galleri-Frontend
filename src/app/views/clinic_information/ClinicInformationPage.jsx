@@ -170,6 +170,6 @@ export default function ClinicInformationPage(props) {
       </main>
     </div>
   ) : (
-    <LoggedOut />
+    <LoggedOut showHeader={false} />
   );
 }

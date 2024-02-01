@@ -114,6 +114,6 @@ export default function InvitationSummaryPage(props) {
       </main>
     </div>
   ) : (
-    <LoggedOut />
+    <LoggedOut showHeader={false} />
   );
 }

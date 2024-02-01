@@ -4,13 +4,13 @@ import Header from "@/app/components/Header";
 
 import "../../styles/css/sass.css";
 
-export default function LoggedOut() {
+export default function LoggedOut({ showHeader }) {
   const { closeLogoutPage } = useInactivity();
   const onLogoutHandler = () => closeLogoutPage(true);
 
   return (
     <>
-      <Header withNavigation={false} />
+      {showHeader && <Header withNavigation={false} />}
       <div className="nhsuk-width-container">
         <main className="nhsuk-main-wrapper" id="maincontent" role="main">
           <div className="nhsuk-grid-column-full">
