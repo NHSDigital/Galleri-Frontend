@@ -1,3 +1,4 @@
+import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
@@ -12,6 +13,23 @@ interface UsersItem {
 type UsersListType = UsersItem[];
 
 let users: UsersListType = [];
+
+async function sendTokenToEndpoint(accessToken) {
+  try {
+    const response = await axios.post(
+      "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token",
+      {
+        accessToken,
+      }
+    );
+
+    if (response.status !== 200) {
+      throw new Error("Failed to send token to endpoint");
+    }
+  } catch (error) {
+    console.error("Error sending token to endpoint:", error);
+  }
+}
 
 try {
   users = JSON.parse(process.env.USERS || "[]");
@@ -114,6 +132,7 @@ const authOptions: NextAuthOptions = {
       }
       if (account) {
         token.accessToken = account.access_token;
+        await sendTokenToEndpoint(account.access_token);
       }
       return token;
     },
