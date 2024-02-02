@@ -1,12 +1,12 @@
 # ADR-002: Scan repository for hardcoded secrets
 
->|              |                                                               |
->| ------------ | ------------------------------------------------------------- |
->| Date         | `05/06/2023`                                                  |
->| Status       | `RFC`                                                         |
->| Deciders     | `Engineering`                                                 |
->| Significance | `Construction techniques`                                     |
->| Owners       | `Dan Stefaniuk, Jon Pearce, Tamara Goldschmidt, Tim Rickwood` |
+> |              |                                                               |
+> | ------------ | ------------------------------------------------------------- |
+> | Date         | `05/06/2023`                                                  |
+> | Status       | `RFC`                                                         |
+> | Deciders     | `Engineering`                                                 |
+> | Significance | `Construction techniques`                                     |
+> | Owners       | `Dan Stefaniuk, Jon Pearce, Tamara Goldschmidt, Tim Rickwood` |
 
 ---
 
@@ -53,6 +53,7 @@ There are three options presented in this decision record.
      - Implementation technologies: **Shell script**
      - Licence: **[Apache-2.0](https://choosealicense.com/licenses/apache-2.0/)**
    - Features
+
      - [x] Scan whole history
      - [x] Scan single commit
      - [ ] Predefined set of rules: _A very limited number of rules_
@@ -79,6 +80,7 @@ There are three options presented in this decision record.
      - Implementation technologies: **Go language**
      - Licence: **[AGPL-3.0](https://choosealicense.com/licenses/agpl-3.0/)**
    - Features
+
      - [x] Scan whole history
      - [x] Scan single commit
      - [ ] Predefined set of rules
@@ -104,7 +106,9 @@ There are three options presented in this decision record.
        - Number of Stars & Forks: **13k & 1.2k**
      - Implementation technologies: **Go language**
      - Licence: **[MIT](https://choosealicense.com/licenses/mit/)**
+
    - Features
+
      - [x] Scan whole history
      - [x] Scan single commit
      - [x] Predefined set of rules
@@ -126,7 +130,7 @@ The decision is to support Option 3 and endorse the usage of the `gitleaks` tool
 
 ### Rationale
 
-This decision was made with the understanding that the chosen tool must support the NHS England  [Coding in the Open](https://github.com/nhsx/open-source-policy) initiative/policy and also be compatible with usage in private repositories.
+This decision was made with the understanding that the chosen tool must support the NHS England [Coding in the Open](https://github.com/nhsx/open-source-policy) initiative/policy and also be compatible with usage in private repositories.
 
 ## Consequences
 

@@ -1,11 +1,10 @@
 "use client";
-import React, { Component } from 'react';
-import ClinicInformationPage from './ClinicInformationPage';
-import InvitationSummary from '../invitation_summary/InvitationSummary';
-import { AppStateContext } from '@/app/context/AppStateContext';
-import { setClinicDetails } from '../../helper/helperMethods';
-import axios from 'axios';
-
+import React, { Component } from "react";
+import ClinicInformationPage from "./ClinicInformationPage";
+import InvitationSummary from "../invitation_summary/InvitationSummary";
+import { AppStateContext } from "@/app/context/AppStateContext";
+import { setClinicDetails } from "../../helper/helperMethods";
+import axios from "axios";
 
 const CLINIC_SUMMARY_LIST = process.env.NEXT_PUBLIC_CLINIC_SUMMARY_LIST;
 const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION;
@@ -63,7 +62,8 @@ class ClinicInformation extends Component {
         isSubmit: false,
       });
       this.scrollToErrorContent();
-    } else if (this.state.appsToFill === 0 ||
+    } else if (
+      this.state.appsToFill === 0 ||
       this.state.displayUserErrorTargetPercentage ||
       this.state.targetFillToInputValue.trim().length === 0 ||
       Number(this.state.targetFillToInputValue) === 0 ||
@@ -78,8 +78,7 @@ class ClinicInformation extends Component {
         isSubmit: false,
       });
       this.scrollToErrorContent();
-    }
-    else {
+    } else {
       this.context.setState({
         isSubmit: true,
         totalToInvite: totalToInvite,
@@ -88,11 +87,10 @@ class ClinicInformation extends Component {
       this.setState({
         lsoaTableError: false,
         displayUserErrorTargetPercentage: false,
-      })
+      });
 
       const deselectAll = this.context.state.lsoaInRange.map((lsoa) => {
-        if (lsoa.checked === true)
-          lsoa.checked = false;
+        if (lsoa.checked === true) lsoa.checked = false;
         return lsoa;
       });
       this.context.setState({
@@ -134,29 +132,29 @@ class ClinicInformation extends Component {
     // toggle between setting the value of checked in all elements in lsoaInRange
     if (event.target.checked) {
       // set all "checked" fields in lsoaInRange to true
-      const selectAll = this.context.state.lsoaInRange.map(lsoa => {
-        lsoa.checked = true
-        return lsoa
-      })
+      const selectAll = this.context.state.lsoaInRange.map((lsoa) => {
+        lsoa.checked = true;
+        return lsoa;
+      });
       this.context.setState({
-        lsoaInRange: selectAll
-      })
+        lsoaInRange: selectAll,
+      });
     } else {
-      const deselectAll = this.context.state.lsoaInRange.map(lsoa => {
-        lsoa.checked = false
-        return lsoa
-      })
+      const deselectAll = this.context.state.lsoaInRange.map((lsoa) => {
+        lsoa.checked = false;
+        return lsoa;
+      });
       this.context.setState({
-        lsoaInRange: deselectAll
-      })
+        lsoaInRange: deselectAll,
+      });
     }
   }
 
   checkRecord(event, el) {
-    let selectedLsoaCopy = [...this.context.state.selectedLsoa]
+    let selectedLsoaCopy = [...this.context.state.selectedLsoa];
     const lsoaItemIndex = this.context.state.selectedLsoa.findIndex((lsoa) => {
-      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S
-    })
+      return lsoa.LSOA_2011?.S == el.LSOA_2011?.S;
+    });
 
     const item = selectedLsoaCopy[lsoaItemIndex];
     if (event.target.checked) {
@@ -164,15 +162,15 @@ class ClinicInformation extends Component {
       selectedLsoaCopy[lsoaItemIndex] = item;
 
       this.context.setState({
-        lsoaInRange: selectedLsoaCopy
-      })
+        lsoaInRange: selectedLsoaCopy,
+      });
     } else {
       item.checked = false;
       selectedLsoaCopy[lsoaItemIndex] = item;
 
       this.context.setState({
-        lsoaInRange: selectedLsoaCopy
-      })
+        lsoaInRange: selectedLsoaCopy,
+      });
     }
   }
 
@@ -203,13 +201,13 @@ class ClinicInformation extends Component {
     this.setState({
       appsToFill: Math.floor(
         this.context.state.recentInvitationHistory.appsRemaining *
-        (targetFillToInputValue / 100)
+          (targetFillToInputValue / 100)
       ),
     });
     this.context.setState({
       targetAppToFill: Math.floor(
         this.context.state.recentInvitationHistory.appsRemaining *
-        (targetFillToInputValue / 100)
+          (targetFillToInputValue / 100)
       ),
     });
   }
@@ -273,14 +271,14 @@ class ClinicInformation extends Component {
       this.setState({
         appsToFill: Math.floor(
           this.context.state.recentInvitationHistory.appsRemaining *
-          (targetFillToInputValue / 100)
+            (targetFillToInputValue / 100)
         ),
         displayUserErrorTargetPercentage: false,
       });
       this.context.setState({
         targetAppToFill: Math.floor(
           this.context.state.recentInvitationHistory.appsRemaining *
-          (targetFillToInputValue / 100)
+            (targetFillToInputValue / 100)
         ),
         targetPercentageToFill: targetFillToInputValue,
       });
@@ -396,7 +394,7 @@ class ClinicInformation extends Component {
             postcode: response.data.PostCode.S,
             appsToFill: Math.floor(
               clinicInvitationHistory.appsRemaining *
-              (response.data.TargetFillToPercentage.N / 100)
+                (response.data.TargetFillToPercentage.N / 100)
             ),
             displayUserErrorTargetPercentage: false,
             lsoaTableError: false,
@@ -419,11 +417,11 @@ class ClinicInformation extends Component {
             pageSize: 10,
             appsToFill: Math.floor(
               clinicInvitationHistory.appsRemaining *
-              (response.data.TargetFillToPercentage.N / 100)
+                (response.data.TargetFillToPercentage.N / 100)
             ),
             targetAppToFill: Math.floor(
               clinicInvitationHistory.appsRemaining *
-              (response.data.TargetFillToPercentage.N / 100)
+                (response.data.TargetFillToPercentage.N / 100)
             ),
           });
         });
@@ -475,7 +473,7 @@ class ClinicInformation extends Component {
             this.setState({
               rangeSelection: lastSelectedRange,
               postcode: response.data.PostCode.S,
-              targetFillToInputValue: response.data.TargetFillToPercentage.N
+              targetFillToInputValue: response.data.TargetFillToPercentage.N,
             });
 
             // Set global state
@@ -492,7 +490,7 @@ class ClinicInformation extends Component {
               pageSize: 10,
               targetAppToFill: Math.floor(
                 this.context.state.recentInvitationHistory.appsRemaining *
-                (this.state.targetFillToInputValue / 100)
+                  (this.state.targetFillToInputValue / 100)
               ),
               targetPercentageToFill: targetFillToPercentage,
             });
@@ -506,14 +504,14 @@ class ClinicInformation extends Component {
             this.setState({
               appsToFill: Math.floor(
                 clinicInvitationHistory.appsRemaining *
-                (response.data.TargetFillToPercentage.N / 100)
+                  (response.data.TargetFillToPercentage.N / 100)
               ),
-            })
+            });
 
             this.context.setState({
               targetAppToFill: Math.floor(
                 clinicInvitationHistory.appsRemaining *
-                (response.data.TargetFillToPercentage.N / 100)
+                  (response.data.TargetFillToPercentage.N / 100)
               ),
             });
 

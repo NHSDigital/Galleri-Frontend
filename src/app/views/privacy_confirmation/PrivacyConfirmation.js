@@ -13,35 +13,36 @@ export default class PrivacyConfirmation extends Component {
       selectedRole: props.userRole,
       confirmationReceived: false,
       continueToStart: false,
-      showError: false
-    }
-    this.onToggleConfirmationHandler = this.onToggleConfirmationHandler.bind(this);
+      showError: false,
+    };
+    this.onToggleConfirmationHandler =
+      this.onToggleConfirmationHandler.bind(this);
     this.onClickContinueHandler = this.onClickContinueHandler.bind(this);
   }
 
   onToggleConfirmationHandler() {
     this.setState({
-      confirmationReceived: !this.state.confirmationReceived
-    })
+      confirmationReceived: !this.state.confirmationReceived,
+    });
   }
 
   onClickContinueHandler() {
     if (this.state.confirmationReceived) {
       this.setState({
-        continueToStart: true
-      })
+        continueToStart: true,
+      });
     } else {
       this.setState({
-        showError: true
-      })
+        showError: true,
+      });
     }
   }
 
   componentDidMount() {
     this.setState({
       continueToStart: false,
-      showError: false
-    })
+      showError: false,
+    });
   }
 
   render() {
@@ -50,13 +51,9 @@ export default class PrivacyConfirmation extends Component {
         {this.state.continueToStart ? (
           this.state.selectedRole === this.state.userRoles[0] ? ( // role 0 is 'invitation_planner'
             <ClinicSummary />
-          ) : (
-            this.state.selectedRole === this.state.userRoles[1] ? ( // role 1 is 'referring_nurse'
-              <ReferralsSummary />
-            ) : (
-              null
-            )
-          )
+          ) : this.state.selectedRole === this.state.userRoles[1] ? ( // role 1 is 'referring_nurse'
+            <ReferralsSummary />
+          ) : null
         ) : (
           <PrivacyConfirmationPage
             onToggleConfirmationHandler={this.onToggleConfirmationHandler}

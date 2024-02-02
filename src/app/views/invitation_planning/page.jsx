@@ -2,5 +2,5 @@
 import InvitationPlanning from "./InvitationPlanning";
 
 export default function Page() {
-  return <InvitationPlanning/>
+  return <InvitationPlanning />;
 }

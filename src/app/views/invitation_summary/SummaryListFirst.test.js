@@ -13,12 +13,16 @@ describe("SummaryListFirst", () => {
   };
 
   test("renders SummaryListFirst correctly", () => {
-    render(<SummaryListFirst  {...mockProps} props={mockProps} />);
+    render(<SummaryListFirst {...mockProps} props={mockProps} />);
 
     // Check if the component renders correctly
     expect(screen.getByText("Appointments remaining")).toBeInTheDocument();
-    expect(screen.getByText("Target percentage of appointments to fill")).toBeInTheDocument();
-    expect(screen.getByText("Target number of appointments to fill")).toBeInTheDocument();
+    expect(
+      screen.getByText("Target percentage of appointments to fill")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Target number of appointments to fill")
+    ).toBeInTheDocument();
     expect(screen.getByText("Distance from clinic")).toBeInTheDocument();
     expect(screen.getByText("Total available to invite")).toBeInTheDocument();
     expect(screen.getByText("10")).toBeInTheDocument();

@@ -23,7 +23,6 @@ jest.mock("./SummaryListSecond", () => ({
   default: jest.fn(() => <div>Mocked SummaryListSecond</div>),
 }));
 
-
 describe("InvitationSummaryPage", () => {
   const defaultProps = {
     clinicName: "Test Clinic",
@@ -48,7 +47,9 @@ describe("InvitationSummaryPage", () => {
     render(<InvitationSummaryPage {...defaultProps} />);
 
     // Check if the component renders correctly
-    expect(screen.getByTestId("invitation-summary-container")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("invitation-summary-container")
+    ).toBeInTheDocument();
     expect(screen.getByText("Invitation summary")).toBeInTheDocument();
   });
 
@@ -94,5 +95,4 @@ describe("InvitationSummaryPage", () => {
     // Check if the click handler is called
     expect(mockOnClickGenerateHandler).toHaveBeenCalled();
   });
-
 });

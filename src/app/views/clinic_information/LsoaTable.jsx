@@ -45,11 +45,22 @@ export default function LsoaTable(prop) {
 
   const calculateAverageExpectedUptake = (arr) => {
     const total_invited = arr.reduce((acc, curr) => {
-      return acc + (Number(curr?.ELIGIBLE_POPULATION?.S) - Number(curr?.INVITED_POPULATION?.S));
+      return (
+        acc +
+        (Number(curr?.ELIGIBLE_POPULATION?.S) -
+          Number(curr?.INVITED_POPULATION?.S))
+      );
     }, 0);
     const total = arr.reduce((acc, curr) => {
-      return acc + Number(Number(curr?.MODERATOR?.S) * nationalUptakePercentage * (Number(curr?.ELIGIBLE_POPULATION?.S) -
-      Number(curr?.INVITED_POPULATION?.S)));
+      return (
+        acc +
+        Number(
+          Number(curr?.MODERATOR?.S) *
+            nationalUptakePercentage *
+            (Number(curr?.ELIGIBLE_POPULATION?.S) -
+              Number(curr?.INVITED_POPULATION?.S))
+        )
+      );
     }, 0);
     return Math.round(total / total_invited);
   };
@@ -74,7 +85,11 @@ export default function LsoaTable(prop) {
         >
           {milesOptions.map((e, key) => {
             return (
-              <option key={key} value={e.value} selected={e.value == lastSelectedRange}>
+              <option
+                key={key}
+                value={e.value}
+                selected={e.value == lastSelectedRange}
+              >
                 {e.label}
               </option>
             );
@@ -184,7 +199,9 @@ export default function LsoaTable(prop) {
           ) : (
             <tbody className="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
               {currentTableData?.map((e, key) => {
-                const forecastUptake = nationalUptakePercentage && `${(Number(e.MODERATOR?.S) * nationalUptakePercentage).toFixed(0)}`
+                const forecastUptake =
+                  nationalUptakePercentage &&
+                  `${(Number(e.MODERATOR?.S) * nationalUptakePercentage).toFixed(0)}`;
                 return (
                   <tr key={key} role="row" className="nhsuk-table__row">
                     <td role="cell" className="nhsuk-table__cell">
@@ -199,7 +216,7 @@ export default function LsoaTable(prop) {
                           name="SelectALsoaInList"
                           type="checkbox"
                           onChange={(event) => checkRecord(event, e)}
-                          checked={e.checked||false}
+                          checked={e.checked || false}
                         />
                         <label
                           className="nhsuk-label nhsuk-checkboxes__label"

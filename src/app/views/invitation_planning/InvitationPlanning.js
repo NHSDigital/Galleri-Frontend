@@ -7,8 +7,10 @@ import axios from "axios";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 
-const INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE = process.env.NEXT_PUBLIC_INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE;
-const INVITATION_PARAMETERS_PUT_QUINTILES = process.env.NEXT_PUBLIC_INVITATION_PARAMETERS_PUT_QUINTILES;
+const INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE =
+  process.env.NEXT_PUBLIC_INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE;
+const INVITATION_PARAMETERS_PUT_QUINTILES =
+  process.env.NEXT_PUBLIC_INVITATION_PARAMETERS_PUT_QUINTILES;
 const INVITATION_PARAMETERS = process.env.NEXT_PUBLIC_INVITATION_PARAMETERS;
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 
@@ -27,7 +29,7 @@ class InvitationPlanning extends Component {
       userName: "",
       isCorrectTotal: true,
       enableUptakeEdit: false,
-      isCorrectUptakeTotal: true
+      isCorrectUptakeTotal: true,
     };
 
     // Handlers
@@ -49,7 +51,6 @@ class InvitationPlanning extends Component {
     this.onKeyUp = this.onKeyUp.bind(this);
   }
 
-
   // DB actions
   async putForecastUptakeAWSDynamo(value) {
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
@@ -58,9 +59,7 @@ class InvitationPlanning extends Component {
         `https://${INVITATION_PARAMETERS_PUT_FORECAST_UPTAKE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/invitation-parameters-put-forecast-uptake`,
         { forecastUptake: Number(value) }
       )
-      .then((response) => {
-
-      });
+      .then((response) => {});
   }
 
   async putQuintilesAWSDynamo(updatedQuintile) {
@@ -70,9 +69,7 @@ class InvitationPlanning extends Component {
         `https://${INVITATION_PARAMETERS_PUT_QUINTILES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/invitation-parameters-put-quintiles`,
         { quintiles: updatedQuintile }
       )
-      .then((response) => {
-
-      });
+      .then((response) => {});
   }
 
   // toggle edit mode
@@ -103,9 +100,9 @@ class InvitationPlanning extends Component {
     if (e.key === "Enter" || e.keyCode === 32) {
       let errorContent = "";
       if (this.state.isCorrectUptakeTotal)
-        errorContent = document.getElementById('uptake-error-message');
+        errorContent = document.getElementById("uptake-error-message");
       else if (this.state.isCorrectTotal)
-        errorContent = document.getElementById('quintile-error-message');
+        errorContent = document.getElementById("quintile-error-message");
       if (errorContent) {
         errorContent.scrollIntoView({
           behavior: "smooth",
@@ -192,7 +189,7 @@ class InvitationPlanning extends Component {
   }
 
   scrollToErrorContent() {
-    const errorContent = document.getElementById('error-summary');
+    const errorContent = document.getElementById("error-summary");
     if (errorContent) {
       errorContent.scrollIntoView({
         behavior: "smooth",
@@ -216,8 +213,9 @@ class InvitationPlanning extends Component {
     //   getInvitationPlanningData();
 
     // Get quintiles and forecast uptake data
-    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.defaults.headers.post["Content-Type"] =
+      "application/json;charset=utf-8";
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
     // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
     axios
       .get(
@@ -230,8 +228,12 @@ class InvitationPlanning extends Component {
           response.data.QUINTILE_3.N,
           response.data.QUINTILE_4.N,
           response.data.QUINTILE_5.N,
-        ]
-        const quintileData = new QuintileTarget(quintiles, Date('03/10/2023'), 'Username')
+        ];
+        const quintileData = new QuintileTarget(
+          quintiles,
+          Date("03/10/2023"),
+          "Username"
+        );
         this.setState({
           quintileValues: quintileData.quintile,
           quintileValuesAux: quintileData.quintile,
@@ -241,7 +243,6 @@ class InvitationPlanning extends Component {
           nationalUptakePercentage: response.data.FORECAST_UPTAKE.N,
         });
       });
-
   }
 
   render() {
