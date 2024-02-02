@@ -1,4 +1,4 @@
-# This read me file explains the structure  of cypress folders and files
+# This read me file explains the structure of cypress folders and files
 
 E2E Tests: Place our end-to-end tests in the cypress/e2e folder. We can create separate .spec.js files for different features or user roles.
 

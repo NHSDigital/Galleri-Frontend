@@ -34,8 +34,12 @@ describe("QuintileTargetTable", () => {
 
     // Check if the component renders correctly
     expect(screen.getByText("Quintile fill target")).toBeInTheDocument();
-    expect((screen.getAllByText("Mocked Quintile Hint Text"))[0]).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "Quintile" })).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Mocked Quintile Hint Text")[0]
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("columnheader", { name: "Quintile" })
+    ).toBeInTheDocument();
   });
 
   test("handles input change correctly", () => {
@@ -49,14 +53,19 @@ describe("QuintileTargetTable", () => {
     fireEvent.change(inputElement, { target: { value: "50" } });
 
     // Check if the change handler is called
-    expect(mockChangeHandler).toHaveBeenCalledWith(expect.any(Object), "quintile1");
+    expect(mockChangeHandler).toHaveBeenCalledWith(
+      expect.any(Object),
+      "quintile1"
+    );
   });
 
   test("displays error message correctly", () => {
     render(<QuintileTargetTable {...defaultProps} isCorrectTotal={false} />);
 
     // Check if the error message is displayed
-    expect(screen.getByText("The fill targets must add up to 100%")).toBeInTheDocument();
+    expect(
+      screen.getByText("The fill targets must add up to 100%")
+    ).toBeInTheDocument();
   });
 
   test("displays total percentage correctly", () => {
@@ -71,7 +80,9 @@ describe("QuintileTargetTable", () => {
     render(<QuintileTargetTable {...defaultProps} enableFillEdit={false} />);
 
     // Check if non-fill edit mode content is rendered
-    expect((screen.getAllByText("Mocked Quintile Hint Text"))[0]).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Mocked Quintile Hint Text")[0]
+    ).toBeInTheDocument();
     expect(screen.getByText("100%")).toBeInTheDocument();
   });
 });

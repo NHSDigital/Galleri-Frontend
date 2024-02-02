@@ -1,19 +1,21 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import CheckDetailsBanner from './CheckDetailsBanner';
+import CheckDetailsBanner from "./CheckDetailsBanner";
 
-describe('CheckDetailsBanner Component', () => {
+describe("CheckDetailsBanner Component", () => {
   const mockProps = {
     onClickGoBackPrevPageLinkHandler: jest.fn(),
     noInviteToGenerate: 150,
     totalToInvite: 200,
   };
 
-  test('renders correctly with provided props', () => {
+  test("renders correctly with provided props", () => {
     const { getByText } = render(<CheckDetailsBanner {...mockProps} />);
     // Check if the validation message is rendered as totalToInvite>noInviteToGenerate
-    const check = getByText('Check these details before you generate invitations');
+    const check = getByText(
+      "Check these details before you generate invitations"
+    );
     expect(check).toBeInTheDocument();
   });
 
@@ -23,10 +25,10 @@ describe('CheckDetailsBanner Component', () => {
     totalToInvite: 100,
   };
 
-  test('Warning scenario', () => {
+  test("Warning scenario", () => {
     const { getByText } = render(<CheckDetailsBanner {...mockProps1} />);
     // Check if the warning message is rendered as totalToInvite<noInviteToGenerate
-    const warning = getByText('select more people to invite');
+    const warning = getByText("select more people to invite");
     expect(warning).toBeInTheDocument();
   });
 });
