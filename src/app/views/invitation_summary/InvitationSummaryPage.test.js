@@ -2,6 +2,23 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { render, fireEvent, screen } from "@testing-library/react";
 import InvitationSummaryPage from "./InvitationSummaryPage";
+import { useInactivity } from "../../context/AutoSignOutProvider";
+
+jest.mock("../../context/AutoSignOutProvider");
+
+const mockInactivityValues = {
+  showLogoutPage: false,
+  closeLogoutPage: jest.fn(),
+};
+
+useInactivity.mockReturnValue(mockInactivityValues);
+
+global.renderWithInactivityProvider = (ui, options) => {
+  return render(
+    <InactivityProvider timeout={1000}>{ui}</InactivityProvider>,
+    options
+  );
+};
 
 jest.mock("./CheckDetailsBanner", () => ({
   __esModule: true,
@@ -22,7 +39,6 @@ jest.mock("./SummaryListSecond", () => ({
   __esModule: true,
   default: jest.fn(() => <div>Mocked SummaryListSecond</div>),
 }));
-
 
 describe("InvitationSummaryPage", () => {
   const defaultProps = {
@@ -48,7 +64,9 @@ describe("InvitationSummaryPage", () => {
     render(<InvitationSummaryPage {...defaultProps} />);
 
     // Check if the component renders correctly
-    expect(screen.getByTestId("invitation-summary-container")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("invitation-summary-container")
+    ).toBeInTheDocument();
     expect(screen.getByText("Invitation summary")).toBeInTheDocument();
   });
 
@@ -94,5 +112,4 @@ describe("InvitationSummaryPage", () => {
     // Check if the click handler is called
     expect(mockOnClickGenerateHandler).toHaveBeenCalled();
   });
-
 });

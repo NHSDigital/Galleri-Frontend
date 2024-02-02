@@ -46,7 +46,7 @@ export default class ClinicSummary extends Component {
       .then((response) => {
         this.context.setState({
           clinicList: response.data,
-          lastUpdated: new Date(response.data[0].UpdatedDate?.S)
+          lastUpdated: new Date(response.data[0]?.UpdatedDate?.S)
             .toLocaleDateString("en-GB", {
               year: "numeric",
               month: "long",
@@ -160,7 +160,7 @@ export default class ClinicSummary extends Component {
 
     return (
       <div data-testid="clinic-summary">
-        <Header />
+        <Header withNavigation={true} />
         {
           // Check if a clinic link has been clicked
           // If clicked render the clinic information page and pass the props
