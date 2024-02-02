@@ -1,4 +1,4 @@
-import '../styles/css/sass.css'
+import "../styles/css/sass.css";
 
 // Content container
 export default function Content(content) {
@@ -8,5 +8,5 @@ export default function Content(content) {
         <h1>Default page template</h1>
       </main>
     </div>
-  )
+  );
 }

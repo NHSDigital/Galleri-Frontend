@@ -2,8 +2,8 @@ name: Deploy app to s3
 on:
   workflow_call:
 permissions:
-      id-token: write
-      contents: read
+  id-token: write
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
