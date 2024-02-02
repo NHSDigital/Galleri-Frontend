@@ -1,79 +1,102 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from "@testing-library/react";
 import PrivacyConfirmationPage from "./PrivacyConfirmationPage";
-import { SessionProvider } from 'next-auth/react'; // Import SessionProvider
+import { SessionProvider } from "next-auth/react";
+import { InactivityProvider } from "../../context/AutoSignOutProvider.jsx";
 
-
-
-describe("ClinicInfo", () => {
+describe("Privacy Confirmation Page", () => {
   const mockProps = {
     onToggleConfirmationHandler: jest.fn(),
     onClickContinueHandler: jest.fn(),
-    showError: false, // or true based on your testing scenario
+    showError: false,
   };
 
-  // Mock the next-auth/react module
-  jest.mock('next-auth/react', () => ({
-    useSession: jest.fn(),
-    getProviders: jest.fn(),
+  const mockInactivityValues = {
+    showLogoutPage: false,
+    closeLogoutPage: jest.fn(),
+  };
+
+  jest.mock("../../context/AutoSignOutProvider.jsx", () => ({
+    ...jest.requireActual("../../context/AutoSignOutProvider.jsx"),
+    useInactivity: jest.fn(() => mockInactivityValues),
   }));
 
-  // Mock the next/navigation module
-  jest.mock('next/navigation', () => ({
-    redirect: jest.fn(),
-  }));
+  test("renders Privacy Confirmation correctly", () => {
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
 
-  test("renders PrivacyConfirmation correctly", () => {
-    // Mock the session data
-    const session = { data: { user: { name: 'Test User' } }, status: 'authenticated' };
-    // Mock the useSession hook to return the mock session
-    require('next-auth/react').useSession.mockReturnValueOnce(session);
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+
     render(
       <SessionProvider session={session}>
-        <PrivacyConfirmationPage {...mockProps} props={mockProps} />
+        <InactivityProvider timeout={1000}>
+          <PrivacyConfirmationPage {...mockProps} />
+        </InactivityProvider>
       </SessionProvider>
     );
+
     expect(screen.getByText("Protecting patient data")).toBeInTheDocument();
-    expect(screen.getByText("When you are finished using the system you must:")).toBeInTheDocument();
-    expect(screen.getByText("Log out using the button in the top right hand corner.")).toBeInTheDocument();
+    expect(
+      screen.getByText("When you are finished using the system you must:")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Log out using the button in the top right hand corner.")
+    ).toBeInTheDocument();
     expect(screen.getByText("Remove your smart card.")).toBeInTheDocument();
-    expect(screen.getByText("I have read and understood this message")).toBeInTheDocument();
+    expect(
+      screen.getByText("I have read and understood this message")
+    ).toBeInTheDocument();
   });
 
-  test("renders PrivacyConfirmation errors correctly", () => {
-    // Mock the session data
-    const session = { data: { user: { name: 'Test User' } }, status: 'authenticated' };
-    // Mock the useSession hook to return the mock session
-    require('next-auth/react').useSession.mockReturnValueOnce(session);
-    const mockProps = {
-      onToggleConfirmationHandler: jest.fn(),
-      onClickContinueHandler: jest.fn(),
-      showError: true, // or true based on your testing scenario
+  test("renders Privacy Confirmation errors correctly", () => {
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
     };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+
     render(
       <SessionProvider session={session}>
-        <PrivacyConfirmationPage {...mockProps} props={mockProps} />
+        <InactivityProvider timeout={1000}>
+          <PrivacyConfirmationPage {...mockProps} showError={true} />
+        </InactivityProvider>
       </SessionProvider>
     );
-    const checkbox = screen.getByTestId('errors-confirm-privacy');
+
+    const checkbox = screen.getByTestId("errors-confirm-privacy");
     expect(checkbox.checked).toEqual(false);
-    // Simulate a click on the "Continue" button while checkbox unchecked
-    fireEvent.click(screen.getByText('Continue'));
+    fireEvent.click(screen.getByText("Continue"));
     expect(screen.getByText("There is a problem")).toBeInTheDocument();
   });
 
-  test("renders PrivacyConfirmation checkbox to function correctly", () => {
-    // Mock the session data
-    const session = { data: { user: { name: 'Test User' } }, status: 'authenticated' };
+  test("renders Privacy Confirmation checkbox to function correctly", () => {
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
     // Mock the useSession hook to return the mock session
-    require('next-auth/react').useSession.mockReturnValueOnce(session);
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+
     render(
       <SessionProvider session={session}>
-        <PrivacyConfirmationPage  {...mockProps} props={mockProps} />
+        <InactivityProvider timeout={1000}>
+          <PrivacyConfirmationPage {...mockProps} />
+        </InactivityProvider>
       </SessionProvider>
     );
-    const checkbox = screen.getByTestId('confirm-privacy');
+
+    const checkbox = screen.getByTestId("confirm-privacy");
     expect(checkbox.checked).toEqual(false);
     fireEvent.click(checkbox);
     expect(checkbox.checked).toEqual(true);

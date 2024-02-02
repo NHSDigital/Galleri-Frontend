@@ -8,10 +8,9 @@ import InvitationPlanning from "./views/invitation_planning/InvitationPlanning";
 import ClinicInformation from "./views/clinic_information/ClinicInformation";
 import InvitationSummary from "./views/invitation_summary/InvitationSummary";
 import { AppStateProvider } from "./context/AppStateContext";
-import AutoSignOutProvider from "./context/AutoSignOutProvider";
 
 // The root page of Galleri
-export default async function Root() {
+export default function Root() {
   const roles = ["Invitation Planner", "Referring Nurse"];
   return (
     <div>
@@ -24,19 +23,16 @@ export default async function Root() {
         >
           Skip to main content
         </a>
-
-        <AutoSignOutProvider>
-          <AppStateProvider>
-            {/* <Header /> */}
-            <PrivacyConfirmation userRole={roles[0]} />
-            {/* <Content /> */}
-            {/* <ClinicSummary /> */}
-            {/* <InvitationPlanning /> */}
-            {/* <ClinicInformation /> */}
-            {/* <InvitationSummary /> */}
-            <Footer />
-          </AppStateProvider>
-        </AutoSignOutProvider>
+        <AppStateProvider>
+          {/* <Header /> */}
+          <PrivacyConfirmation userRole={roles[0]} />
+          {/* <Content /> */}
+          {/* <ClinicSummary /> */}
+          {/* <InvitationPlanning /> */}
+          {/* <ClinicInformation /> */}
+          {/* <InvitationSummary /> */}
+          <Footer />
+        </AppStateProvider>
       </body>
     </div>
   );

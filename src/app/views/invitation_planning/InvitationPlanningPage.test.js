@@ -3,6 +3,33 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import InvitationPlanningPage from './InvitationPlanningPage';
 
+import { useInactivity } from '../../context/AutoSignOutProvider';
+import { useSession } from 'next-auth/react';
+
+jest.mock('next-auth/react');
+
+jest.mock('../../context/AutoSignOutProvider');
+
+const mockInactivityValues = {
+  showLogoutPage: false,
+  closeLogoutPage: jest.fn(),
+};
+
+const mockSession = {
+  user: { name: 'Test User', email: 'test1@example.com' },
+  expires: 'mock-expiry',
+};
+
+useSession.mockReturnValue([mockSession, false]);
+useInactivity.mockReturnValue(mockInactivityValues);
+
+global.renderWithInactivityProvider = (ui, options) => {
+  return render(
+    <InactivityProvider timeout={10000}>{ui}</InactivityProvider>,
+    options
+  );
+};
+
 // Mocked props
 const mockProps = {
   quintileValues: {},
@@ -39,7 +66,7 @@ describe('InvitationPlanningPage Component', () => {
       isCorrectTotal: false,
     };
     render(<InvitationPlanningPage {...propsWithErrors} />);
-    expect((screen.getAllByRole('alert'))[0]).toBeInTheDocument();
+    expect(screen.getAllByRole('alert')[0]).toBeInTheDocument();
   });
 
   test('triggers onCancelSaveForecastHandler on "Cancel without saving" click', () => {
