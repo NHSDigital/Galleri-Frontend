@@ -3,6 +3,8 @@ import React from "react";
 import NationalForecastUptakeTable from "./NationalForecastUptakeTable";
 import QuintileTargetTable from "./QuintileTargetTable";
 import Errorinvitations from "./ErrorInvitations";
+import { useInactivity } from "@/app/context/AutoSignOutProvider";
+import LoggedOut from "../logged_out/LoggedOut";
 
 export default function InvitationPlanningPage(props) {
   const {
@@ -27,7 +29,9 @@ export default function InvitationPlanningPage(props) {
     onKeyUp,
   } = props;
 
-  return (
+  const { showLogoutPage } = useInactivity();
+
+  return !showLogoutPage ? (
     <div className="nhsuk-width-container ">
       <main
         className="nhsuk-main-wrapper "
@@ -168,5 +172,7 @@ export default function InvitationPlanningPage(props) {
         </div>
       </main>
     </div>
+  ) : (
+    <LoggedOut showHeader={false} />
   );
 }
