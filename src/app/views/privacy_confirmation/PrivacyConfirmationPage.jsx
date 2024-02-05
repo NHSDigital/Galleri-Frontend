@@ -1,10 +1,8 @@
 import React from "react";
 import "../../styles/css/sass.css";
-import { useSession, getProviders } from "next-auth/react"; //Will require later
+import { useSession } from "next-auth/react"; //Will require later
 import { redirect } from "next/navigation"; //Will require later
 // import { getServerSession } from "next-auth";
-// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-// import { getToken } from "next-auth/jwt";
 
 export default function PrivacyConfirmationPage(props) {
   // Block below is used to get session data for client components since the
@@ -12,14 +10,14 @@ export default function PrivacyConfirmationPage(props) {
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
-      console.log("Session Data Not Found so logging out");
+      console.log("Session Data Not Found, Not authenticated");
       redirect("/signin?callbackUrl=/");
     },
   });
 
   const { onToggleConfirmationHandler, onClickContinueHandler, showError } =
     props;
-  if (session) {
+  if (status === "authenticated") {
     return (
       <>
         <header

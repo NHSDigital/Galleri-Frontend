@@ -5,6 +5,11 @@ import PrivacyConfirmationPage from "./PrivacyConfirmationPage";
 import { SessionProvider } from 'next-auth/react'; // Import SessionProvider
 
 
+// Mock redirect function
+jest.mock('next/navigation', () => ({
+  ...jest.requireActual('next/navigation'),
+  redirect: jest.fn(),
+}));
 
 describe("ClinicInfo", () => {
   const mockProps = {
@@ -15,8 +20,7 @@ describe("ClinicInfo", () => {
 
   // Mock the next-auth/react module
   jest.mock('next-auth/react', () => ({
-    useSession: jest.fn(),
-    getProviders: jest.fn(),
+    useSession: jest.fn(undefined),
   }));
 
   // Mock the next/navigation module
@@ -26,6 +30,7 @@ describe("ClinicInfo", () => {
 
   test("renders PrivacyConfirmation correctly", () => {
     // Mock the session data
+
     const session = { data: { user: { name: 'Test User' } }, status: 'authenticated' };
     // Mock the useSession hook to return the mock session
     require('next-auth/react').useSession.mockReturnValueOnce(session);

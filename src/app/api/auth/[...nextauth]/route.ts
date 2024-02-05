@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
+import axios from "axios";
 
 interface UsersItem {
   id: string;
@@ -43,14 +43,10 @@ const authOptions: NextAuthOptions = {
         return null;
       },
     }),
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
     // ...add more providers here
     {
       id: "cis2",
-      name: "Cis2",
+      name: "cis2",
       type: "oauth",
       version: "2.0",
       clientId: process.env.CIS2_ID,
@@ -60,27 +56,32 @@ const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope: "openid email profile nationalrbacaccess",
-          redirect_uri: "http://localhost:3000/",
+          redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
           response_type: "code",
         },
       },
-      // token: {
-      //   url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token",
-      //   params: {
-      //     client_id: process.env.CIS2_ID,
-      //     clientSecret: process.env.CIS2_SECRET,
-      //     redirect_uri: process.env.NEXTAUTH_URL,
-      //     grant_type: "authorization_code",
-      //   },
-      // },
-      token:
-        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token",
-      userinfo:
-        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo",
+      userinfo: {
+        url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo",
+        params: { schema: "openid" },
+        async request(context) {
+          const response = await axios({
+            method: "GET",
+            url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo?schema=openid",
+            headers: {
+              Authorization: `Bearer ${context.tokens.access_token}`,
+            },
+          });
+          return response.data;
+        },
+      },
       idToken: true,
       checks: ["state"],
       profile(profile) {
-        return profile;
+        return {
+          name: profile.given_name,
+          id: profile.uid,
+          role: { ...profile.nhsid_nrbac_roles[0] }, // Grabs the Role object which contains Activity Code
+        };
       },
     },
   ],
