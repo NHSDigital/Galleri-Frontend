@@ -13,7 +13,6 @@ export default function LoggedOut({ showHeader }) {
       ? parseInt(process.env.NEXT_PUBLIC_LOGGED_OUT / 60 / 1000)
       : 15;
 
-  console.log(typeof loggedOutDuration);
 
   return (
     <>
