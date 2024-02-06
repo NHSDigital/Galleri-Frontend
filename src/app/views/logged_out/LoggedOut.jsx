@@ -8,6 +8,13 @@ export default function LoggedOut({ showHeader }) {
   const { closeLogoutPage } = useInactivity();
   const onLogoutHandler = () => closeLogoutPage(true);
 
+  const loggedOutDuration =
+    isNaN(parseInt(process.env.NEXT_PUBLIC_LOGGED_OUT)) === false
+      ? parseInt(process.env.NEXT_PUBLIC_LOGGED_OUT / 60 / 1000)
+      : 15;
+
+  console.log(typeof loggedOutDuration);
+
   return (
     <>
       {showHeader && <Header withNavigation={false} />}
@@ -17,11 +24,13 @@ export default function LoggedOut({ showHeader }) {
             <div className="nhsuk-grid-row">
               <h1 data-testid="log-out-header">You have been logged out</h1>
               <p>
-                You have been logged out as you have been inactive for 15
-                minutes.
+                You have been logged out as you have been inactive for{" "}
+                {loggedOutDuration === parseInt("1")
+                  ? `${loggedOutDuration} minute`
+                  : `${loggedOutDuration} minutes`}
               </p>
-              <p>We do this to protect patient data</p>
-              <p>Log in to use the Galleri system.</p>
+              <p>We do this to protect patient data.</p>
+              <p>Log in again to use the Galleri pilot system.</p>
             </div>
           </div>
           <a
