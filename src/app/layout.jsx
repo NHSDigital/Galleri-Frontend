@@ -7,6 +7,11 @@ export const metadata = {
   description: "Galleri client",
 };
 
+const loggedOutDuration =
+  isNaN(parseInt(process.env.NEXT_PUBLIC_LOGGED_OUT)) === false
+    ? process.env.NEXT_PUBLIC_LOGGED_OUT
+    : 15 * 60 * 1000;
+
 // Root layout of Galleri
 export default function RootLayout({ children }) {
   return (
@@ -14,9 +19,7 @@ export default function RootLayout({ children }) {
       <body className="">
         {/* Wrapped with AuthProvider for all the client components to access the session data */}
         <AuthProvider>
-          <InactivityProvider
-            timeout={process.env.LOGOUT_TIMEOUT || 15 * 60 * 1000}
-          >
+          <InactivityProvider timeout={loggedOutDuration}>
             {children}
           </InactivityProvider>
         </AuthProvider>
