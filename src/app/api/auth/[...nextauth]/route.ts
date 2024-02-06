@@ -1,7 +1,6 @@
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
 
 interface UsersItem {
   id: string;
@@ -44,14 +43,10 @@ const authOptions: NextAuthOptions = {
         return null;
       },
     }),
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
     // ...add more providers here
     {
       id: "cis2",
-      name: "Cis2",
+      name: "cis2",
       type: "oauth",
       version: "2.0",
       clientId: process.env.CIS2_ID,
@@ -61,7 +56,7 @@ const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope: "openid email profile nationalrbacaccess",
-          redirect_uri: "http://localhost:3000/",
+          redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
           response_type: "code",
         },
       },
@@ -74,7 +69,6 @@ const authOptions: NextAuthOptions = {
             client_secret: process.env.CIS2_SECRET || "undefined",
             code: context.params.code || "undefined",
           };
-          console.log("CODE", context.params.code);
           const data = new URLSearchParams(body).toString();
           try {
             const r = await axios({
@@ -85,8 +79,26 @@ const authOptions: NextAuthOptions = {
               data,
               url: `https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token`,
             });
-            console.log("TOKEN ENDPOINT RESPONSE :", r.data);
             return { tokens: r.data };
+          } catch (err: any) {
+            console.error(err);
+            throw new Error(err);
+          }
+        },
+      },
+      userinfo: {
+        url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo",
+        params: { schema: "openid" },
+        async request(context) {
+          try {
+            const response = await axios({
+              method: "GET",
+              url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo?schema=openid",
+              headers: {
+                Authorization: `Bearer ${context.tokens.access_token}`,
+              },
+            });
+            return response.data;
           } catch (err: any) {
             console.error(err);
             throw new Error(err);
@@ -96,7 +108,11 @@ const authOptions: NextAuthOptions = {
       idToken: true,
       checks: ["state"],
       profile(profile) {
-        return profile;
+        return {
+          name: profile.name,
+          id: profile.uid,
+          role: { ...profile.nhsid_nrbac_roles[0] },
+        };
       },
     },
   ],

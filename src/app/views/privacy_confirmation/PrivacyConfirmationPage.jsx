@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../../styles/css/sass.css";
-import { useSession, getProviders } from "next-auth/react"; //Will require later
+import { useSession } from "next-auth/react"; //Will require later
 import { redirect } from "next/navigation"; //Will require later
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
@@ -16,17 +16,6 @@ export default function PrivacyConfirmationPage(props) {
       redirect("/signin?callbackUrl=/");
     },
   });
-
-  useEffect(() => {
-    const currentUrl = window.location.href;
-    const url = new URL(currentUrl);
-    const codeValue = url.searchParams.get("code") || "No Code Value present";
-    console.log("Value of code:", codeValue);
-
-    // Clear all query parameters and set the url
-    url.search = "";
-    window.history.replaceState(null, "", url.toString());
-  }, []);
 
   const { showLogoutPage } = useInactivity();
 
