@@ -15,11 +15,16 @@ describe("SummaryListSecond", () => {
 
     // Check if the component renders correctly without error
     expect(screen.getByTestId("summary-list-2")).toBeInTheDocument();
-    expect(screen.queryByTestId("summary-list-2-error")).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("summary-list-2-error")
+    ).not.toBeInTheDocument();
   });
 
   test("renders SummaryListSecond correctly with error", () => {
-    const propsWithError = { ...defaultProps, displayErrorInvitationSummary: true };
+    const propsWithError = {
+      ...defaultProps,
+      displayErrorInvitationSummary: true,
+    };
     render(<SummaryListSecond {...propsWithError} />);
 
     // Check if the component renders correctly with error

@@ -5,7 +5,11 @@ export default function WeeklyCapacityTable(props) {
   return (
     <div className="nhsuk-grid-row">
       <div className="nhsuk-grid-column-full">
-        <table role="table" className="nhsuk-table-responsive" aria-label="Clinic Weekly Capacity">
+        <table
+          role="table"
+          className="nhsuk-table-responsive"
+          aria-label="Clinic Weekly Capacity"
+        >
           <caption className="nhsuk-table__caption">
             Current Clinic Weekly Capacity
             <div className="nhsuk-hint" id="last-updated-hint">
@@ -50,10 +54,12 @@ ${date.date.substring(date.date.length, date.date.indexOf(" 20"))}
               </td>
               {weeklyCapacity.map((date, index) => {
                 return (
-                  <td key={index} role="cell" className="nhsuk-table__cell custom-font-weight-normal">
-                    <span
-                      className="nhsuk-table-responsive__heading"
-                    >
+                  <td
+                    key={index}
+                    role="cell"
+                    className="nhsuk-table__cell custom-font-weight-normal"
+                  >
+                    <span className="nhsuk-table-responsive__heading">
                       {date.date}{" "}
                     </span>
                     {date.value}

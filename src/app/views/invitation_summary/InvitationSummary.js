@@ -8,7 +8,7 @@ import axios from "axios";
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GENERATE_INVITES = process.env.NEXT_PUBLIC_GENERATE_INVITES;
 const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION;
-const GET_LSOA_IN_RANGE = process.env.NEXT_PUBLIC_GET_LSOA_IN_RANGE
+const GET_LSOA_IN_RANGE = process.env.NEXT_PUBLIC_GET_LSOA_IN_RANGE;
 
 class InvitationSummary extends Component {
   constructor() {
@@ -55,7 +55,7 @@ class InvitationSummary extends Component {
       targetFillToInputValue: targetFillToPercentage,
       appsToFill: Math.floor(
         this.context.state.recentInvitationHistory.appsRemaining *
-        (this.state.targetFillToInputValue / 100)
+          (this.state.targetFillToInputValue / 100)
       ),
     });
 
@@ -141,20 +141,20 @@ class InvitationSummary extends Component {
 
     // Event Listener to handle the very first "Tab" press when component mounts
     const handleFirstTab = (e) => {
-      const skipLink = document.getElementById('skip-to-main');
-      if (e.key === 'Tab') {
+      const skipLink = document.getElementById("skip-to-main");
+      if (e.key === "Tab") {
         e.preventDefault();
         // Set focus to the skip link when the first "Tab" is pressed
         if (skipLink) {
           skipLink.focus();
         }
         // Remove the event listener after it has been triggered
-        window.removeEventListener('keydown', handleFirstTab);
+        window.removeEventListener("keydown", handleFirstTab);
       }
     };
 
     // Add the event listener to the window
-    window.addEventListener('keydown', handleFirstTab);
+    window.addEventListener("keydown", handleFirstTab);
   }
 
   render() {

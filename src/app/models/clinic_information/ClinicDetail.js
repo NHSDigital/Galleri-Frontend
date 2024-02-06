@@ -13,6 +13,6 @@ export default class ClinicDetail {
     this.address1 = this.address1;
     this.address2 = this.address2;
     this.postcode = this.postcode;
-    this.weeklyCapacity = this.weeklyCapacity
+    this.weeklyCapacity = this.weeklyCapacity;
   }
 }

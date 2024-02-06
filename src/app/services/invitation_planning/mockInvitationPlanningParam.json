@@ -1,12 +1,12 @@
 {
   "quintileValues": {
-    "1 - Most deprived" : 30,
-    "2" : 25,
-    "3" : 15,
-    "4" : 5,
-    "5 - Least deprived" : 25
+    "1 - Most deprived": 30,
+    "2": 25,
+    "3": 15,
+    "4": 5,
+    "5 - Least deprived": 25
   },
-  "lastUpdated" : "14 July 2024",
+  "lastUpdated": "14 July 2024",
   "userName": "User, name",
   "uptakeValue": 100
 }

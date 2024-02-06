@@ -136,7 +136,11 @@ const Pagination = (props) => {
         </li>
         {paginationRange.map((pgNumber, index) => {
           if (pgNumber === DOTS) {
-            return <li key="dots" className="style_item__Y9BLA dots">&#8230;</li>;
+            return (
+              <li key="dots" className="style_item__Y9BLA dots">
+                &#8230;
+              </li>
+            );
           }
           return (
             <li

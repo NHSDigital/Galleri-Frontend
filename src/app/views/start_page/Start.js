@@ -1,7 +1,7 @@
 "use client";
-import React, { Component } from 'react';
-import StartPage from './StartPage';
-import ClinicSummary from '../clinic_summary/ClinicSummary';
+import React, { Component } from "react";
+import StartPage from "./StartPage";
+import ClinicSummary from "../clinic_summary/ClinicSummary";
 
 class Start extends Component {
   constructor() {
@@ -18,7 +18,7 @@ class Start extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   render() {
     return (

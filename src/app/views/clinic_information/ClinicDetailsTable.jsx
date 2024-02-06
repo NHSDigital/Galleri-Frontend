@@ -16,7 +16,10 @@ ${address2}
 ${postcode}`;
   return (
     <section>
-      <dl id="clinic-information-summary-list" className="nhsuk-summary-list custom-border-bottom">
+      <dl
+        id="clinic-information-summary-list"
+        className="nhsuk-summary-list custom-border-bottom"
+      >
         <div className="nhsuk-summary-list__row">
           <dt id="clinic-name-label" className="nhsuk-summary-list__key">
             Clinic Name
@@ -40,7 +43,10 @@ ${postcode}`;
         </div>
 
         <div className="nhsuk-summary-list__row">
-          <dt id="clinic-address-label" className="nhsuk-summary-list__key custom-no-border">
+          <dt
+            id="clinic-address-label"
+            className="nhsuk-summary-list__key custom-no-border"
+          >
             Address
           </dt>
           <dd

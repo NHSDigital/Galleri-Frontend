@@ -1,92 +1,65 @@
 "use client";
-// The display counter does not represent the actual timer after inactive,
-// and it auto-signs out after set timer runs out regardless of inactive or not
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { useSession } from "next-auth/react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+} from "react";
 
-const timeout = 60000 * 15; // 15 minutes in milliseconds
+import { useSession, signOut } from "next-auth/react";
 
-const AutoSignOutProvider = ({ children }) => {
-  const [timer, setTimer] = useState(null);
-  const [remainingTime, setRemainingTime] = useState(timeout / 1000);
+const InactivityContext = createContext();
+
+const InactivityProvider = ({ children, timeout }) => {
+  const [showLogoutPage, setShowLogoutPage] = useState(false);
   const { data: session } = useSession();
-  const resetTimerRef = useRef();
+  const timerRef = useRef(null);
 
-  // Function to reset the timer
-  const resetTimer = useCallback(() => {
-    clearTimeout(timer);
-    // Set a new timer when called
-    // setTimer(setTimeout(() => handleSignOut(), timeout));
-    setTimer(setTimeout(() => timeout));
-    setRemainingTime(timeout / 1000);
-  }, [timer, remainingTime]);
-
-  // Save the current resetTimer function to the ref
-  resetTimerRef.current = resetTimer;
-
-  // Function to handle the sign-out action
-  const handleSignOut = async () => {
-    window.location.href = "/signin?callbackUrl=/";
+  const resetTimer = () => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setShowLogoutPage(true);
+    }, timeout);
   };
 
   useEffect(() => {
-    // Set the initial timer when the component mounts
-    // setTimer(setTimeout(() => handleSignOut(), timeout));
-    setTimer(setTimeout(() => timeout));
+    const events = ["mousemove", "keydown", "mousedown", "touchstart"];
 
-    // Cleanup function to clear the timer when the component unmounts
+    const onActivity = () => {
+      resetTimer();
+    };
+
+    events.forEach((event) => {
+      window.addEventListener(event, onActivity);
+    });
+    resetTimer();
+
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timerRef.current);
+      events.forEach((event) => {
+        window.removeEventListener(event, onActivity);
+      });
     };
-  }, [remainingTime]); // Empty dependency array ensures the effect runs only on mount and unmount
+  }, [timeout, session]);
 
-  useEffect(() => {
-    // Function to reset the timer on user activity
-    const resetTimerOnActivity = () => {
-      resetTimerRef.current();
-    };
-
-    // Attach event listeners for user activity
-    document.addEventListener("mousemove", resetTimerOnActivity);
-    document.addEventListener("click", resetTimerOnActivity);
-    document.addEventListener("touchstart", resetTimerOnActivity);
-
-    // Detach event listeners on component unmount
-    return () => {
-      document.removeEventListener("mousemove", resetTimerOnActivity);
-      document.removeEventListener("click", resetTimerOnActivity);
-      document.removeEventListener("touchstart", resetTimerOnActivity);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Reset the timer when the session changes
-    resetTimerRef.current();
-  }, [session]);
-
-  useEffect(() => {
-    // Update remaining time every second
-    const interval = setInterval(() => {
-      setRemainingTime((prevTime) => Math.max(0, prevTime - 1));
+  const closeLogoutPage = async () => {
+    resetTimer();
+    window.location.href = "/";
+    setTimeout(() => {
+      setShowLogoutPage(false);
     }, 1000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    // Check if remaining time is zero and trigger sign-out
-    if (remainingTime === 0) {
-      handleSignOut();
-    }
-  }, [remainingTime]);
+  };
 
   return (
-    <>
-      {/* <div>Remaining Time: {remainingTime} seconds</div> */}
+    <InactivityContext.Provider value={{ showLogoutPage, closeLogoutPage }}>
       {children}
-    </>
+    </InactivityContext.Provider>
   );
 };
 
-export default AutoSignOutProvider;
+const useInactivity = () => {
+  return useContext(InactivityContext);
+};
+
+export { InactivityProvider, useInactivity };
