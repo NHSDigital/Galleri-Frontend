@@ -1,7 +1,6 @@
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import GithubProvider from "next-auth/providers/github";
 
 interface UsersItem {
   id: string;
@@ -91,14 +90,19 @@ const authOptions: NextAuthOptions = {
         url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo",
         params: { schema: "openid" },
         async request(context) {
-          const response = await axios({
-            method: "GET",
-            url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo?schema=openid",
-            headers: {
-              Authorization: `Bearer ${context.tokens.access_token}`,
-            },
-          });
-          return response.data;
+          try {
+            const response = await axios({
+              method: "GET",
+              url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo?schema=openid",
+              headers: {
+                Authorization: `Bearer ${context.tokens.access_token}`,
+              },
+            });
+            return response.data;
+          } catch (err: any) {
+            console.error(err);
+            throw new Error(err);
+          }
         },
       },
       idToken: true,
