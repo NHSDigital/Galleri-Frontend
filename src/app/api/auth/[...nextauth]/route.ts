@@ -1,3 +1,4 @@
+import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
@@ -64,19 +65,34 @@ const authOptions: NextAuthOptions = {
           response_type: "code",
         },
       },
-      // token: {
-      //   url: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token",
-      //   params: {
-      //     client_id: process.env.CIS2_ID,
-      //     clientSecret: process.env.CIS2_SECRET,
-      //     redirect_uri: process.env.NEXTAUTH_URL,
-      //     grant_type: "authorization_code",
-      //   },
-      // },
-      token:
-        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token",
-      userinfo:
-        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/userinfo",
+      token: {
+        async request(context) {
+          const body = {
+            grant_type: "authorization_code",
+            redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
+            client_id: process.env.CIS2_ID || "undefined",
+            client_secret: process.env.CIS2_SECRET || "undefined",
+            code: context.params.code || "undefined",
+          };
+          console.log("CODE", context.params.code);
+          const data = new URLSearchParams(body).toString();
+          try {
+            const r = await axios({
+              method: "POST",
+              headers: {
+                "content-type": "application/x-www-form-urlencoded",
+              },
+              data,
+              url: `https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc/access_token`,
+            });
+            console.log("TOKEN ENDPOINT RESPONSE :", r.data);
+            return { tokens: r.data };
+          } catch (err: any) {
+            console.error(err);
+            throw new Error(err);
+          }
+        },
+      },
       idToken: true,
       checks: ["state"],
       profile(profile) {
