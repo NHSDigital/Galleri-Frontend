@@ -13,7 +13,7 @@ cy.get('#confirm-privacy')
 //User clicks on Continue button
 cy.get('.nhsuk-button')
 .click();
-//Verify user is on the clinic summary screen
+//Verify user is on the clinic summary screen1as
 cy.get('.nhsuk-grid-row')
 .contains('Clinic Summary');
 //Clinic Summary Screen: User clicks on the dropdown to select the participating ICB

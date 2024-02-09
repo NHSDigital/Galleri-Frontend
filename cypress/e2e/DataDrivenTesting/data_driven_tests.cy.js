@@ -2,7 +2,7 @@
 //const csv = require('neat-csv')
 describe('Parameterised Testing', () => {
 beforeEach(() => {
-//TODO: Until domain name is finalised, using this localhost url as UAT isn't working
+//TODO: Until domain name is finalised, using this localhost url as UAT isn't working a
 cy.visit("http://uat-2-invitations-frontend.eba-mas6i84b.eu-west-2.elasticbeanstalk.com/")
 .get('.nhsuk-header__transactional-service-name--link')
 .contains('Galleri')
