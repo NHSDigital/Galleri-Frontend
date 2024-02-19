@@ -2,7 +2,10 @@
   "folders": [
     {
       "name": "Project Repository - Repository Template",
-      "path": ".",
+      "path": "."
     },
-  ],
+    {
+      "path": "../Galleri-Invitations"
+    }
+  ]
 }

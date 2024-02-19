@@ -19,6 +19,8 @@ try {
   console.error("Error parsing USERS environment variable:", error);
 }
 
+const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
+
 const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -107,11 +109,17 @@ const authOptions: NextAuthOptions = {
       },
       idToken: true,
       checks: ["state"],
-      profile(profile) {
+      async profile(profile) {
+        const uuid = profile.uid.replace(/(.{4})/g, "$1 ");
+        const response = await axios.get(
+          `https://bxp7uj0gl6.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-user-role/?uuid=${uuid}`
+        );
+        console.log(response.data);
         return {
           name: profile.name,
           id: profile.uid,
           role: { ...profile.nhsid_nrbac_roles[0] },
+          newRole: response.data,
         };
       },
     },

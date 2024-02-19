@@ -11,9 +11,17 @@ const SignIn = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
+    if (session?.user?.newRole?.Role === "Referring Clinician") {
+      window.location.href = "/onwardreferral";
+    }
     // Redirect to the homepage if the user is already logged in
-    if (session) {
+    else if (
+      session?.user?.Role === "Invitation Planner" ||
+      session?.user?.newRole?.Role === "Invitation Planner"
+    ) {
       window.location.href = "/";
+    } else if (session?.user?.role === "Referring Clinician") {
+      window.location.href = "/onwardreferral";
     }
   }, [session]);
 
@@ -22,13 +30,9 @@ const SignIn = () => {
       ...credentials,
       redirect: false, // Don't redirect, handle the result in the component
     });
-
     if (result.error) {
       // Handle error, e.g., display error message
       console.error(result.error);
-    } else {
-      // Redirect to home or any other page after successful sign-in
-      window.location.href = "/";
     }
   };
 

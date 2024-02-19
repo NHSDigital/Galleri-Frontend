@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../styles/css/sass.css";
 import { useSession } from "next-auth/react"; //Will require later
 import { redirect } from "next/navigation"; //Will require later
@@ -11,11 +11,15 @@ export default function PrivacyConfirmationPage(props) {
   // class component this component is imported is client component
   const { data: session, status } = useSession({
     required: true,
-    onUnauthenticated() {
-      console.log("Session Data Not Found so logging out");
-      redirect("/signin?callbackUrl=/");
-    },
   });
+
+  useEffect(() => {
+    console.log(session?.user);
+    console.log(status);
+    if (status === "unauthenticated") {
+      window.location.href = "/signin";
+    }
+  }, [status]);
 
   const { showLogoutPage } = useInactivity();
 
