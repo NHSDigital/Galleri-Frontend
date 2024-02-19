@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "Galleri Frontend Invitations",
+      "path": "."
+    },
+    {
+      "name": "Galleri Backend Invitations",
+      "path": "../Galleri-Invitations"
+    }
+  ]
+}
