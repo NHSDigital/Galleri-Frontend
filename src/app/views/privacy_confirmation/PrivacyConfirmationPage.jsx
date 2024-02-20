@@ -8,6 +8,7 @@ import Header from "@/app/components/Header";
 import LoggedOut from "../logged_out/LoggedOut";
 
 export default function PrivacyConfirmationPage({ continueToStart }) {
+  const { showLogoutPage } = useInactivity();
   const [confirmationReceived, setConfirmationReceived] = useState(false);
   const [showError, setShowError] = useState(false);
 
@@ -23,8 +24,6 @@ export default function PrivacyConfirmationPage({ continueToStart }) {
     typeof window !== "undefined" && (window.location.href = "/signin");
     return null;
   }
-
-  const { showLogoutPage } = useInactivity();
 
   const onToggleConfirmationHandler = () => {
     setConfirmationReceived(!confirmationReceived);
