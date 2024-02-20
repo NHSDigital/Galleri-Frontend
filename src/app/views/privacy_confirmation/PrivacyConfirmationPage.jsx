@@ -5,7 +5,6 @@ import "../../styles/css/sass.css";
 import { useSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
-import OnwardReferral from "../onward_referral/OnwardReferral";
 import LoggedOut from "../logged_out/LoggedOut";
 
 export default function PrivacyConfirmationPage({ continueToStart }) {
@@ -33,19 +32,15 @@ export default function PrivacyConfirmationPage({ continueToStart }) {
 
   const onClickContinueHandler = () => {
     if (confirmationReceived) {
-      if (session?.user?.cis2Info?.Role === "Referring Clinician") {
-        // window.history.replaceState({}, "", "/onwardreferral");
+      if (session?.user?.otherUserInfo?.Role === "Referring Clinician") {
         window.location.href = "/onwardreferral";
-        // return <OnwardReferral />;
       } else if (
         session?.user?.Role === "Invitation Planner" ||
-        session?.user?.cis2Info?.Role === "Invitation Planner"
+        session?.user?.otherUserInfo?.Role === "Invitation Planner"
       ) {
         continueToStart(true);
       } else if (session?.user?.role === "Referring Clinician") {
-        // return <OnwardReferral />;
         window.location.href = "/onwardreferral";
-        // window.history.replaceState({}, "", "/onwardreferral");
       }
     } else setShowError(true);
   };
