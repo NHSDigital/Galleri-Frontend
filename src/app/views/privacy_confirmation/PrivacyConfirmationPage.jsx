@@ -1,30 +1,55 @@
-import React, { useEffect } from "react";
+"use client";
+
+import React, { useState } from "react";
 import "../../styles/css/sass.css";
-import { useSession } from "next-auth/react"; //Will require later
-import { redirect } from "next/navigation"; //Will require later
+import { useSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
+import OnwardReferral from "../onward_referral/OnwardReferral";
 import LoggedOut from "../logged_out/LoggedOut";
 
-export default function PrivacyConfirmationPage(props) {
-  // Block below is used to get session data for client components since the
-  // class component this component is imported is client component
+export default function PrivacyConfirmationPage({ continueToStart }) {
+  const [confirmationReceived, setConfirmationReceived] = useState(false);
+  const [showError, setShowError] = useState(false);
+
   const { data: session, status } = useSession({
     required: true,
   });
 
-  useEffect(() => {
-    console.log(session?.user);
-    console.log(status);
-    if (status === "unauthenticated") {
-      window.location.href = "/signin";
-    }
-  }, [status]);
+  if (status === "loading") {
+    return <Header />;
+  }
+
+  if (!session) {
+    typeof window !== "undefined" && (window.location.href = "/signin");
+    return null;
+  }
 
   const { showLogoutPage } = useInactivity();
 
-  const { onToggleConfirmationHandler, onClickContinueHandler, showError } =
-    props;
+  const onToggleConfirmationHandler = () => {
+    setConfirmationReceived(!confirmationReceived);
+  };
+
+  const onClickContinueHandler = () => {
+    if (confirmationReceived) {
+      if (session?.user?.cis2Info?.Role === "Referring Clinician") {
+        // window.history.replaceState({}, "", "/onwardreferral");
+        window.location.href = "/onwardreferral";
+        // return <OnwardReferral />;
+      } else if (
+        session?.user?.Role === "Invitation Planner" ||
+        session?.user?.cis2Info?.Role === "Invitation Planner"
+      ) {
+        continueToStart(true);
+      } else if (session?.user?.role === "Referring Clinician") {
+        // return <OnwardReferral />;
+        window.location.href = "/onwardreferral";
+        // window.history.replaceState({}, "", "/onwardreferral");
+      }
+    } else setShowError(true);
+  };
+
   return !showLogoutPage ? (
     <>
       <Header />

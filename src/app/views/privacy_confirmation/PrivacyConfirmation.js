@@ -13,29 +13,7 @@ export default class PrivacyConfirmation extends Component {
       selectedRole: props.userRole,
       confirmationReceived: false,
       continueToStart: false,
-      showError: false,
     };
-    this.onToggleConfirmationHandler =
-      this.onToggleConfirmationHandler.bind(this);
-    this.onClickContinueHandler = this.onClickContinueHandler.bind(this);
-  }
-
-  onToggleConfirmationHandler() {
-    this.setState({
-      confirmationReceived: !this.state.confirmationReceived,
-    });
-  }
-
-  onClickContinueHandler() {
-    if (this.state.confirmationReceived) {
-      this.setState({
-        continueToStart: true,
-      });
-    } else {
-      this.setState({
-        showError: true,
-      });
-    }
   }
 
   componentDidMount() {
@@ -44,6 +22,10 @@ export default class PrivacyConfirmation extends Component {
       showError: false,
     });
   }
+
+  setContinueToStart = (value) => {
+    this.setState({ continueToStart: value });
+  };
 
   render() {
     return (
@@ -55,11 +37,7 @@ export default class PrivacyConfirmation extends Component {
             <ReferralsSummary />
           ) : null
         ) : (
-          <PrivacyConfirmationPage
-            onToggleConfirmationHandler={this.onToggleConfirmationHandler}
-            onClickContinueHandler={this.onClickContinueHandler}
-            showError={this.state.showError}
-          />
+          <PrivacyConfirmationPage continueToStart={this.setContinueToStart} />
         )}
       </>
     );

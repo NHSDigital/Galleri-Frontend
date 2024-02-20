@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import "src/app/styles/css/sass.css";
 import { useSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
@@ -13,6 +13,15 @@ export default function OnwardReferral() {
   });
 
   const { showLogoutPage } = useInactivity();
+
+  if (status === "loading") {
+    return <Header />;
+  }
+
+  if (!session) {
+    typeof window !== "undefined" && (window.location.href = "/signin");
+    return null;
+  }
 
   return !showLogoutPage ? (
     <>

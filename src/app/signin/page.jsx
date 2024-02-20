@@ -11,17 +11,18 @@ const SignIn = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
-    if (session?.user?.newRole?.Role === "Referring Clinician") {
-      window.location.href = "/onwardreferral";
+    // Keeping this here in case we want to route different users to different pages for referrals repo
+    if (session?.user?.cis2Info?.Role === "Referring Clinician") {
+      window.location.href = "/";
     }
     // Redirect to the homepage if the user is already logged in
     else if (
       session?.user?.Role === "Invitation Planner" ||
-      session?.user?.newRole?.Role === "Invitation Planner"
+      session?.user?.cis2Info?.Role === "Invitation Planner"
     ) {
       window.location.href = "/";
     } else if (session?.user?.role === "Referring Clinician") {
-      window.location.href = "/onwardreferral";
+      window.location.href = "/";
     }
   }, [session]);
 

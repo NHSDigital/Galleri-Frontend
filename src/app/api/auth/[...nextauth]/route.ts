@@ -119,7 +119,7 @@ const authOptions: NextAuthOptions = {
           name: profile.name,
           id: profile.uid,
           role: { ...profile.nhsid_nrbac_roles[0] },
-          newRole: response.data,
+          cis2Info: response.data,
         };
       },
     },
