@@ -37,7 +37,9 @@ export default class PrivacyConfirmation extends Component {
             <ReferralsSummary />
           ) : null
         ) : (
-          <PrivacyConfirmationPage continueToStart={this.setContinueToStart} />
+          <PrivacyConfirmationPage
+            setContinueToStart={this.setContinueToStart}
+          />
         )}
       </>
     );

@@ -7,7 +7,7 @@ import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
 import LoggedOut from "../logged_out/LoggedOut";
 
-export default function PrivacyConfirmationPage({ continueToStart }) {
+export default function PrivacyConfirmationPage({ setContinueToStart }) {
   const { showLogoutPage } = useInactivity();
   const [confirmationReceived, setConfirmationReceived] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -37,7 +37,7 @@ export default function PrivacyConfirmationPage({ continueToStart }) {
         session?.user?.Role === "Invitation Planner" ||
         session?.user?.otherUserInfo?.Role === "Invitation Planner"
       ) {
-        continueToStart(true);
+        setContinueToStart(true);
       } else if (session?.user?.role === "Referring Clinician") {
         window.location.href = "/onwardreferral";
       }
