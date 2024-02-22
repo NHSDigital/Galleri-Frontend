@@ -14,7 +14,7 @@ type UsersListType = UsersItem[];
 let users: UsersListType = [];
 
 try {
-  users = JSON.parse(process.env.USERS ?? "[]");
+  users = JSON.parse(process.env.USERS || "[]");
 } catch (error) {
   console.error("Error parsing USERS environment variable:", error);
 }
@@ -68,9 +68,9 @@ const authOptions: NextAuthOptions = {
           const body = {
             grant_type: "authorization_code",
             redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
-            client_id: process.env.CIS2_ID ?? "undefined",
-            client_secret: process.env.CIS2_SECRET ?? "undefined",
-            code: context.params.code ?? "undefined",
+            client_id: process.env.CIS2_ID || "undefined",
+            client_secret: process.env.CIS2_SECRET || "undefined",
+            code: context.params.code || "undefined",
           };
           const data = new URLSearchParams(body).toString();
           try {
