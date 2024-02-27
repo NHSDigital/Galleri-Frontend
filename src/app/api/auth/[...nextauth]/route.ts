@@ -121,7 +121,6 @@ const authOptions: NextAuthOptions = {
           role: { ...profile.nhsid_nrbac_roles[0] },
           otherUserInfo: response.data,
         };
-        console.log(response.data);
         if (profile.nhsid_nrbac_roles[0].activity_codes.includes("B1824")) {
           if (response.data.Status === "Inactive") {
             throw new Error("Inactive user");
