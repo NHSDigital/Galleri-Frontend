@@ -1,8 +1,12 @@
 {
   "folders": [
     {
-      "name": "Project Repository - Repository Template",
-      "path": ".",
+      "name": "Galleri Frontend Invitations",
+      "path": "."
     },
-  ],
+    {
+      "name": "Galleri Backend Invitations",
+      "path": "../Galleri-Invitations"
+    }
+  ]
 }

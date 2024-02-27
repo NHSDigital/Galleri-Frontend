@@ -11,8 +11,13 @@ const SignIn = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
-    // Redirect to the homepage if the user is already logged in
-    if (session) {
+    // Keeping this here in case we want to route different users to different pages for referrals repo
+    if (
+      session?.user?.otherUserInfo?.Role === "Referring Clinician" ||
+      session?.user?.Role === "Invitation Planner" ||
+      session?.user?.otherUserInfo?.Role === "Invitation Planner" ||
+      session?.user?.role === "Referring Clinician"
+    ) {
       window.location.href = "/";
     }
   }, [session]);
@@ -22,13 +27,9 @@ const SignIn = () => {
       ...credentials,
       redirect: false, // Don't redirect, handle the result in the component
     });
-
     if (result.error) {
       // Handle error, e.g., display error message
       console.error(result.error);
-    } else {
-      // Redirect to home or any other page after successful sign-in
-      window.location.href = "/";
     }
   };
 

@@ -19,6 +19,9 @@ try {
   console.error("Error parsing USERS environment variable:", error);
 }
 
+const GET_USER_ROLE = process.env.NEXT_PUBLIC_GET_USER_ROLE;
+const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
+
 const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -107,12 +110,25 @@ const authOptions: NextAuthOptions = {
       },
       idToken: true,
       checks: ["state"],
-      profile(profile) {
-        return {
+      async profile(profile) {
+        const uuid = profile.uid.replace(/(.{4})/g, "$1 ");
+        const response = await axios.get(
+          `https://${GET_USER_ROLE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-user-role/?uuid=${uuid}`
+        );
+        const returnValue = {
           name: profile.name,
           id: profile.uid,
           role: { ...profile.nhsid_nrbac_roles[0] },
+          otherUserInfo: response.data,
         };
+        if (profile.nhsid_nrbac_roles[0].activity_codes.includes("B1824")) {
+          if (response.data.Status === "Inactive") {
+            throw new Error("Inactive user");
+          }
+        } else {
+          throw new Error("Does not contain the correct activity code");
+        }
+        return returnValue;
       },
     },
   ],

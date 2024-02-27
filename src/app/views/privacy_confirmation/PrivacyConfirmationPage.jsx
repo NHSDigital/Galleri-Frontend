@@ -1,26 +1,49 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import "../../styles/css/sass.css";
-import { useSession } from "next-auth/react"; //Will require later
-import { redirect } from "next/navigation"; //Will require later
+import { useSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
 import LoggedOut from "../logged_out/LoggedOut";
 
-export default function PrivacyConfirmationPage(props) {
-  // Block below is used to get session data for client components since the
-  // class component this component is imported is client component
+export default function PrivacyConfirmationPage({ setContinueToStart }) {
+  const { showLogoutPage } = useInactivity();
+  const [confirmationReceived, setConfirmationReceived] = useState(false);
+  const [showError, setShowError] = useState(false);
+
   const { data: session, status } = useSession({
     required: true,
-    onUnauthenticated() {
-      console.log("Session Data Not Found so logging out");
-      redirect("/signin?callbackUrl=/");
-    },
   });
 
-  const { showLogoutPage } = useInactivity();
+  if (status === "loading") {
+    return <Header />;
+  }
 
-  const { onToggleConfirmationHandler, onClickContinueHandler, showError } =
-    props;
+  if (!session) {
+    typeof window !== "undefined" && (window.location.href = "/signin");
+    return null;
+  }
+
+  const onToggleConfirmationHandler = () => {
+    setConfirmationReceived(!confirmationReceived);
+  };
+
+  const onClickContinueHandler = () => {
+    if (confirmationReceived) {
+      if (session?.user?.otherUserInfo?.Role === "Referring Clinician") {
+        window.location.href = "/onwardreferral";
+      } else if (
+        session?.user?.Role === "Invitation Planner" ||
+        session?.user?.otherUserInfo?.Role === "Invitation Planner"
+      ) {
+        setContinueToStart(true);
+      } else if (session?.user?.role === "Referring Clinician") {
+        window.location.href = "/onwardreferral";
+      }
+    } else setShowError(true);
+  };
+
   return !showLogoutPage ? (
     <>
       <Header />

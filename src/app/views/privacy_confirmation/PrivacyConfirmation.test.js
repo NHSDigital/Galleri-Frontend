@@ -71,8 +71,6 @@ describe("Privacy Confirmation Page", () => {
       </SessionProvider>
     );
 
-    const checkbox = screen.getByTestId("errors-confirm-privacy");
-    expect(checkbox.checked).toEqual(false);
     fireEvent.click(screen.getByText("Continue"));
     expect(screen.getByText("There is a problem")).toBeInTheDocument();
   });
