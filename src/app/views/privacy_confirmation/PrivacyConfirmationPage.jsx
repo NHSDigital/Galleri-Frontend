@@ -30,11 +30,13 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
   };
 
   const onClickContinueHandler = () => {
+    // session?.user?.role is localAuth
+    // session?.user?.otherUserInfo?.Role is CIS2
     if (confirmationReceived) {
       if (session?.user?.otherUserInfo?.Role === "Referring Clinician") {
         window.location.href = "/onwardreferral";
       } else if (
-        session?.user?.Role === "Invitation Planner" ||
+        session?.user?.role === "Invitation Planner" ||
         session?.user?.otherUserInfo?.Role === "Invitation Planner"
       ) {
         setContinueToStart(true);

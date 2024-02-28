@@ -14,7 +14,7 @@ const SignIn = () => {
     // Keeping this here in case we want to route different users to different pages for referrals repo
     if (
       session?.user?.otherUserInfo?.Role === "Referring Clinician" ||
-      session?.user?.Role === "Invitation Planner" ||
+      session?.user?.role === "Invitation Planner" ||
       session?.user?.otherUserInfo?.Role === "Invitation Planner" ||
       session?.user?.role === "Referring Clinician"
     ) {
