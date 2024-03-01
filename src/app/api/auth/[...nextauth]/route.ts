@@ -41,7 +41,14 @@ const authOptions: NextAuthOptions = {
         }
         const user = users.find((item) => item.email === credentials.email);
         if (user?.password === credentials.password) {
-          return user;
+          const modifiedUser = {
+            ...user, // Spread existing user properties
+            activityCodes: ["B1824"], // appended this property to match what we get from CIS2 for global authorization check
+            activityNames: ["Galleri Blood Test"], // appended this property to match what we get from CIS2 for global authorization check
+            accountStatus: "Active", // appended this property to match what we get from GPS User Account for global authorization check
+          };
+
+          return modifiedUser;
         }
         return null;
       },
@@ -112,22 +119,18 @@ const authOptions: NextAuthOptions = {
       checks: ["state"],
       async profile(profile) {
         const uuid = profile.uid.replace(/(.{4})/g, "$1 ");
-        const response = await axios.get(
-          `https://${GET_USER_ROLE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-user-role/?uuid=${uuid}`
-        );
+
+        // Call the getUserRole function to fetch user role information
+        const { accountStatus, role, otherUserInfo } = await getUserRole(uuid);
         const returnValue = {
           name: profile.name,
           id: profile.uid,
-          role: { ...profile.nhsid_nrbac_roles[0] },
-          otherUserInfo: response.data,
+          role,
+          activityCodes: profile.nhsid_nrbac_roles[0].activity_codes,
+          activityNames: profile.nhsid_nrbac_roles[0].activities,
+          otherUserInfo,
+          accountStatus,
         };
-        if (profile.nhsid_nrbac_roles[0].activity_codes.includes("B1824")) {
-          if (response.data.Status === "Inactive") {
-            throw new Error("Inactive user");
-          }
-        } else {
-          throw new Error("Does not contain the correct activity code");
-        }
         return returnValue;
       },
     },
@@ -135,6 +138,7 @@ const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/signin",
+    error: "/autherror",
   },
   jwt: { secret: process.env.NEXTAUTH_SECRET },
   session: {
@@ -161,8 +165,10 @@ const authOptions: NextAuthOptions = {
         token.user = user;
       }
       if (account) {
+        console.log("ACCOUNT : ", account);
         token.accessToken = account.access_token;
       }
+      console.log("TOKEN : ", token);
       return token;
     },
     async session({ session, token }) {
@@ -174,6 +180,27 @@ const authOptions: NextAuthOptions = {
     },
   },
 };
+
+async function getUserRole(uuid) {
+  try {
+    const response = await axios.get(
+      `https://${GET_USER_ROLE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-user-role/?uuid=${uuid}`
+    );
+    console.log("RESPONSE : ", response);
+    return {
+      accountStatus: response.data.Status,
+      role: response.data.Role,
+      otherUserInfo: response.data,
+    };
+  } catch (error) {
+    console.error(error.response.data.message);
+    return {
+      accountStatus: "User Not Found",
+      role: "",
+      otherUserInfo: {},
+    };
+  }
+}
 
 const handler = NextAuth(authOptions);
 

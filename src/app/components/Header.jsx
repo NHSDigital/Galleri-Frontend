@@ -118,7 +118,7 @@ export default function Header({ withNavigation }) {
               className="nhsuk-header__transactional-service-name--link"
               href="#"
             >
-              Galleri
+              Galleri pilot
             </a>
             <a className="nhsuk-skip-link" href="#maincontent">
               Skip to main content

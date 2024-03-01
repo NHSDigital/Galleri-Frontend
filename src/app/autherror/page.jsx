@@ -11,7 +11,7 @@ export default function AuthError() {
 
   return !showLogoutPage ? (
     <>
-      <Header withNavigation={true} />
+      <Header withNavigation={false} />
       <div className="nhsuk-width-container">
         <main className="nhsuk-main-wrapper" id="main-content" role="main">
           <div className="nhsuk-grid-row">

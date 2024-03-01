@@ -9,12 +9,14 @@ import LoggedOut from "../logged_out/LoggedOut";
 
 export default function PrivacyConfirmationPage({ setContinueToStart }) {
   const { showLogoutPage } = useInactivity();
+  // const [isAuthorized, setIsAuthorzsed] = useState(false);
   const [confirmationReceived, setConfirmationReceived] = useState(false);
   const [showError, setShowError] = useState(false);
 
   const { data: session, status } = useSession({
     required: true,
   });
+  console.log(session);
 
   if (status === "loading") {
     return <Header />;
@@ -46,6 +48,7 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
     } else setShowError(true);
   };
 
+  // if (isAuthorized) {
   return !showLogoutPage ? (
     <>
       <Header />
@@ -183,3 +186,4 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
     <LoggedOut showHeader={true} />
   );
 }
+// }
