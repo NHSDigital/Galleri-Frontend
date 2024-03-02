@@ -16,7 +16,10 @@ export default function AuthError() {
         <main className="nhsuk-main-wrapper" id="main-content" role="main">
           <div className="nhsuk-grid-row">
             <div className="nhsuk-grid-column-full">
-              <h1>Error Page</h1>
+              <h1>We found no record of this account</h1>
+              <p>
+                If you think you should have access, contact your line manager.
+              </p>
             </div>
           </div>
         </main>

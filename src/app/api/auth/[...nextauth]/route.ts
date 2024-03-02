@@ -1,6 +1,7 @@
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import checkAuthorization from "../checkAuthorization";
 
 interface UsersItem {
   id: string;
@@ -53,7 +54,7 @@ const authOptions: NextAuthOptions = {
         return null;
       },
     }),
-    // ...add more providers here
+    // custom CIS2 Oauth provider below
     {
       id: "cis2",
       name: "cis2",
@@ -160,6 +161,7 @@ const authOptions: NextAuthOptions = {
     updateAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
+    // generating a token and assigning properties
     async jwt({ token, user, account }) {
       if (user) {
         token.user = user;
@@ -171,6 +173,11 @@ const authOptions: NextAuthOptions = {
       console.log("TOKEN : ", token);
       return token;
     },
+    // custom authorization check during signIn
+    async signIn({ user, account }) {
+      return checkAuthorization(user, account);
+    },
+    // creating a session to be accessible on client side with returned token from jwt callback above
     async session({ session, token }) {
       return {
         ...session,
@@ -186,14 +193,12 @@ async function getUserRole(uuid) {
     const response = await axios.get(
       `https://${GET_USER_ROLE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-user-role/?uuid=${uuid}`
     );
-    console.log("RESPONSE : ", response);
     return {
       accountStatus: response.data.Status,
       role: response.data.Role,
       otherUserInfo: response.data,
     };
   } catch (error) {
-    console.error(error.response.data.message);
     return {
       accountStatus: "User Not Found",
       role: "",
@@ -201,7 +206,6 @@ async function getUserRole(uuid) {
     };
   }
 }
-
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

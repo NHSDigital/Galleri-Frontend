@@ -12,15 +12,11 @@ const SignIn = () => {
   const { data: session } = useSession();
   console.log(session);
 
-  // Authorization Checks
-  useEffect(() => {
-    checkAuthorization(session);
-  }, [session]);
-
   const handleSubmit = async () => {
     const result = await signIn("credentials", {
       ...credentials,
-      redirect: false, // Don't redirect, handle the result in the component
+      redirect: true,
+      callbackUrl: "/", // Don't redirect, handle the result in the component
     });
     if (result.error) {
       // Handle error, e.g., display error message
@@ -30,16 +26,13 @@ const SignIn = () => {
 
   const handleSubmitCis2 = async () => {
     const result = await signIn("cis2", {
-      redirect: false, // Don't redirect, handle the result in the component
+      redirect: false,
+      callbackUrl: "/", // Don't redirect, handle the result in the component
     });
     if (result.error) {
       // Handle error, e.g., display error message
       console.error(result.error);
     }
-    // else {
-    //   // Redirect to home or any other page after successful sign-in
-    //   window.location.href = "/";
-    // }
   };
 
   const handlePasswordKeyDown = (e) => {

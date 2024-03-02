@@ -58,7 +58,12 @@ export default function Header({ withNavigation }) {
               </a>
             </div>
             <div className="nhsuk-header__transactional-service-name">
-              {/* <a className="nhsuk-header__transactional-service-name--link" href="#">Galleri</a> */}
+              <a
+                className="nhsuk-header__transactional-service-name--link"
+                href="#"
+              >
+                Galleri pilot
+              </a>
             </div>
             <div style={{ position: "relative", display: "flex" }}>
               {" "}
@@ -82,6 +87,14 @@ export default function Header({ withNavigation }) {
     </>
   ) : (
     <>
+      <a
+        id="skip-to-main"
+        href="#main-content"
+        className="govuk-skip-link"
+        data-module="govuk-skip-link"
+      >
+        Skip to main content
+      </a>
       <header
         className="nhsuk-header nhsuk-header--transactional"
         role="banner"
@@ -119,9 +132,6 @@ export default function Header({ withNavigation }) {
               href="#"
             >
               Galleri pilot
-            </a>
-            <a className="nhsuk-skip-link" href="#maincontent">
-              Skip to main content
             </a>
           </div>
         </div>
