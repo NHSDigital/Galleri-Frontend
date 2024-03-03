@@ -2,6 +2,7 @@ import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import checkAuthorization from "../checkAuthorization";
+import getUserRole from "../getUserRole";
 
 interface UsersItem {
   id: string;
@@ -20,8 +21,8 @@ try {
   console.error("Error parsing USERS environment variable:", error);
 }
 
-const GET_USER_ROLE = process.env.NEXT_PUBLIC_GET_USER_ROLE;
-const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
+const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
+const GALLERI_ACTIVITY_NAME = process.env.GALLERI_ACTIVITY_NAME;
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -44,8 +45,8 @@ const authOptions: NextAuthOptions = {
         if (user?.password === credentials.password) {
           const modifiedUser = {
             ...user, // Spread existing user properties
-            activityCodes: ["B1824"], // appended this property to match what we get from CIS2 for global authorization check
-            activityNames: ["Galleri Blood Test"], // appended this property to match what we get from CIS2 for global authorization check
+            activityCodes: [GALLERI_ACTIVITY_CODE], // appended this property to match what we get from CIS2 for global authorization check
+            activityNames: [GALLERI_ACTIVITY_NAME], // appended this property to match what we get from CIS2 for global authorization check
             accountStatus: "Active", // appended this property to match what we get from GPS User Account for global authorization check
           };
 
@@ -167,15 +168,13 @@ const authOptions: NextAuthOptions = {
         token.user = user;
       }
       if (account) {
-        console.log("ACCOUNT : ", account);
         token.accessToken = account.access_token;
       }
-      console.log("TOKEN : ", token);
       return token;
     },
     // custom authorization check during signIn
     async signIn({ user, account }) {
-      return checkAuthorization(user, account);
+      return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
     },
     // creating a session to be accessible on client side with returned token from jwt callback above
     async session({ session, token }) {
@@ -188,24 +187,6 @@ const authOptions: NextAuthOptions = {
   },
 };
 
-async function getUserRole(uuid) {
-  try {
-    const response = await axios.get(
-      `https://${GET_USER_ROLE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-user-role/?uuid=${uuid}`
-    );
-    return {
-      accountStatus: response.data.Status,
-      role: response.data.Role,
-      otherUserInfo: response.data,
-    };
-  } catch (error) {
-    return {
-      accountStatus: "User Not Found",
-      role: "",
-      otherUserInfo: {},
-    };
-  }
-}
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

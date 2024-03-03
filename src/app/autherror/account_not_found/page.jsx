@@ -6,7 +6,7 @@ import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
 import LoggedOut from "@/app/views/logged_out/LoggedOut";
 
-export default function AuthError() {
+export default function AccountNotFoundError() {
   const { showLogoutPage } = useInactivity();
 
   return !showLogoutPage ? (

@@ -1,16 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { signIn, useSession, signOut } from "next-auth/react";
+import React, { useState } from "react";
+import { signIn } from "next-auth/react";
 import Footer from "../components/Footer";
 import "../styles/css/sass.css";
 import Header from "../components/Header";
-import checkAuthorization from "../api/auth/checkAuthorization";
 
 const SignIn = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const { data: session } = useSession();
-  console.log(session);
 
   const handleSubmit = async () => {
     const result = await signIn("credentials", {
