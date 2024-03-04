@@ -2,6 +2,7 @@ import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import checkAuthorization from "../checkAuthorization";
+import { extractClaims } from "../checkAuthorization";
 import getUserRole from "../getUserRole";
 
 interface UsersItem {
@@ -12,7 +13,6 @@ interface UsersItem {
 }
 
 type UsersListType = UsersItem[];
-
 let users: UsersListType = [];
 
 try {
@@ -21,6 +21,9 @@ try {
   console.error("Error parsing USERS environment variable:", error);
 }
 
+// Environment Variables
+const GET_USER_ROLE = process.env.NEXT_PUBLIC_GET_USER_ROLE;
+const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const GALLERI_ACTIVITY_NAME = process.env.GALLERI_ACTIVITY_NAME;
 
@@ -123,7 +126,11 @@ const authOptions: NextAuthOptions = {
         const uuid = profile.uid.replace(/(.{4})/g, "$1 ");
 
         // Call the getUserRole function to fetch user role information
-        const { accountStatus, role, otherUserInfo } = await getUserRole(uuid);
+        const { accountStatus, role, otherUserInfo } = await getUserRole(
+          uuid,
+          GET_USER_ROLE,
+          ENVIRONMENT
+        );
         const returnValue = {
           name: profile.name,
           id: profile.uid,
@@ -174,7 +181,12 @@ const authOptions: NextAuthOptions = {
     },
     // custom authorization check during signIn
     async signIn({ user, account }) {
-      return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
+      return checkAuthorization(
+        user,
+        account,
+        GALLERI_ACTIVITY_CODE,
+        extractClaims
+      );
     },
     // creating a session to be accessible on client side with returned token from jwt callback above
     async session({ session, token }) {

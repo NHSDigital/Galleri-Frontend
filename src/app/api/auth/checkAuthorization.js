@@ -1,11 +1,17 @@
-
-export default async function checkAuthorization(user, account, galleriActivityCode) {
-
+export default async function checkAuthorization(
+  user,
+  account,
+  galleriActivityCode,
+  parseTokenClaims
+) {
   // does not have the activity code or authentication assurance is not level 3
   // TODO: After moving to INT env change the check below to see if authentication_assurance_level is level 3
   if (account.id_token) {
-    const idTokenPayload = await extractClaims(account.id_token);
-    if (!user.activityCodes.includes(galleriActivityCode) || idTokenPayload.authentication_assurance_level !== "1") {
+    const idTokenPayload = await parseTokenClaims(account.id_token);
+    if (
+      !user.activityCodes.includes(galleriActivityCode) ||
+      idTokenPayload.authentication_assurance_level !== "1"
+    ) {
       return "/autherror/activity_code_missing?error=Galleri activity code missing or authentication is not L3";
     }
   } else {
@@ -30,7 +36,7 @@ export default async function checkAuthorization(user, account, galleriActivityC
   }
 }
 
-async function extractClaims(idToken) {
+export async function extractClaims(idToken) {
   // Split the ID token into its parts: header, payload, and signature
   const [header, payload, signature] = idToken.split(".");
 
