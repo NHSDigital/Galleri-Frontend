@@ -1,4 +1,4 @@
-export default async function checkAuthorization(
+export async function checkAuthorization(
   user,
   account,
   galleriActivityCode,

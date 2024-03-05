@@ -1,7 +1,7 @@
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import checkAuthorization from "../checkAuthorization";
+import { checkAuthorization } from "../checkAuthorization";
 import { extractClaims } from "../checkAuthorization";
 import getUserRole from "../getUserRole";
 

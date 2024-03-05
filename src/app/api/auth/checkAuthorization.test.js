@@ -1,16 +1,19 @@
-import checkAuthorization from "./checkAuthorization";
+import { extractClaims, checkAuthorization } from "./checkAuthorization";
 import "@testing-library/jest-dom";
-import { extractClaims } from "./checkAuthorization";
 
 describe("All Test", () => {
   describe("extractClaims", () => {
     test("should correctly extract claims from the ID token", async () => {
       const extractClaims = jest.fn().mockResolvedValue({
+        sub: 1234567890,
         name: "John Doe",
+        iat: 1516239022,
       });
       // Expected claims from the ID token
       const expectedClaims = {
+        sub: 1234567890,
         name: "John Doe",
+        iat: 1516239022,
       };
 
       // Call the function
