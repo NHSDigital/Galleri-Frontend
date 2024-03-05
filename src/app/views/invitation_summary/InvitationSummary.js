@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import InvitationSummaryPage from "./InvitationSummaryPage";
 import { AppStateContext } from "@/app/context/AppStateContext";
+import { getSession } from "next-auth/react";
 import { setClinicDetails } from "../../helper/helperMethods";
 import axios from "axios";
 
@@ -17,6 +18,7 @@ class InvitationSummary extends Component {
       displayCheckDetailsBanner: true,
       displayErrorInvitationSummary: false,
       displayConfirmationInvitationSummary: false,
+      session: null,
     };
     this.onClickGenerateHandler = this.onClickGenerateHandler.bind(this);
     this.onClickGoBackPrevPageLinkHandler =
@@ -122,6 +124,7 @@ class InvitationSummary extends Component {
           rangeSelected: this.context.state.rangeSelection,
           targetPercentage: this.context.state.targetPercentageToFill,
           targetNoAppsToFill: this.context.state.targetAppToFill,
+          createdBy: this.state?.session?.user?.otherUserInfo?.UUID,
           appRemaining:
             this.context.state.recentInvitationHistory.appsRemaining,
         },
@@ -129,7 +132,9 @@ class InvitationSummary extends Component {
     );
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const session = await getSession();
+    this.setState({ session });
     if (this.context.state.totalToInvite === 0) {
       this.setState({
         displayErrorInvitationSummary: true,
