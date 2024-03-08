@@ -14,14 +14,6 @@ export default function Root() {
   return (
     <div>
       <body className="js-enabled">
-        {/* <a
-          id="skip-to-main"
-          href="#main-content"
-          className="govuk-skip-link"
-          data-module="govuk-skip-link"
-        >
-          Skip to main content
-        </a> */}
         <AppStateProvider>
           {/* <Header /> */}
           <PrivacyConfirmation userRole={roles[0]} />
