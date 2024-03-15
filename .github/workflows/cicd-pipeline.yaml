@@ -91,3 +91,11 @@ jobs:
       # - name: Run Tests ...
       #   run: |
       #     ?
+  run-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Frontend Build
+        run: |
+          npm run start
