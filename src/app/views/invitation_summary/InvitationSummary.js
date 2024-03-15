@@ -134,7 +134,7 @@ class InvitationSummary extends Component {
 
   async componentDidMount() {
     const session = await getSession();
-    this.setState({ session });
+    this.setState({ ...this.state, session });
     if (this.context.state.totalToInvite === 0) {
       this.setState({
         displayErrorInvitationSummary: true,

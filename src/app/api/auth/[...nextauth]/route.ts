@@ -111,24 +111,28 @@ const authOptions: NextAuthOptions = {
       idToken: true,
       checks: ["state"],
       async profile(profile) {
-        const uuid = profile.uid.replace(/(.{4})/g, "$1 ");
-        const response = await axios.get(
-          `https://${GET_USER_ROLE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-user-role/?uuid=${uuid}`
-        );
-        const returnValue = {
-          name: profile.name,
-          id: profile.uid,
-          role: { ...profile.nhsid_nrbac_roles[0] },
-          otherUserInfo: response.data,
-        };
-        if (profile.nhsid_nrbac_roles[0].activity_codes.includes("B1824")) {
-          if (response.data.Status === "Inactive") {
-            throw new Error("Inactive user");
+        try {
+          const uuid = profile.uid.replace(/(.{4})/g, "$1 ");
+          const response = await axios.get(
+            `https://${GET_USER_ROLE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/get-user-role/?uuid=${uuid}`
+          );
+          const returnValue = {
+            name: profile.name,
+            id: profile.uid,
+            role: { ...profile.nhsid_nrbac_roles[0] },
+            otherUserInfo: response.data,
+          };
+          if (profile.nhsid_nrbac_roles[0].activity_codes.includes("B1824")) {
+            if (response.data.Status === "Inactive") {
+              throw new Error("Inactive user");
+            }
+          } else {
+            throw new Error("Does not contain the correct activity code");
           }
-        } else {
-          throw new Error("Does not contain the correct activity code");
+          return returnValue;
+        } catch (error) {
+          console.log("error is: ", error);
         }
-        return returnValue;
       },
     },
   ],
