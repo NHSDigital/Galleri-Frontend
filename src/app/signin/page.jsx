@@ -1,31 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
+import React, { useState } from "react";
+import { signIn } from "next-auth/react";
 import Footer from "../components/Footer";
 import "../styles/css/sass.css";
 import Header from "../components/Header";
 
 const SignIn = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    // Keeping this here in case we want to route different users to different pages for referrals repo
-    if (
-      session?.user?.otherUserInfo?.Role === "Referring Clinician" ||
-      session?.user?.role === "Invitation Planner" ||
-      session?.user?.otherUserInfo?.Role === "Invitation Planner" ||
-      session?.user?.role === "Referring Clinician"
-    ) {
-      window.location.href = "/";
-    }
-  }, [session]);
 
   const handleSubmit = async () => {
     const result = await signIn("credentials", {
       ...credentials,
-      redirect: false, // Don't redirect, handle the result in the component
+      redirect: true,
+      callbackUrl: "/", // Don't redirect, handle the result in the component
+    });
+    if (result.error) {
+      // Handle error, e.g., display error message
+      console.error(result.error);
+    }
+  };
+
+  const handleSubmitCis2 = async () => {
+    const result = await signIn("cis2", {
+      redirect: false,
+      callbackUrl: "/", // Don't redirect, handle the result in the component
     });
     if (result.error) {
       // Handle error, e.g., display error message
@@ -102,7 +101,7 @@ const SignIn = () => {
                   <button
                     className="nhsuk-button"
                     data-module="nhsuk-button"
-                    onClick={() => signIn("cis2")}
+                    onClick={handleSubmitCis2}
                   >
                     Sign In with CIS2
                   </button>
