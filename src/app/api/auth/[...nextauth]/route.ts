@@ -113,6 +113,7 @@ const authOptions: NextAuthOptions = {
                 Authorization: `Bearer ${context.tokens.access_token}`,
               },
             });
+            console.log("RESPONSE FOR USERINFO: ", response.data);
             return response.data;
           } catch (err: any) {
             console.error(err);
@@ -134,12 +135,14 @@ const authOptions: NextAuthOptions = {
         const returnValue = {
           name: profile.name,
           id: profile.uid,
+          sub: profile.sub,
           role,
           activityCodes: profile.nhsid_nrbac_roles[0].activity_codes,
           activityNames: profile.nhsid_nrbac_roles[0].activities,
           otherUserInfo,
           accountStatus,
         };
+        console.log("PROFILE : ", returnValue);
         return returnValue;
       },
     },
@@ -171,12 +174,23 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     // generating a token and assigning properties
     async jwt({ token, user, account }) {
+      // if (user) {
+      //   token.user = user;
+      // }
+      // if (account) {
+      //   token.accessToken = account.access_token;
+      //   console.log("INSIDE JWT: ", token);
+      // }
+      // console.log("INSIDE JWT: ", token);
       if (user) {
         token.user = user;
       }
       if (account) {
+        console.log("ACCOUNT : ", account);
         token.accessToken = account.access_token;
+        token.iss = process.env.CIS2_ID;
       }
+      console.log("TOKEN : ", token);
       return token;
     },
     // custom authorization check during signIn
