@@ -2,9 +2,12 @@ export async function checkAuthorization(
   user,
   account,
   galleriActivityCode,
-  parseTokenClaims
+  parseTokenClaims,
+  checkTokenExpiration
 ) {
   console.log("INSIDE CHECK AUTHORISATION");
+
+  // Care Identity Authentication OpenID Provider's Issue identifier as specified in the OpenID Provider Configuration Document.
   const INT_iss =
     "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare";
   const DEV_iss =
@@ -24,6 +27,12 @@ export async function checkAuthorization(
 
     // User Info claims Validation
     if (idTokenPayload?.sub !== user.sub) {
+      return "/autherror/activity_code_missing?error=Galleri activity code missing or authentication is not L3";
+    }
+
+    // Validate the token's expiration time
+    const isValidTokenExpiration = await checkTokenExpiration(idTokenPayload);
+    if (!isValidTokenExpiration) {
       return "/autherror/activity_code_missing?error=Galleri activity code missing or authentication is not L3";
     }
 
@@ -59,6 +68,7 @@ export async function checkAuthorization(
   }
 }
 
+// Function to extract the Token ID claims
 export async function extractClaims(idToken) {
   // Split the ID token into its parts: header, payload, and signature
   const [header, payload, signature] = idToken.split(".");
@@ -70,4 +80,24 @@ export async function extractClaims(idToken) {
   const claims = JSON.parse(decodedPayload);
   console.log("TOKEN CLAIMS : ", claims);
   return claims;
+}
+
+// Function to validate the expiration time (exp claim)
+export async function validateTokenExpiration(token) {
+  const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+  const expirationTime = token?.exp; // Expiration time from the token's exp claim
+
+  // DEBUGGING STUFF BELOW TO DELETE LATER
+  console.log(currentTime, expirationTime);
+  const date = new Date(expirationTime * 1000); // Convert seconds to milliseconds by multiplying by 1000
+  const humanReadableDate = date.toLocaleString(); // Convert date to a human-readable string
+  console.log(new Date(currentTime * 1000).toLocaleString(), humanReadableDate);
+
+  // Check if the current time is before the expiration time
+  if (currentTime < expirationTime) {
+    return true;
+  } else {
+    // Token has expired
+    return false;
+  }
 }

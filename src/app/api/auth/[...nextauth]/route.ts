@@ -2,7 +2,7 @@ import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
-import { extractClaims } from "../checkAuthorization";
+import { extractClaims, validateTokenExpiration } from "../checkAuthorization";
 import getUserRole from "../getUserRole";
 
 interface UsersItem {
@@ -199,7 +199,8 @@ const authOptions: NextAuthOptions = {
         user,
         account,
         GALLERI_ACTIVITY_CODE,
-        extractClaims
+        extractClaims,
+        validateTokenExpiration
       );
     },
     // creating a session to be accessible on client side with returned token from jwt callback above
