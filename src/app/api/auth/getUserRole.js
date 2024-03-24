@@ -2,11 +2,10 @@ import axios from "axios";
 
 export default async function getUserRole(uuid, apiID, env) {
   try {
-    console.log("START TO GET THE USER ROLE");
+    console.log("GETTING USER ROLE FROM GPS USER DIRECTORY");
     const response = await axios.get(
       `https://${apiID}.execute-api.eu-west-2.amazonaws.com/${env}/get-user-role/?uuid=${uuid}`
     );
-    console.log("GET USER ROLE: ", response);
     return {
       accountStatus: response.data.Status,
       role: response.data.Role,

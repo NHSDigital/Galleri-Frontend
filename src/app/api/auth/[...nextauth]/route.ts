@@ -26,6 +26,7 @@ const GET_USER_ROLE = process.env.NEXT_PUBLIC_GET_USER_ROLE;
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const GALLERI_ACTIVITY_NAME = process.env.GALLERI_ACTIVITY_NAME;
+const CIS2_CLIENT_ID = process.env.CIS2_ID;
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -113,7 +114,6 @@ const authOptions: NextAuthOptions = {
                 Authorization: `Bearer ${context.tokens.access_token}`,
               },
             });
-            console.log("RESPONSE FOR USERINFO: ", response.data);
             return response.data;
           } catch (err: any) {
             console.error(err);
@@ -142,7 +142,6 @@ const authOptions: NextAuthOptions = {
           otherUserInfo,
           accountStatus,
         };
-        console.log("PROFILE : ", returnValue);
         return returnValue;
       },
     },
@@ -174,23 +173,13 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     // generating a token and assigning properties
     async jwt({ token, user, account }) {
-      // if (user) {
-      //   token.user = user;
-      // }
-      // if (account) {
-      //   token.accessToken = account.access_token;
-      //   console.log("INSIDE JWT: ", token);
-      // }
-      // console.log("INSIDE JWT: ", token);
       if (user) {
         token.user = user;
       }
       if (account) {
-        console.log("ACCOUNT : ", account);
         token.accessToken = account.access_token;
         token.iss = process.env.CIS2_ID;
       }
-      console.log("TOKEN : ", token);
       return token;
     },
     // custom authorization check during signIn
@@ -199,6 +188,7 @@ const authOptions: NextAuthOptions = {
         user,
         account,
         GALLERI_ACTIVITY_CODE,
+        CIS2_CLIENT_ID,
         extractClaims,
         validateTokenExpiration
       );
