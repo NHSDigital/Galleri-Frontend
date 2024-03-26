@@ -68,7 +68,7 @@ const authOptions: NextAuthOptions = {
       clientId: process.env.CIS2_ID,
       clientSecret: process.env.CIS2_SECRET,
       wellKnown:
-        "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk/openam/oauth2/realms/root/realms/oidc/.well-known/openid-configuration",
+        "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/.well-known/openid-configuration",
       authorization: {
         params: {
           scope: "openid email profile nationalrbacaccess",
