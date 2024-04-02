@@ -201,13 +201,13 @@ class ClinicInformation extends Component {
     this.setState({
       appsToFill: Math.floor(
         this.context.state.recentInvitationHistory.appsRemaining *
-          (targetFillToInputValue / 100)
+        (targetFillToInputValue / 100)
       ),
     });
     this.context.setState({
       targetAppToFill: Math.floor(
         this.context.state.recentInvitationHistory.appsRemaining *
-          (targetFillToInputValue / 100)
+        (targetFillToInputValue / 100)
       ),
     });
   }
@@ -245,19 +245,26 @@ class ClinicInformation extends Component {
   async lsoaCodesAppsToFill(lsoaArray) {
     const payloadObject = this.createLsoaCodePayload(lsoaArray);
     try {
-      const response = await axios.post(
-        // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+      const response = await fetch(
         `https://${CALCULATE_NUM_TO_INVITE}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/calculate-num-to-invite`,
         {
-          targetAppsToFill: this.state.appsToFill,
-          lsoaCodes: payloadObject,
+          body: JSON.stringify({
+            targetAppsToFill: this.state.appsToFill,
+            lsoaCodes: payloadObject,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
         }
-      );
+      )
+        .then((res) => res.json())
+
       this.context.setState({
-        noInviteToGenerate: response.data.numberOfPeopleToInvite,
-        personIdentifiedToInvite: response.data.selectedParticipants,
+        noInviteToGenerate: response.numberOfPeopleToInvite,
+        personIdentifiedToInvite: response.selectedParticipants,
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Request failed: " + error.message);
     }
@@ -271,14 +278,14 @@ class ClinicInformation extends Component {
       this.setState({
         appsToFill: Math.floor(
           this.context.state.recentInvitationHistory.appsRemaining *
-            (targetFillToInputValue / 100)
+          (targetFillToInputValue / 100)
         ),
         displayUserErrorTargetPercentage: false,
       });
       this.context.setState({
         targetAppToFill: Math.floor(
           this.context.state.recentInvitationHistory.appsRemaining *
-            (targetFillToInputValue / 100)
+          (targetFillToInputValue / 100)
         ),
         targetPercentageToFill: targetFillToInputValue,
       });
@@ -394,7 +401,7 @@ class ClinicInformation extends Component {
             postcode: response.data.PostCode.S,
             appsToFill: Math.floor(
               clinicInvitationHistory.appsRemaining *
-                (response.data.TargetFillToPercentage.N / 100)
+              (response.data.TargetFillToPercentage.N / 100)
             ),
             displayUserErrorTargetPercentage: false,
             lsoaTableError: false,
@@ -417,11 +424,11 @@ class ClinicInformation extends Component {
             pageSize: 10,
             appsToFill: Math.floor(
               clinicInvitationHistory.appsRemaining *
-                (response.data.TargetFillToPercentage.N / 100)
+              (response.data.TargetFillToPercentage.N / 100)
             ),
             targetAppToFill: Math.floor(
               clinicInvitationHistory.appsRemaining *
-                (response.data.TargetFillToPercentage.N / 100)
+              (response.data.TargetFillToPercentage.N / 100)
             ),
           });
         });
@@ -490,7 +497,7 @@ class ClinicInformation extends Component {
               pageSize: 10,
               targetAppToFill: Math.floor(
                 this.context.state.recentInvitationHistory.appsRemaining *
-                  (this.state.targetFillToInputValue / 100)
+                (this.state.targetFillToInputValue / 100)
               ),
               targetPercentageToFill: targetFillToPercentage,
             });
@@ -504,14 +511,14 @@ class ClinicInformation extends Component {
             this.setState({
               appsToFill: Math.floor(
                 clinicInvitationHistory.appsRemaining *
-                  (response.data.TargetFillToPercentage.N / 100)
+                (response.data.TargetFillToPercentage.N / 100)
               ),
             });
 
             this.context.setState({
               targetAppToFill: Math.floor(
                 clinicInvitationHistory.appsRemaining *
-                  (response.data.TargetFillToPercentage.N / 100)
+                (response.data.TargetFillToPercentage.N / 100)
               ),
             });
 

@@ -55,7 +55,7 @@ class InvitationSummary extends Component {
       targetFillToInputValue: targetFillToPercentage,
       appsToFill: Math.floor(
         this.context.state.recentInvitationHistory.appsRemaining *
-          (this.state.targetFillToInputValue / 100)
+        (this.state.targetFillToInputValue / 100)
       ),
     });
 
@@ -111,22 +111,30 @@ class InvitationSummary extends Component {
     });
     this.scrollToMainContent();
 
-    const response = await axios.post(
-      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
-      `https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
+
+    const response = await fetch(`https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
       {
-        selectedParticipants: this.context.state.personIdentifiedToInvite,
-        clinicInfo: {
-          clinicId: this.context.state.clinicId,
-          clinicName: this.context.state.clinicName,
-          rangeSelected: this.context.state.rangeSelection,
-          targetPercentage: this.context.state.targetPercentageToFill,
-          targetNoAppsToFill: this.context.state.targetAppToFill,
-          appRemaining:
-            this.context.state.recentInvitationHistory.appsRemaining,
+        body: JSON.stringify(
+          {
+            selectedParticipants: this.context.state.personIdentifiedToInvite,
+            clinicInfo: {
+              clinicId: this.context.state.clinicId,
+              clinicName: this.context.state.clinicName,
+              rangeSelected: this.context.state.rangeSelection,
+              targetPercentage: this.context.state.targetPercentageToFill,
+              targetNoAppsToFill: this.context.state.targetAppToFill,
+              appRemaining:
+                this.context.state.recentInvitationHistory.appsRemaining,
+            },
+          }
+        ),
+        headers: {
+          'Content-Type': 'application/json',
         },
+        method: 'POST',
       }
-    );
+    )
+      .then((res) => res.json())
   }
 
   componentDidMount() {
