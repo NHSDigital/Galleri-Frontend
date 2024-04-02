@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import PrivacyConfirmationPage from "./PrivacyConfirmationPage";
 import { SessionProvider } from "next-auth/react";
 import { InactivityProvider } from "../../context/AutoSignOutProvider.jsx";
@@ -51,6 +51,32 @@ describe("Privacy Confirmation Page", () => {
     expect(
       screen.getByText("I have read and understood this message")
     ).toBeInTheDocument();
+  });
+
+  test("redirects to the onward referral page for Referring Clinician", () => {
+    const session = {
+      data: { user: { otherUserInfo: { Role: "Referring Clinician" } } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+
+    const { getByTestId } = render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <PrivacyConfirmationPage {...mockProps} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
+    const continueButton = getByTestId("continue-button");
+
+    fireEvent.click(continueButton);
+
+    waitFor(() => {
+      expect(window.location.href).toEqual("/onwardreferral");
+    });
   });
 
   test("renders Privacy Confirmation errors correctly", () => {

@@ -6638,6 +6638,10 @@ COMPONENTS / #PAGINATION
 	padding: 0 0 0 20px;
 }
 
+.custom-vertical-height-100vh {
+	height: 100vh;
+}
+
 .nhsuk-pagination__page {
 	font-size: 14px;
 	font-size: 0.875rem;

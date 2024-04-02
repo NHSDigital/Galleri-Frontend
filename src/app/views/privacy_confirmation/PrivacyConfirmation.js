@@ -1,6 +1,5 @@
 "use client";
 import { Component } from "react";
-import StartPage from "../start_page/StartPage";
 import PrivacyConfirmationPage from "./PrivacyConfirmationPage";
 import ClinicSummary from "../clinic_summary/ClinicSummary";
 import ReferralsSummary from "../referrals_summary/ReferralsSummary";
