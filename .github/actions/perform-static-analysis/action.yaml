@@ -19,6 +19,8 @@ runs:
         export NVM_DIR="/home/runner/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         nvm install 20
+        nvm alias default 20
+        nvm use default
         node -v
     - name: "Check prerequisites for performing static analysis"
       shell: bash
