@@ -25,6 +25,7 @@ runs:
         echo "Setting PATH..."
         echo "PATH=$NVM_DIR/versions/node/$(node -v)/bin:$PATH" >> $GITHUB_ENV
         which node
+        /home/runner/.nvm/versions/node/v20.12.1/bin/node -v
     - name: "Check prerequisites for performing static analysis"
       shell: bash
       id: check
