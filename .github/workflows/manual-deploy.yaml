@@ -1,0 +1,101 @@
+name: Manual deploy of CI/CD Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      frontend_branch:
+        description: "This is the branch/tag of the Galleri frontend to be deployed to the DEV environment"
+        required: true
+      test:
+        type: choice
+        description: Should tests be run?
+        required: true
+        default: "yes"
+        options:
+          - "yes"
+          - "no"
+
+jobs:
+  get-metadata:
+    runs-on: ubuntu-latest
+    outputs:
+      build_datetime: ${{ steps.metadata.outputs.build_datetime }}
+      build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
+      build_epoch: ${{ steps.metadata.outputs.build_epoch }}
+      nodejs_version: ${{ steps.metadata.outputs.nodejs_version }}
+      python_version: ${{ steps.metadata.outputs.python_version }}
+      terraform_version: ${{ steps.metadata.outputs.terraform_version }}
+    steps:
+      - id: metadata
+        run: |
+          datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
+          echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
+          echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+          echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
+          echo "nodejs_version=$(grep nodejs .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
+          echo "python_version=$(grep python .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
+          echo "terraform_version=$(grep terraform .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
+  scan-secrets:
+    uses: ./.github/workflows/scan-secrets.yaml
+  check-file-format:
+    uses: ./.github/workflows/check-file-format.yaml
+  check-markdown-format:
+    uses: ./.github/workflows/check-markdown-format.yaml
+  check-terraform-format:
+    uses: ./.github/workflows/check-terraform-format.yaml
+  cloc-repository:
+    uses: ./.github/workflows/cloc-repository.yaml
+  scan-dependencies:
+    uses: ./.github/workflows/scan-dependencies.yaml
+  # check-coverage:
+  #   uses: ./.github/workflows/check-test-coverage.yaml
+  perform-static-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    timeout-minutes: 5
+    name: "Perform unit tests and static analysis"
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history is needed to improving relevancy of reporting
+      - name: run unit tests
+        uses: ./.github/actions/perform-unit-tests
+      - name: "Perform static analysis"
+        uses: ./.github/actions/perform-static-analysis
+        with:
+          sonar_organisation_key: "${{ vars.SONAR_ORGANISATION_KEY }}"
+          sonar_project_key: "${{ vars.SONAR_PROJECT_KEY }}"
+          sonar_token: "${{ secrets.SONAR_TOKEN }}"
+  # deploy-app:
+  #   uses: ./.github/workflows/deploy-to-s3.yaml
+  cicd-pipeline-test:
+    runs-on: ubuntu-latest
+    needs: [
+        get-metadata,
+        scan-secrets,
+        check-file-format,
+        check-markdown-format,
+        check-terraform-format,
+        cloc-repository,
+        # deploy-app,
+        scan-dependencies,
+        perform-static-analysis,
+      ]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: List Variables
+        run: |
+          export BUILD_DATETIME="${{ needs.get-metadata.outputs.build_datetime }}"
+          export BUILD_TIMESTAMP="${{ needs.get-metadata.outputs.build_timestamp }}"
+          export BUILD_EPOCH="${{ needs.get-metadata.outputs.build_epoch }}"
+          export NODEJS_VERSION="${{ needs.get-metadata.outputs.nodejs_version }}"
+          export PYTHON_VERSION="${{ needs.get-metadata.outputs.python_version }}"
+          export TERRAFORM_VERSION="${{ needs.get-metadata.outputs.terraform_version }}"
+          make list-variables
+      # - name: Run Tests ...
+      #   run: |
+      #     ?
