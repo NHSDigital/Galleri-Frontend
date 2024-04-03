@@ -78,7 +78,7 @@ jobs:
       ]
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: List Variables
         run: |
           export BUILD_DATETIME="${{ needs.get-metadata.outputs.build_datetime }}"
