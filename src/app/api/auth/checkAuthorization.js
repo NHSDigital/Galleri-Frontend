@@ -4,25 +4,23 @@ export async function checkAuthorization(
   galleriActivityCode,
   clientID,
   parseTokenClaims,
-  checkTokenExpiration
+  checkTokenExpiration,
+  verifyTokenSignature
 ) {
   // Care Identity Authentication OpenID Provider's Issue identifier as specified in the OpenID Provider Configuration Document.
   const INT_iss =
     "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare";
-  const DEV_iss =
-    "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc";
 
   const idTokenPayload = await parseTokenClaims(account.id_token);
   // ID Token claims Validation
-  // TODO: After moving to INT env change the check for Integration iss URI
   if (account.id_token) {
-    if (idTokenPayload?.iss !== DEV_iss || idTokenPayload?.aud !== clientID) {
+    if (idTokenPayload?.iss !== INT_iss || idTokenPayload?.aud !== clientID) {
       return "/autherror?error=ID+Token+Validation+failed";
     }
 
     // User Info claims Validation
     if (idTokenPayload?.sub !== user.sub) {
-      return "/autherror?error=Userinfo+Sub+claim+does+not+match+in+the+ID+Token";
+      return "/autherror?error=Userinfo+sub+claim+does+not+match+in+the+ID+Token";
     }
 
     // Validate the token's expiration time
@@ -31,11 +29,16 @@ export async function checkAuthorization(
       return "/autherror?error=ID+Token+has+expired";
     }
 
+    // Validate the Signature of ID Token
+    const jwksUri =
+      "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/connect/jwk_uri";
+    await verifyTokenSignature(account.id_token, jwksUri);
+
     // does not have the activity code or authentication assurance is not level 3
     // TODO: After moving to INT env change the check below to see if authentication_assurance_level is level 3
     if (
       !user.activityCodes.includes(galleriActivityCode) ||
-      idTokenPayload.authentication_assurance_level !== "1"
+      idTokenPayload.authentication_assurance_level !== "3"
     ) {
       return "/autherror/activity_code_missing?error=Galleri+activity+code+missing+or+authentication+is+not+L3";
     }
