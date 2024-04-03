@@ -16,10 +16,9 @@ runs:
     - name: install node 20 to test if that fixes sonar scanner issue
       shell: bash
       run: |
-        curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
-        source ~/.bashrc
+        export NVM_DIR="/home/runner/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         nvm install 20
-        nvm -v
         node -v
     - name: "Check prerequisites for performing static analysis"
       shell: bash
