@@ -22,6 +22,8 @@ runs:
         nvm alias default 20
         nvm use default
         node -v
+        echo "Setting PATH..."
+        echo "PATH=$NVM_DIR/versions/node/$(node -v)/bin:$PATH" >> $GITHUB_ENV
     - name: "Check prerequisites for performing static analysis"
       shell: bash
       id: check
@@ -30,6 +32,8 @@ runs:
       shell: bash
       if: steps.check.outputs.secret_exist == 'true'
       run: |
+        echo "using node version:"
+        node -v
         export BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo $GITHUB_REF | sed 's#refs/heads/##')}
         export SONAR_TOKEN=${{ inputs.sonar_token }}
         export SONAR_ORGANISATION_KEY=${{ inputs.sonar_organisation_key }}
