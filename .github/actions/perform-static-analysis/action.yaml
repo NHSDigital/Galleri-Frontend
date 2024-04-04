@@ -13,16 +13,16 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: install node 20 to test if that fixes sonar scanner issue
-      shell: bash
-      run: |
-        export NVM_DIR="/home/runner/.nvm"
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        nvm install 18 --lts
-        node -v
-        echo "Setting PATH..."
-        echo "PATH=$NVM_DIR/versions/node/$(node -v)/bin:$PATH" >> $GITHUB_ENV
-        which node
+    # - name: install node 20 to test if that fixes sonar scanner issue
+    #   shell: bash
+    #   run: |
+    #     export NVM_DIR="/home/runner/.nvm"
+    #     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    #     nvm install 18 --lts
+    #     node -v
+    #     echo "Setting PATH..."
+    #     echo "PATH=$NVM_DIR/versions/node/$(node -v)/bin:$PATH" >> $GITHUB_ENV
+    #     which node
     - name: "Check prerequisites for performing static analysis"
       shell: bash
       id: check
@@ -31,14 +31,6 @@ runs:
       shell: bash
       if: steps.check.outputs.secret_exist == 'true'
       run: |
-        export NVM_DIR="/home/runner/.nvm"
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        nvm install 18 --lts
-        node -v
-        echo "Setting PATH..."
-        echo "PATH=$NVM_DIR/versions/node/$(node -v)/bin:$PATH" >> $GITHUB_ENV
-        which node
-        echo "using node version:"
         node -v
         export BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo $GITHUB_REF | sed 's#refs/heads/##')}
         export SONAR_TOKEN=${{ inputs.sonar_token }}
