@@ -31,6 +31,13 @@ runs:
       shell: bash
       if: steps.check.outputs.secret_exist == 'true'
       run: |
+        export NVM_DIR="/home/runner/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        nvm install 18 --lts
+        node -v
+        echo "Setting PATH..."
+        echo "PATH=$NVM_DIR/versions/node/$(node -v)/bin:$PATH" >> $GITHUB_ENV
+        which node
         echo "using node version:"
         node -v
         export BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo $GITHUB_REF | sed 's#refs/heads/##')}
