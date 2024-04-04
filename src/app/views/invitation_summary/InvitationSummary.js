@@ -112,7 +112,7 @@ class InvitationSummary extends Component {
     this.scrollToMainContent();
 
 
-    const response = await fetch(`https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
+    await fetch(`https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
       {
         body: JSON.stringify(
           {
