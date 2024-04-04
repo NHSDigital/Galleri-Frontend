@@ -13,16 +13,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # - name: install node 20 to test if that fixes sonar scanner issue
-    #   shell: bash
-    #   run: |
-    #     export NVM_DIR="/home/runner/.nvm"
-    #     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    #     nvm install 18 --lts
-    #     node -v
-    #     echo "Setting PATH..."
-    #     echo "PATH=$NVM_DIR/versions/node/$(node -v)/bin:$PATH" >> $GITHUB_ENV
-    #     which node
     - name: "Check prerequisites for performing static analysis"
       shell: bash
       id: check
