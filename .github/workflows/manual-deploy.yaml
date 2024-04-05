@@ -1,11 +1,19 @@
-name: CI/CD Pipeline
+name: Manual deploy of CI/CD Pipeline
 
 on:
-  push:
-  pull_request:
-    branches:
-      - main
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      frontend_branch:
+        description: "This is the branch/tag of the Galleri frontend to be deployed to the DEV environment"
+        required: true
+      test:
+        type: choice
+        description: Should tests be run?
+        required: true
+        default: "yes"
+        options:
+          - "yes"
+          - "no"
 
 jobs:
   get-metadata:
