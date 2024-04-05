@@ -21,6 +21,7 @@ runs:
       shell: bash
       if: steps.check.outputs.secret_exist == 'true'
       run: |
+        node -v
         export BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo $GITHUB_REF | sed 's#refs/heads/##')}
         export SONAR_TOKEN=${{ inputs.sonar_token }}
         export SONAR_ORGANISATION_KEY=${{ inputs.sonar_organisation_key }}
