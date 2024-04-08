@@ -3,6 +3,7 @@ cve-scan*.json
 sbom-spdx*.json
 *.code-workspace
 !project.code-workspace
+package-lock.json
 
 # dependencies
 /node_modules
