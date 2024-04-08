@@ -2,7 +2,7 @@ import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
-import { extractClaims } from "../checkAuthorization";
+import { extractClaims, validateTokenExpiration } from "../checkAuthorization";
 import getUserRole from "../getUserRole";
 
 interface UsersItem {
@@ -26,6 +26,7 @@ const GET_USER_ROLE = process.env.NEXT_PUBLIC_GET_USER_ROLE;
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const GALLERI_ACTIVITY_NAME = process.env.GALLERI_ACTIVITY_NAME;
+const CIS2_CLIENT_ID = process.env.CIS2_ID;
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -134,6 +135,7 @@ const authOptions: NextAuthOptions = {
         const returnValue = {
           name: profile.name,
           id: profile.uid,
+          sub: profile.sub,
           role,
           activityCodes: profile.nhsid_nrbac_roles[0].activity_codes,
           activityNames: profile.nhsid_nrbac_roles[0].activities,
@@ -176,6 +178,7 @@ const authOptions: NextAuthOptions = {
       }
       if (account) {
         token.accessToken = account.access_token;
+        token.iss = process.env.CIS2_ID;
       }
       return token;
     },
@@ -185,7 +188,9 @@ const authOptions: NextAuthOptions = {
         user,
         account,
         GALLERI_ACTIVITY_CODE,
-        extractClaims
+        CIS2_CLIENT_ID,
+        extractClaims,
+        validateTokenExpiration
       );
     },
     // creating a session to be accessible on client side with returned token from jwt callback above
