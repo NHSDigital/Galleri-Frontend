@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import InvitationSummaryPage from "./InvitationSummaryPage";
 import { AppStateContext } from "@/app/context/AppStateContext";
+import { getSession } from "next-auth/react";
 import { setClinicDetails } from "../../helper/helperMethods";
 import axios from "axios";
 
@@ -17,6 +18,7 @@ class InvitationSummary extends Component {
       displayCheckDetailsBanner: true,
       displayErrorInvitationSummary: false,
       displayConfirmationInvitationSummary: false,
+      session: null,
     };
     this.onClickGenerateHandler = this.onClickGenerateHandler.bind(this);
     this.onClickGoBackPrevPageLinkHandler =
@@ -111,25 +113,33 @@ class InvitationSummary extends Component {
     });
     this.scrollToMainContent();
 
-    const response = await axios.post(
-      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    await fetch(
       `https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
       {
-        selectedParticipants: this.context.state.personIdentifiedToInvite,
-        clinicInfo: {
-          clinicId: this.context.state.clinicId,
-          clinicName: this.context.state.clinicName,
-          rangeSelected: this.context.state.rangeSelection,
-          targetPercentage: this.context.state.targetPercentageToFill,
-          targetNoAppsToFill: this.context.state.targetAppToFill,
-          appRemaining:
-            this.context.state.recentInvitationHistory.appsRemaining,
+        body: JSON.stringify({
+          selectedParticipants: this.context.state.personIdentifiedToInvite,
+          clinicInfo: {
+            clinicId: this.context.state.clinicId,
+            clinicName: this.context.state.clinicName,
+            rangeSelected: this.context.state.rangeSelection,
+            targetPercentage: this.context.state.targetPercentageToFill,
+            targetNoAppsToFill: this.context.state.targetAppToFill,
+            createdBy: this.state?.session?.user?.otherUserInfo?.UUID,
+            appRemaining:
+              this.context.state.recentInvitationHistory.appsRemaining,
+          },
+        }),
+        headers: {
+          "Content-Type": "application/json",
         },
+        method: "POST",
       }
-    );
+    ).then((res) => res.json());
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const session = await getSession();
+    this.setState({ ...this.state, session });
     if (this.context.state.totalToInvite === 0) {
       this.setState({
         displayErrorInvitationSummary: true,
