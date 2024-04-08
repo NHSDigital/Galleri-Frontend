@@ -3,6 +3,7 @@ import {
   validateTokenExpiration,
   checkAuthorization,
 } from "./checkAuthorization";
+// import { validateTokenSignature } from "../validateTokenSignature";
 import "@testing-library/jest-dom";
 
 const mockUser = {
@@ -17,10 +18,18 @@ const mockGalleriActivityCode = "code1";
 
 // Mock parseTokenClaims function
 const mockParseTokenClaims = jest.fn().mockResolvedValue({
-  iss: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc",
+  iss: "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare",
   aud: "someAudience",
   sub: "user123",
-  authentication_assurance_level: "1",
+  authentication_assurance_level: "3",
+});
+
+// Mock parseTokenClaims function
+const mockvalidateTokenSign = jest.fn().mockResolvedValue({
+  iss: "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare",
+  aud: "someAudience",
+  sub: "user123",
+  authentication_assurance_level: "3",
 });
 
 // Mock checkTokenExpiration function
@@ -118,7 +127,8 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe(
@@ -126,7 +136,7 @@ describe("All Test", () => {
       );
     });
 
-    test('returns "/autherror/activity_code_missing" if authentication assurance level is not 1', async () => {
+    test('returns "/autherror/activity_code_missing" if authentication assurance level is not 3', async () => {
       const user = {
         activityCodes: ["RICE123"],
         sub: "user123",
@@ -136,7 +146,7 @@ describe("All Test", () => {
       const account = { id_token: "sampleIdToken" };
       const galleriActivityCode = "RICE123";
       const extractClaims = jest.fn().mockResolvedValue({
-        iss: "https://am.nhsdev.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/oidc",
+        iss: "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare",
         aud: "someAudience",
         sub: "user123",
         authentication_assurance_level: "2",
@@ -148,7 +158,8 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         extractClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe(
@@ -172,7 +183,8 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe(
@@ -187,7 +199,8 @@ describe("All Test", () => {
         mockGalleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
       expect(result).toBe(true);
       expect(mockParseTokenClaims).toHaveBeenCalledWith(mockAccount.id_token);
@@ -216,7 +229,8 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe(false);
@@ -258,7 +272,8 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe(
@@ -282,11 +297,12 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe(
-        "/autherror?error=Userinfo+Sub+claim+does+not+match+in+the+ID+Token"
+        "/autherror?error=Userinfo+sub+claim+does+not+match+in+the+ID+Token"
       );
     });
 
@@ -306,7 +322,8 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe(true);
@@ -330,7 +347,8 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe("/autherror?error=ID+Token+has+expired");
@@ -351,7 +369,8 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpiration,
+        mockvalidateTokenSign
       );
 
       expect(result).toBe(true);
