@@ -113,23 +113,28 @@ class InvitationSummary extends Component {
     });
     this.scrollToMainContent();
 
-    const response = await axios.post(
-      // TODO:Replace api id with latest api id from aws console until we get custom domain name set up
+    await fetch(
       `https://${GENERATE_INVITES}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/generate-invites`,
       {
-        selectedParticipants: this.context.state.personIdentifiedToInvite,
-        clinicInfo: {
-          clinicId: this.context.state.clinicId,
-          clinicName: this.context.state.clinicName,
-          rangeSelected: this.context.state.rangeSelection,
-          targetPercentage: this.context.state.targetPercentageToFill,
-          targetNoAppsToFill: this.context.state.targetAppToFill,
-          createdBy: this.state?.session?.user?.otherUserInfo?.UUID,
-          appRemaining:
-            this.context.state.recentInvitationHistory.appsRemaining,
+        body: JSON.stringify({
+          selectedParticipants: this.context.state.personIdentifiedToInvite,
+          clinicInfo: {
+            clinicId: this.context.state.clinicId,
+            clinicName: this.context.state.clinicName,
+            rangeSelected: this.context.state.rangeSelection,
+            targetPercentage: this.context.state.targetPercentageToFill,
+            targetNoAppsToFill: this.context.state.targetAppToFill,
+            createdBy: this.state?.session?.user?.otherUserInfo?.UUID,
+            appRemaining:
+              this.context.state.recentInvitationHistory.appsRemaining,
+          },
+        }),
+        headers: {
+          "Content-Type": "application/json",
         },
+        method: "POST",
       }
-    );
+    ).then((res) => res.json());
   }
 
   async componentDidMount() {
