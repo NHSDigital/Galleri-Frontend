@@ -10,10 +10,9 @@ export async function checkAuthorization(
   // Care Identity Authentication OpenID Provider's Issue identifier as specified in the OpenID Provider Configuration Document.
   const INT_iss =
     "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare";
-
-  const idTokenPayload = await parseTokenClaims(account.id_token);
   // ID Token claims Validation
   if (account.id_token) {
+    const idTokenPayload = await parseTokenClaims(account.id_token);
     if (idTokenPayload?.iss !== INT_iss || idTokenPayload?.aud !== clientID) {
       return "/autherror?error=ID+Token+Validation+failed";
     }
