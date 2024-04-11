@@ -1,6 +1,6 @@
 import {
   extractClaims,
-  validateTokenExpiration,
+  validateTokenExpirationWithAuthTime,
   checkAuthorization,
 } from "./checkAuthorization";
 // import { validateTokenSignature } from "../validateTokenSignature";
@@ -33,7 +33,7 @@ const mockvalidateTokenSign = jest.fn().mockResolvedValue({
 });
 
 // Mock checkTokenExpiration function
-const mockCheckTokenExpiration = jest.fn().mockResolvedValue(true);
+const mockCheckTokenExpirationWithAuthTime = jest.fn().mockResolvedValue(true);
 
 describe("All Test", () => {
   describe("extractClaims", () => {
@@ -66,46 +66,56 @@ describe("All Test", () => {
     });
   });
 
-  describe("validateTokenExpiration", () => {
-    test("returns true if current time is before expiration time", async () => {
-      // Mock token with expiration time 1 hour in the future
+  describe("validateTokenExpirationWithAuthTime", () => {
+    test("validates token expiration and authentication time", async () => {
+      const currentTime = Math.floor(Date.now() / 1000);
+      const expirationTime = currentTime + 3600; // Set expiration time to be 1 hour from current time
+      const authTime = currentTime - 5 * 60; // Set authentication time to be 5 minutes ago
+
       const token = {
-        exp: Math.floor(Date.now() / 1000) + 3600, // Current time plus 1 hour
+        exp: expirationTime,
+        auth_time: authTime,
       };
-
-      const result = await validateTokenExpiration(token);
-
+      const result = await validateTokenExpirationWithAuthTime(token);
       expect(result).toBe(true);
     });
 
-    test("returns false if current time is after expiration time", async () => {
-      // Mock token with expiration time 1 hour in the past
-      const token = {
-        exp: Math.floor(Date.now() / 1000) - 3600, // Current time minus 1 hour
-      };
+    test("fails when expiration time is missing", async () => {
+      const currentTime = Math.floor(Date.now() / 1000);
+      const authTime = currentTime - 5 * 60; // Set authentication time to be 5 minutes ago
 
-      const result = await validateTokenExpiration(token);
-
+      const token = { auth_time: authTime };
+      const result = await validateTokenExpirationWithAuthTime(token);
       expect(result).toBe(false);
     });
 
-    test("returns false if token is expired", async () => {
-      // Mock token with expiration time 1 hour in the past
-      const token = {
-        exp: Math.floor(Date.now() / 1000) - 3600, // Current time minus 1 hour
-      };
+    test("fails when authentication time is missing", async () => {
+      const currentTime = Math.floor(Date.now() / 1000);
+      const expirationTime = currentTime + 3600; // Set expiration time to be 1 hour from current time
 
-      const result = await validateTokenExpiration(token);
-
+      const token = { exp: expirationTime };
+      const result = await validateTokenExpirationWithAuthTime(token);
       expect(result).toBe(false);
     });
 
-    test("returns false if token is missing", async () => {
-      // Mock token as null
-      const token = null;
+    test("fails when expiration time is invalid", async () => {
+      const currentTime = Math.floor(Date.now() / 1000);
+      const expirationTime = currentTime - 3600; // Set expiration time to be 1 hour ago
+      const authTime = currentTime - 5 * 60; // Set authentication time to be 5 minutes ago
 
-      const result = await validateTokenExpiration(token);
+      const token = { exp: expirationTime, auth_time: authTime };
 
+      const result = await validateTokenExpirationWithAuthTime(token);
+      expect(result).toBe(false);
+    });
+
+    test("fails when authentication time is invalid", async () => {
+      const currentTime = Math.floor(Date.now() / 1000);
+      const expirationTime = currentTime + 3600; // Set expiration time to be 1 hour from current time
+      const authTime = currentTime - 20 * 60; // Set authentication time to be 20 minutes ago
+
+      const token = { exp: expirationTime, auth_time: authTime };
+      const result = await validateTokenExpirationWithAuthTime(token);
       expect(result).toBe(false);
     });
   });
@@ -127,7 +137,7 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
 
@@ -158,7 +168,7 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         extractClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
 
@@ -183,7 +193,7 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
 
@@ -199,12 +209,12 @@ describe("All Test", () => {
         mockGalleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
       expect(result).toBe(true);
       expect(mockParseTokenClaims).toHaveBeenCalledWith(mockAccount.id_token);
-      expect(mockCheckTokenExpiration).toHaveBeenCalledWith(
+      expect(mockCheckTokenExpirationWithAuthTime).toHaveBeenCalledWith(
         expect.objectContaining({
           iss: expect.any(String),
           aud: expect.any(String),
@@ -229,7 +239,7 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
 
@@ -250,7 +260,7 @@ describe("All Test", () => {
         mockGalleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration
+        mockCheckTokenExpirationWithAuthTime
       );
 
       expect(result).toBe("/autherror?error=ID+Token+Validation+failed");
@@ -272,7 +282,7 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
 
@@ -297,7 +307,7 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
 
@@ -322,7 +332,7 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
 
@@ -351,7 +361,7 @@ describe("All Test", () => {
         mockvalidateTokenSign
       );
 
-      expect(result).toBe("/autherror?error=ID+Token+has+expired");
+      expect(result).toBe("/autherror?error=Token+session+has+expired");
     });
 
     test('returns true if user role is "Referring Clinician"', async () => {
@@ -369,7 +379,7 @@ describe("All Test", () => {
         galleriActivityCode,
         mockClientID,
         mockParseTokenClaims,
-        mockCheckTokenExpiration,
+        mockCheckTokenExpirationWithAuthTime,
         mockvalidateTokenSign
       );
 

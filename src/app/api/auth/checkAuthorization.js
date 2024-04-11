@@ -4,7 +4,7 @@ export async function checkAuthorization(
   galleriActivityCode,
   clientID,
   parseTokenClaims,
-  checkTokenExpiration,
+  checkTokenExpirationWithAuthTime,
   verifyTokenSignature
 ) {
   // Care Identity Authentication OpenID Provider's Issue identifier as specified in the OpenID Provider Configuration Document.
@@ -23,9 +23,10 @@ export async function checkAuthorization(
     }
 
     // Validate the token's expiration time
-    const isValidTokenExpiration = await checkTokenExpiration(idTokenPayload);
-    if (!isValidTokenExpiration) {
-      return "/autherror?error=ID+Token+has+expired";
+    const isValidTokenExpirationWithAuthTime =
+      await checkTokenExpirationWithAuthTime(idTokenPayload);
+    if (!isValidTokenExpirationWithAuthTime) {
+      return "/autherror?error=Token+session+has+expired";
     }
 
     // Validate the Signature of ID Token
@@ -79,15 +80,17 @@ export async function extractClaims(idToken) {
 }
 
 // Function to validate the expiration time (exp claim)
-export async function validateTokenExpiration(token) {
+export async function validateTokenExpirationWithAuthTime(token) {
   const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
   const expirationTime = token?.exp; // Expiration time from the token's exp claim
+  const authTime = token?.auth_time; // Authentication time from the token's auth_time claim
 
-  // Check if the current time is before the expiration time
-  if (currentTime < expirationTime) {
-    return true;
-  } else {
-    // Token has expired
-    return false;
+  if (!expirationTime || !authTime) {
+    return false; // Return false if expiration time or auth time is missing
   }
+
+  // Check if both expiration time and authentication time are valid and meet the criteria
+  return (
+    currentTime < expirationTime && authTime >= currentTime - 15 * 60 - 60 // Check if auth_time is within the last 15 minutes with 1-minute leeway
+  );
 }
