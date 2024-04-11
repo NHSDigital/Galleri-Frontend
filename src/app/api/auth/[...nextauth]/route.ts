@@ -2,7 +2,10 @@ import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
-import { extractClaims, validateTokenExpiration } from "../checkAuthorization";
+import {
+  extractClaims,
+  validateTokenExpirationWithAuthTime,
+} from "../checkAuthorization";
 import getUserRole from "../getUserRole";
 import getCIS2SignedJWT from "../getCIS2SignedJWT";
 import { validateTokenSignature } from "../validateTokenSignature";
@@ -199,7 +202,7 @@ const authOptions: NextAuthOptions = {
         GALLERI_ACTIVITY_CODE,
         CIS2_CLIENT_ID,
         extractClaims,
-        validateTokenExpiration,
+        validateTokenExpirationWithAuthTime,
         validateTokenSignature
       );
     },
