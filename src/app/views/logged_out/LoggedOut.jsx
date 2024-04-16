@@ -29,7 +29,7 @@ export default function LoggedOut({ showHeader }) {
                   : `${loggedOutDuration} minutes`}
               </p>
               <p>We do this to protect patient data.</p>
-              <p>Log in again to use the Galleri pilot system.</p>
+              <p>Log in again to use GPS.</p>
             </div>
           </div>
           <a

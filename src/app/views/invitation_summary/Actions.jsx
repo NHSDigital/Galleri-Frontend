@@ -40,8 +40,8 @@ const ConfirmationContent = () => {
       <h2 className="govuk-heading-m">What happens next</h2>
       <ul>
         <li>
-          The invitations will be sent out to the participants using comms
-          manager
+          The invitations will be sent out to the participants using NHS
+          Notify
         </li>
         <li>
           The participants will be able to book their appointment at any clinic

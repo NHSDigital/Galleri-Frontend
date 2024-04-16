@@ -62,7 +62,7 @@ export default function Header({ withNavigation }) {
                 className="nhsuk-header__transactional-service-name--link"
                 href="#"
               >
-                Galleri pilot
+                GPS
               </a>
             </div>
             <div style={{ position: "relative", display: "flex" }}>
@@ -131,7 +131,7 @@ export default function Header({ withNavigation }) {
               className="nhsuk-header__transactional-service-name--link"
               href="#"
             >
-              Galleri pilot
+              GPS
             </a>
           </div>
         </div>

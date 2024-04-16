@@ -77,7 +77,7 @@ describe("Logger", () => {
 //     fireEvent.click(generateButton);
 //     const confirmation = screen.getByTestId('confirmation-banner');
 //     expect(confirmation).toBeInTheDocument();
-//     const confirmationText = screen.getByText("The invitations will be sent out to the participants using comms manager");
+//     const confirmationText = screen.getByText("The invitations will be sent out to the participants using NHS Notify");
 //     expect(confirmationText).toBeInTheDocument();
 //     expect(generateButton).not.toBeInTheDocument();
 //   });
@@ -86,7 +86,7 @@ describe("Logger", () => {
 //     const { getByText } = render(
 //       <Actions displayConfirmationInvitationSummary={true} />// Setting this to True to simulate the Confirmation scenario
 //     );
-//     const confirmationText = getByText("The invitations will be sent out to the participants using comms manager");
+//     const confirmationText = getByText("The invitations will be sent out to the participants using NHS notify");
 //     expect(confirmationText).toBeInTheDocument();
 //   });
 
