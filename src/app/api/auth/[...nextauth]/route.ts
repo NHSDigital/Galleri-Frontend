@@ -32,6 +32,7 @@ const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const GALLERI_ACTIVITY_NAME = process.env.GALLERI_ACTIVITY_NAME;
 const CIS2_CLIENT_ID = process.env.CIS2_ID;
+const CIS2_REDIRECT_URL = process.env.CIS2_REDIRECT_URL;
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -77,7 +78,7 @@ const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope: "openid email profile nationalrbacaccess",
-          redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
+          redirect_uri: CIS2_REDIRECT_URL,
           response_type: "code",
         },
       },
@@ -89,7 +90,7 @@ const authOptions: NextAuthOptions = {
           );
           const body = {
             grant_type: "authorization_code",
-            redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
+            redirect_uri: CIS2_REDIRECT_URL,
             client_id: process.env.CIS2_ID || "undefined",
             // client_secret: process.env.CIS2_SECRET || "undefined",
             client_assertion_type:
@@ -136,6 +137,7 @@ const authOptions: NextAuthOptions = {
       idToken: true,
       checks: ["state"],
       async profile(profile) {
+        console.log("PROFILE : ", profile);
         const uuid = profile.uid.replace(/(.{4})/g, "$1 ");
 
         // Call the getUserRole function to fetch user role information
@@ -211,7 +213,6 @@ const authOptions: NextAuthOptions = {
       return {
         ...session,
         user: token.user,
-        accessToken: token.accessToken,
       };
     },
   },

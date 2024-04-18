@@ -81,6 +81,7 @@ export async function extractClaims(idToken) {
 
 // Function to validate the expiration time (exp claim)
 export async function validateTokenExpirationWithAuthTime(token) {
+  console.log(token);
   const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
   const expirationTime = token?.exp; // Expiration time from the token's exp claim
   const authTime = token?.auth_time; // Authentication time from the token's auth_time claim
