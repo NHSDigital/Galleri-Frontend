@@ -7,7 +7,7 @@ import {
   validateTokenExpirationWithAuthTime,
 } from "../checkAuthorization";
 import getUserRole from "../getUserRole";
-import getCIS2SignedJWT from "../getCIS2SignedJWT";
+import returnUser from "../returnUser";
 import { validateTokenSignature } from "../validateTokenSignature";
 interface UsersItem {
   id: string;
@@ -83,32 +83,16 @@ const authOptions: NextAuthOptions = {
         },
       },
       token: {
+        // The token exchange and userinfo end point calls are handled in the backend through Lambda
+        // Below is the call to API Gateway endpoint to trigger the token exchange by sending along the authorization code
         async request(context) {
-          const signedJWT = await getCIS2SignedJWT(
-            CIS2_SIGNED_JWT,
-            ENVIRONMENT
-          );
-          const body = {
-            grant_type: "authorization_code",
-            redirect_uri: CIS2_REDIRECT_URL,
-            client_id: process.env.CIS2_ID || "undefined",
-            // client_secret: process.env.CIS2_SECRET || "undefined",
-            client_assertion_type:
-              "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-            client_assertion: signedJWT || "undefined",
-            code: context.params.code || "undefined",
-          };
-          const data = new URLSearchParams(body).toString();
+          console.log("CODE : ", context.params.code);
           try {
-            const r = await axios({
-              method: "POST",
-              headers: {
-                "content-type": "application/x-www-form-urlencoded",
-              },
-              data,
-              url: `https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/access_token`,
-            });
-            return { tokens: r.data };
+            const r = await axios.get(
+              `https://if5niw6mb8.execute-api.eu-west-2.amazonaws.com/dev-2/authenticator-lambda?code=${context.params.code}`
+            );
+            console.log("USER INFO FROM BACKEND RESPONSE :", r.data);
+            return { tokens: r.data }; // the tokens now contain non-sensitive data, NOT the actual tokens.
           } catch (err: any) {
             console.error(err);
             throw new Error(err);
@@ -116,25 +100,12 @@ const authOptions: NextAuthOptions = {
         },
       },
       userinfo: {
-        url: "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/userinfo",
-        params: { schema: "openid" },
+        // Returning the same information returned by the option above so it can be passed through as Next-auth intended
         async request(context) {
-          try {
-            const response = await axios({
-              method: "GET",
-              url: "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/userinfo?schema=openid",
-              headers: {
-                Authorization: `Bearer ${context.tokens.access_token}`,
-              },
-            });
-            return response.data;
-          } catch (err: any) {
-            console.error(err);
-            throw new Error(err);
-          }
+          console.log("CONTEXT: ", context);
+          return await returnUser(context);
         },
       },
-      idToken: true,
       checks: ["state"],
       async profile(profile) {
         console.log("PROFILE : ", profile);
@@ -156,6 +127,7 @@ const authOptions: NextAuthOptions = {
           otherUserInfo,
           accountStatus,
         };
+        console.log(returnValue);
         return returnValue;
       },
     },
@@ -198,6 +170,8 @@ const authOptions: NextAuthOptions = {
     },
     // custom authorization check during signIn
     async signIn({ user, account }) {
+      console.log("USER: ", user);
+      console.log("ACCOUNT: ", account);
       return checkAuthorization(
         user,
         account,
