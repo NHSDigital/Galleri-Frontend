@@ -33,7 +33,7 @@ const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const GALLERI_ACTIVITY_NAME = process.env.GALLERI_ACTIVITY_NAME;
 const CIS2_CLIENT_ID = process.env.CIS2_ID;
 const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
-const CIS2_REDIRECT_URL = `${NEXTAUTH_URL}/api/auth/callback/cis2`;
+const CIS2_REDIRECT_URL = `https://dev-2.cicd-gps-multi-cancer-blood-test.nhs.uk/api/auth/callback/cis2`;
 
 const authOptions: NextAuthOptions = {
   providers: [
