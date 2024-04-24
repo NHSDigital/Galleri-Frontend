@@ -18,6 +18,7 @@ jobs:
       nodejs_version: ${{ steps.metadata.outputs.nodejs_version }}
       python_version: ${{ steps.metadata.outputs.python_version }}
       terraform_version: ${{ steps.metadata.outputs.terraform_version }}
+      version: ${{ steps.variables.outputs.version }}
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
