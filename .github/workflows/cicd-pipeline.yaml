@@ -91,3 +91,17 @@ jobs:
       # - name: Run Tests ...
       #   run: |
       #     ?
+  publish:
+    runs-on: ubuntu-latest
+    needs: [metadata]
+    # if: github.event.pull_request.merged == true
+    timeout-minutes: 3
+    env:
+      version_bump: "PATCH"
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+      - name: "Bump patch version"
+        uses: ./.github/actions/versioning
+        with:
+          version_bump: ${{ env.version_bump }}
