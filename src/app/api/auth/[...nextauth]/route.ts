@@ -78,7 +78,7 @@ const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope: "openid email profile nationalrbacaccess",
-          // redirect_uri: CIS2_REDIRECT_URL,
+          redirect_uri: CIS2_REDIRECT_URL,
           response_type: "code",
         },
       },
