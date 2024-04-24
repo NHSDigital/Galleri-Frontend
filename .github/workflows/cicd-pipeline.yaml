@@ -94,7 +94,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: [get-metadata]
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     timeout-minutes: 3
     env:
       version_bump: "PATCH"
