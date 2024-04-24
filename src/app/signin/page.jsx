@@ -47,7 +47,7 @@ const SignIn = () => {
         <main className="nhsuk-main-wrapper" id="main-content" role="main">
           <div className="nhsuk-grid-row">
             <div className="nhsuk-grid-column-full">
-              <h1>GPS Sign-In Page</h1>
+              <h1>GPS Sign-In Page SPIKE-CIS2</h1>
               <div className="nhsuk-grid-column-two-third">
                 <div className="nhsuk-form-group">
                   <label className="nhsuk-label" htmlFor="email">
