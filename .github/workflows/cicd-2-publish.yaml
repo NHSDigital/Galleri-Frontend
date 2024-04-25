@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
-      - "Set CI/CD variables"
+      - name: "Set CI/CD variables"
         id: variables
         run: |
           datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
