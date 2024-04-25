@@ -1,11 +1,15 @@
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
+import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBAdapter } from "@auth/dynamodb-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
 import {
   extractClaims,
   validateTokenExpirationWithAuthTime,
 } from "../checkAuthorization";
+import { checkSession } from "../checkSession";
 import getUserRole from "../getUserRole";
 import getCIS2SignedJWT from "../getCIS2SignedJWT";
 import { validateTokenSignature } from "../validateTokenSignature";
@@ -18,6 +22,22 @@ interface UsersItem {
 
 type UsersListType = UsersItem[];
 let users: UsersListType = [];
+
+const dynamoDBConfig: DynamoDBClientConfig = {
+  credentials: {
+    accessKeyId: process.env.NEXT_AUTH_AWS_ACCESS_KEY,
+    secretAccessKey: process.env.NEXT_AUTH_AWS_SECRET_KEY,
+  },
+  region: process.env.NEXT_AUTH_AWS_REGION,
+};
+
+const client = DynamoDBDocument.from(new DynamoDB(dynamoDBConfig), {
+  marshallOptions: {
+    convertEmptyValues: true,
+    removeUndefinedValues: true,
+    convertClassInstanceToMap: true,
+  },
+});
 
 try {
   users = JSON.parse(process.env.USERS || "[]");
@@ -163,9 +183,10 @@ const authOptions: NextAuthOptions = {
     signIn: "/signin",
     error: "/autherror",
   },
+  adapter: DynamoDBAdapter(client),
   jwt: { secret: process.env.NEXTAUTH_SECRET },
   session: {
-    strategy: "jwt",
+    strategy: "database",
     // Choose how you want to save the user session.
     // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
     // If you use an `adapter` however, we default it to `"database"` instead.
@@ -206,13 +227,27 @@ const authOptions: NextAuthOptions = {
         validateTokenSignature
       );
     },
-    // creating a session to be accessible on client side with returned token from jwt callback above
     async session({ session, token }) {
-      return {
-        ...session,
-        user: token.user,
-        accessToken: token.accessToken,
-      };
+      const userId = token.sub;
+      // await checkSession(token.sessionId);
+      try {
+        await client.put({
+          TableName: `${ENVIRONMENT}-auth-js`,
+          Item: {
+            userId,
+            sessionData: session,
+          },
+        });
+      } catch (error) {
+        console.error("Error storing session data in DynamoDB:", error);
+        throw error;
+      }
+      return session;
+      // return {
+      //   ...session,
+      //   user: token.user,
+      //   accessToken: token.accessToken,
+      // };
     },
   },
 };
