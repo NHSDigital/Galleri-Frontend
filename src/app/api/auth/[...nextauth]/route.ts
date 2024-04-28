@@ -27,12 +27,12 @@ try {
 
 // Environment Variables
 const GET_USER_ROLE = process.env.NEXT_PUBLIC_GET_USER_ROLE;
-const CIS2_SIGNED_JWT = process.env.NEXT_PUBLIC_CIS2_SIGNED_JWT;
+const AUTHENTICATOR = process.env.NEXT_PUBLIC_AUTHENTICATOR;
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const GALLERI_ACTIVITY_NAME = process.env.GALLERI_ACTIVITY_NAME;
 const CIS2_CLIENT_ID = process.env.CIS2_ID;
-const CIS2_REDIRECT_URL = `https://dev-2.cicd-gps-multi-cancer-blood-test.nhs.uk/api/auth/callback/cis2`;
+const CIS2_REDIRECT_URL = process.env.CIS2_REDIRECT_URL;
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -90,10 +90,10 @@ const authOptions: NextAuthOptions = {
           console.log("CODE : ", context.params.code);
           try {
             const r = await axios.get(
-              `https://if5niw6mb8.execute-api.eu-west-2.amazonaws.com/dev-2/authenticator-lambda?code=${context.params.code}`
+              `https://${AUTHENTICATOR}.execute-api.eu-west-2.amazonaws.com/dev-2/authenticator-lambda?code=${context.params.code}`
             );
             // TEMPORARY CONSOLE LOG
-            console.log("USER INFO FROM BACKEND RESPONSE :", r.data);
+            console.log("USER INFO FROM BACKEND RESPONSE :", r);
             return { tokens: r.data }; // the property tokens now contain non-sensitive data, NOT the actual tokens.
           } catch (err: any) {
             console.error(err);
