@@ -479,7 +479,7 @@ class ClinicInformation extends Component {
             // Set component state
             this.setState({
               rangeSelection: lastSelectedRange,
-              postcode: response.data.PostCode.S,
+              postcode: response.data.Postcode.S,
               targetFillToInputValue: response.data.TargetFillToPercentage.N,
             });
 
@@ -489,7 +489,7 @@ class ClinicInformation extends Component {
               clinicName: response.data.ClinicName.S,
               address1: addressParts[0].trim(),
               address2: firstWordAfterComma,
-              postcode: response.data.PostCode.S,
+              postcode: response.data.Postcode.S,
               weeklyCapacity: weeklyCapacityList,
               recentInvitationHistory: clinicInvitationHistory,
               displayViewAllPrevInvitations: displayViewAllPrevInvitations,
