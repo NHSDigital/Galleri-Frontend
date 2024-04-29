@@ -53,7 +53,7 @@ function sortDate(weeklyArray) {
     return date.toLocaleDateString("en-GB", {
       year: "numeric",
       month: "long",
-      day: "numeric",
+      day: "2-digit",
     });
   });
   return convertSortedArrayToString;
