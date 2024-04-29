@@ -24,10 +24,6 @@ type UsersListType = UsersItem[];
 let users: UsersListType = [];
 
 const dynamoDBConfig: DynamoDBClientConfig = {
-  credentials: {
-    accessKeyId: process.env.NEXT_AUTH_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.NEXT_AUTH_AWS_SECRET_KEY,
-  },
   region: process.env.NEXT_AUTH_AWS_REGION,
 };
 
@@ -230,18 +226,18 @@ const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       const userId = token.sub;
       // await checkSession(token.sessionId);
-      try {
-        await client.put({
-          TableName: `${ENVIRONMENT}-auth-js`,
-          Item: {
-            userId,
-            sessionData: session,
-          },
-        });
-      } catch (error) {
-        console.error("Error storing session data in DynamoDB:", error);
-        throw error;
-      }
+      // try {
+      //   await client.put({
+      //     TableName: `${ENVIRONMENT}-auth-js`,
+      //     Item: {
+      //       userId,
+      //       sessionData: session,
+      //     },
+      //   });
+      // } catch (error) {
+      //   console.error("Error storing session data in DynamoDB:", error);
+      //   throw error;
+      // }
       return session;
       // return {
       //   ...session,
