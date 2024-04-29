@@ -475,7 +475,7 @@ class ClinicInformation extends Component {
               clinicInvitationHistory,
               displayViewAllPrevInvitations,
             } = setClinicDetails(response);
-console.log('Response.data: ', response.data);
+
             // Set component state
             this.setState({
               rangeSelection: lastSelectedRange,
