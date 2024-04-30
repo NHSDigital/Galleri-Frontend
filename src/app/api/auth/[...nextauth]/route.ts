@@ -181,7 +181,7 @@ const authOptions: NextAuthOptions = {
     signIn: "/signin",
     error: "/autherror",
   },
-  adapter: DynamoDBAdapter(client),
+  adapter: DynamoDBAdapter(client, { tableName: `${ENVIRONMENT}-next-auth` }),
   jwt: { secret: process.env.NEXTAUTH_SECRET },
   session: {
     strategy: "database",
