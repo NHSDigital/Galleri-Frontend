@@ -227,25 +227,7 @@ const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       const userId = token.sub;
-      // await checkSession(token.sessionId);
-      // try {
-      //   await client.put({
-      //     TableName: `${ENVIRONMENT}-auth-js`,
-      //     Item: {
-      //       userId,
-      //       sessionData: session,
-      //     },
-      //   });
-      // } catch (error) {
-      //   console.error("Error storing session data in DynamoDB:", error);
-      //   throw error;
-      // }
       return session;
-      // return {
-      //   ...session,
-      //   user: token.user,
-      //   accessToken: token.accessToken,
-      // };
     },
   },
 };
