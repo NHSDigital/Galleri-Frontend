@@ -93,7 +93,8 @@ const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope: "openid email profile nationalrbacaccess",
-          redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
+          redirect_uri:
+            "http://dev-3.cicd-gps-multi-cancer-blood-test.nhs.uk/api/auth/callback/cis2",
           response_type: "code",
         },
       },
@@ -105,7 +106,8 @@ const authOptions: NextAuthOptions = {
           );
           const body = {
             grant_type: "authorization_code",
-            redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
+            redirect_uri:
+              "dev-3.cicd-gps-multi-cancer-blood-test.nhs.uk/api/auth/callback/cis2",
             client_id: process.env.CIS2_ID || "undefined",
             // client_secret: process.env.CIS2_SECRET || "undefined",
             client_assertion_type:
