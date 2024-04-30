@@ -1,3 +1,6 @@
+// Function to validate the Authorization check for CIS2 Users
+// returned from the Backend and also checks authorization for user
+// logged in via local auth
 export async function checkAuthorization(user, account, galleriActivityCode) {
   // OAuth Sign In Check Result from Backend Authenticator
   if (account.type === "oauth") {
