@@ -23,7 +23,7 @@ const SignIn = () => {
 
   const handleSubmitCis2 = async () => {
     const result = await signIn("cis2", {
-      redirect: false,
+      redirect: true,
       callbackUrl: "/", // Don't redirect, handle the result in the component
     });
     if (result.error) {
