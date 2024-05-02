@@ -69,8 +69,7 @@ const authOptions: NextAuthOptions = {
           scope: "openid email profile nationalrbacaccess",
           redirect_uri: CIS2_REDIRECT_URL,
           response_type: "code",
-          prompt: "login",
-          // max_age: 60 * 15,
+          max_age: 60 * 15,
         },
       },
       token: {
