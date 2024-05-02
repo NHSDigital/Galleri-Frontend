@@ -20,6 +20,7 @@ try {
 }
 
 // Environment Variables
+const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const AUTHENTICATOR = process.env.NEXT_PUBLIC_AUTHENTICATOR;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const CIS2_REDIRECT_URL = process.env.CIS2_REDIRECT_URL;
@@ -76,7 +77,7 @@ const authOptions: NextAuthOptions = {
         async request(context) {
           try {
             const r = await axios.get(
-              `https://${AUTHENTICATOR}.execute-api.eu-west-2.amazonaws.com/dev-2/authenticator-lambda?code=${context.params.code}`
+              `https://${AUTHENTICATOR}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/authenticator-lambda?code=${context.params.code}`
             );
             return { tokens: r.data }; // the property tokens now contain non-sensitive data, NOT the actual tokens. keyword tokens is used as required by NextAuth
           } catch (err: any) {
