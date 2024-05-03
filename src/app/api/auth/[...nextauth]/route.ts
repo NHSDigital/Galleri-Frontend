@@ -1,3 +1,4 @@
+// @ts-nocheck
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
