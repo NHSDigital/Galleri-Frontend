@@ -5,14 +5,7 @@ import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
-import {
-  extractClaims,
-  validateTokenExpirationWithAuthTime,
-} from "../checkAuthorization";
-import { checkSession } from "../checkSession";
-import getUserRole from "../getUserRole";
-import getCIS2SignedJWT from "../getCIS2SignedJWT";
-import { validateTokenSignature } from "../validateTokenSignature";
+import returnUser from "../returnUser";
 interface UsersItem {
   id: string;
   name: string;
@@ -42,12 +35,10 @@ try {
 }
 
 // Environment Variables
-const GET_USER_ROLE = process.env.NEXT_PUBLIC_GET_USER_ROLE;
-const CIS2_SIGNED_JWT = process.env.NEXT_PUBLIC_CIS2_SIGNED_JWT;
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
+const AUTHENTICATOR = process.env.NEXT_PUBLIC_AUTHENTICATOR;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
-const GALLERI_ACTIVITY_NAME = process.env.GALLERI_ACTIVITY_NAME;
-const CIS2_CLIENT_ID = process.env.CIS2_ID;
+const CIS2_REDIRECT_URL = process.env.CIS2_REDIRECT_URL;
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -71,7 +62,6 @@ const authOptions: NextAuthOptions = {
           const modifiedUser = {
             ...user, // Spread existing user properties
             activityCodes: [GALLERI_ACTIVITY_CODE], // appended this property to match what we get from CIS2 for global authorization check
-            activityNames: [GALLERI_ACTIVITY_NAME], // appended this property to match what we get from CIS2 for global authorization check
             accountStatus: "Active", // appended this property to match what we get from GPS User Account for global authorization check
           };
 
@@ -87,7 +77,6 @@ const authOptions: NextAuthOptions = {
       type: "oauth",
       version: "2.0",
       clientId: process.env.CIS2_ID,
-      // clientSecret: process.env.CIS2_SECRET,
       wellKnown:
         "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/.well-known/openid-configuration",
       authorization: {
@@ -96,36 +85,18 @@ const authOptions: NextAuthOptions = {
           redirect_uri:
             "https://dev-3.cicd-gps-multi-cancer-blood-test.nhs.uk/api/auth/callback/cis2",
           response_type: "code",
+          max_age: 60 * 15,
         },
       },
       token: {
+        // The token exchange and userinfo end point calls are handled in the backend through Lambda
+        // Below is the call to API Gateway endpoint to trigger the token exchange by sending along the authorization code
         async request(context) {
-          const signedJWT = await getCIS2SignedJWT(
-            CIS2_SIGNED_JWT,
-            ENVIRONMENT
-          );
-          const body = {
-            grant_type: "authorization_code",
-            redirect_uri:
-              "https://dev-3.cicd-gps-multi-cancer-blood-test.nhs.uk/api/auth/callback/cis2",
-            client_id: process.env.CIS2_ID || "undefined",
-            // client_secret: process.env.CIS2_SECRET || "undefined",
-            client_assertion_type:
-              "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-            client_assertion: signedJWT || "undefined",
-            code: context.params.code || "undefined",
-          };
-          const data = new URLSearchParams(body).toString();
           try {
-            const r = await axios({
-              method: "POST",
-              headers: {
-                "content-type": "application/x-www-form-urlencoded",
-              },
-              data,
-              url: `https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/access_token`,
-            });
-            return { tokens: r.data };
+            const r = await axios.get(
+              `https://${AUTHENTICATOR}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/authenticator-lambda?code=${context.params.code}`
+            );
+            return { tokens: r.data }; // the property tokens now contain non-sensitive data, NOT the actual tokens. keyword tokens is used as required by NextAuth
           } catch (err: any) {
             console.error(err);
             throw new Error(err);
@@ -133,44 +104,18 @@ const authOptions: NextAuthOptions = {
         },
       },
       userinfo: {
-        url: "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/userinfo",
-        params: { schema: "openid" },
+        // Returning the same information returned by the option above so it can be passed through as Next-auth intended
         async request(context) {
-          try {
-            const response = await axios({
-              method: "GET",
-              url: "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk:443/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/userinfo?schema=openid",
-              headers: {
-                Authorization: `Bearer ${context.tokens.access_token}`,
-              },
-            });
-            return response.data;
-          } catch (err: any) {
-            console.error(err);
-            throw new Error(err);
-          }
+          return await returnUser(context);
         },
       },
-      idToken: true,
       checks: ["state"],
       async profile(profile) {
-        const uuid = profile.uid.replace(/(.{4})/g, "$1 ");
-
-        // Call the getUserRole function to fetch user role information
-        const { accountStatus, role, otherUserInfo } = await getUserRole(
-          uuid,
-          GET_USER_ROLE,
-          ENVIRONMENT
-        );
         const returnValue = {
           name: profile.name,
-          id: profile.uid,
-          sub: profile.sub,
-          role,
-          activityCodes: profile.nhsid_nrbac_roles[0].activity_codes,
-          activityNames: profile.nhsid_nrbac_roles[0].activities,
-          otherUserInfo,
-          accountStatus,
+          id: profile.id,
+          role: profile.role,
+          isAuthorized: profile.isAuthorized,
         };
         return returnValue;
       },
@@ -203,31 +148,21 @@ const authOptions: NextAuthOptions = {
   },
   callbacks: {
     // generating a token and assigning properties
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user) {
         token.user = user;
-      }
-      if (account) {
-        token.accessToken = account.access_token;
-        token.iss = process.env.CIS2_ID;
       }
       return token;
     },
     // custom authorization check during signIn
     async signIn({ user, account }) {
-      return checkAuthorization(
-        user,
-        account,
-        GALLERI_ACTIVITY_CODE,
-        CIS2_CLIENT_ID,
-        extractClaims,
-        validateTokenExpirationWithAuthTime,
-        validateTokenSignature
-      );
+      return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
     },
     async session({ session, token }) {
-      const userId = token.sub;
-      return session;
+      return {
+        ...session,
+        user: token.user,
+      };
     },
   },
 };
