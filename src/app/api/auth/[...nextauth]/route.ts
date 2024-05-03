@@ -158,11 +158,9 @@ const authOptions: NextAuthOptions = {
     async signIn({ user, account }) {
       return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
     },
-    async session({ session, token }) {
-      return {
-        ...session,
-        user: token.user,
-      };
+    async session({ session, user }) {
+      session.user.id = user.id;
+      return session;
     },
   },
 };
