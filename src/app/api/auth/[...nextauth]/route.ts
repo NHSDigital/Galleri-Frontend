@@ -157,7 +157,7 @@ const authOptions: NextAuthOptions = {
     },
     // custom authorization check during signIn
     async signIn({ user, account }) {
-      return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
+      return true;
     },
     async session({ session, trigger, newSession }) {
       if (trigger === "update" && newSession?.name) {
