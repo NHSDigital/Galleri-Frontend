@@ -16,8 +16,8 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
     required: true,
   });
 
-  console.log(session);
-  console.log(status);
+  console.log("session", session);
+  console.log("status", status);
 
   if (status === "loading") {
     return <Header />;
