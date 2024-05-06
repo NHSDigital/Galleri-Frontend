@@ -22,13 +22,17 @@ const SignIn = () => {
   };
 
   const handleSubmitCis2 = async () => {
-    const result = await signIn("cis2", {
-      redirect: true,
-      callbackUrl: "/", // Don't redirect, handle the result in the component
-    });
-    if (result.error) {
-      // Handle error, e.g., display error message
-      console.error(result.error);
+    try {
+      const result = await signIn("cis2", {
+        redirect: true,
+        callbackUrl: "/", // Don't redirect, handle the result in the component
+      });
+      if (result.error) {
+        // Handle error, e.g., display error message
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.log("cis2 submit error:", error);
     }
   };
 
