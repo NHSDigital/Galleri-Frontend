@@ -159,8 +159,12 @@ const authOptions: NextAuthOptions = {
     async signIn({ user, account }) {
       return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
     },
-    async session({ session, user }) {
-      session.user.id = user.id;
+    async session({ session, trigger, newSession }) {
+      if (trigger === "update" && newSession?.name) {
+        await adapter.updateUser(session.user.id, { name: newSession.name });
+
+        session.name = newSession.name;
+      }
       return session;
     },
   },
