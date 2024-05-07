@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import "src/app/styles/css/sass.css";
+import "../styles/css/sass.css";
 import Header from "@/app/components/Header";
 
 export default function AuthError() {
