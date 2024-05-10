@@ -103,7 +103,7 @@ export default function ClinicSummaryTable(props) {
           </tr>
         </thead>
         <tbody className="nhsuk-table__body nhsuk-u-font-size-16 style_tbody__YVzf_">
-          {currentTableData?.map((e, key) => {
+          {currentTableData.length ? currentTableData.map((e, key) => {
             return (
               <tr key={key} role="row" className="nhsuk-table__row">
                 <td
@@ -160,7 +160,11 @@ export default function ClinicSummaryTable(props) {
                 </td>
               </tr>
             );
-          })}
+          }) : <tr>
+            <td colspan="5"><span><b>The ICB you selected has no clinics with appointments remaining. 
+                  Select another participating ICB or display clinics with no appointments remaining.
+                  </b></span></td>
+          </tr>}
         </tbody>
       </table>
       <Pagination
