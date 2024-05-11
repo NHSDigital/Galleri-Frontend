@@ -16,14 +16,13 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
     required: true,
   });
 
-  async () => console.log("getSession()", await getSession());
-
-  // useEffect(async () => {
-  //   console.log("getSession()", await getSession());
-  //   console.log("getServerSession()", await getServerSession());
-  // });
-  console.log(session);
-  console.log(status);
+  useEffect(async () => {
+    console.log("getSession()", await getSession());
+    console.log(session);
+    console.log(status);
+    //   console.log("getSession()", await getSession());
+    //   console.log("getServerSession()", await getServerSession());
+  });
 
   if (status === "loading") {
     return <Header />;
