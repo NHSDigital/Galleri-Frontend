@@ -110,7 +110,7 @@ const authOptions: NextAuthOptions = {
           return await returnUser(context);
         },
       },
-      checks: ["state"],
+      checks: ["none"],
       async profile(profile) {
         const returnValue = {
           name: profile.name,
