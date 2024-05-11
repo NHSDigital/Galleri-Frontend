@@ -16,6 +16,10 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
     required: true,
   });
 
+  useEffect(async () => {
+    console.log("getSession()", await getSession());
+    console.log("getServerSession()", await getServerSession());
+  });
   console.log(session);
   console.log(status);
 
