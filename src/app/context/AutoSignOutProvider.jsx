@@ -24,11 +24,6 @@ const InactivityProvider = ({ children, timeout }) => {
     }, timeout);
   };
 
-  async () => console.log("getSession()", await getSession());
-  // useEffect(async () => {
-  //   console.log("getServerSession()", await getServerSession());
-  // });
-
   useEffect(() => {
     const events = ["mousemove", "keydown", "mousedown", "touchstart"];
 
