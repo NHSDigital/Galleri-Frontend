@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import "../../styles/css/sass.css";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
 import LoggedOut from "../logged_out/LoggedOut";
@@ -16,10 +16,12 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
     required: true,
   });
 
-  useEffect(async () => {
-    console.log("getSession()", await getSession());
-    console.log("getServerSession()", await getServerSession());
-  });
+  async () => console.log("getSession()", await getSession());
+
+  // useEffect(async () => {
+  //   console.log("getSession()", await getSession());
+  //   console.log("getServerSession()", await getServerSession());
+  // });
   console.log(session);
   console.log(status);
 

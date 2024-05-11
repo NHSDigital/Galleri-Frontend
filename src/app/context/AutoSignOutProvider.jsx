@@ -8,7 +8,7 @@ import React, {
 } from "react";
 
 import { useSession, signOut, getSession } from "next-auth/react";
-import { getServerSession } from "next-auth";
+// import { getServerSession } from "next-auth";
 
 const InactivityContext = createContext();
 
@@ -24,10 +24,10 @@ const InactivityProvider = ({ children, timeout }) => {
     }, timeout);
   };
 
-  useEffect(async () => {
-    console.log("getSession()", await getSession());
-    console.log("getServerSession()", await getServerSession());
-  });
+  async () => console.log("getSession()", await getSession());
+  // useEffect(async () => {
+  //   console.log("getServerSession()", await getServerSession());
+  // });
 
   useEffect(() => {
     const events = ["mousemove", "keydown", "mousedown", "touchstart"];
