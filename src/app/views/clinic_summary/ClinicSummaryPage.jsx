@@ -22,9 +22,6 @@ export default function ClinicSummaryPage(props) {
 
   const { showLogoutPage } = useInactivity();
 
-  // Check if all the listed context state variables are available
-  const isContextLoaded = clinicList.length > 0;
-
   return !showLogoutPage ? (
     <div className="nhsuk-width-container">
       <main className="nhsuk-main-wrapper" id="main-content" role="main">
@@ -59,7 +56,7 @@ export default function ClinicSummaryPage(props) {
             </div>
             {icbSelected === ""
               ? null
-              : isContextLoaded && (
+              : (
                   <ClinicSummaryTable
                     lastUpdated={lastUpdated}
                     clinicList={clinicList}

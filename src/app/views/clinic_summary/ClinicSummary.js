@@ -149,8 +149,7 @@ export default class ClinicSummary extends Component {
 
     let filteredClinicList = filterClinicsByIcb(
       addDaysSinceLastInvite,
-      icbSelected,
-      displayClinicsNoApp
+      icbSelected
     );
 
     let filterClinicListApps = filterClinicsNoAppointments(
