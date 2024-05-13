@@ -1,9 +1,8 @@
 // @ts-nocheck
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
 import returnUser from "../returnUser";
@@ -17,17 +16,7 @@ interface UsersItem {
 type UsersListType = UsersItem[];
 let users: UsersListType = [];
 
-const dynamoDBConfig: DynamoDBClientConfig = {
-  region: process.env.NEXT_AUTH_AWS_REGION,
-};
-
-const client = DynamoDBDocument.from(new DynamoDB(dynamoDBConfig), {
-  marshallOptions: {
-    convertEmptyValues: true,
-    removeUndefinedValues: true,
-    convertClassInstanceToMap: true,
-  },
-});
+const prisma = new PrismaClient();
 
 try {
   users = JSON.parse(process.env.USERS || "[]");
@@ -126,7 +115,7 @@ const authOptions: NextAuthOptions = {
     signIn: "/signin",
     error: "/autherror",
   },
-  adapter: DynamoDBAdapter(client, { tableName: "dev-3-next-auth" }),
+  adapter: PrismaAdapter(prisma),
   jwt: { secret: process.env.NEXTAUTH_SECRET },
   session: {
     strategy: "database",
@@ -156,7 +145,7 @@ const authOptions: NextAuthOptions = {
     },
     // custom authorization check during signIn
     async signIn({ user, account }) {
-      return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
+      return true;
     },
     async session({ session, user }) {
       session.user.id = user.id;
