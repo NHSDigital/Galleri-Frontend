@@ -7,8 +7,7 @@ import React, {
   useRef,
 } from "react";
 
-import { useSession, signOut, getSession } from "next-auth/react";
-// import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 
 const InactivityContext = createContext();
 
