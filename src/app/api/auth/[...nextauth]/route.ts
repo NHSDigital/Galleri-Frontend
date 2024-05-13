@@ -83,8 +83,7 @@ const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           scope: "openid email profile nationalrbacaccess",
-          redirect_uri:
-            "https://dev-3.cicd-gps-multi-cancer-blood-test.nhs.uk/api/auth/callback/cis2",
+          redirect_uri: "http://localhost:3000/api/auth/callback/cis2",
           response_type: "code",
           max_age: 60 * 15,
         },
@@ -149,17 +148,20 @@ const authOptions: NextAuthOptions = {
   },
   callbacks: {
     // generating a token and assigning properties
-    async jwt({ token, user }) {
-      if (user) {
-        token.user = user;
-      }
-      return token;
-    },
+    // async jwt({ token, user }) {
+    //   console.log("INSIDE JWT: ", token, user);
+    //   if (user) {
+    //     token.user = user;
+    //   }
+    //   return token;
+    // },
     // custom authorization check during signIn
     async signIn({ user, account }) {
-      return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
+      // return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
+      return true;
     },
     async session({ session, user }) {
+      console.log("INSIDE SESSION: ", session, user);
       session.user.id = user.id;
       return session;
     },

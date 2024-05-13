@@ -2,22 +2,37 @@
 
 import React, { useState } from "react";
 import "../../styles/css/sass.css";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
 import LoggedOut from "../logged_out/LoggedOut";
+
+async function myFunction(context) {
+  const sessions = await getSession(context);
+  return sessions;
+}
+
+// async function fetchSession() {
+//   const { data: session, status } = useSession({
+//     required: true,
+//   });
+//   return { session, status };
+// }
 
 export default function PrivacyConfirmationPage({ setContinueToStart }) {
   const { showLogoutPage } = useInactivity();
   const [confirmationReceived, setConfirmationReceived] = useState(false);
   const [showError, setShowError] = useState(false);
 
+  const session2 = myFunction();
+  console.log("SESSION2: ", session2);
+
   const { data: session, status } = useSession({
     required: true,
   });
 
-  console.log(session);
-  console.log(status);
+  console.log("SESSION: ", session);
+  console.log("STATUS: ", status);
 
   if (status === "loading") {
     return <Header />;

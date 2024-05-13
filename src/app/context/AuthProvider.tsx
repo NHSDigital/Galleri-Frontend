@@ -13,15 +13,15 @@
  *
  **/
 
-"use client";
-
-import { SessionProvider } from "next-auth/react";
+import { getSession } from "next-auth/react";
+import SessionProvider from "./SessionProvider";
 import React from "react";
 
-export default function AuthProvider({
+export default async function AuthProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  const session = await getSession();
+  return <SessionProvider session={session}>{children}</SessionProvider>;
 }
