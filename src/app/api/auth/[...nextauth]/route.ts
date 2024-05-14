@@ -1,14 +1,9 @@
-// @ts-nocheck
-"use client";
-import { useContext } from "react";
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
+import AWS from "aws-sdk";
 import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
-import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import returnUser from "../returnUser";
 interface UsersItem {
   id: string;
@@ -20,16 +15,8 @@ interface UsersItem {
 type UsersListType = UsersItem[];
 let users: UsersListType = [];
 
-const dynamoDBConfig: DynamoDBClientConfig = {
-  region: process.env.NEXT_AUTH_AWS_REGION,
-};
-
-const client = DynamoDBDocument.from(new DynamoDB(dynamoDBConfig), {
-  marshallOptions: {
-    convertEmptyValues: true,
-    removeUndefinedValues: true,
-    convertClassInstanceToMap: true,
-  },
+AWS.config.update({
+  region: "eu-west-2",
 });
 
 try {
@@ -37,8 +24,6 @@ try {
 } catch (error) {
   console.error("Error parsing USERS environment variable:", error);
 }
-
-const { setSessionId } = useInactivity();
 
 // Environment Variables
 const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
@@ -131,7 +116,9 @@ const authOptions: NextAuthOptions = {
     signIn: "/signin",
     error: "/autherror",
   },
-  adapter: DynamoDBAdapter(client, { tableName: "dev-3-next-auth" }),
+  adapter: DynamoDBAdapter(new AWS.DynamoDB.DocumentClient() as any, {
+    tableName: `${ENVIRONMENT}-next-auth`,
+  }),
   jwt: { secret: process.env.NEXTAUTH_SECRET },
   session: {
     strategy: "database",
@@ -164,8 +151,6 @@ const authOptions: NextAuthOptions = {
       return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
     },
     async session({ session, user }) {
-      session.user.id = user.id;
-      setSessionId(session.user.id);
       return session;
     },
   },

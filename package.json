@@ -18,6 +18,7 @@
     "@aws-sdk/lib-dynamodb": "^3.575.0",
     "@next-auth/dynamodb-adapter": "^3.0.2",
     "asdf": "^1.2.2",
+    "aws-sdk": "^2.1619.0",
     "axios": "^1.6.0",
     "govuk-frontend": "^4.7.0",
     "jsonwebtoken": "^9.0.2",
