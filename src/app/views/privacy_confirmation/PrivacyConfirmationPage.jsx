@@ -1,27 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../../styles/css/sass.css";
 import { useSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
-import { AppStateContext } from "@/app/context/AppStateContext";
 import Header from "@/app/components/Header";
 import LoggedOut from "../logged_out/LoggedOut";
 
 export default function PrivacyConfirmationPage({ setContinueToStart }) {
-  const { showLogoutPage } = useInactivity();
+  const { showLogoutPage, sessionId } = useInactivity();
 
   const [confirmationReceived, setConfirmationReceived] = useState(false);
   const [showError, setShowError] = useState(false);
-  const { state } = useContext(AppStateContext);
 
   const SESSION_MANAGER = process.env.SESSION_MANAGER;
 
-  console.log(state);
-
   useEffect(async () => {
     fetch(
-      `https://${SESSION_MANAGER}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/session-manager?sessionId=${state.sessionId}`
+      `https://${SESSION_MANAGER}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/session-manager?sessionId=${sessionId}`
     ).then(console.log);
   }, []);
 

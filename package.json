@@ -14,8 +14,8 @@
     "coverage": "jest"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.556.0",
-    "@aws-sdk/lib-dynamodb": "^3.556.0",
+    "@aws-sdk/client-dynamodb": "^3.575.0",
+    "@aws-sdk/lib-dynamodb": "^3.575.0",
     "@next-auth/dynamodb-adapter": "^3.0.2",
     "asdf": "^1.2.2",
     "axios": "^1.6.0",

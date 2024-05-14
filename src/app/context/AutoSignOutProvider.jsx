@@ -7,13 +7,11 @@ import React, {
   useRef,
 } from "react";
 
-import { useSession } from "next-auth/react";
-
 const InactivityContext = createContext();
 
 const InactivityProvider = ({ children, timeout }) => {
   const [showLogoutPage, setShowLogoutPage] = useState(false);
-  const { data: session } = useSession();
+  const [sessionId, setSessionId] = useState(null);
   const timerRef = useRef(null);
 
   const resetTimer = () => {
@@ -41,7 +39,7 @@ const InactivityProvider = ({ children, timeout }) => {
         window.removeEventListener(event, onActivity);
       });
     };
-  }, [timeout, session]);
+  }, [timeout]);
 
   const closeLogoutPage = async () => {
     resetTimer();
@@ -52,7 +50,9 @@ const InactivityProvider = ({ children, timeout }) => {
   };
 
   return (
-    <InactivityContext.Provider value={{ showLogoutPage, closeLogoutPage }}>
+    <InactivityContext.Provider
+      value={{ showLogoutPage, closeLogoutPage, sessionId, setSessionId }}
+    >
       {children}
     </InactivityContext.Provider>
   );
