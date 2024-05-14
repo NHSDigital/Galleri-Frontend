@@ -49,6 +49,7 @@ export class AppStateProvider extends React.Component {
       currentPage: 0,
       lsoaInRange: [""],
       selectedLsoa: [],
+      sessionId: "",
     };
   }
 

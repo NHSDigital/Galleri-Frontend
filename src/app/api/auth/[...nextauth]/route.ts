@@ -5,6 +5,7 @@ import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { AppStateContext } from "@/app/context/AppStateContext";
 import { checkAuthorization } from "../checkAuthorization";
 import returnUser from "../returnUser";
 interface UsersItem {
@@ -40,6 +41,7 @@ const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
 const AUTHENTICATOR = process.env.NEXT_PUBLIC_AUTHENTICATOR;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const CIS2_REDIRECT_URL = process.env.CIS2_REDIRECT_URL;
+const { setState } = useContext(AppStateContext);
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -160,6 +162,10 @@ const authOptions: NextAuthOptions = {
     },
     async session({ session, user }) {
       session.user.id = user.id;
+      setState((prevState) => ({
+        ...prevState,
+        sessionId: session.user.id,
+      }));
       return session;
     },
   },

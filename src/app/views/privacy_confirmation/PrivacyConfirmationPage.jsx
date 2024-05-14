@@ -4,29 +4,42 @@ import React, { useState, useEffect } from "react";
 import "../../styles/css/sass.css";
 import { useSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
+import { AppStateContext } from "@/app/context/AppStateContext";
 import Header from "@/app/components/Header";
 import LoggedOut from "../logged_out/LoggedOut";
 
 export default function PrivacyConfirmationPage({ setContinueToStart }) {
   const { showLogoutPage } = useInactivity();
+
   const [confirmationReceived, setConfirmationReceived] = useState(false);
   const [showError, setShowError] = useState(false);
+  const { state } = useContext(AppStateContext);
 
-  const { data: session, status } = useSession({
-    required: false,
-  });
+  const SESSION_MANAGER = process.env.SESSION_MANAGER;
 
-  console.log("session", session);
-  console.log("status", status);
+  console.log(state);
 
-  if (status === "loading") {
-    return <Header />;
-  }
+  useEffect(async () => {
+    fetch(
+      `https://${SESSION_MANAGER}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/session-manager?sessionId=${state.sessionId}`
+    ).then(console.log);
+  }, []);
 
-  if (!session) {
-    typeof window !== "undefined" && (window.location.href = "/signin");
-    return null;
-  }
+  // const { data: session, status } = useSession({
+  //   required: false,
+  // });
+
+  // console.log("session", session);
+  // console.log("status", status);
+
+  // if (status === "loading") {
+  //   return <Header />;
+  // }
+
+  // if (!session) {
+  //   typeof window !== "undefined" && (window.location.href = "/signin");
+  //   return null;
+  // }
 
   const onToggleConfirmationHandler = () => {
     setConfirmationReceived(!confirmationReceived);
