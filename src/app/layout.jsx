@@ -23,9 +23,11 @@ export default function RootLayout({ children }) {
       <body className="">
         {/* Wrapped with AuthProvider for all the client components to access the session data */}
         <SessionProvider session={session}>
+          {/* <AuthProvider> */}
           <InactivityProvider timeout={loggedOutDuration}>
             {children}
           </InactivityProvider>
+          {/* </AuthProvider> */}
         </SessionProvider>
       </body>
     </html>

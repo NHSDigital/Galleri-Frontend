@@ -24,8 +24,10 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
   const [confirmationReceived, setConfirmationReceived] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  const session2 = myFunction();
-  console.log("SESSION2: ", session2);
+  // const session3 = getSession();
+  // const session2 = myFunction();
+  // console.log("SESSION3: ", session3);
+  // console.log("SESSION2: ", session2);
 
   const { data: session, status } = useSession({
     required: true,

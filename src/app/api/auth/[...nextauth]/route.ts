@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
@@ -6,7 +7,10 @@ import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
+import setSessionId from "../../setSessionId";
+import setInitialProps from "../setInitialState";
 import returnUser from "../returnUser";
+import Email from "next-auth/providers/email";
 interface UsersItem {
   id: string;
   name: string;
@@ -110,13 +114,16 @@ const authOptions: NextAuthOptions = {
         },
       },
       checks: ["state"],
-      async profile(profile) {
+      async profile(profile, token) {
         const returnValue = {
+          // ...profile,
           name: profile.name,
-          id: profile.id,
           role: profile.role,
+          id: profile.id,
+          // email: profile.email,
           isAuthorized: profile.isAuthorized,
         };
+        console.log("RETURN VALUE PROFILE: ", token);
         return returnValue;
       },
     },
@@ -127,25 +134,25 @@ const authOptions: NextAuthOptions = {
     error: "/autherror",
   },
   adapter: DynamoDBAdapter(client, { tableName: "dev-3-next-auth" }),
-  jwt: { secret: process.env.NEXTAUTH_SECRET },
-  session: {
-    strategy: "database",
-    // Choose how you want to save the user session.
-    // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
-    // If you use an `adapter` however, we default it to `"database"` instead.
-    // You can still force a JWT session by explicitly defining `"jwt"`.
-    // When using `"database"`, the session cookie will only contain a `sessionToken` value,
-    // which is used to look up the session in the database.
-    // strategy: "database",
+  // jwt: { secret: process.env.NEXTAUTH_SECRET },
+  // session: {
+  //   strategy: "database",
+  //   // Choose how you want to save the user session.
+  //   // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
+  //   // If you use an `adapter` however, we default it to `"database"` instead.
+  //   // You can still force a JWT session by explicitly defining `"jwt"`.
+  //   // When using `"database"`, the session cookie will only contain a `sessionToken` value,
+  //   // which is used to look up the session in the database.
+  //   // strategy: "database",
 
-    // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 60 * 15, // 15 min
+  //   // Seconds - How long until an idle session expires and is no longer valid.
+  //   maxAge: 60 * 15, // 15 min
 
-    // Seconds - Throttle how frequently to write to database to extend a session.
-    // Use it to limit write operations. Set to 0 to always update the database.
-    // Note: This option is ignored if using JSON Web Tokens
-    updateAge: 24 * 60 * 60, // 24 hours
-  },
+  //   // Seconds - Throttle how frequently to write to database to extend a session.
+  //   // Use it to limit write operations. Set to 0 to always update the database.
+  //   // Note: This option is ignored if using JSON Web Tokens
+  //   updateAge: 24 * 60 * 60, // 24 hours
+  // },
   callbacks: {
     // generating a token and assigning properties
     // async jwt({ token, user }) {
@@ -156,13 +163,15 @@ const authOptions: NextAuthOptions = {
     //   return token;
     // },
     // custom authorization check during signIn
-    async signIn({ user, account }) {
-      // return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
-      return true;
-    },
-    async session({ session, user }) {
+    // async signIn({ user, account }) {
+    //   // return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
+    //   return true;
+    // },
+    async session({ session, user, token }) {
       console.log("INSIDE SESSION: ", session, user);
-      session.user.id = user.id;
+      session.id = user.id;
+      session.email = user.email;
+      // await setInitialProps(user.id);
       return session;
     },
   },
