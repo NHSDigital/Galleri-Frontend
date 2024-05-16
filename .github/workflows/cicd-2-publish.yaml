@@ -1,10 +1,13 @@
 name: "CI/CD publish"
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+# on:
+#   pull_request:
+#     types: [closed]
+#     branches:
+#       - main
 
 jobs:
   metadata:
@@ -72,7 +75,7 @@ jobs:
         run: |
           echo "Using following tag to create markdown file: ${{ env.release_tag }}"
           echo "${{ github.event.pull_request.body }}" >> "v${{ env.release_tag }}.md"
-          echo "- [v${{ env.release_tag }}](https://github.com/NHSDigital/Galleri-Invitations/wiki/v${{ env.release_tag }})" >> Home.md
+          echo "- [v${{ env.release_tag }}](https://github.com/NHSDigital/Galleri-Frontend/wiki/v${{ env.release_tag }})" >> Home.md
       - name: Push to wiki
         run: |
           git config user.email "action@github.com"
