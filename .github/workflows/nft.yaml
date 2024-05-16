@@ -1,0 +1,11 @@
+name: "NFT Tests"
+
+on:
+  workflow_call
+
+jobs:
+  cypress-tests:
+    runs-on: ubuntu-latest
+    steps:
+      run: |
+        echo "run cypress tests..."
