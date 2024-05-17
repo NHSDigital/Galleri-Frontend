@@ -16,7 +16,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.556.0",
     "@aws-sdk/lib-dynamodb": "^3.556.0",
-    "@next-auth/dynamodb-adapter": "^3.0.2",
+    "@next-auth/dynamodb-adapter": "2.0.0",
     "asdf": "^1.2.2",
     "axios": "^1.6.0",
     "govuk-frontend": "^4.7.0",

@@ -4,6 +4,7 @@ import React from "react";
 import AuthProvider from "./context/AuthProvider";
 import { InactivityProvider } from "./context/AutoSignOutProvider";
 import { useSession, getSession } from "next-auth/react";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 export const metadata = {
   title: "NHS Galleri",
@@ -17,7 +18,7 @@ const loggedOutDuration =
 
 // Root layout of Galleri
 export default function RootLayout({ children }) {
-  const session = getSession();
+  const session = getServerSession(authOptions);
   return (
     <html lang="en">
       <body className="">

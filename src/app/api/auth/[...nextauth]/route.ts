@@ -10,7 +10,6 @@ import { checkAuthorization } from "../checkAuthorization";
 import setSessionId from "../../setSessionId";
 import setInitialProps from "../setInitialState";
 import returnUser from "../returnUser";
-import Email from "next-auth/providers/email";
 interface UsersItem {
   id: string;
   name: string;
@@ -45,7 +44,7 @@ const AUTHENTICATOR = process.env.NEXT_PUBLIC_AUTHENTICATOR;
 const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
 const CIS2_REDIRECT_URL = process.env.CIS2_REDIRECT_URL;
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -69,6 +68,7 @@ const authOptions: NextAuthOptions = {
             activityCodes: [GALLERI_ACTIVITY_CODE], // appended this property to match what we get from CIS2 for global authorization check
             accountStatus: "Active", // appended this property to match what we get from GPS User Account for global authorization check
           };
+          console.log("MODIFIED USER: ", modifiedUser);
 
           return modifiedUser;
         }
@@ -120,7 +120,7 @@ const authOptions: NextAuthOptions = {
           name: profile.name,
           role: profile.role,
           id: profile.id,
-          // email: profile.email,
+          email: profile.email,
           isAuthorized: profile.isAuthorized,
         };
         console.log("RETURN VALUE PROFILE: ", token);
@@ -128,7 +128,7 @@ const authOptions: NextAuthOptions = {
       },
     },
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  // secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/signin",
     error: "/autherror",
@@ -159,6 +159,7 @@ const authOptions: NextAuthOptions = {
     //   console.log("INSIDE JWT: ", token, user);
     //   if (user) {
     //     token.user = user;
+    //     token.sub = user.id;
     //   }
     //   return token;
     // },
@@ -167,15 +168,15 @@ const authOptions: NextAuthOptions = {
     //   // return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
     //   return true;
     // },
-    async session({ session, user, token }) {
-      console.log("INSIDE SESSION: ", session, user);
-      session.id = user.id;
-      session.email = user.email;
-      // await setInitialProps(user.id);
-      return session;
-    },
+    // async session({ session, user, token }) {
+    //   console.log("INSIDE SESSION: ", session, user);
+    //   session.sub = user.id;
+    //   session.email = user.email;
+    //   // await setInitialProps(user.id);
+    //   return session;
+    // },
   },
-};
+} satisfies NextAuthOptions;
 
 const handler = NextAuth(authOptions);
 

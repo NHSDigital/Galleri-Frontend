@@ -6,6 +6,8 @@ import { useSession, getSession } from "next-auth/react";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
 import Header from "@/app/components/Header";
 import LoggedOut from "../logged_out/LoggedOut";
+// import getCookieSessionToken from "../../api/auth/getCookieSessionToken";
+// import { Cookies } from "universal-cookie";
 
 async function myFunction(context) {
   const sessions = await getSession(context);
@@ -24,10 +26,18 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
   const [confirmationReceived, setConfirmationReceived] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  // const session3 = getSession();
-  // const session2 = myFunction();
-  // console.log("SESSION3: ", session3);
-  // console.log("SESSION2: ", session2);
+  // useEffect(() => {
+  //   const cookies = new Cookies();
+  //   const nextAuthSessionToken = cookies.get("next-auth.session-token");
+  //   setSessionToken(nextAuthSessionToken || "");
+  // }, []);
+
+  // const nextAuthSessionToken = getCookieSessionToken();
+  // console.log("COOKIE SESSION TOKEN: ", nextAuthSessionToken);
+  // // const session3 = getSession();
+  // // const session2 = myFunction();
+  // // console.log("SESSION3: ", session3);
+  // // console.log("SESSION2: ", session2);
 
   const { data: session, status } = useSession({
     required: true,
