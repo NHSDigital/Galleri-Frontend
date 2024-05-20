@@ -55,7 +55,7 @@ jobs:
       - name: "Checkout code"
         uses: actions/checkout@v4
       - name: "Bump patch version"
-        id: "bump-path-version"
+        id: "bump-patch-version"
         uses: ./.github/actions/versioning
         with:
           release_tag: ${{ env.release_tag }}
