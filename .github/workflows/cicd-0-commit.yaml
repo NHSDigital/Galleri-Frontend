@@ -73,7 +73,7 @@ jobs:
         cloc-repository,
         # deploy-app,
         scan-dependencies,
-        perform-static-analysis,
+        # perform-static-analysis,
       ]
     timeout-minutes: 10
     steps:
