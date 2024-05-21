@@ -2,26 +2,8 @@ import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import InvitationPlanningPage from "./InvitationPlanningPage";
-
-import { useInactivity } from "../../context/AutoSignOutProvider";
-import { useSession } from "next-auth/react";
-
-jest.mock("next-auth/react");
-
-jest.mock("../../context/AutoSignOutProvider");
-
-const mockInactivityValues = {
-  showLogoutPage: false,
-  closeLogoutPage: jest.fn(),
-};
-
-const mockSession = {
-  user: { name: "Test User", email: "test1@example.com" },
-  expires: "mock-expiry",
-};
-
-useSession.mockReturnValue([mockSession, false]);
-useInactivity.mockReturnValue(mockInactivityValues);
+import { SessionProvider } from "next-auth/react";
+import { InactivityProvider } from "../../context/AutoSignOutProvider";
 
 global.renderWithInactivityProvider = (ui, options) => {
   return render(
@@ -54,8 +36,31 @@ const mockProps = {
 };
 
 describe("InvitationPlanningPage Component", () => {
+  const mockInactivityValues = {
+    showLogoutPage: false,
+    closeLogoutPage: jest.fn(),
+  };
+
+  jest.mock("../../context/AutoSignOutProvider.jsx", () => ({
+    ...jest.requireActual("../../context/AutoSignOutProvider.jsx"),
+    useInactivity: jest.fn(() => mockInactivityValues),
+  }));
   test("renders without crashing", () => {
-    render(<InvitationPlanningPage {...mockProps} />);
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <InvitationPlanningPage {...mockProps} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
     expect(screen.getByText("Invitation variables")).toBeInTheDocument();
   });
 
@@ -65,42 +70,140 @@ describe("InvitationPlanningPage Component", () => {
       isCorrectUptakeTotal: false,
       isCorrectTotal: false,
     };
-    render(<InvitationPlanningPage {...propsWithErrors} />);
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <InvitationPlanningPage {...propsWithErrors} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
     expect(screen.getAllByRole("alert")[0]).toBeInTheDocument();
   });
 
   test('triggers onCancelSaveForecastHandler on "Cancel without saving" click', () => {
-    render(<InvitationPlanningPage {...mockProps} enableUptakeEdit={true} />);
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <InvitationPlanningPage {...mockProps} enableUptakeEdit={true} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
     fireEvent.click(screen.getByText("Cancel without saving"));
     expect(mockProps.onCancelSaveForecastHandler).toHaveBeenCalled();
   });
 
   test('triggers onSaveForecastHandler on "Save changes" click', () => {
-    render(<InvitationPlanningPage {...mockProps} enableUptakeEdit={true} />);
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <InvitationPlanningPage {...mockProps} enableUptakeEdit={true} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
     fireEvent.click(screen.getByText("Save changes"));
     expect(mockProps.onSaveForecastHandler).toHaveBeenCalledWith(50);
   });
 
   test('triggers onAmendForecastHandler on "Amend forecast uptake" click', () => {
-    render(<InvitationPlanningPage {...mockProps} />);
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <InvitationPlanningPage {...mockProps} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
     fireEvent.click(screen.getByText("Amend forecast uptake"));
     expect(mockProps.onAmendForecastHandler).toHaveBeenCalledWith(50);
   });
 
   test('triggers onCancelSaveFillHandler on "Cancel without saving" click', () => {
-    render(<InvitationPlanningPage {...mockProps} enableFillEdit={true} />);
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <InvitationPlanningPage {...mockProps} enableFillEdit={true} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
     fireEvent.click(screen.getByText("Cancel without saving"));
     expect(mockProps.onCancelSaveFillHandler).toHaveBeenCalled();
   });
 
   test('triggers onSaveFillHandler on "Save changes" click', () => {
-    render(<InvitationPlanningPage {...mockProps} enableFillEdit={true} />);
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <InvitationPlanningPage {...mockProps} enableFillEdit={true} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
     fireEvent.click(screen.getByText("Save changes"));
     expect(mockProps.onSaveFillHandler).toHaveBeenCalledWith({});
   });
 
   test('triggers onAmendFillHandler on "Amend fill target" click', () => {
-    render(<InvitationPlanningPage {...mockProps} />);
+    const session = {
+      data: { user: { name: "Test User" } },
+      status: "authenticated",
+    };
+
+    jest.mock("next-auth/react", () => ({
+      useSession: jest.fn(() => ({ data: session })),
+    }));
+    render(
+      <SessionProvider session={session}>
+        <InactivityProvider timeout={1000}>
+          <InvitationPlanningPage {...mockProps} />
+        </InactivityProvider>
+      </SessionProvider>
+    );
     fireEvent.click(screen.getByText("Amend fill target"));
     expect(mockProps.onAmendFillHandler).toHaveBeenCalled();
   });

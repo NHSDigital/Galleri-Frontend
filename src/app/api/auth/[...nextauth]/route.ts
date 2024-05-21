@@ -66,7 +66,7 @@ const authOptions: NextAuthOptions = {
         "https://am.nhsint.auth-ptl.cis2.spineservices.nhs.uk/openam/oauth2/realms/root/realms/NHSIdentity/realms/Healthcare/.well-known/openid-configuration",
       authorization: {
         params: {
-          scope: "openid email profile nationalrbacaccess",
+          scope: "openid profile nationalrbacaccess",
           redirect_uri: CIS2_REDIRECT_URL,
           response_type: "code",
           max_age: 60 * 15,
