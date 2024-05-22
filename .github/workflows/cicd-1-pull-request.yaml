@@ -62,18 +62,6 @@ jobs:
           sonar_organisation_key: "${{ vars.SONAR_ORGANISATION_KEY }}"
           sonar_project_key: "${{ vars.SONAR_PROJECT_KEY }}"
           sonar_token: "${{ secrets.SONAR_TOKEN }}"
-  nft-test:
-    needs: [
-        metadata,
-        scan-secrets,
-        check-file-format,
-        check-markdown-format,
-        check-terraform-format,
-        cloc-repository,
-        scan-dependencies,
-        perform-static-analysis,
-      ]
-    uses: ./.github/workflows/nft.yaml
   # deploy-app:
   #   uses: ./.github/workflows/deploy-to-s3.yaml
   cicd-pipeline-test:

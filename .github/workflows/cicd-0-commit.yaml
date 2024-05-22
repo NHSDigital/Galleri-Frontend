@@ -90,3 +90,15 @@ jobs:
       # - name: Run Tests ...
       #   run: |
       #     ?
+  nft-test:
+    needs: [
+        metadata,
+        scan-secrets,
+        check-file-format,
+        check-markdown-format,
+        check-terraform-format,
+        cloc-repository,
+        scan-dependencies,
+        perform-static-analysis,
+      ]
+    uses: ./.github/workflows/nft.yaml
