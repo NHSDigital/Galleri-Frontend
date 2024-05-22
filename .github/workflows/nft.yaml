@@ -9,4 +9,4 @@ jobs:
     steps:
       - name: Run Cypress tets
         run: |
-          npx run cypress
+          npx cypress run
