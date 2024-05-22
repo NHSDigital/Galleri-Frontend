@@ -1,0 +1,13 @@
+{
+    "ICB": "Participating ICB QMF",
+    "clinicsPerPage": "10",
+    "address": "Hobbiton",
+    "appointmentsRemaining": "270",
+    "PhlebotomySite" : "Phlebotomy clinic 12",
+    "targetPercentage": "25",
+    "targetAppointmentsToFill": "67",
+    "distance": "+2",
+    "errorBanner": "There is a problem",
+    "errorLink": "You must select LSOAs with people to invite",
+    "lsoaTableErrorMessage":"You must select LSOAs with people to invite"
+    }

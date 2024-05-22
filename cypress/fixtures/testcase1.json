@@ -1,0 +1,13 @@
+{
+    "ICB": "Participating ICB QJK",
+    "clinicsPerPage": "20",
+    "address": "52 aethered Hospital",
+    "appointmentsRemaining": "358",
+    "targetPercentage": "25",
+    "targetPercentage1": "75",
+    "targetAppointmentsToFill": "89",
+    "targetAppointmentsToFill1": "268",
+    "PhlebotomySite" : "Phlebotomy clinic 52",
+    "NewPhlebotomySite" : "Phlebotomy clinic 90"
+
+    }
