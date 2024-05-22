@@ -1,0 +1,16 @@
+{
+    "ICB": "Participating ICB QRL",
+    "address": "41 ramusi Hospital",
+    "appointmentsRemaining": "333",
+    "targetPercentage": "0",
+    "targetPercentage1": "75",
+    "targetAppointmentsToFill": "249",
+    "PhlebotomySite" : "Phlebotomy clinic 41",
+    "distance": "+1",
+    "distance1": "+5",
+    "invitationSummaryHeader": "Invitation summary",
+    "validationBanner": "Validation Alert: Check these details before you generate invitations",
+    "confirmationBanner": "CompleteYour invitations are confirmed and will be sent at the end of the day.",
+    "whatHappensNextLink": "What happens next",
+    "returnToClinicInvitationsLink": "Return to clinic invitations"
+    }

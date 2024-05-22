@@ -4,6 +4,8 @@ import NationalForecastUptakeTable from "./NationalForecastUptakeTable";
 import QuintileTargetTable from "./QuintileTargetTable";
 import Errorinvitations from "./ErrorInvitations";
 import { useInactivity } from "@/app/context/AutoSignOutProvider";
+import Header from "@/app/components/Header";
+import { useSession } from "next-auth/react";
 import LoggedOut from "../logged_out/LoggedOut";
 
 export default function InvitationPlanningPage(props) {
@@ -30,6 +32,18 @@ export default function InvitationPlanningPage(props) {
   } = props;
 
   const { showLogoutPage } = useInactivity();
+  const { data: session, status } = useSession({
+    required: true,
+  });
+
+  if (status === "loading") {
+    return <Header />;
+  }
+
+  if (!session) {
+    typeof window !== "undefined" && (window.location.href = "/signin");
+    return null;
+  }
 
   return !showLogoutPage ? (
     <div className="nhsuk-width-container ">

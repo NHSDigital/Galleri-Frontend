@@ -93,8 +93,8 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
                 legitimate requirement to access their data.{" "}
               </p>
               <p>
-                All activity in GPS is routinely checked to
-                ensure records are not accessed inappropriately.
+                All activity in GPS is routinely checked to ensure records are
+                not accessed inappropriately.
               </p>
               <p>When you are finished using the system you must:</p>
               <div className="nhsuk-grid-column-full">
