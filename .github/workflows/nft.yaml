@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
+      - name: "Install node packages"
+        run: |
+          npm install
       - name: Run Cypress tets
         run: |
           npx cypress run
