@@ -2,7 +2,7 @@
 describe('Parameterised E2E Testing for Invitations Capabity', () => {
     beforeEach(() => {
         //TODO: Until domain name is finalised, using this UAT url
-        cy.visit("https://uat-1.uat-gps-multi-cancer-blood-test.nhs.uk")
+        cy.visit("https://dev-7.cicd-gps-multi-cancer-blood-test.nhs.uk")
             .get('.nhsuk-header__transactional-service-name--link')
             .contains('GPS')
             .get('.nhsuk-grid-column-full')
