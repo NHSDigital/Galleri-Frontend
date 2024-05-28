@@ -8,7 +8,7 @@ import Header from "@/app/components/Header";
 import LoggedOut from "../views/logged_out/LoggedOut";
 
 export default function OnwardReferral() {
-  const CLINIC_INFORMATION = process.env.NEXT_PUBLIC_CLINIC_INFORMATION;
+  const ONWARDREFERALLIST = process.env.NEXT_PUBLIC_PARTICIPANTS;
 
   const { data: session, status } = useSession({
     required: true,
@@ -19,7 +19,7 @@ export default function OnwardReferral() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://${CLINIC_INFORMATION}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${clinicId}&clinicName=${clinicName}`
+          `https://${ONWARDREFERALLIST}.execute-api.eu-west-2.amazonaws.com/${ENVIRONMENT}/clinic-information?clinicId=${clinicId}&clinicName=${clinicName}`
         );
         const result = await response.json();
         setParticipants(result);
