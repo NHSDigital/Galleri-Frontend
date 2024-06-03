@@ -2,6 +2,8 @@
  * Function to validate the Authorization check for Oauth/CIS2 Users
  * returned from the Backend and also checks authorization for users
  * logged in via local auth.
+ * @function checkAuthorization
+ * @async
  * @param {Object} user - The user object containing user details.
  * @param {Object} account - The account object containing account details.
  * @param {string} galleriActivityCode - The activity code required for authorization.

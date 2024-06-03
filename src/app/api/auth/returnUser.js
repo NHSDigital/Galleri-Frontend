@@ -5,6 +5,8 @@
  * was moved to backend the nested object tokens contains user authorization data instead of
  * Oauth tokens received from Identity Provider not sensitive User information.
  *
+ * @function returnUser
+ * @async
  * @param {Object} context - The context object containing user authorization details from the backend.
  * @param {Object} context.tokens - The user authorization details received from the authenticator Lambda.
  * @returns {Promise<Object>} - A promise that resolves to the tokens if present.
