@@ -3,6 +3,8 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkAuthorization } from "../checkAuthorization";
 import returnUser from "../returnUser";
+
+// User object for users signing in with credentials
 interface UsersItem {
   id: string;
   name: string;
@@ -19,11 +21,27 @@ try {
   console.error("Error parsing USERS environment variable:", error);
 }
 
+try {
+  users = JSON.parse(process.env.USERS || "[]");
+} catch (error) {
+  console.error("Error parsing USERS environment variable:", error);
+}
+
 // Environment Variables
-const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
-const AUTHENTICATOR = process.env.NEXT_PUBLIC_AUTHENTICATOR;
-const GALLERI_ACTIVITY_CODE = process.env.GALLERI_ACTIVITY_CODE;
-const CIS2_REDIRECT_URL = process.env.CIS2_REDIRECT_URL;
+/** @type {string | undefined} */
+const ENVIRONMENT: string | undefined = process.env.NEXT_PUBLIC_ENVIRONMENT;
+/** @type {string | undefined} */
+const AUTHENTICATOR: string | undefined = process.env.NEXT_PUBLIC_AUTHENTICATOR;
+/** @type {string | undefined} */
+const GALLERI_ACTIVITY_CODE: string | undefined =
+  process.env.GALLERI_ACTIVITY_CODE;
+/** @type {string | undefined} */
+const CIS2_REDIRECT_URL: string | undefined = process.env.CIS2_REDIRECT_URL;
+
+/**
+ * The NextAuth options configuration.
+ * @type {NextAuthOptions}
+ */
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -38,7 +56,18 @@ const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text", placeholder: "Enter Email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      /**
+       * Authorize function for credentials provider.
+       * @param {Object} credentials - The user credentials.
+       * @param {string} credentials.email - The user's email.
+       * @param {string} credentials.password - The user's password.
+       * @param {Object} req - The request object.
+       * @returns {Promise<UsersItem|null>} - The authenticated user or null if authentication fails.
+       */
+      async authorize(
+        credentials: { email: string; password: string },
+        req: object
+      ): Promise<UsersItem | null> {
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
@@ -72,9 +101,18 @@ const authOptions: NextAuthOptions = {
           max_age: 60 * 15,
         },
       },
+      /**
+       * Token request/handler function for custom OAuth provider.
+       * The token exchange and userinfo end point calls are handled in the
+       * backend through Lambda
+       * Below is the call to API Gateway endpoint to trigger the request for token exchange
+       * using the authorization code via the CIS2 token endpoint
+       * @param {Object} context - The context object.
+       * @param {Object} context.params - The parameters.
+       * @param {string} context.params.code - The authorization code.
+       * @returns {Promise<{ tokens: Object }>} - The token response.
+       */
       token: {
-        // The token exchange and userinfo end point calls are handled in the backend through Lambda
-        // Below is the call to API Gateway endpoint to trigger the token exchange by sending along the authorization code
         async request(context) {
           try {
             const r = await axios.get(
@@ -87,19 +125,39 @@ const authOptions: NextAuthOptions = {
           }
         },
       },
+      /**
+       * Userinfo request function for custom OAuth provider.
+       * Since decided to move the token and user info handling over to the Backend,
+       * Need to deviate away from Next-auth flow of handling token and userinfo exchange over client side.
+       * As a workaround, returning the same information returned by the token option block
+       * above so it can be passed through as Next-auth intended.
+       * @param {Object} context - The context object.
+       * @function returnUser - Function to simply return the same response received from the authenticator Lambda.
+       * @returns {Promise<Object>} - The user info.
+       */
       userinfo: {
-        // Returning the same information returned by the option above so it can be passed through as Next-auth intended
         async request(context) {
           return await returnUser(context);
         },
       },
       checks: ["state"],
+      /**
+       * Profile function for custom OAuth provider.
+       * @callback function profile - The profile object.
+       * @returns {Object} - The modified profile.
+       * @property {string} id - The unique identifier of the user.
+       * @property {string} name - The name of the user.
+       * @property {string} role - The role of the user.
+       * @property {boolean|string} isAuthorized - true if authorized, false if not authorized, or a string with the error URL if there's an issue.
+       * @property {string} apiSessionId - The API Session ID associated with the user.
+       */
       async profile(profile) {
         const returnValue = {
           name: profile.name,
           id: profile.id,
           role: profile.role,
           isAuthorized: profile.isAuthorized,
+          apiSessionId: profile.apiSessionId,
         };
         return returnValue;
       },
@@ -130,18 +188,46 @@ const authOptions: NextAuthOptions = {
     updateAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
-    // generating a token and assigning properties
+    /**
+     * JWT callback function
+     * @callback jwt - Generating a token and assigning properties.
+     * @param {Object} params - The params.
+     * @param {Object} params.token - The token.
+     * @param {Object} [params.user] - The user.
+     * @returns {Promise<Object>} - The updated token.
+     */
     async jwt({ token, user }) {
       if (user) {
         token.user = user;
       }
       return token;
     },
-    // custom authorization check during signIn
-    async signIn({ user, account }) {
+    /**
+     * Sign-in callback function.
+     * @callback signIn - signIn callback function.
+     * @function checkAuthorization - custom authorization checks during signIn.
+     * @param {Object} params - The params.
+     * @param {Object} params.user - The user.
+     * @param {Object} params.account - The account.
+     * @returns {Promise<boolean|string>} - Whether sign-in is allowed.
+     */
+    async signIn({
+      user,
+      account,
+    }: {
+      user: object;
+      account: object;
+    }): Promise<boolean | string> {
       return checkAuthorization(user, account, GALLERI_ACTIVITY_CODE);
     },
-    // creating a session to be accessible on client side with returned token from jwt callback above
+    /**
+     * Session callback function.
+     * @callback session - Creates a session to be accessible on client side(cookie) with returned token from jwt callback above.
+     * @param {Object} params - The params.
+     * @param {Object} params.session - The session.
+     * @param {Object} params.token - The token.
+     * @returns {Promise<Object>} - The updated session.
+     */
     async session({ session, token }) {
       return {
         ...session,
@@ -151,6 +237,11 @@ const authOptions: NextAuthOptions = {
   },
 };
 
-const handler = NextAuth(authOptions);
+/**
+ * The NextAuth handler.
+ * @type {import("next").NextApiHandler}
+ */
+
+const handler: import("next").NextApiHandler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
