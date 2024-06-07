@@ -33,15 +33,16 @@ export default function PrivacyConfirmationPage({ setContinueToStart }) {
     // session?.user?.role is localAuth
     // session?.user?.otherUserInfo?.Role is CIS2
     if (confirmationReceived) {
-      if (session?.user?.otherUserInfo?.Role === "Referring Clinician") {
+      if (
+        session?.user?.role === "Referring Clinician" ||
+        session?.user?.role === "Referring Clinician - Support"
+      ) {
         window.location.href = "/onwardreferral";
       } else if (
         session?.user?.role === "Invitation Planner" ||
-        session?.user?.otherUserInfo?.Role === "Invitation Planner"
+        session?.user?.role === "Invitation Planner - Support"
       ) {
         setContinueToStart(true);
-      } else if (session?.user?.role === "Referring Clinician") {
-        window.location.href = "/onwardreferral";
       }
     } else setShowError(true);
   };

@@ -124,7 +124,7 @@ class InvitationSummary extends Component {
             rangeSelected: this.context.state.rangeSelection,
             targetPercentage: this.context.state.targetPercentageToFill,
             targetNoAppsToFill: this.context.state.targetAppToFill,
-            createdBy: this.state?.session?.user?.otherUserInfo?.UUID,
+            createdBy: this.state?.session?.user?.UUID,
             appRemaining:
               this.context.state.recentInvitationHistory.appsRemaining,
           },
