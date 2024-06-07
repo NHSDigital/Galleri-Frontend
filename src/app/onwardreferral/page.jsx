@@ -26,6 +26,15 @@ export default function OnwardReferral() {
     setCurrentPage(page);
   };
 
+  const convertDate = (isoDateString) => {
+    let date = new Date(isoDateString);
+
+    let day = String(date.getDate()).padStart(2, "0");
+    let month = String(date.getMonth() + 1).padStart(2, "0");
+    let year = date.getFullYear();
+
+    return `${day} ${month} ${year}`;
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,7 +44,7 @@ export default function OnwardReferral() {
         const result = await response.json();
         setParticipants(result);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     fetchData();
@@ -74,16 +83,18 @@ export default function OnwardReferral() {
                   {currentTableData.map((participant) => (
                     <tr role="row">
                       <>
-                        <td role="cell">{participant.Blood_Draw_Date.S}</td>
                         <td role="cell">
-                          {participant.Result_Creation.S ? "Y" : "N"}
+                          {convertDate(participant.body.Blood_Draw_Date.S)}
+                        </td>
+                        <td role="cell">
+                          {convertDate(participant.body.Result_Creation.S)}
                         </td>
                         <td role="cell">
                           <a
-                            href={`participant/${participant.Participant_Id.S}`}
+                            href={`participant/${participant.body.Participant_Id.S}`}
                             role="link"
                           >
-                            {participant.Participant_Name.S}
+                            {participant.body.Participant_Name.S}
                           </a>
                         </td>
                       </>
